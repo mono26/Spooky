@@ -1,5 +1,7 @@
 # Spooky
 Sppoky alpha v2. Refactor code. More organized folders and dependencies.
+# Iteration cycle
+Spooky, enemy, ui, repeat.
 
 //Spooky
 	//Se mover
