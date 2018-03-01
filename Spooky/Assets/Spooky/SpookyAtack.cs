@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpookyAtack : MonoBehaviour
+public class SpookyAtack
 {
     // Variable for a bullet.
     private Settings settings;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpookyMovement : MonoBehaviour
+public class SpookyMovement
 {
     private Rigidbody rigidbody;
     private Settings settings;

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpookEnemyDetect : MonoBehaviour
+public class SpookEnemyDetect
 {
     // Give the value of the range in settings to the radius of the collider
     // it must be in a separate layer to wrk properly.
     private Collider detectionTrigger;
     private Settings settings;
+
+    private List<Enemy> enemyList;
 
     // Create a stack to store all the enemies that come in range
     public SpookEnemyDetect()
@@ -24,9 +26,38 @@ public class SpookEnemyDetect : MonoBehaviour
         // Clear the top of the stack if its destroyes, null, or inactive, out of range
     }
 
-    public void OnTriggerEnter(Collider other)
+    private void AddEnemy(Enemy _enemy)
     {
-        // When an enemy enters the collider
+        // TODO add enemy to the list
+    }
+
+    private void RemoveEnemy(Enemy _enemy)
+    {
+        // TODO remove enemy from the list
+    }
+
+    public void OnTriggerEnter(Collider _collider)
+    {
+        // Check if the collider is tagged as enemy
+        if (_collider.CompareTag("Enemy"))
+        {
+            // TODO add the enemy component to de enemyList
+            return;
+        }
+        else
+            return;
+    }
+
+    public void OnTriggerExit(Collider _collider)
+    {
+        // Check if the collider is tagged as enemy
+        if (_collider.CompareTag("Enemy"))
+        {
+            // TODO remove the enemy component from de enemyList
+            return;
+        }
+        else
+            return;
     }
 
     public class Settings

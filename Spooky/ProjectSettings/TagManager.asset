@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Level Floor
+    uniqueID: 2887959783
+    locked: 0
+  - name: House
+    uniqueID: 665516177
+    locked: 0
+  - name: Corn Field
+    uniqueID: 3926406901
+    locked: 0
+  - name: Spooky
+    uniqueID: 2056888067
+    locked: 0
