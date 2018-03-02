@@ -36,9 +36,7 @@ public class SpookyMovement
 
         if (!horizontal.Equals(0f) || !vertical.Equals(0f))
         {
-            var time = Time.realtimeSinceStartup;
-            Debug.Log(string.Format("{0} horizontal {1} vertical {2}", time, horizontal, vertical));
-
+            // We need to pass a movement in y because of the rotation of the object, so the sprite can be seen.
             Vector3 direction = new Vector3(-horizontal, vertical, 0);
             Move(direction);
 
@@ -51,11 +49,9 @@ public class SpookyMovement
     private void Move(Vector3 _direction)
     {
         // For moving the rigidbody in the desired direction
-        var time = Time.realtimeSinceStartup;
         Vector3 newPosition = rigidbody.position + rigidbody.transform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
-        Debug.Log(string.Format(" {0} new position {1}", time, newPosition));
         rigidbody.MovePosition(newPosition);
-        //return;
+        return;
     }
 
     private void ClampPosition()
