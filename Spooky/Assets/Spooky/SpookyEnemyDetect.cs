@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpookEnemyDetect
+public class SpookyEnemyDetect
 {
     // Give the value of the range in settings to the radius of the collider
     // it must be in a separate layer to wrk properly.
@@ -12,9 +12,11 @@ public class SpookEnemyDetect
     private List<Enemy> enemyList;
 
     // Create a stack to store all the enemies that come in range
-    public SpookEnemyDetect()
+    public SpookyEnemyDetect(Collider _detectionTrigger, Settings _settings)
     {
         // Constructor, sets all needed dependencies.
+        detectionTrigger = _detectionTrigger;
+        settings = _settings;
     }
 
     public void Update()
@@ -60,6 +62,7 @@ public class SpookEnemyDetect
             return;
     }
 
+    [System.Serializable]
     public class Settings
     {
         public float EnemyDetectionRange;

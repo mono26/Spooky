@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpookyAtack
+public class SpookyAttack
 {
     // Variable for a bullet.
     private Settings settings;
 
+    [System.Serializable]
     public class Settings
     {
         public float AttackRate;
