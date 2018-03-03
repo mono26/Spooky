@@ -5,7 +5,7 @@ Spooky, enemy, ui, repeat.
 
 //Spooky
 	//Se puede mover
-		//Mueve en la direccion deseada
+		//Mueve en la direccion deseada (RigidBody Move)
 		//Limita la posicion a los valores maximos
 		//Cambia de velocidad segun el caso
 	//Puede atacar a los enemigos
@@ -18,6 +18,16 @@ Spooky, enemy, ui, repeat.
 	//Puede mejorar las plantas
 
 //Enemigos
+	//EnemyState maquina de estados para cada enemigo, con acciones, transiciones y decisiones.
+		//Se comunica con el EnemyAttack y el EnemyMove para ejecutar las acciones de los estados.
+	//EnemyAttack almacena los attackes: basico y especial.
+		//Tambien maneja los cooldowns de cada uno de los ataques 
+		//(no en update solo usando variable de realTime y una con lastTime).
+	//EnemyMove tiene el metodo para mover al Enemigo, se va a usar navMesh para calcular direccion y velocidad.
+		//Se calcula producto punto con el transformRight y transformUp con la direccion deseada.
+		//Resultado de los calculos da un input mas parecido al humano.
+	//Enemy tiene la informacion del enemigo. Los ataques, la velocidad y la vida. Este se la pasa los demas componentes.
+		//MonoBehaviour que ejecuta los metodos de los demas componentes.
 	//Enemigo1 (Ladron)
 		//Se mueve desde donde nace hasta el objetivo y luego al contrariov (movimiento)
 		//Roba vida al jugador cuando esta en la posicion adecuada (habilidad)

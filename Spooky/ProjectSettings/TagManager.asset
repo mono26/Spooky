@@ -50,6 +50,9 @@ TagManager:
   - name: Corn Field
     uniqueID: 3926406901
     locked: 0
+  - name: Enemy
+    uniqueID: 400645025
+    locked: 0
   - name: Spooky
     uniqueID: 2056888067
     locked: 0
