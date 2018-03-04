@@ -37,7 +37,7 @@ public class SpookyMovement
         if (!horizontal.Equals(0f) || !vertical.Equals(0f))
         {
             // We need to pass a movement in y because of the rotation of the object, so the sprite can be seen.
-            Vector3 direction = new Vector3(-horizontal, vertical, 0);
+            Vector3 direction = new Vector3(horizontal, vertical, 0);
             Move(direction);
 
             return;
