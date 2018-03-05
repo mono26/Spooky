@@ -41,8 +41,8 @@ GameObject:
   m_Name: Invisible Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1524647997163934
 GameObject:
@@ -146,13 +146,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1357323750801114}
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.26, y: 1, z: 0.19}
   m_Children: []
   m_Father: {fileID: 4766504432630046}
   m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4308896469519888
 Transform:
   m_ObjectHideFlags: 1
@@ -225,7 +225,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1860154039515082}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.9934254, y: 0.2265625, z: 3.2907636}
+  m_LocalPosition: {x: -3.223425, y: 0.2265625, z: 3.2907636}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4637176029901018}
@@ -265,7 +265,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5c882be025ae5d045806d92c7f0ee7f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

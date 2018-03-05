@@ -24,14 +24,14 @@ public class ScreenManager : MonoBehaviour
 
     public IEnumerator LoadLevel(string _level)
     {
-        yield return SceneManager.LoadSceneAsync("Load Scene");
+        yield return SceneManager.LoadSceneAsync("LoadScene");
 
         bool continueToLevel = false;
 
         // Load level async
         yield return SceneManager.LoadSceneAsync(_level, LoadSceneMode.Additive);
 
-        var text = GameObject.Find("State Text");
+        var text = GameObject.Find("Load Text");
         text.GetComponent<Text>().text = "Click to continue";
 
         while (!continueToLevel)
@@ -43,6 +43,6 @@ public class ScreenManager : MonoBehaviour
             }
             yield return null;
         }
-        yield return SceneManager.UnloadSceneAsync("Load Scene");
+        yield return SceneManager.UnloadSceneAsync("LoadScene");
     }
 }

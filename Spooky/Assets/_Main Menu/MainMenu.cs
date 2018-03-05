@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        screenManager.StartCoroutine(screenManager.LoadLevel("Espacio"));
+        screenManager.StartCoroutine(screenManager.LoadLevel("Level1"));
     }
 
     public void Credits()
@@ -20,5 +20,10 @@ public class MainMenu : MonoBehaviour
     public void GoToMainMenu()
     {
         screenManager.StartCoroutine(screenManager.LoadLevel("Main Menu"));
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }
