@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttack : MonoBehaviour {
+public class EnemyAttack : ScriptableObject
+{
+    [SerializeField]
+    protected Spooky spooky;
+    [SerializeField]
+    protected float coolDown;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public float range;
+
+    public virtual void Execute()
+    {
+
+    }
 }

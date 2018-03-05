@@ -8,7 +8,6 @@ public class Enemy : MonoBehaviour
     public EnemyAttack attack;
     [SerializeField]
     public EnemyMovement movement;
-    public EnemyState state;
     // TODO check if we have to set settings in constructor.
     public Settings settings;
 
@@ -16,9 +15,8 @@ public class Enemy : MonoBehaviour
 
     public virtual void Awake()
     {
-        attack = new EnemyAttack();
-        movement = new EnemyMovement(settings.Rigidbody, settings.NavMesh, settings.Target , settings.MovementSettings);
-        state = new EnemyState();
+        //attack = new EnemyAttack();
+        movement = new EnemyMovement(this, settings.MovementSettings);
     }
 
     public virtual void Start()
@@ -28,10 +26,7 @@ public class Enemy : MonoBehaviour
 
     public virtual void Update()
     {
-        if (currentHealth.Equals(0))
-        {
-            // TODO change state to dead
-        }
+        bool isDead = CheckHealth();
     }
 
     public virtual void FixedUpdate()
@@ -40,9 +35,18 @@ public class Enemy : MonoBehaviour
         movement.FixedUpdate();
     }
 
+    private bool CheckHealth()
+    {
+        if (currentHealth > 0)
+        {
+            return false;
+        }
+        else return true;
+    }
+
     private void LoseHealth(int _damage)
     {
-
+        currentHealth -= _damage;
     }
 
     [System.Serializable]

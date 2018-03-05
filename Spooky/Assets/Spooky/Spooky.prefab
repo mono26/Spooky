@@ -11,6 +11,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1937644174119942}
   m_IsPrefabParent: 1
+--- !u!1 &1098089096312838
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4970978718526566}
+  m_Layer: 0
+  m_Name: Shoot Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1226991274483080
 GameObject:
   m_ObjectHideFlags: 1
@@ -132,7 +147,21 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4424475983447936}
+  - {fileID: 4970978718526566}
   m_Father: {fileID: 4193135421944750}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4970978718526566
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1098089096312838}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.511, y: 0.077, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4467767140962094}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &20535038656222526
@@ -238,7 +267,8 @@ MonoBehaviour:
     Joystick: {fileID: 0}
     EnemyDetectTrigger: {fileID: 0}
     Hand: {fileID: 4467767140962094}
-    Bullet: {fileID: 0}
+    Bullet: {fileID: 114486725646606430, guid: 62a763f9f753a7c4fb1133535e726fb3, type: 2}
+    ShootPosition: {fileID: 4970978718526566}
     MovementSettings:
       MaxSpeed: 5
       SlowMotionSpeed: 0
@@ -248,10 +278,12 @@ MonoBehaviour:
       EnemyDetectionRange: 0
     AttackSettings:
       AttackRate: 0
+      LaunchForce: 1
   attackComponent:
-    hand: {fileID: 0}
     settings:
       AttackRate: 0
+      LaunchForce: 0
+    hand: {fileID: 0}
 --- !u!124 &124709509721647380
 Behaviour:
   m_ObjectHideFlags: 1

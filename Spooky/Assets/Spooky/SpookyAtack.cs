@@ -6,19 +6,34 @@ using UnityEngine;
 public class SpookyAttack
 {
     // Variable for a bullet.
-    [SerializeField]
-    private Transform hand;
-    private Bullet bullet;
-    private Joystick joystick;
+    private Spooky spooky;
     [SerializeField]
     private Settings settings;
 
-    public SpookyAttack(Transform _hand, Bullet _bullet, Joystick _joystick, Settings _settings)
+    [SerializeField]
+    private Transform hand;
+    private Transform shootPosition;
+    private Bullet bullet;
+    private Joystick joystick;
+
+    public SpookyAttack(Spooky _spooky, Transform _hand, Transform _shootPosition, Bullet _bullet, Joystick _joystick, Settings _settings)
     {
+        spooky = _spooky;
         hand = _hand;
+        shootPosition = _shootPosition;
         bullet = _bullet;
         joystick = _joystick;
         settings = _settings;
+    }
+
+    public void OnEnable()
+    {
+        spooky.OnFireButtonPressed += LaunchBullet;
+    }
+
+    public void OnDisable()
+    {
+        spooky.OnFireButtonPressed -= LaunchBullet;
     }
 
     public void Update()
@@ -39,9 +54,18 @@ public class SpookyAttack
         else return;
     }
 
+    private void LaunchBullet()
+    {
+        // TODO create the bullet and then tell the bullet to launch
+        GameObject tempBullet = GameObject.Instantiate(bullet.gameObject, shootPosition.position, shootPosition.rotation);
+        var bulletComponent = tempBullet.GetComponent<Bullet>();
+        bulletComponent.Launch(settings.LaunchForce);
+    }
+
     [System.Serializable]
     public class Settings
     {
         public float AttackRate;
+        public float LaunchForce;
     }
 }

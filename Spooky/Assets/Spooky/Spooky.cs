@@ -12,11 +12,25 @@ public class Spooky : MonoBehaviour
     public SpookyAttack attackComponent;
     public SpookyEnemyDetect enemyDetectComponent;
 
+    public delegate void FireButtonPress();
+
+    public event FireButtonPress OnFireButtonPressed;
+
     private void Awake()
     {
         movementComponent = new SpookyMovement(settings.Rigidbody, settings.Joystick, settings.MovementSettings);
-        attackComponent = new SpookyAttack(settings.Hand, settings.Bullet, settings.Joystick, settings.AttackSettings);
+        attackComponent = new SpookyAttack(this, settings.Hand, settings.ShootPosition, settings.Bullet, settings.Joystick, settings.AttackSettings);
         enemyDetectComponent = new SpookyEnemyDetect(settings.EnemyDetectTrigger, settings.EnemyDetectSettings);
+    }
+
+    private void OnEnable()
+    {
+        attackComponent.OnEnable();
+    }
+
+    private void OnDisable()
+    {
+        attackComponent.OnDisable();
     }
 
     private void Start()
@@ -29,9 +43,16 @@ public class Spooky : MonoBehaviour
     {
         attackComponent.Update();
     }
+
     private void FixedUpdate()
     {
         movementComponent.FixedUpdate();
+    }
+
+    public void FireButton()
+    {
+        if (OnFireButtonPressed != null)
+            OnFireButtonPressed();
     }
 
     [System.Serializable]
@@ -42,6 +63,7 @@ public class Spooky : MonoBehaviour
         public Collider EnemyDetectTrigger;
         public Transform Hand;
         public Bullet Bullet;
+        public Transform ShootPosition;
 
         public SpookyMovement.Settings MovementSettings;
         public SpookyEnemyDetect.Settings EnemyDetectSettings;

@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -14,9 +15,9 @@ TagManager:
   - 
   - 
   - Invisible
-  - 
-  - 
-  - 
+  - Bullet
+  - Spooky
+  - Enemy
   - 
   - 
   - 
@@ -55,4 +56,7 @@ TagManager:
     locked: 0
   - name: Spooky
     uniqueID: 2056888067
+    locked: 0
+  - name: Bullet
+    uniqueID: 385247043
     locked: 0

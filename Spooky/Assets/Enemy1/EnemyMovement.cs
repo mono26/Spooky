@@ -7,24 +7,18 @@ using UnityEngine.AI;
 public class EnemyMovement
 {
     [SerializeField]
-    private Rigidbody rigidbody;
-    public NavMeshAgent navMesh;
+    private Enemy enemy;
     private Settings settings;
     private NavMeshPath path;
 
     private float currentSpeed;
-    [SerializeField]
-    private Transform target;
 
-    public EnemyMovement(Rigidbody _rigidbody, NavMeshAgent _navMesh, Transform _target, Settings _settings)
+    public EnemyMovement(Enemy _enemy, Settings _settings)
     {
         // Constructor for the class passes all the required components into the class.
         // Done before the game starts
-        rigidbody = _rigidbody;
-        navMesh = _navMesh;
-        target = _target;
+        enemy = _enemy;
         settings = _settings;
-
         path = new NavMeshPath();
     }
 
@@ -32,10 +26,10 @@ public class EnemyMovement
     {
         // When the game starts set values
         //navMesh.updatePosition = false;
-        navMesh.updateRotation = false;
-        navMesh.updateUpAxis = false;
+        enemy.settings.NavMesh.updateRotation = false;
+        enemy.settings.NavMesh.updateUpAxis = false;
 
-        navMesh.CalculatePath(target.position, path);
+        enemy.settings.NavMesh.CalculatePath(enemy.settings.Target.position, path);
 
         currentSpeed = settings.MaxSpeed;
     }
@@ -46,10 +40,10 @@ public class EnemyMovement
         if (!path.Equals(null))
         {
             // TODO calculate dot and cross product for input values moving the rigidBody
-            Vector3 desiredDirection = (path.corners[1] - rigidbody.transform.position).normalized;
+            Vector3 desiredDirection = (path.corners[1] - enemy.settings.Rigidbody.transform.position).normalized;
             desiredDirection.y = 0;
-            float horizontal = Vector3.Dot(rigidbody.transform.right, desiredDirection);
-            float vertical = -Vector3.Cross(rigidbody.transform.right, desiredDirection).y;
+            float horizontal = Vector3.Dot(enemy.settings.Rigidbody.transform.right, desiredDirection);
+            float vertical = -Vector3.Cross(enemy.settings.Rigidbody.transform.right, desiredDirection).y;
 
             if (!horizontal.Equals(0f) || !vertical.Equals(0f))
             {
@@ -57,12 +51,12 @@ public class EnemyMovement
                 Vector3 direction = new Vector3(horizontal, vertical, 0);
                 Move(direction);
 
-                navMesh.CalculatePath(target.position, path);
+                enemy.settings.NavMesh.CalculatePath(enemy.settings.Target.position, path);
                 return;
             }
             else
             {
-                navMesh.CalculatePath(target.position, path);
+                enemy.settings.NavMesh.CalculatePath(enemy.settings.Target.position, path);
                 return;
             }
         }
@@ -72,8 +66,12 @@ public class EnemyMovement
     private void Move(Vector3 _direction)
     {
         // For moving the rigidbody in the desired direction
-        Vector3 newPosition = rigidbody.position + rigidbody.transform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
-        rigidbody.MovePosition(newPosition);
+        Vector3 newPosition = (enemy.settings.Rigidbody.position + 
+                                enemy.settings.Rigidbody.transform.TransformDirection(_direction) * 
+                                currentSpeed * 
+                                Time.fixedDeltaTime);
+
+        enemy.settings.Rigidbody.MovePosition(newPosition);
         return;
     }
 
