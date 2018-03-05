@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
 public class SpookyMovement
 {
     [SerializeField]
@@ -42,8 +41,7 @@ public class SpookyMovement
 
             return;
         }
-        else
-            return;
+        else return;
     }
 
     private void Move(Vector3 _direction)

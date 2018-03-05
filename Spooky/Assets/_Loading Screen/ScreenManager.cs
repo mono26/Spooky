@@ -45,4 +45,9 @@ public class ScreenManager : MonoBehaviour
         }
         yield return SceneManager.UnloadSceneAsync("LoadScene");
     }
+
+    void FadeObject()
+    {
+
+    }
 }
