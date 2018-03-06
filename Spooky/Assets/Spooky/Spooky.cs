@@ -7,10 +7,10 @@ public class Spooky : MonoBehaviour
     public Settings settings;
     // This is going to be the class the connects all the components of spooky
     // Execute update, triggerevetns, awake, start, etc.
-    public SpookyMovement movementComponent;
+    private SpookyMovement movementComponent;
     [SerializeField]
-    public SpookyAttack attackComponent;
-    public SpookyEnemyDetect enemyDetectComponent;
+    private SpookyAttack attackComponent;
+    private SpookyEnemyDetect enemyDetectComponent;
 
     public delegate void FireButtonPress();
 
@@ -18,9 +18,25 @@ public class Spooky : MonoBehaviour
 
     private void Awake()
     {
-        movementComponent = new SpookyMovement(settings.Rigidbody, settings.Joystick, settings.MovementSettings);
-        attackComponent = new SpookyAttack(this, settings.Hand, settings.ShootPosition, settings.Bullet, settings.Joystick, settings.AttackSettings);
-        enemyDetectComponent = new SpookyEnemyDetect(settings.EnemyDetectTrigger, settings.EnemyDetectSettings);
+        movementComponent = new SpookyMovement
+            (settings.Rigidbody,
+            settings.Joystick,
+            settings.MovementSettings
+            );
+
+        enemyDetectComponent = new SpookyEnemyDetect
+            (settings.EnemyDetectTrigger,
+            settings.EnemyDetectSettings
+            );
+
+        attackComponent = new SpookyAttack(
+            this,
+            settings.Hand,
+            settings.ShootPosition,
+            settings.Bullet,
+            settings.Joystick,
+            settings.AttackSettings
+            );
     }
 
     private void OnEnable()

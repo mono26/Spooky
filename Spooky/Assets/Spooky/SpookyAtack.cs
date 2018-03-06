@@ -7,6 +7,7 @@ public class SpookyAttack
 {
     // Variable for a bullet.
     private Spooky spooky;
+    SpookyEnemyDetect autoDetect;
     [SerializeField]
     private Settings settings;
 
@@ -39,18 +40,29 @@ public class SpookyAttack
     public void Update()
     {
         // TODO check if there is a target
-            // if there is a target rotate towards target.
-
-        float horizontal = joystick.Horizontal;
-        float vertical = joystick.Vertical;
-        if (!horizontal.Equals(0f) || !vertical.Equals(0f))
+        Vector3 _direction;
+        float angle;
+        float delta;
+        if (autoDetect.EnemyDirection(out _direction))
         {
-            var angle = Mathf.Atan2(vertical, horizontal) * Mathf.Rad2Deg;
-            var delta = hand.rotation.z - angle;
-            //TODO check if transform.Rotate
-            hand.localRotation = Quaternion.RotateTowards(hand.localRotation, Quaternion.Euler(new Vector3(0,0,angle)), Mathf.Abs(delta));
+            angle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
+            delta = angle - hand.rotation.z;
+            hand.localRotation = Quaternion.RotateTowards(hand.localRotation, Quaternion.Euler(new Vector3(0, 0, angle)), Mathf.Abs(delta));
+            return;
         }
-        else return;
+        else
+        {
+            _direction.x = joystick.Horizontal;
+            _direction.z = joystick.Vertical;
+            if (!_direction.x.Equals(0f) || !_direction.z.Equals(0f))
+            {
+                angle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
+                delta = angle - hand.rotation.z;
+                //TODO check if transform.Rotate
+                hand.localRotation = Quaternion.RotateTowards(hand.localRotation, Quaternion.Euler(new Vector3(0, 0, angle)), Mathf.Abs(delta));
+            }
+            else return;
+        }
     }
 
     private void LaunchBullet()
