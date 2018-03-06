@@ -44,7 +44,7 @@ public class Stealer : Enemy
 
         else if (currentState.Equals(State.Stealing))
         {
-            if(ability != null)
+            if(ability != null && Time.timeSinceLevelLoad - lastBasicExecute < basicCooldown)
             {
                 mainAbility.Execute(this);
             }

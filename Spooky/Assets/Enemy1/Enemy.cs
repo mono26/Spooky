@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     public EnemyAttack mainAbility;
     public Coroutine ability;
 
+    protected float lastBasicExecute;
     protected float basicCooldown;
     protected int currentHealth;
 
