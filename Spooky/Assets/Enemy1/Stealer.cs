@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Stealer : Enemy
 {
+    [SerializeField]
     private State currentState;
 
     public enum State
@@ -18,14 +19,19 @@ public class Stealer : Enemy
 	public override void Start ()
     {
         base.Start();
+
+        currentState = State.Moving;
 	}
 	
 	// Update is called once per frame
-	public override void Update ()
+	public void Update ()
     {
-        base.Update();
+        if(IsDead())
+        {
+            currentState = State.Death;
+        }
 
-        if(currentState.Equals(State.Moving))
+        if (currentState.Equals(State.Moving))
         {
             //TODO execute decision
             if (IsNextToTarget())
@@ -38,15 +44,25 @@ public class Stealer : Enemy
 
         else if (currentState.Equals(State.Stealing))
         {
+            if(ability != null)
+            {
+                mainAbility.Execute(this);
+            }
+
             if (IsDoneStealing())
             {
                 currentState = State.Escaping;
+                return;
             }
             else return;
         }
 
         else if (currentState.Equals(State.Escaping))
         {
+            if (!settings.Target.CompareTag("RunAwayPoint"))
+            {
+                ChangeTargetToRunPoint();
+            }
             if (IsDoneStealing())
             {
                 //TODO release because it stealed
@@ -58,12 +74,21 @@ public class Stealer : Enemy
         {
 
         }
+
+        else return;
+    }
+
+    public void FixedUpdate()
+    {
+        if (currentState.Equals(State.Moving) || currentState.Equals(State.Escaping))
+            movement.FixedUpdate();
+        else return;
     }
 
     private bool IsNextToTarget()
     {
         float distance = Vector3.Distance(transform.position, settings.Target.position);
-        if (distance <= attack.range)
+        if (distance <= mainAbility.range)
         {
             return true;
         }
@@ -72,11 +97,15 @@ public class Stealer : Enemy
 
     private bool IsDoneStealing()
     {
-        var steal = attack as Steal;
-        if (steal.IsStealFinish())
+        if (ability != null)
         {
-            return true;
+            return false;
         }
-        else return false;
+        else return true;
+    }
+
+    private void ChangeTargetToRunPoint()
+    {
+        settings.Target = GameObject.Find("Run Away Point").transform;
     }
 }

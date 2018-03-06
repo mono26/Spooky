@@ -2139,26 +2139,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1802914491}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fca8eafaeeef37498e8a52580dc690a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c9e782ee0bd25a468f609b7be02bc6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: {fileID: 0}
   movement:
-    rigidbody: {fileID: 0}
-    navMesh: {fileID: 0}
-    target: {fileID: 0}
-  state: {fileID: 0}
+    enemy: {fileID: 0}
   settings:
     Rigidbody: {fileID: 1802914497}
     NavMesh: {fileID: 1802914492}
     Target: {fileID: 554615364}
-    MaxHealth: 0
+    MaxHealth: 1
     MovementSettings:
       MaxSpeed: 1
       SlowMotionSpeed: 0
       MaxXValue: 0
       MaxYValue: 0
-  currentHealth: 0
+  mainAbility: {fileID: 11400000, guid: e3278195290d5c943bb96735b4a5e350, type: 2}
+  currentState: 0
 --- !u!65 &1802914496
 BoxCollider:
   m_ObjectHideFlags: 0

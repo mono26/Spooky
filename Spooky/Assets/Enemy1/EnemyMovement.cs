@@ -50,7 +50,8 @@ public class EnemyMovement
                 // We need to pass a movement in y because of the rotation of the object, so the sprite can be seen.
                 Vector3 direction = new Vector3(horizontal, vertical, 0);
                 Move(direction);
-
+                var time = Time.realtimeSinceStartup;
+                Debug.Log(string.Format("time {0} is moving", time));
                 enemy.settings.NavMesh.CalculatePath(enemy.settings.Target.position, path);
                 return;
             }

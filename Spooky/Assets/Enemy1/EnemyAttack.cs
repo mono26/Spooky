@@ -5,13 +5,10 @@ using UnityEngine;
 public class EnemyAttack : ScriptableObject
 {
     [SerializeField]
-    protected Spooky spooky;
-    [SerializeField]
-    protected float coolDown;
-
+    public float coolDown;
     public float range;
 
-    public virtual void Execute()
+    public virtual void Execute(Enemy _enemy)
     {
 
     }

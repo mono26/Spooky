@@ -5,37 +5,28 @@ using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public EnemyAttack attack;
-    [SerializeField]
     public EnemyMovement movement;
     // TODO check if we have to set settings in constructor.
     public Settings settings;
 
-    public int currentHealth;
+    public EnemyAttack mainAbility;
+    public Coroutine ability;
+
+    protected float basicCooldown;
+    protected int currentHealth;
 
     public virtual void Awake()
     {
-        //attack = new EnemyAttack();
         movement = new EnemyMovement(this, settings.MovementSettings);
     }
 
     public virtual void Start()
     {
+        currentHealth = settings.MaxHealth;
         movement.Start();
     }
 
-    public virtual void Update()
-    {
-        bool isDead = CheckHealth();
-    }
-
-    public virtual void FixedUpdate()
-    {
-        //TOOD execute rigidBody movement. If state is true.
-        movement.FixedUpdate();
-    }
-
-    private bool CheckHealth()
+    public bool IsDead()
     {
         if (currentHealth > 0)
         {

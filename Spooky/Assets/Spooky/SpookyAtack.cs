@@ -45,10 +45,9 @@ public class SpookyAttack
         float vertical = joystick.Vertical;
         if (!horizontal.Equals(0f) || !vertical.Equals(0f))
         {
-            var time = Time.realtimeSinceStartup;
             var angle = Mathf.Atan2(vertical, horizontal) * Mathf.Rad2Deg;
             var delta = hand.rotation.z - angle;
-            Debug.Log(string.Format("time {0} angle {1}", time, angle));
+            //TODO check if transform.Rotate
             hand.localRotation = Quaternion.RotateTowards(hand.localRotation, Quaternion.Euler(new Vector3(0,0,angle)), Mathf.Abs(delta));
         }
         else return;

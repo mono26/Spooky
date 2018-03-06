@@ -2,27 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Ability/Enemy/Steal")]
 public class Steal : EnemyAttack
 {
-    public Coroutine steal;
-
-    public override void Execute()
+    public override void Execute(Enemy _enemy)
     {
-        steal = spooky.StartCoroutine(StealCrop());
+        _enemy.ability = _enemy.StartCoroutine(StealCrop());
+        return;
     }
 
     private IEnumerator StealCrop()
     {
         //TODO cast steal
         yield return 0;
-    }
-
-    public bool IsStealFinish()
-    {
-        if (steal != null)
-        {
-            return false;
-        }
-        else return true;
     }
 }
