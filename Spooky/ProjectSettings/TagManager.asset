@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - Bullet
+  - Enemy Detector
+  - Spooky
+  - Spawn Point
+  - Runaway Point
+  - Steal Point
+  - Money Text
+  - Health Bar
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -18,8 +26,8 @@ TagManager:
   - Bullet
   - Spooky
   - Enemy
-  - 
-  - 
+  - Enemy Detector
+  - Plant Detector
   - 
   - 
   - 

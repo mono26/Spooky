@@ -37,6 +37,8 @@ public class EnemyMovement
     // TODO check if it's better to use Update() or FixedUpdate()
     public void FixedUpdate()
     {
+        enemy.settings.NavMesh.CalculatePath(enemy.settings.Target.position, path);
+
         if (!path.Equals(null))
         {
             // TODO calculate dot and cross product for input values moving the rigidBody
@@ -45,21 +47,10 @@ public class EnemyMovement
             float horizontal = Vector3.Dot(enemy.settings.Rigidbody.transform.right, desiredDirection);
             float vertical = -Vector3.Cross(enemy.settings.Rigidbody.transform.right, desiredDirection).y;
 
-            if (!horizontal.Equals(0f) || !vertical.Equals(0f))
-            {
-                // We need to pass a movement in y because of the rotation of the object, so the sprite can be seen.
-                Vector3 direction = new Vector3(horizontal, vertical, 0);
-                Move(direction);
-                var time = Time.realtimeSinceStartup;
-                Debug.Log(string.Format("time {0} is moving", time));
-                enemy.settings.NavMesh.CalculatePath(enemy.settings.Target.position, path);
-                return;
-            }
-            else
-            {
-                enemy.settings.NavMesh.CalculatePath(enemy.settings.Target.position, path);
-                return;
-            }
+            // We need to pass a movement in y because of the rotation of the object, so the sprite can be seen.
+            Vector3 direction = new Vector3(horizontal, vertical, 0);
+            Move(direction);
+            return;
         }
         else return;
     }

@@ -8,8 +8,8 @@ public class Spooky : MonoBehaviour
     // This is going to be the class the connects all the components of spooky
     // Execute update, triggerevetns, awake, start, etc.
     private SpookyMovement movementComponent;
-    [SerializeField]
     private SpookyAttack attackComponent;
+    [SerializeField]
     private SpookyEnemyDetect enemyDetectComponent;
 
     public delegate void FireButtonPress();
@@ -18,19 +18,21 @@ public class Spooky : MonoBehaviour
 
     private void Awake()
     {
-        movementComponent = new SpookyMovement
-            (settings.Rigidbody,
+        movementComponent = new SpookyMovement(
+            settings.Rigidbody,
             settings.Joystick,
             settings.MovementSettings
             );
 
-        enemyDetectComponent = new SpookyEnemyDetect
-            (settings.EnemyDetectTrigger,
+        enemyDetectComponent = new SpookyEnemyDetect(
+            this,
+            settings.EnemyDetectTrigger,
             settings.EnemyDetectSettings
             );
 
         attackComponent = new SpookyAttack(
             this,
+            enemyDetectComponent,
             settings.Hand,
             settings.ShootPosition,
             settings.Bullet,
@@ -65,6 +67,16 @@ public class Spooky : MonoBehaviour
         movementComponent.FixedUpdate();
     }
 
+    public void OnTriggerEnter(Collider _collider)
+    {
+        enemyDetectComponent.OnTriggerEnter(_collider);
+    }
+
+    public void OnTriggerExit(Collider _collider)
+    {
+        enemyDetectComponent.OnTriggerExit(_collider);
+    }
+
     public void FireButton()
     {
         if (OnFireButtonPressed != null)
@@ -76,7 +88,7 @@ public class Spooky : MonoBehaviour
     {
         public Rigidbody Rigidbody;
         public Joystick Joystick;
-        public Collider EnemyDetectTrigger;
+        public SphereCollider EnemyDetectTrigger;
         public Transform Hand;
         public Bullet Bullet;
         public Transform ShootPosition;

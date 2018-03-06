@@ -59,7 +59,7 @@ public class Stealer : Enemy
 
         else if (currentState.Equals(State.Escaping))
         {
-            if (!settings.Target.CompareTag("RunAwayPoint"))
+            if (!settings.Target.CompareTag("Runaway Point"))
             {
                 ChangeTargetToRunPoint();
             }
@@ -106,6 +106,7 @@ public class Stealer : Enemy
 
     private void ChangeTargetToRunPoint()
     {
-        settings.Target = GameObject.Find("Run Away Point").transform;
+        //TODO change this one for a random in the level manager runaway points.
+        settings.Target = GameObject.Find("Runaway Point").transform;
     }
 }

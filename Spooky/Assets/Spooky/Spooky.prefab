@@ -57,6 +57,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1630627974155322
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4635779403664712}
+  - component: {fileID: 135549795504933472}
+  m_Layer: 12
+  m_Name: Enemy Detector
+  m_TagString: Enemy Detector
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1761133120773292
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,7 +106,7 @@ GameObject:
   - component: {fileID: 114472861792725470}
   m_Layer: 0
   m_Name: Spooky
-  m_TagString: Untagged
+  m_TagString: Spooky
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107,6 +123,7 @@ Transform:
   m_Children:
   - {fileID: 4232568596918846}
   - {fileID: 4467767140962094}
+  - {fileID: 4635779403664712}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -150,6 +167,19 @@ Transform:
   - {fileID: 4970978718526566}
   m_Father: {fileID: 4193135421944750}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4635779403664712
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1630627974155322}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.213, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4193135421944750}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4970978718526566
 Transform:
@@ -265,7 +295,7 @@ MonoBehaviour:
   settings:
     Rigidbody: {fileID: 54996514214459900}
     Joystick: {fileID: 0}
-    EnemyDetectTrigger: {fileID: 0}
+    EnemyDetectTrigger: {fileID: 135549795504933472}
     Hand: {fileID: 4467767140962094}
     Bullet: {fileID: 114486725646606430, guid: 62a763f9f753a7c4fb1133535e726fb3, type: 2}
     ShootPosition: {fileID: 4970978718526566}
@@ -279,11 +309,8 @@ MonoBehaviour:
     AttackSettings:
       AttackRate: 0
       LaunchForce: 1
-  attackComponent:
-    settings:
-      AttackRate: 0
-      LaunchForce: 0
-    hand: {fileID: 0}
+  enemyDetectComponent:
+    enemyList: []
 --- !u!124 &124709509721647380
 Behaviour:
   m_ObjectHideFlags: 1
@@ -291,6 +318,18 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1761133120773292}
   m_Enabled: 1
+--- !u!135 &135549795504933472
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1630627974155322}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &212749081230055284
 SpriteRenderer:
   m_ObjectHideFlags: 1

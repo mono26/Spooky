@@ -48,7 +48,7 @@ public class LevelManager : MonoBehaviour
 
     private void LookForSpawnPoints()
     {
-        var sp = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        var sp = GameObject.FindGameObjectsWithTag("Spawn Point");
         spawnPoints = new Transform[sp.Length];
         for (int i = 0; i < sp.Length; i++)
         {
@@ -57,7 +57,7 @@ public class LevelManager : MonoBehaviour
     }
     private void LookForRunAwayPoints()
     {
-        var rp = GameObject.FindGameObjectsWithTag("RunAwayPoint");
+        var rp = GameObject.FindGameObjectsWithTag("Runaway Point");
         runAwayPoints = new Transform[rp.Length];
         for (int i = 0; i < rp.Length; i++)
         {
@@ -68,7 +68,7 @@ public class LevelManager : MonoBehaviour
     {
         if (houseStealPoints == null)
         {
-            var hPoints = GameObject.FindGameObjectsWithTag("StealPoint");
+            var hPoints = GameObject.FindGameObjectsWithTag("Steal Point");
             houseStealPoints = new Transform[hPoints.Length];
             for (int i = 0; i < hPoints.Length; i++)
             {
@@ -78,8 +78,8 @@ public class LevelManager : MonoBehaviour
     }
     private void LookForGameDependencies()
     {
-        gameMoneyText = GameObject.FindGameObjectWithTag("GameMoneyText").GetComponent<Text>();
-        gameHealthBar = GameObject.FindGameObjectWithTag("GameHealthBar").GetComponent<Image>();
+        gameMoneyText = GameObject.FindGameObjectWithTag("Money Text").GetComponent<Text>();
+        gameHealthBar = GameObject.FindGameObjectWithTag("Health Bar").GetComponent<Image>();
     }
 
     public void LoseHealth(int stole)
