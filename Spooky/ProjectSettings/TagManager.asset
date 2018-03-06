@@ -28,7 +28,7 @@ TagManager:
   - Enemy
   - Enemy Detector
   - Plant Detector
-  - 
+  - Plant
   - 
   - 
   - 
@@ -64,6 +64,9 @@ TagManager:
     locked: 0
   - name: Spooky
     uniqueID: 2056888067
+    locked: 0
+  - name: Plant
+    uniqueID: 2439429799
     locked: 0
   - name: Bullet
     uniqueID: 385247043

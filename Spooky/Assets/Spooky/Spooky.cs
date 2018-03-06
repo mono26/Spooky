@@ -25,7 +25,7 @@ public class Spooky : MonoBehaviour
             );
 
         enemyDetectComponent = new SpookyEnemyDetect(
-            this,
+            gameObject,
             settings.EnemyDetectTrigger,
             settings.EnemyDetectSettings
             );

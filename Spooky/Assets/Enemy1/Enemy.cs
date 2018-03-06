@@ -1,19 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
-    public EnemyMovement movement;
+    protected EnemyMovement movement;
     // TODO check if we have to set settings in constructor.
     public Settings settings;
-
-    public EnemyAttack mainAbility;
     public Coroutine ability;
 
     protected float lastBasicExecute;
-    protected float basicCooldown;
     protected int currentHealth;
 
     public virtual void Awake()
@@ -47,6 +42,9 @@ public class Enemy : MonoBehaviour
         public Rigidbody Rigidbody;
         public NavMeshAgent NavMesh;
         public Transform Target;
+        public EnemyAttack MainAbility;
+        public float BasicCooldown;
+        public float BasicRange;
 
         public int MaxHealth;
 

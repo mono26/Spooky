@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Stealer : Enemy
 {
@@ -44,9 +42,9 @@ public class Stealer : Enemy
 
         else if (currentState.Equals(State.Stealing))
         {
-            if(ability != null && Time.timeSinceLevelLoad - lastBasicExecute < basicCooldown)
+            if(ability != null && Time.timeSinceLevelLoad - lastBasicExecute < settings.BasicCooldown)
             {
-                mainAbility.Execute(this);
+                settings.MainAbility.Execute(this);
             }
 
             if (IsDoneStealing())
@@ -72,7 +70,7 @@ public class Stealer : Enemy
 
         else if (currentState.Equals(State.Death))
         {
-
+            // TODO release enemy
         }
 
         else return;
@@ -88,7 +86,7 @@ public class Stealer : Enemy
     private bool IsNextToTarget()
     {
         float distance = Vector3.Distance(transform.position, settings.Target.position);
-        if (distance <= mainAbility.range)
+        if (distance <= settings.BasicRange)
         {
             return true;
         }

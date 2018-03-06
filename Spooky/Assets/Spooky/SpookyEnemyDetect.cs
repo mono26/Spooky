@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -7,7 +6,7 @@ public class SpookyEnemyDetect
 {
     // Give the value of the range in settings to the radius of the collider
     // it must be in a separate layer to wrk properly.
-    private Spooky spooky;
+    private GameObject owner;
     private SphereCollider detectionTrigger;
     private Settings settings;
 
@@ -15,10 +14,10 @@ public class SpookyEnemyDetect
     private List<Enemy> enemyList;
 
     // Create a stack to store all the enemies that come in range
-    public SpookyEnemyDetect(Spooky _spooky, SphereCollider _detectionTrigger, Settings _settings)
+    public SpookyEnemyDetect(GameObject _owner, SphereCollider _detectionTrigger, Settings _settings)
     {
         // Constructor, sets all needed dependencies.
-        spooky = _spooky;
+        owner = _owner;
         detectionTrigger = _detectionTrigger;
         settings = _settings;
 
@@ -40,7 +39,7 @@ public class SpookyEnemyDetect
         _direction = Vector3.zero;
         if (HasTargetAndIsActive())
         {
-            _direction = (enemyList[0].settings.Rigidbody.position - spooky.settings.Rigidbody.position).normalized;
+            _direction = (enemyList[0].settings.Rigidbody.position - owner.transform.position).normalized;
             _direction.y = 0;
             return true;
         }
