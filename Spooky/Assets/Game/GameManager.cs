@@ -3,10 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class ScreenManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    private static ScreenManager instance;
-    public static ScreenManager Instance { get { return instance; } }
+    private static GameManager instance;
+    public static GameManager Instance { get { return instance; } }
 
     [SerializeField]
     private float minDuration = 1.5f;

@@ -49,6 +49,21 @@ Spooky, enemy, ui, repeat.
 		* Sube de nivel
 
 ## Loading screen
-	* LoadScene y loadSceneAsync la escena objectivo
 	* El loadingText debe hacer fade out.
+	* Duracion minima.
+
+## Game Manager
+	* Preload scene.
+	* Va a poder reproducir los sonidos en el juego.
+	* Va a tener la informacion de la dificultad, el nivel actual y el highScore.
+	* Informacion de los talentos. (Cuando se implemente).
+	* Los player prefabs.
+	* LoadScene y loadSceneAsync la escena objectivo.
 	* Puede hacer el fade de cualquier objeto.
+	* Pausa el nivel que esta en la parte de atras. (OnLoadingScreen) -> Awake
+	* Inicia el nivel cuando sale de la loading screen. (OnGameStart) -> Start
+
+## Level Manager
+	* Cantidad de vida restante.
+	* Pausa y reinicia el nivel.
+	* Gana o pierde el nivel y se lo comunica al GameManager.

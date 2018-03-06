@@ -5,7 +5,7 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     [SerializeField]
-    private ScreenManager screenManager;
+    private GameManager screenManager;
 
     public void PlayGame()
     {
