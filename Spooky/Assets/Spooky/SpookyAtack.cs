@@ -57,7 +57,7 @@ public class SpookyAttack
             if (!_direction.x.Equals(0f) || !_direction.z.Equals(0f))
             {
                 angle = Mathf.Atan2(_direction.z, _direction.x) * Mathf.Rad2Deg;
-                delta = angle - hand.rotation.z;
+                delta = angle - hand.localRotation.z;
                 //TODO check if transform.Rotate
                 hand.localRotation = Quaternion.RotateTowards(hand.localRotation, Quaternion.Euler(new Vector3(0, 0, angle)), Mathf.Abs(delta));
                 return;

@@ -103,8 +103,8 @@ GameObject:
   - component: {fileID: 95708093824852228}
   - component: {fileID: 65422766217998902}
   - component: {fileID: 54996514214459900}
-  - component: {fileID: 114472861792725470}
-  m_Layer: 0
+  - component: {fileID: 114322976981061640}
+  m_Layer: 10
   m_Name: Spooky
   m_TagString: Spooky
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114472861792725470
+--- !u!114 &114322976981061640
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -295,20 +295,21 @@ MonoBehaviour:
   Rigidbody: {fileID: 54996514214459900}
   Joystick: {fileID: 0}
   EnemyDetectTrigger: {fileID: 135549795504933472}
+  DetectionRange: 4
   Hand: {fileID: 4467767140962094}
   Bullet: {fileID: 114486725646606430, guid: 62a763f9f753a7c4fb1133535e726fb3, type: 2}
   ShootPosition: {fileID: 4970978718526566}
   settings:
     MovementSettings:
-      MaxSpeed: 5
+      MaxSpeed: 0
       SlowMotionSpeed: 0
       MaxXValue: 0
       MaxYValue: 0
     AttackSettings:
-      AttackRate: 1
-      LaunchForce: 5
+      AttackRate: 0
+      LaunchForce: 0
   enemyDetectComponent:
-    enemyDetectionRange: 4
+    enemyDetectionRange: 0
     enemyList: []
 --- !u!124 &124709509721647380
 Behaviour:

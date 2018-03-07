@@ -24,22 +24,30 @@ public class EnemyDetect : IEnemyDetect
         enemyDetectionRange = _enemyDetectionRange;
 
         enemyList = new List<Enemy>();
+
         detectionTrigger.radius = enemyDetectionRange;
     }
 
     public void Detect()
     {
         // To check if the top of the stack is out of range or dead, or any other condition for clearing it
-        if (HasTargetAndIsActive())
+        if (HasTarget())
         {
-           ClearCurrentTarget();
+            if (!IsTargetActive())
+                ClearCurrentTarget();
         }
+        else return;
+    }
+
+    public Enemy GetCurrentTarget()
+    {
+        return enemyList[0].GetComponent<Enemy>();
     }
 
     public bool HasEnemyDirection(out Vector3 _direction)
     {
         _direction = Vector3.zero;
-        if (HasTargetAndIsActive())
+        if (HasTarget() && IsTargetActive())
         {
             _direction = (enemyList[0].settings.Rigidbody.position - owner.transform.position).normalized;
             _direction.y = 0;
@@ -48,11 +56,20 @@ public class EnemyDetect : IEnemyDetect
         else return false;
     }
 
-    public bool HasTargetAndIsActive()
+    public bool HasTarget()
     {
-        if (enemyList.Count > 0 && enemyList[0].gameObject.activeInHierarchy)
+        if (enemyList.Count > 0)
         {
             return true;
+        }
+        else return false;
+    }
+
+    public bool IsTargetActive()
+    {
+        if (HasTarget())
+        {
+            return enemyList[0].gameObject.activeInHierarchy;
         }
         else return false;
     }
@@ -88,8 +105,6 @@ public class EnemyDetect : IEnemyDetect
         // Check if the collider is tagged as enemy
         if (_collider.CompareTag("Enemy"))
         {
-            var time = Time.realtimeSinceStartup;
-            Debug.Log(string.Format("time {0} enemy entered trigger", time));
             AddEnemy(_collider.GetComponent<Enemy>());
             return;
         }

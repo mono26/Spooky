@@ -7,6 +7,7 @@ public class Plant : MonoBehaviour
     [SerializeField]
     public Settings settings;
 
+    [SerializeField]
     public Coroutine ability;
 
     public Vector3 enemyDirection;
@@ -17,7 +18,7 @@ public class Plant : MonoBehaviour
         enemyDetect = new EnemyDetect(
             this.gameObject, 
             settings.EnemyDetectTrigger, 
-            settings.Range
+            settings.ViewRange
             );
     }
 
@@ -54,7 +55,7 @@ public class Plant : MonoBehaviour
     public class Settings
     {
         public float AttackSpeed;
-        public float Range;
+        public float ViewRange;
         public int MaxHealth;
         public SphereCollider EnemyDetectTrigger;
     }
