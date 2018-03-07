@@ -13,7 +13,7 @@ Spooky, enemy, ui, repeat.
 		* Informacion de la bala, informacion de la velocidad con que se lanza la bala. (Pensar si se almacena en soky o la bala)
 		* Puede cargar o disparar en rafaga.
 		* Cargar aumenta el daño.
-	* Deteca enemigos cercanos, autoaim
+	* Deteca enemigos cercanos, autoaim (interface)
 		* Alamacena en una fila los enemigos dentro del rango
 		* Saca de la fila los objetos que salen del rango
 		* Mira el estado del ultimo de la fila
@@ -42,7 +42,8 @@ Spooky, enemy, ui, repeat.
 
 ## Plantas
 	* Planta1 (Tomate)
-		* Ataca a rango (ataque)
+		* Ataca a rango (ataque) (interface)
+			* Interface de IAttack 
 		* Ataca a rango con municion especial (nivel 2)
 		* Recibe daño
 		* Detecta enemigos en rango (Trigger o SphereCast)

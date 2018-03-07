@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class Spooky : MonoBehaviour
 {
+    public Rigidbody Rigidbody;
+    public Joystick Joystick;
+    public SphereCollider EnemyDetectTrigger;
+    public float DetectionRange;
+    public Transform Hand;
+    public Bullet Bullet;
+    public Transform ShootPosition;
     public Settings settings;
     // This is going to be the class the connects all the components of spooky
     // Execute update, triggerevetns, awake, start, etc.
     private SpookyMovement movementComponent;
     private SpookyAttack attackComponent;
     [SerializeField]
-    private SpookyEnemyDetect enemyDetectComponent;
+    private EnemyDetect enemyDetectComponent;
 
     public delegate void FireButtonPress();
 
@@ -19,24 +26,24 @@ public class Spooky : MonoBehaviour
     private void Awake()
     {
         movementComponent = new SpookyMovement(
-            settings.Rigidbody,
-            settings.Joystick,
+            Rigidbody,
+            Joystick,
             settings.MovementSettings
             );
 
-        enemyDetectComponent = new SpookyEnemyDetect(
+        enemyDetectComponent = new EnemyDetect(
             gameObject,
-            settings.EnemyDetectTrigger,
-            settings.EnemyDetectSettings
+            EnemyDetectTrigger,
+            DetectionRange
             );
 
         attackComponent = new SpookyAttack(
             this,
             enemyDetectComponent,
-            settings.Hand,
-            settings.ShootPosition,
-            settings.Bullet,
-            settings.Joystick,
+            Hand,
+            ShootPosition,
+            Bullet,
+            Joystick,
             settings.AttackSettings
             );
     }
@@ -60,6 +67,7 @@ public class Spooky : MonoBehaviour
     private void Update()
     {
         attackComponent.Update();
+        enemyDetectComponent.Detect();
     }
 
     private void FixedUpdate()
@@ -86,15 +94,7 @@ public class Spooky : MonoBehaviour
     [System.Serializable]
     public class Settings
     {
-        public Rigidbody Rigidbody;
-        public Joystick Joystick;
-        public SphereCollider EnemyDetectTrigger;
-        public Transform Hand;
-        public Bullet Bullet;
-        public Transform ShootPosition;
-
         public SpookyMovement.Settings MovementSettings;
-        public SpookyEnemyDetect.Settings EnemyDetectSettings;
         public SpookyAttack.Settings AttackSettings;
     }
 }

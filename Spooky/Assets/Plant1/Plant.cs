@@ -3,18 +3,22 @@
 public class Plant : MonoBehaviour
 {
     [SerializeField]
-    protected SpookyEnemyDetect enemyDetect;
+    protected EnemyDetect enemyDetect;
     [SerializeField]
     public Settings settings;
+
     public Coroutine ability;
 
     public Vector3 enemyDirection;
-    protected float lastBasicExecute;
     protected int currentHealth;
 
     public virtual void Awake()
     {
-        enemyDetect = new SpookyEnemyDetect(this.gameObject, settings.EnemyDetectTrigger, settings.EnemyDetectSettings);
+        enemyDetect = new EnemyDetect(
+            this.gameObject, 
+            settings.EnemyDetectTrigger, 
+            settings.Range
+            );
     }
 
     public virtual void Start()
@@ -22,7 +26,17 @@ public class Plant : MonoBehaviour
         currentHealth = settings.MaxHealth;
     }
 
-    public bool IsDead()
+    /*protected bool IsNextToTarget()
+    {
+        float distance = Vector3.Distance(transform.position, settings.Target.position);
+        if (distance <= settings.Range)
+        {
+            return true;
+        }
+        else return false;
+    }*/
+
+    protected bool IsDead()
     {
         if (currentHealth > 0)
         {
@@ -31,7 +45,7 @@ public class Plant : MonoBehaviour
         else return true;
     }
 
-    private void LoseHealth(int _damage)
+    protected void LoseHealth(int _damage)
     {
         currentHealth -= _damage;
     }
@@ -39,13 +53,9 @@ public class Plant : MonoBehaviour
     [System.Serializable]
     public class Settings
     {
-        public Transform Target;
-        public PlantAttack MainAbility;
-        public float BasicCooldown;
-        public float BasicRange;
+        public float AttackSpeed;
+        public float Range;
         public int MaxHealth;
         public SphereCollider EnemyDetectTrigger;
-
-        public SpookyEnemyDetect.Settings EnemyDetectSettings;
     }
 }

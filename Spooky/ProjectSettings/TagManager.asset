@@ -13,6 +13,8 @@ TagManager:
   - Money Text
   - Health Bar
   - Enemy
+  - Plant Range
+  - Plant
   layers:
   - Default
   - TransparentFX
@@ -29,7 +31,7 @@ TagManager:
   - Enemy Detector
   - Plant Detector
   - Plant
-  - 
+  - Plant Range
   - 
   - 
   - 

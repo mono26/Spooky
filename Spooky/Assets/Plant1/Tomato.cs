@@ -3,7 +3,7 @@
 public class Tomato : Plant
 {
     [SerializeField]
-    protected Bullet BasicBullet;
+    protected PlantBasicAttack basicAttack;
     [SerializeField]
     private State currentState;
     private float attackRange;
@@ -19,12 +19,15 @@ public class Tomato : Plant
     {
         base.Start();
 
+        basicAttack = new PlantBasicAttack(this, settings.AttackSpeed);
         currentState = State.Waiting;
     }
 
     // Update is called once per frame
     public void Update()
     {
+        enemyDetect.Detect();
+
         if (IsDead())
         {
             currentState = State.Death;
@@ -33,7 +36,7 @@ public class Tomato : Plant
         if (currentState.Equals(State.Waiting))
         {
             //TODO execute decision
-            if (enemyDetect.EnemyDirection(out enemyDirection))
+            if (enemyDetect.HasEnemyDirection(out enemyDirection))
             {
                 currentState = State.Attacking;
                 return;
@@ -43,13 +46,10 @@ public class Tomato : Plant
 
         else if (currentState.Equals(State.Attacking))
         {
-            if (ability != null && 
-                Time.timeSinceLevelLoad - lastBasicExecute < settings.BasicCooldown &&
-                enemyDetect.EnemyDirection(out enemyDirection)
-                )
+            if (ability != null && enemyDetect.HasEnemyDirection(out enemyDirection))
             {
                 // TODO Need to pass direction of enemy
-                settings.MainAbility.Execute(this);
+                basicAttack.RangeAttack();
             }
             else return;
         }
@@ -62,19 +62,14 @@ public class Tomato : Plant
         else return;
     }
 
-    private bool IsNextToTarget()
+    protected void OnTriggerEnter(Collider _collider)
     {
-        float distance = Vector3.Distance(transform.position, settings.Target.position);
-        if (distance <= settings.BasicRange)
-        {
-            return true;
-        }
-        else return false;
+        enemyDetect.OnTriggerEnter(_collider);
     }
 
-    private void ChangeTarget(Transform _target)
+    protected void OnTriggerExit(Collider _collider)
     {
-        //TODO change this one for a random in the level manager runaway points.
-        settings.Target = GameObject.Find("Runaway Point").transform;
+        enemyDetect.OnTriggerExit(_collider);
     }
+
 }

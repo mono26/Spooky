@@ -7,7 +7,7 @@ public class SpookyAttack
 {
     // Variable for a bullet.
     private Spooky spooky;
-    SpookyEnemyDetect autoDetect;
+    EnemyDetect autoDetect;
     private Settings settings;
 
     [SerializeField]
@@ -16,7 +16,7 @@ public class SpookyAttack
     private Bullet bullet;
     private Joystick joystick;
 
-    public SpookyAttack(Spooky _spooky, SpookyEnemyDetect _autoDetect, Transform _hand, Transform _shootPosition, Bullet _bullet, Joystick _joystick, Settings _settings)
+    public SpookyAttack(Spooky _spooky, EnemyDetect _autoDetect, Transform _hand, Transform _shootPosition, Bullet _bullet, Joystick _joystick, Settings _settings)
     {
         spooky = _spooky;
         autoDetect = _autoDetect;
@@ -43,7 +43,7 @@ public class SpookyAttack
         Vector3 _direction;
         float angle;
         float delta;
-        if (autoDetect.EnemyDirection(out _direction))
+        if (autoDetect.HasEnemyDirection(out _direction))
         {
             angle = Mathf.Atan2(_direction.z, _direction.x) * Mathf.Rad2Deg;
             delta = angle - hand.rotation.z;
@@ -57,8 +57,6 @@ public class SpookyAttack
             if (!_direction.x.Equals(0f) || !_direction.z.Equals(0f))
             {
                 angle = Mathf.Atan2(_direction.z, _direction.x) * Mathf.Rad2Deg;
-                var time = Time.realtimeSinceStartup;
-                Debug.Log(string.Format("time {0} angle {1}", time, angle));
                 delta = angle - hand.rotation.z;
                 //TODO check if transform.Rotate
                 hand.localRotation = Quaternion.RotateTowards(hand.localRotation, Quaternion.Euler(new Vector3(0, 0, angle)), Mathf.Abs(delta));

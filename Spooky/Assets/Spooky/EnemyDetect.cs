@@ -2,39 +2,41 @@
 using UnityEngine;
 
 [System.Serializable]
-public class SpookyEnemyDetect
+public class EnemyDetect : IEnemyDetect
 {
     // Give the value of the range in settings to the radius of the collider
     // it must be in a separate layer to wrk properly.
     private GameObject owner;
+
+    [Range(3f, 5f)]
+    public float enemyDetectionRange;
     private SphereCollider detectionTrigger;
-    private Settings settings;
 
     [SerializeField]
     private List<Enemy> enemyList;
 
     // Create a stack to store all the enemies that come in range
-    public SpookyEnemyDetect(GameObject _owner, SphereCollider _detectionTrigger, Settings _settings)
+    public EnemyDetect(GameObject _owner, SphereCollider _detectionTrigger, float _enemyDetectionRange)
     {
         // Constructor, sets all needed dependencies.
         owner = _owner;
         detectionTrigger = _detectionTrigger;
-        settings = _settings;
+        enemyDetectionRange = _enemyDetectionRange;
 
         enemyList = new List<Enemy>();
-        detectionTrigger.radius = settings.EnemyDetectionRange;
+        detectionTrigger.radius = enemyDetectionRange;
     }
 
-    public void Update()
+    public void Detect()
     {
         // To check if the top of the stack is out of range or dead, or any other condition for clearing it
-        if (!HasTargetAndIsActive())
+        if (HasTargetAndIsActive())
         {
            ClearCurrentTarget();
         }
     }
 
-    public bool EnemyDirection(out Vector3 _direction)
+    public bool HasEnemyDirection(out Vector3 _direction)
     {
         _direction = Vector3.zero;
         if (HasTargetAndIsActive())
@@ -46,7 +48,7 @@ public class SpookyEnemyDetect
         else return false;
     }
 
-    private bool HasTargetAndIsActive()
+    public bool HasTargetAndIsActive()
     {
         if (enemyList.Count > 0 && enemyList[0].gameObject.activeInHierarchy)
         {
@@ -86,6 +88,8 @@ public class SpookyEnemyDetect
         // Check if the collider is tagged as enemy
         if (_collider.CompareTag("Enemy"))
         {
+            var time = Time.realtimeSinceStartup;
+            Debug.Log(string.Format("time {0} enemy entered trigger", time));
             AddEnemy(_collider.GetComponent<Enemy>());
             return;
         }
@@ -101,12 +105,5 @@ public class SpookyEnemyDetect
             return;
         }
         else return;
-    }
-
-    [System.Serializable]
-    public class Settings
-    {
-        [Range(3f, 5f)]
-        public float EnemyDetectionRange;
     }
 }

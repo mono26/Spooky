@@ -279,6 +279,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1907416933991314, guid: 5a40f30d84a068e4fb0f743a237459b2, type: 2}
+      propertyPath: m_Name
+      value: Range
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a40f30d84a068e4fb0f743a237459b2, type: 2}
   m_IsPrefabParent: 0
@@ -840,43 +844,17 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 114472861792725470, guid: 03eec82f6166ae249b763a5982ae7eee,
         type: 2}
-      propertyPath: settings.Joystick
+      propertyPath: Joystick
       value: 
       objectReference: {fileID: 781090346}
-    - target: {fileID: 135549795504933472, guid: 03eec82f6166ae249b763a5982ae7eee,
-        type: 2}
-      propertyPath: m_Radius
-      value: 3
+    - target: {fileID: 1937644174119942, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 114472861792725470, guid: 03eec82f6166ae249b763a5982ae7eee,
         type: 2}
-      propertyPath: settings.EnemyDetectSettings.EnemyDetectionRange
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 135549795504933472, guid: 03eec82f6166ae249b763a5982ae7eee,
-        type: 2}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4467767140962094, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0.00000008940696
-      objectReference: {fileID: 0}
-    - target: {fileID: 4467767140962094, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0.00000011362134
-      objectReference: {fileID: 0}
-    - target: {fileID: 4467767140962094, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0.042505194
-      objectReference: {fileID: 0}
-    - target: {fileID: 4467767140962094, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: -0.9990963
-      objectReference: {fileID: 0}
-    - target: {fileID: 4467767140962094, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 364.872
+      propertyPath: DetectionRange
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
@@ -1978,6 +1956,10 @@ Prefab:
       propertyPath: settings.Target
       value: 
       objectReference: {fileID: 554615364}
+    - target: {fileID: 1963016645295434, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
   m_IsPrefabParent: 0
