@@ -148,17 +148,15 @@ MonoBehaviour:
     ViewRange: 3
     MaxHealth: 1
     EnemyDetectTrigger: {fileID: 135564382731587366}
+  timeSinceLastShoot: 0
   enemyDirection: {x: 0, y: 0, z: 0}
   launchForce: 1
   bullet: {fileID: 114836561650180010, guid: 88d6af17c63e20148a99bdea2d1ebe40, type: 2}
   launchPosition: {fileID: 4370896873869142}
   basicAttack:
-    owner: {fileID: 114577813597469274}
-    bullet: {fileID: 114836561650180010, guid: 88d6af17c63e20148a99bdea2d1ebe40, type: 2}
-    attackDelay: 1
+    bulletPrefab: {fileID: 0}
     launchForce: 1
     shootPosition: {fileID: 4370896873869142}
-    timeSinceLastShoot: 0
   currentState: 0
 --- !u!135 &135564382731587366
 SphereCollider:
