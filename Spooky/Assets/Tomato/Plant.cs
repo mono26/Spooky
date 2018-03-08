@@ -6,10 +6,10 @@ public class Plant : MonoBehaviour
     protected EnemyDetect enemyDetect;
     [SerializeField]
     public Settings settings;
-
     [SerializeField]
-    public Coroutine ability;
+    protected Coroutine ability;
 
+    public float timeSinceLastShoot;
     public Vector3 enemyDirection;
     protected int currentHealth;
 
@@ -27,15 +27,15 @@ public class Plant : MonoBehaviour
         currentHealth = settings.MaxHealth;
     }
 
-    /*protected bool IsNextToTarget()
+    protected bool IsTargetInRange()
     {
-        float distance = Vector3.Distance(transform.position, settings.Target.position);
-        if (distance <= settings.Range)
+        float distance = Vector3.Distance(transform.position, enemyDetect.GetCurrentTarget().transform.position);
+        if (distance <= settings.ViewRange)
         {
             return true;
         }
         else return false;
-    }*/
+    }
 
     protected bool IsDead()
     {
@@ -49,6 +49,11 @@ public class Plant : MonoBehaviour
     protected void LoseHealth(int _damage)
     {
         currentHealth -= _damage;
+    }
+
+    public void CastAbility(Coroutine _cast)
+    {
+        ability = _cast;
     }
 
     [System.Serializable]

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    private Rigidbody rigidBody;
+    protected Rigidbody rigidBody;
+
+    public int damage;
 
     private void Awake()
     {
@@ -13,5 +15,10 @@ public class Bullet : MonoBehaviour
     public void Launch(float _speed)
     {
         rigidBody.AddForce(transform.right * _speed, ForceMode.Impulse);
+    }
+
+    public int GetBulletDamage()
+    {
+        return damage;
     }
 }

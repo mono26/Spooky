@@ -301,13 +301,13 @@ MonoBehaviour:
   ShootPosition: {fileID: 4970978718526566}
   settings:
     MovementSettings:
-      MaxSpeed: 0
+      MaxSpeed: 5
       SlowMotionSpeed: 0
       MaxXValue: 0
       MaxYValue: 0
     AttackSettings:
-      AttackRate: 0
-      LaunchForce: 0
+      AttackRate: 1
+      LaunchForce: 1
   enemyDetectComponent:
     enemyDetectionRange: 0
     enemyList: []

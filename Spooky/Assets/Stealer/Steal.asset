@@ -11,5 +11,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a65c45ca8800e43a4e1e353e08155a, type: 3}
   m_Name: Steal
   m_EditorClassIdentifier: 
-  coolDown: 5
-  range: 0.3
+  stoleValue: 5

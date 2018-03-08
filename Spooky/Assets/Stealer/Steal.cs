@@ -1,18 +1,31 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Ability/Enemy/Steal")]
-public class Steal : EnemyAttack
+public class Steal : ICloseRangeAttack
+
 {
-    public override void Execute(Enemy _enemy)
+    protected Enemy owner;
+    [SerializeField]
+    protected int stoleValue;
+
+    public Steal(Enemy _enemy, int _stoleValue)
     {
-        _enemy.ability = _enemy.StartCoroutine(StealCrop());
+        owner = _enemy;
+        stoleValue = _stoleValue;
+    }
+
+    public void CloseAttack()
+    {
+        owner.CastAbility(owner.StartCoroutine(StealCrop()));
         return;
     }
 
     private IEnumerator StealCrop()
     {
-        //TODO cast steal
+        //TODO execute animation.
+        var time = Time.timeSinceLevelLoad;
+        Debug.Log("{0} stealt crop" + time);
+        LevelManager.Instance.LoseCrop(stoleValue);
         yield return 0;
     }
 }

@@ -29,7 +29,7 @@ public class Tomato : Plant
     {
         base.Start();
 
-        basicAttack = new PlantBasicAttack(this, bullet, settings.AttackSpeed, launchForce, launchPosition);
+        basicAttack = new PlantBasicAttack(this, bullet, launchForce, launchPosition);
         currentState = State.Waiting;
     }
 
@@ -56,12 +56,16 @@ public class Tomato : Plant
 
         else if (currentState.Equals(State.Attacking))
         {
-            if (enemyDetect.HasEnemyDirection(out enemyDirection))
+            if (Time.timeSinceLevelLoad > timeSinceLastShoot + settings.AttackSpeed && enemyDetect.HasEnemyDirection(out enemyDirection))
             {
                 // TODO Need to pass direction of enemy
                 basicAttack.RangeAttack();
             }
-            else return;
+            else
+            {
+                currentState = State.Waiting;
+                return;
+            }
         }
 
         else if (currentState.Equals(State.Death))
@@ -70,16 +74,6 @@ public class Tomato : Plant
         }
 
         else return;
-    }
-
-    private bool IsTargetInRange()
-    {
-        float distance = Vector3.Distance(transform.position, enemyDetect.GetCurrentTarget().transform.position);
-        if (distance <= settings.ViewRange)
-        {
-            return true;
-        }
-        else return false;
     }
 
     protected void OnTriggerEnter(Collider _collider)

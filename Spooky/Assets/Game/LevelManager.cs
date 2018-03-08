@@ -5,16 +5,21 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
+    private static LevelManager instance;
+    public static LevelManager Instance { get { return instance; } }
     // HouseSteal points used by the Stealer to note setting the target to the middle of the house. (out of navmesh)
-    public Transform[] houseStealPoints;
+    [SerializeField]
+    private Transform[] houseStealPoints;
     // Used by the waveSpawner for spawning the waves.
-    public Transform[] spawnPoints;
+    [SerializeField]
+    private Transform[] spawnPoints;
     // used by the stealers to run when they have the loot.
-    public Transform[] runAwayPoints;
+    [SerializeField]
+    private Transform[] runAwayPoints;
 
     public Transform spooky;
 
-    public Image gameHealthBar;
+    public Image cropUIBar;
     public Text gameMoneyText;
     public int startingMoney = 400;
     public int currentMoney;
@@ -30,22 +35,28 @@ public class LevelManager : MonoBehaviour
 
     void Awake()
     {
-        //Si ambas referencias no han sido asignadas por en el editor las debe de encontrar.
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else Destroy(gameObject);
+
         spooky = GameObject.FindGameObjectWithTag("Spooky").transform;
-        LookForPlayerAndHousePoints();
-        //Para buscar todos los runaway y spawn points
+        LookForHousePoints();
         LookForRunAwayPoints();
         LookForSpawnPoints();
-        LookForGameDependencies();
+        LookForUIElements();
     }
+
     void Start()
     {
         currentCrop = maxCrop;
         currentMoney = startingMoney;
-        gameHealthBar.fillAmount = currentCrop / maxCrop;
+        cropUIBar.fillAmount = currentCrop / maxCrop;
         gameMoneyText.text = "" + currentMoney;
     }
 
+    // Caching
     private void LookForSpawnPoints()
     {
         var sp = GameObject.FindGameObjectsWithTag("Spawn Point");
@@ -64,28 +75,25 @@ public class LevelManager : MonoBehaviour
             runAwayPoints[i] = rp[i].GetComponent<Transform>();
         }
     }
-    private void LookForPlayerAndHousePoints()
+    private void LookForHousePoints()
     {
-        if (houseStealPoints == null)
+        var hPoints = GameObject.FindGameObjectsWithTag("Steal Point");
+        houseStealPoints = new Transform[hPoints.Length];
+        for (int i = 0; i < hPoints.Length; i++)
         {
-            var hPoints = GameObject.FindGameObjectsWithTag("Steal Point");
-            houseStealPoints = new Transform[hPoints.Length];
-            for (int i = 0; i < hPoints.Length; i++)
-            {
-                houseStealPoints[i] = hPoints[i].GetComponent<Transform>();
-            }
+            houseStealPoints[i] = hPoints[i].GetComponent<Transform>();
         }
     }
-    private void LookForGameDependencies()
+    private void LookForUIElements()
     {
         gameMoneyText = GameObject.FindGameObjectWithTag("Money Text").GetComponent<Text>();
-        gameHealthBar = GameObject.FindGameObjectWithTag("Health Bar").GetComponent<Image>();
+        cropUIBar = GameObject.FindGameObjectWithTag("Health Bar").GetComponent<Image>();
     }
 
-    public void LoseHealth(int stole)
+    public void LoseCrop(int stole)
     {
         currentCrop -= stole;
-        gameHealthBar.fillAmount = currentCrop / maxCrop;
+        cropUIBar.fillAmount = currentCrop / maxCrop;
         if (currentCrop <= 0)
         {
             //GameOver Code
@@ -101,6 +109,18 @@ public class LevelManager : MonoBehaviour
     {
         currentMoney -= money;
         gameMoneyText.text = "$:" + currentMoney;
+    }
+    public Transform GetRandomHousePoint()
+    {
+        var time = Time.timeSinceLevelLoad;
+        Debug.Log("{0} looking for housepoint" + time);
+        int random = Random.Range(0, houseStealPoints.Length);
+        return houseStealPoints[random];
+    }
+    public Transform GetRandomRunawayPoint()
+    {
+        int random = Random.Range(0, runAwayPoints.Length);
+        return runAwayPoints[random];
     }
 
     void GameOver()

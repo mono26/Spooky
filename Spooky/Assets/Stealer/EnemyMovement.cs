@@ -29,7 +29,7 @@ public class EnemyMovement
         enemy.settings.NavMesh.updateRotation = false;
         enemy.settings.NavMesh.updateUpAxis = false;
 
-        enemy.settings.NavMesh.CalculatePath(enemy.settings.Target.position, path);
+        enemy.settings.NavMesh.CalculatePath(enemy.target.position, path);
 
         currentSpeed = settings.MaxSpeed;
     }
@@ -37,7 +37,7 @@ public class EnemyMovement
     // TODO check if it's better to use Update() or FixedUpdate()
     public void FixedUpdate()
     {
-        enemy.settings.NavMesh.CalculatePath(enemy.settings.Target.position, path);
+        enemy.settings.NavMesh.CalculatePath(enemy.target.position, path);
 
         if (!path.Equals(null))
         {

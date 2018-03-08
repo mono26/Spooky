@@ -4,6 +4,7 @@ public class Stealer : Enemy
 {
     [SerializeField]
     private State currentState;
+    protected int stoleValue;
 
     public enum State
     {
@@ -18,6 +19,8 @@ public class Stealer : Enemy
     {
         base.Start();
 
+        basicAbility = new Steal(this, stoleValue);
+        ChangeTargetToHousePoint();
         currentState = State.Moving;
 	}
 	
@@ -32,7 +35,7 @@ public class Stealer : Enemy
         if (currentState.Equals(State.Moving))
         {
             //TODO execute decision
-            if (IsNextToTarget())
+            if (IsTargetInRange())
             {
                 currentState = State.Stealing;
                 return;
@@ -42,9 +45,9 @@ public class Stealer : Enemy
 
         else if (currentState.Equals(State.Stealing))
         {
-            if(ability != null && Time.timeSinceLevelLoad - lastBasicExecute < settings.BasicCooldown)
+            if(Time.timeSinceLevelLoad - lastAttackExecution < settings.BasicCooldown)
             {
-                settings.MainAbility.Execute(this);
+                basicAbility.CloseAttack();
             }
 
             if (IsDoneStealing())
@@ -57,7 +60,7 @@ public class Stealer : Enemy
 
         else if (currentState.Equals(State.Escaping))
         {
-            if (!settings.Target.CompareTag("Runaway Point"))
+            if (!target.CompareTag("Runaway Point"))
             {
                 ChangeTargetToRunPoint();
             }
@@ -83,16 +86,6 @@ public class Stealer : Enemy
         else return;
     }
 
-    private bool IsNextToTarget()
-    {
-        float distance = Vector3.Distance(transform.position, settings.Target.position);
-        if (distance <= settings.BasicRange)
-        {
-            return true;
-        }
-        else return false;
-    }
-
     private bool IsDoneStealing()
     {
         if (ability != null)
@@ -102,9 +95,15 @@ public class Stealer : Enemy
         else return true;
     }
 
+    private void ChangeTargetToHousePoint()
+    {
+        var time = Time.timeSinceLevelLoad;
+        Debug.Log("{0} changing target" + time);
+        target = LevelManager.Instance.GetRandomHousePoint();
+    }
+
     private void ChangeTargetToRunPoint()
     {
-        //TODO change this one for a random in the level manager runaway points.
-        settings.Target = GameObject.Find("Runaway Point").transform;
+        target = LevelManager.Instance.GetRandomRunawayPoint();
     }
 }
