@@ -4,7 +4,9 @@ public class Stealer : Enemy
 {
     [SerializeField]
     private State currentState;
-    protected int stoleValue;
+    [SerializeField]
+    public int stoleValue;
+    public bool hasLoot = false;
 
     public enum State
     {
@@ -19,7 +21,7 @@ public class Stealer : Enemy
     {
         base.Start();
 
-        basicAbility = new Steal(this, stoleValue);
+        basicAbility = new Steal(this);
         ChangeTargetToHousePoint();
         currentState = State.Moving;
 	}
@@ -45,12 +47,12 @@ public class Stealer : Enemy
 
         else if (currentState.Equals(State.Stealing))
         {
-            if(Time.timeSinceLevelLoad - lastAttackExecution < settings.BasicCooldown)
+            if(Time.timeSinceLevelLoad > lastAttackExecution + settings.BasicCooldown)
             {
                 basicAbility.CloseAttack();
             }
 
-            if (IsDoneStealing())
+            if (hasLoot)
             {
                 currentState = State.Escaping;
                 return;
@@ -64,7 +66,8 @@ public class Stealer : Enemy
             {
                 ChangeTargetToRunPoint();
             }
-            if (IsDoneStealing())
+
+            if (IsTargetInRange())
             {
                 //TODO release because it stealed
             }
@@ -86,15 +89,6 @@ public class Stealer : Enemy
         else return;
     }
 
-    private bool IsDoneStealing()
-    {
-        if (ability != null)
-        {
-            return false;
-        }
-        else return true;
-    }
-
     private void ChangeTargetToHousePoint()
     {
         var time = Time.timeSinceLevelLoad;
@@ -105,5 +99,11 @@ public class Stealer : Enemy
     private void ChangeTargetToRunPoint()
     {
         target = LevelManager.Instance.GetRandomRunawayPoint();
+    }
+
+    public bool HasLoot(bool _hasLoot)
+    {
+        hasLoot = _hasLoot;
+        return hasLoot;
     }
 }

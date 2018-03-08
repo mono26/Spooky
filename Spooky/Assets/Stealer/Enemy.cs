@@ -12,6 +12,7 @@ public abstract class Enemy : MonoBehaviour
     protected Coroutine ability;
     public Transform target;
 
+    [SerializeField]
     protected float lastAttackExecution;
     protected int currentHealth;
 

@@ -4,14 +4,11 @@ using UnityEngine;
 public class Steal : ICloseRangeAttack
 
 {
-    protected Enemy owner;
-    [SerializeField]
-    protected int stoleValue;
+    protected Stealer owner;
 
-    public Steal(Enemy _enemy, int _stoleValue)
+    public Steal(Stealer _enemy)
     {
         owner = _enemy;
-        stoleValue = _stoleValue;
     }
 
     public void CloseAttack()
@@ -23,9 +20,8 @@ public class Steal : ICloseRangeAttack
     private IEnumerator StealCrop()
     {
         //TODO execute animation.
-        var time = Time.timeSinceLevelLoad;
-        Debug.Log("{0} stealt crop" + time);
-        LevelManager.Instance.LoseCrop(stoleValue);
+        LevelManager.Instance.LoseCrop(owner.stoleValue);
+        owner.HasLoot(true);
         yield return 0;
     }
 }
