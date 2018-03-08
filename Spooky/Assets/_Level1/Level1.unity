@@ -277,7 +277,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4412348325244944, guid: 5a40f30d84a068e4fb0f743a237459b2, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a40f30d84a068e4fb0f743a237459b2, type: 2}
@@ -310,7 +310,7 @@ Transform:
   - {fileID: 1177518018}
   - {fileID: 1234765561}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &188285604
 GameObject:
@@ -1733,7 +1733,7 @@ Transform:
   - {fileID: 935573646}
   - {fileID: 288604500}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1375156802
 Prefab:
@@ -1930,55 +1930,16 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: FireButton
       objectReference: {fileID: 0}
+    - target: {fileID: 1481808390557878, guid: 48991f638f5d3534bada0afdbb49831c, type: 2}
+      propertyPath: m_Name
+      value: Wave Frame
+      objectReference: {fileID: 0}
+    - target: {fileID: 1796102631352420, guid: 48991f638f5d3534bada0afdbb49831c, type: 2}
+      propertyPath: m_Name
+      value: Wave Bar
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 48991f638f5d3534bada0afdbb49831c, type: 2}
-  m_IsPrefabParent: 0
---- !u!1001 &1467652317
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4130179145791594, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -7.88
-      objectReference: {fileID: 0}
-    - target: {fileID: 4130179145791594, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4130179145791594, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -0.55
-      objectReference: {fileID: 0}
-    - target: {fileID: 4130179145791594, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4130179145791594, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4130179145791594, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4130179145791594, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 4130179145791594, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 114095580315903786, guid: e71f06d12bbd1e54daf27d9832e403ee,
-        type: 2}
-      propertyPath: target
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &1552698076
 Prefab:
@@ -2107,6 +2068,7 @@ GameObject:
   - component: {fileID: 1556889977}
   - component: {fileID: 1556889979}
   - component: {fileID: 1556889980}
+  - component: {fileID: 1556889981}
   m_Layer: 0
   m_Name: _House
   m_TagString: Untagged
@@ -2213,6 +2175,29 @@ MonoBehaviour:
   gameOverUI: {fileID: 0}
   completeLvlUI: {fileID: 0}
   gameSounds: []
+--- !u!114 &1556889981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1556889976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd0da2f12f2955488d030f24c74bf51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waves:
+  - name: 
+    enemy:
+    - {fileID: 114095580315903786, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
+    spawnRate: 1
+    count: 05000000
+  gameWaveBar: {fileID: 2016223104}
+  gameNumberOfEnemies: 0
+  nextWave: 0
+  timeBetweenWaves: 5
+  spawnStart: {fileID: 0}
+  state: 0
 --- !u!1 &1574877038
 GameObject:
   m_ObjectHideFlags: 0
@@ -2397,6 +2382,12 @@ Transform:
   m_Father: {fileID: 1554073307}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2016223104 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114035213940218026, guid: 48991f638f5d3534bada0afdbb49831c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1442795782}
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &2095525546
 GameObject:
   m_ObjectHideFlags: 0
