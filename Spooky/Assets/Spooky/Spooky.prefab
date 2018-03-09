@@ -57,6 +57,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1534174093174432
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4611298257410260}
+  - component: {fileID: 135313261536518600}
+  m_Layer: 16
+  m_Name: Plant Point Detector
+  m_TagString: Plant Point Detector
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1630627974155322
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,6 +140,7 @@ Transform:
   - {fileID: 4232568596918846}
   - {fileID: 4467767140962094}
   - {fileID: 4635779403664712}
+  - {fileID: 4611298257410260}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -168,6 +185,19 @@ Transform:
   m_Father: {fileID: 4193135421944750}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 364.872}
+--- !u!4 &4611298257410260
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1534174093174432}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4193135421944750}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4635779403664712
 Transform:
   m_ObjectHideFlags: 1
@@ -295,7 +325,9 @@ MonoBehaviour:
   Rigidbody: {fileID: 54996514214459900}
   Joystick: {fileID: 0}
   EnemyDetectTrigger: {fileID: 135549795504933472}
-  DetectionRange: 4
+  PlantPointDetectTrigger: {fileID: 135313261536518600}
+  EnemyDetectionRange: 3.5
+  PlantPointDetectionRange: 2
   Hand: {fileID: 4467767140962094}
   Bullet: {fileID: 114486725646606430, guid: 62a763f9f753a7c4fb1133535e726fb3, type: 2}
   ShootPosition: {fileID: 4970978718526566}
@@ -308,9 +340,7 @@ MonoBehaviour:
     AttackSettings:
       AttackRate: 1
       LaunchForce: 1
-  enemyDetectComponent:
-    enemyDetectionRange: 0
-    enemyList: []
+  plantPointDetect: {fileID: 0}
 --- !u!124 &124709509721647380
 Behaviour:
   m_ObjectHideFlags: 1
@@ -318,6 +348,18 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1761133120773292}
   m_Enabled: 1
+--- !u!135 &135313261536518600
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1534174093174432}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &135549795504933472
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -328,7 +370,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 3.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &212749081230055284
 SpriteRenderer:
@@ -362,7 +404,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2056888067
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a3371cd1fbf53274383a0fec4a8c5fd3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -406,7 +448,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2056888067
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 5547f1469a7fa7a4ea837029fa4a1802, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

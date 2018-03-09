@@ -12,15 +12,14 @@ public class PlantStore : MonoBehaviour
     }
 
     //Esta es informacion para toda la programacion del plantpoint y sus funciones
-    public Transform buildUI;
-    public Transform plantUI;
     public GameObject buildCanvas;
     public GameObject plantCanvas;
     public PlantPoint currentPlantPoint;
-
     //public SceneFader sceneFader;
-
     public AudioClip[] uiSounds;
+
+    [SerializeField]
+    private float zOffset = 0.7f;
 
     private void Awake()
     {
@@ -41,7 +40,7 @@ public class PlantStore : MonoBehaviour
             return;
         }
         currentPlantPoint = plantPoint;
-        PlantStore.Instance.SetPlantPoint(currentPlantPoint);
+        SetPlantPoint(currentPlantPoint);
     }
     public void SelectBuildPoint(PlantPoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
     {
@@ -67,14 +66,14 @@ public class PlantStore : MonoBehaviour
     {
         //Si el plantPoint tiene una planta se activa el plantpointUI con la informacion de la planta.
         currentPlantPoint = plantPoint;
-        plantUI.position = currentPlantPoint.transform.position;
+        plantCanvas.transform.position = currentPlantPoint.transform.position + new Vector3(0, 0, zOffset);
         plantCanvas.SetActive(true);
     }
     public void SetBuildPoint(PlantPoint plantPoint)
     {
         //Cuadno el plant poin esta vacio para sacar el buildUI
         currentPlantPoint = plantPoint;
-        buildUI.position = currentPlantPoint.transform.position;
+        buildCanvas.transform.position = currentPlantPoint.transform.position + new Vector3(0, 0, zOffset);
         buildCanvas.SetActive(true);
     }
     public void HideBuildUI()
@@ -101,7 +100,7 @@ public class PlantStore : MonoBehaviour
     }
     public void Upgrade()
     {
-        if (LevelManager.Instance.currentMoney > currentPlantPoint.plantBluePrint.upgradePrice)
+        if (LevelManager.Instance.currentMoney > currentPlantPoint.currentBlueprint.upgradePrice)
         {
             currentPlantPoint.UpgradePlant();
             //SoundHandler.Instance.PlayClip(uiSounds[0]);

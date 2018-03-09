@@ -1,13 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Spooky : MonoBehaviour
 {
     public Rigidbody Rigidbody;
     public Joystick Joystick;
     public SphereCollider EnemyDetectTrigger;
-    public float DetectionRange;
+    public SphereCollider PlantPointDetectTrigger;
+    [Range(3f,4f)]
+    public float EnemyDetectionRange;
+    [Range(1.5f, 2f)]
+    public float PlantPointDetectionRange;
     public Transform Hand;
     public Bullet Bullet;
     public Transform ShootPosition;
@@ -16,8 +18,9 @@ public class Spooky : MonoBehaviour
     // Execute update, triggerevetns, awake, start, etc.
     private SpookyMovement movementComponent;
     private SpookyAttack attackComponent;
-    [SerializeField]
     private EnemyDetect enemyDetectComponent;
+    [SerializeField]
+    private PlantPointDetect plantPointDetect;
 
     public delegate void FireButtonPress();
 
@@ -34,7 +37,7 @@ public class Spooky : MonoBehaviour
         enemyDetectComponent = new EnemyDetect(
             gameObject,
             EnemyDetectTrigger,
-            DetectionRange
+            EnemyDetectionRange
             );
 
         attackComponent = new SpookyAttack(
@@ -45,6 +48,12 @@ public class Spooky : MonoBehaviour
             Bullet,
             Joystick,
             settings.AttackSettings
+            );
+
+        plantPointDetect = new PlantPointDetect(
+            this,
+            PlantPointDetectTrigger,
+            PlantPointDetectionRange
             );
     }
 
@@ -78,11 +87,13 @@ public class Spooky : MonoBehaviour
     public void OnTriggerEnter(Collider _collider)
     {
         enemyDetectComponent.OnTriggerEnter(_collider);
+        plantPointDetect.OnTriggerEnter(_collider);
     }
 
     public void OnTriggerExit(Collider _collider)
     {
         enemyDetectComponent.OnTriggerExit(_collider);
+        plantPointDetect.OnTriggerExit(_collider);
     }
 
     public void FireButton()

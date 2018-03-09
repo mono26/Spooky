@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
     private static LevelManager instance;
     public static LevelManager Instance { get { return instance; } }
+
     // HouseSteal points used by the Stealer to note setting the target to the middle of the house. (out of navmesh)
     [SerializeField]
     private Transform[] houseStealPoints;

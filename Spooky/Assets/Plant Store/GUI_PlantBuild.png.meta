@@ -1,15 +1,13 @@
 fileFormatVersion: 2
-guid: dbc624019f36d43478b67488bbb14447
-timeCreated: 1520550552
+guid: 8f6ae74c49b24864a82438305bbb876b
+timeCreated: 1520605724
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Piso_textura_0
-    21300002: Piso_textura_1
-    21300004: Piso_textura_2
-    21300006: Piso_textura_3
-    21300008: Piso_textura_4
-    21300010: Piso_textura_5
+    21300000: GUI_PlantBuild_0
+    21300002: GUI_PlantBuild_1
+    21300004: GUI_PlantBuild_2
+    21300006: GUI_PlantBuild_3
   externalObjects: {}
   serializedVersion: 4
   mipmaps:
@@ -52,7 +50,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 650
+  spritePixelsToUnits: 100
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -96,13 +94,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Piso_textura_0
+      name: GUI_PlantBuild_0
       rect:
         serializedVersion: 2
-        x: 263
-        y: 1708
-        width: 280
-        height: 162
+        x: 216
+        y: 1607
+        width: 325
+        height: 309
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -110,13 +108,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Piso_textura_1
+      name: GUI_PlantBuild_1
       rect:
         serializedVersion: 2
-        x: 751
-        y: 1589
-        width: 1167
-        height: 390
+        x: 667
+        y: 1623
+        width: 326
+        height: 309
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,13 +122,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Piso_textura_2
+      name: GUI_PlantBuild_2
       rect:
         serializedVersion: 2
-        x: 214
-        y: 853
-        width: 171
-        height: 313
+        x: 1202
+        y: 1638
+        width: 326
+        height: 310
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,41 +136,13 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: Piso_textura_3
+      name: GUI_PlantBuild_3
       rect:
         serializedVersion: 2
-        x: 748
-        y: 1043
-        width: 209
-        height: 372
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Piso_textura_4
-      rect:
-        serializedVersion: 2
-        x: 282
-        y: 230
-        width: 549
-        height: 509
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: Piso_textura_5
-      rect:
-        serializedVersion: 2
-        x: 1162
-        y: 208
-        width: 417
-        height: 797
+        x: 312
+        y: 63
+        width: 1346
+        height: 1414
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
