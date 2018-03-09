@@ -6,12 +6,15 @@ public class Plant : MonoBehaviour
     protected EnemyDetect enemyDetect;
     [SerializeField]
     public Settings settings;
-    [SerializeField]
-    protected Coroutine ability;
 
-    public float timeSinceLastShoot;
+    private Coroutine ability;
+    private bool isCasting;
+
+    public float lastShoot;
     public Vector3 enemyDirection;
     protected int currentHealth;
+
+    protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
 
     protected void Awake()
     {
@@ -20,14 +23,19 @@ public class Plant : MonoBehaviour
             settings.EnemyDetectTrigger, 
             settings.ViewRange
             );
-
-        var time = Time.timeSinceLevelLoad;
-        Debug.Log(string.Format("{0} llamando al padre ", time));
     }
 
     protected void Start()
     {
         currentHealth = settings.MaxHealth;
+
+        var time = Time.timeSinceLevelLoad;
+        Debug.Log(string.Format("{0} llamando al padre ", time));
+    }
+
+    public void StartCast(bool _cast)
+    {
+        IsCasting = _cast;
     }
 
     protected bool IsTargetInRange()
@@ -73,6 +81,7 @@ public class Plant : MonoBehaviour
     public class Settings
     {
         public float AttackSpeed;
+        [Range(3f, 5f)]
         public float ViewRange;
         public int MaxHealth;
         public SphereCollider EnemyDetectTrigger;

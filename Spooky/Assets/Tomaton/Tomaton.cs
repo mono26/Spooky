@@ -2,11 +2,14 @@
 
 public class Tomaton : Tomato
 {
+    [SerializeField]
     protected Bullet specialBullet;
     protected PlantLaunchProyectile specialAttack;
+    [SerializeField]
     protected float specialCooldown;
+    public float lastSpecialShoot;
 
-    protected void Start ()
+    protected new void Start ()
     {
         base.Start();
 
@@ -36,15 +39,23 @@ public class Tomaton : Tomato
 
         else if (currentState.Equals(State.Attacking))
         {
-            if (Time.timeSinceLevelLoad > timeSinceLastShoot + settings.AttackSpeed && enemyDetect.HasEnemyDirection(out enemyDirection))
-            {
-                // TODO Need to pass direction of enemy
-                basicAttack.RangeAttack();
-            }
-            if (Time.timeSinceLevelLoad > timeSinceLastShoot + specialCooldown && enemyDetect.HasEnemyDirection(out enemyDirection))
+            if (!IsCasting &&
+                Time.timeSinceLevelLoad > lastSpecialShoot + specialCooldown &&
+                enemyDetect.HasEnemyDirection(out enemyDirection)
+                )
             {
                 // TODO Need to pass direction of enemy
                 specialAttack.RangeAttack();
+                lastSpecialShoot = Time.timeSinceLevelLoad;
+            }
+            else if (!IsCasting &&
+                Time.timeSinceLevelLoad > lastShoot + specialCooldown &&
+                enemyDetect.HasEnemyDirection(out enemyDirection)
+                )
+            {
+                // TODO Need to pass direction of enemy
+                basicAttack.RangeAttack();
+                lastShoot = Time.timeSinceLevelLoad;
             }
             else
             {

@@ -17,7 +17,7 @@ public class Stealer : Enemy
     }
 
 	// Use this for initialization
-	public override void Start ()
+	public new void Start ()
     {
         base.Start();
 

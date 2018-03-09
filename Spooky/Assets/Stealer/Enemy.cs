@@ -16,12 +16,12 @@ public abstract class Enemy : MonoBehaviour
     protected float lastAttackExecution;
     protected int currentHealth;
 
-    public virtual void Awake()
+    protected void Awake()
     {
         movement = new EnemyMovement(this, settings.MovementSettings);
     }
 
-    public virtual void Start()
+    protected void Start()
     {
         currentHealth = settings.MaxHealth;
         movement.Start();
@@ -46,7 +46,7 @@ public abstract class Enemy : MonoBehaviour
         else return false;
     }
 
-    protected void LoseHealth(int _damage)
+    public void LoseHealth(int _damage) // TODO put inside a interface
     {
         currentHealth -= _damage;
     }

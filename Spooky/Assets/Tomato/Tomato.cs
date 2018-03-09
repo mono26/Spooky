@@ -8,8 +8,8 @@ public class Tomato : Plant
     protected Bullet bullet;
     [SerializeField]
     protected Transform launchPosition;
-    [SerializeField]
     protected PlantLaunchProyectile basicAttack;
+
     [SerializeField]
     protected State currentState;
 
@@ -20,7 +20,7 @@ public class Tomato : Plant
         Death,
     }
 
-    public void Start()
+    public new void Start()
     {
         base.Start();
 
@@ -51,10 +51,14 @@ public class Tomato : Plant
 
         else if (currentState.Equals(State.Attacking))
         {
-            if (Time.timeSinceLevelLoad > timeSinceLastShoot + settings.AttackSpeed && enemyDetect.HasEnemyDirection(out enemyDirection))
+            if (!IsCasting &&
+                Time.timeSinceLevelLoad > lastShoot + settings.AttackSpeed &&
+                enemyDetect.HasEnemyDirection(out enemyDirection)
+                )
             {
                 // TODO Need to pass direction of enemy
                 basicAttack.RangeAttack();
+                lastShoot = Time.timeSinceLevelLoad;
             }
             else
             {
