@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlantBasicAttack : IRangeAttack
+public class PlantLaunchProyectile : IRangeAttack
 {
     protected Plant owner;
 
@@ -11,7 +11,7 @@ public class PlantBasicAttack : IRangeAttack
     public float launchForce = 1;
     public Transform shootPosition;
 
-    public PlantBasicAttack(Plant _owner, Bullet _bullet, float _launchforce, Transform _shootPosition)
+    public PlantLaunchProyectile(Plant _owner, Bullet _bullet, float _launchforce, Transform _shootPosition)
     {
         owner = _owner;
         bulletPrefab = _bullet;

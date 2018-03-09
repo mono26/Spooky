@@ -13,16 +13,19 @@ public class Plant : MonoBehaviour
     public Vector3 enemyDirection;
     protected int currentHealth;
 
-    public virtual void Awake()
+    protected void Awake()
     {
         enemyDetect = new EnemyDetect(
             this.gameObject, 
             settings.EnemyDetectTrigger, 
             settings.ViewRange
             );
+
+        var time = Time.timeSinceLevelLoad;
+        Debug.Log(string.Format("{0} llamando al padre ", time));
     }
 
-    public virtual void Start()
+    protected void Start()
     {
         currentHealth = settings.MaxHealth;
     }
@@ -54,6 +57,16 @@ public class Plant : MonoBehaviour
     public void CastAbility(Coroutine _cast)
     {
         ability = _cast;
+    }
+
+    protected void OnTriggerEnter(Collider _collider)
+    {
+        enemyDetect.OnTriggerEnter(_collider);
+    }
+
+    protected void OnTriggerExit(Collider _collider)
+    {
+        enemyDetect.OnTriggerExit(_collider);
     }
 
     [System.Serializable]

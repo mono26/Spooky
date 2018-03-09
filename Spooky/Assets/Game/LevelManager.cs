@@ -91,8 +91,6 @@ public class LevelManager : MonoBehaviour
 
     public void LoseCrop(int _stole)
     {
-        var time = Time.timeSinceLevelLoad;
-        Debug.Log(string.Format("{0} stole crop {1} ", time, _stole));
         currentCrop -= _stole;
         cropUIBar.fillAmount = currentCrop / maxCrop;
         if (currentCrop <= 0)

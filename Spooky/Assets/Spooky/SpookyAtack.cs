@@ -15,6 +15,7 @@ public class SpookyAttack
     private Transform shootPosition;
     private Bullet bullet;
     private Joystick joystick;
+    private float lastShoot;
 
     public SpookyAttack(Spooky _spooky, EnemyDetect _autoDetect, Transform _hand, Transform _shootPosition, Bullet _bullet, Joystick _joystick, Settings _settings)
     {
@@ -46,7 +47,13 @@ public class SpookyAttack
         if (autoDetect.HasEnemyDirection(out _direction))
         {
             angle = Mathf.Atan2(_direction.z, _direction.x) * Mathf.Rad2Deg;
-            delta = angle - hand.rotation.z;
+            delta = angle - hand.localRotation.eulerAngles.z;
+            /*if (Mathf.Abs(delta) < 180)
+            {
+                hand.Rotate(new Vector3(0, 0, delta), Space.Self);
+            }
+            else
+                hand.Rotate(new Vector3(0, 0, -delta), Space.Self);*/
             hand.localRotation = Quaternion.RotateTowards(hand.localRotation, Quaternion.Euler(new Vector3(0, 0, angle)), Mathf.Abs(delta));
             return;
         }
@@ -57,8 +64,14 @@ public class SpookyAttack
             if (!_direction.x.Equals(0f) || !_direction.z.Equals(0f))
             {
                 angle = Mathf.Atan2(_direction.z, _direction.x) * Mathf.Rad2Deg;
-                delta = angle - hand.localRotation.z;
+                delta = angle - hand.localRotation.eulerAngles.z;
                 //TODO check if transform.Rotate
+                /*if (Mathf.Abs(delta) < 180)
+                {
+                    hand.Rotate(new Vector3(0, 0, delta), Space.Self);
+                }
+                else
+                    hand.Rotate(new Vector3(0, 0, -delta), Space.Self);*/
                 hand.localRotation = Quaternion.RotateTowards(hand.localRotation, Quaternion.Euler(new Vector3(0, 0, angle)), Mathf.Abs(delta));
                 return;
             }
@@ -69,9 +82,14 @@ public class SpookyAttack
     private void LaunchBullet()
     {
         // TODO create the bullet and then tell the bullet to launch
-        GameObject tempBullet = GameObject.Instantiate(bullet.gameObject, shootPosition.position, shootPosition.rotation);
-        var bulletComponent = tempBullet.GetComponent<Bullet>();
-        bulletComponent.Launch(settings.LaunchForce);
+        if (Time.timeSinceLevelLoad > lastShoot + settings.AttackRate)
+        {
+            GameObject tempBullet = GameObject.Instantiate(bullet.gameObject, shootPosition.position, shootPosition.rotation);
+            var bulletComponent = tempBullet.GetComponent<Bullet>();
+            bulletComponent.Launch(settings.LaunchForce);
+            lastShoot = Time.timeSinceLevelLoad;
+        }
+        else return;
     }
 
     [System.Serializable]

@@ -91,8 +91,6 @@ public class Stealer : Enemy
 
     private void ChangeTargetToHousePoint()
     {
-        var time = Time.timeSinceLevelLoad;
-        Debug.Log("{0} changing target" + time);
         target = LevelManager.Instance.GetRandomHousePoint();
     }
 

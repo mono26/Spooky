@@ -1,35 +1,20 @@
 ﻿using UnityEngine;
 
-public class Tomato : Plant
+public class Tomaton : Tomato
 {
-    [SerializeField]
-    protected float launchForce;
-    [SerializeField]
-    protected Bullet bullet;
-    [SerializeField]
-    protected Transform launchPosition;
-    [SerializeField]
-    protected PlantLaunchProyectile basicAttack;
-    [SerializeField]
-    protected State currentState;
+    protected Bullet specialBullet;
+    protected PlantLaunchProyectile specialAttack;
+    protected float specialCooldown;
 
-    protected enum State
-    {
-        Waiting,
-        Attacking,
-        Death,
-    }
-
-    public void Start()
+    protected void Start ()
     {
         base.Start();
 
-        basicAttack = new PlantLaunchProyectile(this, bullet, launchForce, launchPosition);
-        currentState = State.Waiting;
-    }
+        specialAttack = new PlantLaunchProyectile(this, specialBullet, launchForce, launchPosition);
+	}
 
     // Update is called once per frame
-    public void Update()
+    protected new void Update ()
     {
         enemyDetect.Detect();
 
@@ -55,6 +40,11 @@ public class Tomato : Plant
             {
                 // TODO Need to pass direction of enemy
                 basicAttack.RangeAttack();
+            }
+            if (Time.timeSinceLevelLoad > timeSinceLastShoot + specialCooldown && enemyDetect.HasEnemyDirection(out enemyDirection))
+            {
+                // TODO Need to pass direction of enemy
+                specialAttack.RangeAttack();
             }
             else
             {
