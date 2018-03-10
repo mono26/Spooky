@@ -28,9 +28,6 @@ public class Plant : MonoBehaviour
     protected void Start()
     {
         currentHealth = settings.MaxHealth;
-
-        var time = Time.timeSinceLevelLoad;
-        Debug.Log(string.Format("{0} llamando al padre ", time));
     }
 
     public void StartCast(bool _cast)

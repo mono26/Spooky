@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class PlantPointDetect : MonoBehaviour
+public class PlantPointDetect
 {
     //Reference variable to the player class, so you can acces the variables, like position, rigidbody, etc.
     public Spooky spooky;

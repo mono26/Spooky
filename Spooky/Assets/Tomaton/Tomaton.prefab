@@ -141,22 +141,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyDetect:
-    enemyDetectionRange: 0
+    enemyDetectionRange: 3.5
     enemyList: []
   settings:
     AttackSpeed: 1
     ViewRange: 3.5
     MaxHealth: 1
     EnemyDetectTrigger: {fileID: 135569130457611010}
-  timeSinceLastShoot: 0
+  lastShoot: 0
   enemyDirection: {x: 0, y: 0, z: 0}
-  launchForce: 0
+  launchForce: 1
   bullet: {fileID: 114836561650180010, guid: 88d6af17c63e20148a99bdea2d1ebe40, type: 2}
   launchPosition: {fileID: 4260655277493156}
   currentState: 0
   specialBullet: {fileID: 114170281989228104, guid: 11a138c22bf03e9498aea661b645f42b,
     type: 2}
   specialCooldown: 15
+  lastSpecialShoot: 0
 --- !u!135 &135569130457611010
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -26,6 +26,8 @@ public class CorrosiveBullet : Bullet
     {
         base.Awake();
 
+        rigidBody.constraints = RigidbodyConstraints.None;   //Because the rigidBody when it hits the enemy stays in rotation
+        rigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
         corrosiveTrigger.SetActive(false);
     }
     protected IEnumerator CorrosiveEffect()
@@ -68,6 +70,9 @@ public class CorrosiveBullet : Bullet
 
     protected void OnCollisionEnter(Collision _collision)
     {
+        GetComponent<Collider>().enabled = false;   // So the only collidr activated is the trigger for the area damage.
+        rigidBody.velocity = Vector3.zero;
+        rigidBody.constraints = RigidbodyConstraints.FreezeRotationZ;   // TODO fin better way to do this.
         StartCoroutine(CorrosiveEffect());
     }
 

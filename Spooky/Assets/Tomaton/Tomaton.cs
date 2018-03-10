@@ -14,6 +14,7 @@ public class Tomaton : Tomato
         base.Start();
 
         specialAttack = new PlantLaunchProyectile(this, specialBullet, launchForce, launchPosition);
+        lastSpecialShoot = -specialCooldown;    // Because it will only execute after 15 secondas passed into the level.
 	}
 
     // Update is called once per frame
@@ -44,16 +45,16 @@ public class Tomaton : Tomato
                 enemyDetect.HasEnemyDirection(out enemyDirection)
                 )
             {
-                // TODO Need to pass direction of enemy
+                var time = Time.timeSinceLevelLoad;
+                Debug.Log(string.Format("{0} ejecutando ataque especial ", time));
                 specialAttack.RangeAttack();
                 lastSpecialShoot = Time.timeSinceLevelLoad;
             }
             else if (!IsCasting &&
-                Time.timeSinceLevelLoad > lastShoot + specialCooldown &&
+                Time.timeSinceLevelLoad > lastShoot + settings.AttackSpeed &&
                 enemyDetect.HasEnemyDirection(out enemyDirection)
                 )
             {
-                // TODO Need to pass direction of enemy
                 basicAttack.RangeAttack();
                 lastShoot = Time.timeSinceLevelLoad;
             }

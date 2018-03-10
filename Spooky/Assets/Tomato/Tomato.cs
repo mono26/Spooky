@@ -56,7 +56,6 @@ public class Tomato : Plant
                 enemyDetect.HasEnemyDirection(out enemyDirection)
                 )
             {
-                // TODO Need to pass direction of enemy
                 basicAttack.RangeAttack();
                 lastShoot = Time.timeSinceLevelLoad;
             }

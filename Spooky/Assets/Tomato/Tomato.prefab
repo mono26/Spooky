@@ -148,15 +148,11 @@ MonoBehaviour:
     ViewRange: 3
     MaxHealth: 1
     EnemyDetectTrigger: {fileID: 135564382731587366}
-  timeSinceLastShoot: 0
+  lastShoot: 0
   enemyDirection: {x: 0, y: 0, z: 0}
-  launchForce: 1
+  launchForce: 5
   bullet: {fileID: 114836561650180010, guid: 88d6af17c63e20148a99bdea2d1ebe40, type: 2}
   launchPosition: {fileID: 4370896873869142}
-  basicAttack:
-    bulletPrefab: {fileID: 0}
-    launchForce: 1
-    shootPosition: {fileID: 4370896873869142}
   currentState: 0
 --- !u!135 &135564382731587366
 SphereCollider:
@@ -202,7 +198,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1855537497
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 006fe8c2c818b2b418a7eedce1b657b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

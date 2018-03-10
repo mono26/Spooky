@@ -952,16 +952,6 @@ Prefab:
       propertyPath: Joystick
       value: 
       objectReference: {fileID: 781090346}
-    - target: {fileID: 114322976981061640, guid: 03eec82f6166ae249b763a5982ae7eee,
-        type: 2}
-      propertyPath: settings.AttackSettings.LaunchForce
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114322976981061640, guid: 03eec82f6166ae249b763a5982ae7eee,
-        type: 2}
-      propertyPath: settings.AttackSettings.AttackRate
-      value: 0.3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
   m_IsPrefabParent: 0
@@ -1004,24 +994,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 12
       objectReference: {fileID: 0}
-    - target: {fileID: 1824483377860578, guid: 2c154f34ab9d0a34196f9e194b1da1c1, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114158529005576618, guid: 2c154f34ab9d0a34196f9e194b1da1c1,
-        type: 2}
-      propertyPath: enemyDetect.enemyDetectionRange
-      value: 3.5
-      objectReference: {fileID: 0}
     - target: {fileID: 114158529005576618, guid: 2c154f34ab9d0a34196f9e194b1da1c1,
         type: 2}
       propertyPath: launchForce
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 65774770820588646, guid: 2c154f34ab9d0a34196f9e194b1da1c1,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2c154f34ab9d0a34196f9e194b1da1c1, type: 2}
