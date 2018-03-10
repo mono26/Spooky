@@ -1,12 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class Stealer : Enemy
+public class Stealer : Enemy, ISpawnable<Enemy>
 {
     [SerializeField]
     private State currentState;
     [SerializeField]
     public int stoleValue;
     public bool hasLoot = false;
+
+    [SerializeField]
+    private static List<Enemy> enemyList = new List<Enemy>();
+    public List<Enemy> Pool { get { return enemyList; } }
 
     public enum State
     {
@@ -16,15 +21,26 @@ public class Stealer : Enemy
         Death,
     }
 
+    protected new void Awake()
+    {
+        base.Awake();
+
+        if (enemyList == null)
+        {
+            enemyList = new List<Enemy>();
+        }
+        else return;
+    }
+
 	// Use this for initialization
-	public new void Start ()
+	protected new void Start ()
     {
         base.Start();
 
         basicAbility = new Steal(this);
         ChangeTargetToHousePoint();
         currentState = State.Moving;
-	}
+    }
 	
 	// Update is called once per frame
 	public void Update ()
@@ -82,19 +98,19 @@ public class Stealer : Enemy
         else return;
     }
 
-    public void FixedUpdate()
+    protected void FixedUpdate()
     {
         if (currentState.Equals(State.Moving) || currentState.Equals(State.Escaping))
             movement.FixedUpdate();
         else return;
     }
 
-    private void ChangeTargetToHousePoint()
+    protected void ChangeTargetToHousePoint()
     {
         target = LevelManager.Instance.GetRandomHousePoint();
     }
 
-    private void ChangeTargetToRunPoint()
+    protected void ChangeTargetToRunPoint()
     {
         target = LevelManager.Instance.GetRandomRunawayPoint();
     }
@@ -103,5 +119,40 @@ public class Stealer : Enemy
     {
         hasLoot = _hasLoot;
         return hasLoot;
+    }
+
+    public Enemy Spawn(Transform _position, Transform _parentPool)
+    {
+        if (Pool.Count == 0)
+            AddToPool(_parentPool);
+        Enemy enemy = Pool[Pool.Count - 1];
+        Pool.RemoveAt(Pool.Count - 1);
+        SetEnemyPosition(enemy, _position);
+        enemy.gameObject.SetActive(true);
+        return enemy;
+    }
+
+    private void AddToPool(Transform _pool)
+    {
+        var parentPool = GameObject.Find("Enemies");    //Can't store a transform inside a prefab. Ensure always a tranform Enemies on level.
+        Stealer enemy = Instantiate(
+            gameObject, 
+            parentPool.transform.position, 
+            parentPool.transform.rotation
+            ).GetComponent<Stealer>();
+        enemy.gameObject.SetActive(false);
+        Pool.Add(enemy);
+    }
+
+    private void SetEnemyPosition(Enemy _enemy, Transform target)
+    {
+        _enemy.transform.position = target.position;
+        _enemy.transform.rotation = target.rotation;
+    }
+
+    public void ReleaseEnemy(Enemy _enemy)
+    {
+        _enemy.gameObject.SetActive(false);
+        Pool.Add(_enemy);
     }
 }

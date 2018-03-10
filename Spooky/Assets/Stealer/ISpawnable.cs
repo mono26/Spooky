@@ -5,7 +5,6 @@ public interface ISpawnable <T>
 
 {
     List<T> Pool { get;}
-    Transform PoolPosition { get; }
 
-    T Spawn(Transform _position);
+    T Spawn(Transform _position, Transform _parentPool);
 }

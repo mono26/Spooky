@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
-public abstract class Enemy : MonoBehaviour, ISpawnable<Enemy>
+public abstract class Enemy : MonoBehaviour
 {
     protected EnemyMovement movement;
     // TODO check if we have to set settings in constructor.
@@ -16,13 +15,6 @@ public abstract class Enemy : MonoBehaviour, ISpawnable<Enemy>
     [SerializeField]
     protected float lastAttackExecution;
     protected int currentHealth;
-
-    [SerializeField]
-    readonly static Transform poolPosition;
-    [SerializeField]
-    readonly static List<Enemy> enemyList;
-    public List<Enemy> Pool { get { return enemyList; } }
-    public Transform PoolPosition { get { return poolPosition; } }
 
     protected void Awake()
     {
@@ -71,36 +63,6 @@ public abstract class Enemy : MonoBehaviour, ISpawnable<Enemy>
             int damage = _collision.gameObject.GetComponent<Bullet>().GetBulletDamage();
             LoseHealth(damage);
         }
-    }
-
-    public Enemy Spawn(Transform _position)
-    {
-        if (Pool.Count == 0)
-            AddToPool();
-        Enemy enemy = Pool[Pool.Count - 1];
-        Pool.RemoveAt(Pool.Count - 1);
-        SetEnemyPosition(enemy, _position);
-        enemy.gameObject.SetActive(true);
-        return enemy;
-    }
-
-    private void AddToPool()
-    {
-        Enemy enemy = Instantiate(gameObject, PoolPosition.position, PoolPosition.rotation).GetComponent<Enemy>();
-        enemy.gameObject.SetActive(false);
-        Pool.Add(enemy);
-    }
-
-    private void SetEnemyPosition(Enemy _enemy, Transform target)
-    {
-        _enemy.transform.position = target.position;
-        _enemy.transform.rotation = target.rotation;
-    }
-
-    public void ReleaseEnemy(Enemy _enemy)
-    {
-        _enemy.gameObject.SetActive(false);
-        Pool.Add(_enemy);
     }
 
     [System.Serializable]

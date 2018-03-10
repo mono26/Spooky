@@ -21,6 +21,7 @@ public class WaveSpawner : MonoBehaviour
     {
         public string name;
         //To save the diferent enemy info
+        [SerializeField]
         public Enemy[] enemy;
         public float spawnRate;
         //How many of each enemy to spawn
@@ -103,18 +104,20 @@ public class WaveSpawner : MonoBehaviour
         {
             for (int count = 0; count < _wave.count[enemy]; count++)
             {
-                SpawnEnemy(_wave.enemy[enemy]);
+                SpawnEnemy((ISpawnable<Enemy>)_wave.enemy[enemy]);
                 yield return new WaitForSeconds(1f / _wave.spawnRate);
             }
         }
         state = SpawnState.WAITING;
         yield break;
     }
-    void SpawnEnemy(Enemy _enemy)
+    void SpawnEnemy(ISpawnable<Enemy> _enemy)
     {
         //Random between all the spawnpoints
         var spawnPoint = LevelManager.Instance.GetRandomSpawnPoint();
-        GameObject tempEnemy = Instantiate(_enemy.gameObject, spawnPoint.position, _enemy.gameObject.transform.rotation);
+        var parentPool = GameObject.Find("Enemies");
+        Enemy tempEnemy = _enemy.Spawn(spawnPoint, parentPool.transform);
+        tempEnemy.transform.SetParent(parentPool.transform);
         //PoolsManagerEnemies.Instance.GetEnemy(_enemy.objectIndex, my_SpawnPoint);
         gameNumberOfEnemies++;
     }
