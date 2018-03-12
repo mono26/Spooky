@@ -45,8 +45,6 @@ public class Tomaton : Tomato
                 enemyDetect.HasEnemyDirection(out enemyDirection)
                 )
             {
-                var time = Time.timeSinceLevelLoad;
-                Debug.Log(string.Format("{0} ejecutando ataque especial ", time));
                 specialAttack.RangeAttack();
                 lastSpecialShoot = Time.timeSinceLevelLoad;
             }

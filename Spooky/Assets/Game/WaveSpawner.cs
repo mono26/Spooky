@@ -116,7 +116,7 @@ public class WaveSpawner : MonoBehaviour
         //Random between all the spawnpoints
         var spawnPoint = LevelManager.Instance.GetRandomSpawnPoint();
         var parentPool = GameObject.Find("Enemies");
-        Enemy tempEnemy = _enemy.Spawn(spawnPoint, parentPool.transform);
+        Enemy tempEnemy = _enemy.Spawn(spawnPoint);
         tempEnemy.transform.SetParent(parentPool.transform);
         //PoolsManagerEnemies.Instance.GetEnemy(_enemy.objectIndex, my_SpawnPoint);
         gameNumberOfEnemies++;

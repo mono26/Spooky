@@ -13,14 +13,18 @@ public class Spooky : MonoBehaviour
     public Transform Hand;
     public Bullet Bullet;
     public Transform ShootPosition;
-    public Settings settings;
+    public SpriteRenderer SpookySprite;
+    public SpriteRenderer HandSprite;
+    public Animator Animator;
+
     // This is going to be the class the connects all the components of spooky
     // Execute update, triggerevetns, awake, start, etc.
     private SpookyMovement movementComponent;
     private SpookyAttack attackComponent;
     private EnemyDetect enemyDetectComponent;
-    [SerializeField]
     private PlantPointDetect plantPointDetect;
+    public SpookyAnimation animationComponent;
+    public Settings settings;
 
     public delegate void FireButtonPress();
 
@@ -29,8 +33,7 @@ public class Spooky : MonoBehaviour
     private void Awake()
     {
         movementComponent = new SpookyMovement(
-            Rigidbody,
-            Joystick,
+            this,
             settings.MovementSettings
             );
 
@@ -54,6 +57,12 @@ public class Spooky : MonoBehaviour
             this,
             PlantPointDetectTrigger,
             PlantPointDetectionRange
+            );
+
+        animationComponent = new SpookyAnimation(
+            SpookySprite,
+            HandSprite,
+            Animator
             );
     }
 

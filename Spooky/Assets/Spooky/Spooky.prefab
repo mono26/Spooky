@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 4424475983447936}
   - component: {fileID: 212749081230055284}
   m_Layer: 0
-  m_Name: Sprite
+  m_Name: Hand Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -331,6 +331,9 @@ MonoBehaviour:
   Hand: {fileID: 4467767140962094}
   Bullet: {fileID: 114486725646606430, guid: 62a763f9f753a7c4fb1133535e726fb3, type: 2}
   ShootPosition: {fileID: 4970978718526566}
+  SpookySprite: {fileID: 212835599350365438}
+  HandSprite: {fileID: 212749081230055284}
+  Animator: {fileID: 95708093824852228}
   settings:
     MovementSettings:
       MaxSpeed: 5
@@ -340,11 +343,6 @@ MonoBehaviour:
     AttackSettings:
       AttackRate: 0.3
       LaunchForce: 5
-  plantPointDetect:
-    spooky: {fileID: 0}
-    sphereTrigger: {fileID: 0}
-    detectRange: 0
-    currentPlantPoint: {fileID: 0}
 --- !u!124 &124709509721647380
 Behaviour:
   m_ObjectHideFlags: 1

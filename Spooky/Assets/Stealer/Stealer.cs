@@ -121,10 +121,10 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         return hasLoot;
     }
 
-    public Enemy Spawn(Transform _position, Transform _parentPool)
+    public Enemy Spawn(Transform _position)
     {
         if (Pool.Count == 0)
-            AddToPool(_parentPool);
+            AddToPool();
         Enemy enemy = Pool[Pool.Count - 1];
         Pool.RemoveAt(Pool.Count - 1);
         SetEnemyPosition(enemy, _position);
@@ -132,13 +132,13 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         return enemy;
     }
 
-    private void AddToPool(Transform _pool)
+    private void AddToPool()
     {
         var parentPool = GameObject.Find("Enemies");    //Can't store a transform inside a prefab. Ensure always a tranform Enemies on level.
         Stealer enemy = Instantiate(
             gameObject, 
             parentPool.transform.position, 
-            parentPool.transform.rotation
+            Quaternion.Euler(90f,0f,0f)
             ).GetComponent<Stealer>();
         enemy.gameObject.SetActive(false);
         Pool.Add(enemy);
@@ -147,7 +147,6 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     private void SetEnemyPosition(Enemy _enemy, Transform target)
     {
         _enemy.transform.position = target.position;
-        _enemy.transform.rotation = target.rotation;
     }
 
     public void ReleaseEnemy(Enemy _enemy)

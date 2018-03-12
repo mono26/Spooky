@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class SpookyMovement
 {
-    [SerializeField]
-    private Rigidbody rigidbody;
-    private Joystick joystick;
+    private Spooky spooky;
     private Settings settings;
 
     private float currentSpeed;
 
-    public SpookyMovement(Rigidbody _rigidbody, Joystick _joystick, Settings _settings)
+    public SpookyMovement(Spooky _spooky, Settings _settings)
     {
         // Constructor for the class passes all the required components into the class.
         // Done before the game starts
-        rigidbody = _rigidbody;
-        joystick = _joystick;
+        spooky = _spooky;
         settings = _settings;
     }
 
@@ -29,9 +26,9 @@ public class SpookyMovement
     // TODO check if it's better to use Update() or FixedUpdate()
     public void FixedUpdate()
     {
-        // For moving the rigidBody
-        float horizontal = joystick.Horizontal;
-        float vertical = joystick.Vertical;
+        // For moving the Rigidbody
+        float horizontal = spooky.Joystick.Horizontal;
+        float vertical = spooky.Joystick.Vertical;
 
         if (!horizontal.Equals(0f) || !vertical.Equals(0f))
         {
@@ -46,9 +43,10 @@ public class SpookyMovement
 
     private void Move(Vector3 _direction)
     {
-        // For moving the rigidbody in the desired direction
-        Vector3 newPosition = rigidbody.position + rigidbody.transform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
-        rigidbody.MovePosition(newPosition);
+        // For moving the Rigidbody in the desired direction
+        Vector3 newPosition = spooky.Rigidbody.position + spooky.Rigidbody.transform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
+        spooky.Rigidbody.MovePosition(newPosition);
+        spooky.animationComponent.CheckViewDirection(newPosition);
         return;
     }
 
