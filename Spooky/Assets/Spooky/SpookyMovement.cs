@@ -30,15 +30,18 @@ public class SpookyMovement
         float horizontal = spooky.Joystick.Horizontal;
         float vertical = spooky.Joystick.Vertical;
 
-        if (!horizontal.Equals(0f) || !vertical.Equals(0f))
+        if (!vertical.Equals(0) || !vertical.Equals(0))
         {
-            // We need to pass a movement in y because of the rotation of the object, so the sprite can be seen.
             Vector3 direction = new Vector3(horizontal, vertical, 0);
             Move(direction);
-
             return;
         }
-        else return;
+        // We need to pass a movement in "y" because of the rotation of the object, so the sprite can be seen.
+        else
+        {
+            spooky.animationComponent.IsMoving(new Vector3(0,0,0));
+            return;
+        }
     }
 
     private void Move(Vector3 _direction)

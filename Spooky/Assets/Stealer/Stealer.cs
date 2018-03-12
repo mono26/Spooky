@@ -86,6 +86,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
             if (IsTargetInRange())
             {
                 //TODO release because it stealed
+                //ReleaseEnemy(this);
             }
             else return;
         }
@@ -93,6 +94,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         else if (currentState.Equals(State.Death))
         {
             // TODO release enemy
+            ReleaseEnemy(this);
         }
 
         else return;
@@ -101,7 +103,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     protected void FixedUpdate()
     {
         if (currentState.Equals(State.Moving) || currentState.Equals(State.Escaping))
-            movement.FixedUpdate();
+            movementComponent.FixedUpdate();
         else return;
     }
 

@@ -124,13 +124,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4ae0709afabb3341b1da9108482886d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
   startTime: 0
-  corrosiveDamage: 0
-  corrosiveTickRate: 0
-  corrosiveRange: 0
-  corrosiveDuration: 0
+  corrosiveDamage: 1
+  corrosiveTickRate: 1
+  corrosiveDuration: 3
   corrosiveTrigger: {fileID: 1284422162761242}
-  specialEffect: {fileID: 0}
 --- !u!212 &212167517748330910
 SpriteRenderer:
   m_ObjectHideFlags: 1

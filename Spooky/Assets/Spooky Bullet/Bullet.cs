@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     protected Rigidbody rigidBody;
 
+    [SerializeField]
     protected int damage;
 
     protected void Awake()

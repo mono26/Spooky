@@ -33,8 +33,6 @@ public class SpookyAnimation : IAnimationHandler
             handSprite.flipX = true;
         }
         IsMoving(nexPosition);
-        var time = Time.timeSinceLevelLoad;
-        Debug.Log(string.Format("{0} velocidad {1}", time, nexPosition));
         return;
     }
 

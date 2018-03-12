@@ -11,14 +11,10 @@ public class CorrosiveBullet : Bullet
     protected int corrosiveDamage;
     [SerializeField]    // Per second
     protected float corrosiveTickRate;
-    [SerializeField]
-    protected float corrosiveRange;
     [SerializeField]    // In seconds
     protected float corrosiveDuration;
     [SerializeField]
     protected GameObject corrosiveTrigger;
-    [SerializeField]
-    protected GameObject specialEffect;
 
     protected List<Enemy> enemyList;
 
@@ -40,7 +36,7 @@ public class CorrosiveBullet : Bullet
             {
                 for (int i = 0; i < enemyList.Count; i++) //TODO With a foreach???
                 {
-                    enemyList[i].GetComponent<Enemy>().LoseHealth(corrosiveDamage);
+                    enemyList[i].GetComponent<Enemy>().healthComponent.TakeDamage(corrosiveDamage);
                     yield return new WaitForSeconds(1 / corrosiveTickRate);
                 }
             }

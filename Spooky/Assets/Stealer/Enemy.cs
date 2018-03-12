@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
 {
-    protected EnemyMovement movement;
+    protected EnemyMovement movementComponent;
+    public EnemyHealthComponent healthComponent;
     // TODO check if we have to set settings in constructor.
     public Settings settings;
 
@@ -11,25 +13,24 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField]
     protected Coroutine ability;
     public Transform target;
-
     [SerializeField]
     protected float lastAttackExecution;
-    protected int currentHealth;
 
     protected void Awake()
     {
-        movement = new EnemyMovement(this, settings.MovementSettings);
+        movementComponent = new EnemyMovement(this, settings.MovementSettings);
+        healthComponent = new EnemyHealthComponent(this, settings.MaxHealth, settings.HealthSettings);
     }
 
     protected void Start()
     {
-        currentHealth = settings.MaxHealth;
-        movement.Start();
+        movementComponent.Start();
+        healthComponent.Start();
     }
 
     public bool IsDead()
     {
-        if (currentHealth > 0)
+        if (healthComponent.GetCurrentHealth() > 0)
         {
             return false;
         }
@@ -46,11 +47,6 @@ public abstract class Enemy : MonoBehaviour
         else return false;
     }
 
-    public void LoseHealth(int _damage) // TODO put inside a interface
-    {
-        currentHealth -= _damage;
-    }
-
     public void CastAbility(Coroutine _cast)
     {
         ability = _cast;
@@ -61,7 +57,7 @@ public abstract class Enemy : MonoBehaviour
         if (_collision.gameObject.CompareTag("Bullet"))
         {
             int damage = _collision.gameObject.GetComponent<Bullet>().GetBulletDamage();
-            LoseHealth(damage);
+            healthComponent.TakeDamage(damage);
         }
     }
 
@@ -73,9 +69,12 @@ public abstract class Enemy : MonoBehaviour
         public float BasicCooldown;
         public float BasicRange;
 
+        public Image HealthBar;
         public int MaxHealth;
 
         [SerializeField]
         public EnemyMovement.Settings MovementSettings;
+        [SerializeField]
+        public EnemyHealthComponent.Settings HealthSettings;
     }
 }
