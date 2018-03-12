@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    protected Rigidbody rigidBody;
-
+    public Rigidbody rigidBody;
     [SerializeField]
     protected int damage;
 
@@ -22,11 +19,5 @@ public class Bullet : MonoBehaviour
     public int GetBulletDamage()
     {
         return damage;
-    }
-
-    void OnCollisionEnter(Collision _collision)
-    {
-        if(_collision.gameObject.CompareTag("Enemy"))
-            Destroy(this.gameObject);
     }
 }

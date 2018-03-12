@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
@@ -24,6 +23,8 @@ public abstract class Enemy : MonoBehaviour
 
     protected void Start()
     {
+        Physics.IgnoreLayerCollision(11, 11, true);
+
         movementComponent.Start();
         healthComponent.Start();
     }
@@ -68,8 +69,6 @@ public abstract class Enemy : MonoBehaviour
         public NavMeshAgent NavMesh;
         public float BasicCooldown;
         public float BasicRange;
-
-        public Image HealthBar;
         public int MaxHealth;
 
         [SerializeField]

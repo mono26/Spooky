@@ -329,7 +329,7 @@ MonoBehaviour:
   EnemyDetectionRange: 3.5
   PlantPointDetectionRange: 2
   Hand: {fileID: 4467767140962094}
-  Bullet: {fileID: 114486725646606430, guid: 62a763f9f753a7c4fb1133535e726fb3, type: 2}
+  Bullet: {fileID: 114886156663784738, guid: 62a763f9f753a7c4fb1133535e726fb3, type: 2}
   ShootPosition: {fileID: 4970978718526566}
   SpookySprite: {fileID: 212835599350365438}
   HandSprite: {fileID: 212749081230055284}

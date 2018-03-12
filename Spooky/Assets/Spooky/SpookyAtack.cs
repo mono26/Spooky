@@ -13,11 +13,11 @@ public class SpookyAttack
     [SerializeField]
     private Transform hand;
     private Transform shootPosition;
-    private Bullet bullet;
+    private SpookyBullet bullet;
     private Joystick joystick;
     private float lastShoot;
 
-    public SpookyAttack(Spooky _spooky, EnemyDetect _autoDetect, Transform _hand, Transform _shootPosition, Bullet _bullet, Joystick _joystick, Settings _settings)
+    public SpookyAttack(Spooky _spooky, EnemyDetect _autoDetect, Transform _hand, Transform _shootPosition, SpookyBullet _bullet, Joystick _joystick, Settings _settings)
     {
         spooky = _spooky;
         autoDetect = _autoDetect;
@@ -79,14 +79,20 @@ public class SpookyAttack
         }
     }
 
+    protected void RotateBullettowardsDirection(Transform _bullet)
+    {
+        _bullet.right = hand.right;
+        return;
+    }
+
     private void LaunchBullet()
     {
         // TODO create the bullet and then tell the bullet to launch
         if (Time.timeSinceLevelLoad > lastShoot + settings.AttackRate)
         {
-            GameObject tempBullet = GameObject.Instantiate(bullet.gameObject, shootPosition.position, shootPosition.rotation);
-            var bulletComponent = tempBullet.GetComponent<Bullet>();
-            bulletComponent.Launch(settings.LaunchForce);
+            Bullet tempBullet = bullet.Spawn(shootPosition);
+            RotateBullettowardsDirection(tempBullet.transform);
+            tempBullet.Launch(settings.LaunchForce);
             lastShoot = Time.timeSinceLevelLoad;
         }
         else return;

@@ -11,7 +11,7 @@ public class Spooky : MonoBehaviour
     [Range(1.5f, 2f)]
     public float PlantPointDetectionRange;
     public Transform Hand;
-    public Bullet Bullet;
+    public SpookyBullet Bullet;
     public Transform ShootPosition;
     public SpriteRenderer SpookySprite;
     public SpriteRenderer HandSprite;
