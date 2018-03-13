@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Name: Tomato
   m_EditorClassIdentifier: 
   price: 50
-  upgradePrice: 0
+  upgradePrice: 100
   plant: {fileID: 114577813597469274, guid: 5a40f30d84a068e4fb0f743a237459b2, type: 2}
-  upgradePlant: {fileID: 0}
+  upgradePlant: {fileID: 114158529005576618, guid: 2c154f34ab9d0a34196f9e194b1da1c1,
+    type: 2}

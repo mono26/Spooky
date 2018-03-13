@@ -86,7 +86,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
             if (IsTargetInRange())
             {
                 //TODO release because it stealed
-                //ReleaseEnemy(this);
+                ReleaseEnemy(this);
             }
             else return;
         }
