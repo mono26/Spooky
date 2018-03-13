@@ -24,8 +24,9 @@ public abstract class Enemy : MonoBehaviour
     protected Animator animator;
 
     private bool isCasting;
-
     protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
+
+    //TODO event called when killed
 
     protected void Awake()
     {

@@ -8,8 +8,19 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
 
+    private SoundManager soundManager;
+    public SoundManager SoundManager { get { return soundManager; } }
+
     [SerializeField]
-    private float minDuration = 1.5f;
+    private AudioSource efxSource;
+    [SerializeField]
+    private AudioSource musicSource;
+
+    [SerializeField]
+    private float minLoadDuration = 3f;
+
+    public delegate void OnGameStart();
+    public event OnGameStart StartGame;
 
     private void Awake()
     {
@@ -18,18 +29,25 @@ public class GameManager : MonoBehaviour
             Destroy(instance);
             instance = this;
         }
+        else
+            instance = this;
 
-        instance = this;
+        soundManager = new SoundManager(efxSource, musicSource);
     }
 
     public IEnumerator LoadLevel(string _level)
     {
+        Time.timeScale = 0f;
+
         yield return SceneManager.LoadSceneAsync("LoadScene");
 
         bool continueToLevel = false;
 
         // Load level async
         yield return SceneManager.LoadSceneAsync(_level, LoadSceneMode.Additive);
+
+        // TODO loading fade during the minduration.
+        yield return new WaitForSecondsRealtime(minLoadDuration - Time.timeSinceLevelLoad);
 
         var text = GameObject.Find("Load Text");
         text.GetComponent<Text>().text = "Click to continue";
@@ -39,11 +57,16 @@ public class GameManager : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 continueToLevel = true;
-                yield return null;
+                yield return 0;
             }
-            yield return null;
+            yield return 0;
         }
+
+        Time.timeScale = 1f;
+
         yield return SceneManager.UnloadSceneAsync("LoadScene");
+
+        StartGame();
     }
 
     void FadeObject()

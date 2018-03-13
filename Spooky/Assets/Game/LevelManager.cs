@@ -6,6 +6,8 @@ public class LevelManager : MonoBehaviour
     private static LevelManager instance;
     public static LevelManager Instance { get { return instance; } }
 
+    public LevelUIManager uiManager;
+
     // HouseSteal points used by the Stealer to note setting the target to the middle of the house. (out of navmesh)
     [SerializeField]
     private Transform[] houseStealPoints;
@@ -15,15 +17,8 @@ public class LevelManager : MonoBehaviour
     // used by the stealers to run when they have the loot.
     [SerializeField]
     private Transform[] runAwayPoints;
-
+    //TODO add get for spooky
     public Transform spooky;
-
-    public Image cropUIBar;
-    public Text gameMoneyText;
-    public int startingMoney = 400;
-    public int currentMoney;
-    public int maxCrop = 800;
-    public float currentCrop;
 
     //Variables relacionadas con el fin del nivel
     public static bool GameIsOver;
@@ -40,19 +35,28 @@ public class LevelManager : MonoBehaviour
         }
         else Destroy(gameObject);
 
+        uiManager = new LevelUIManager(
+            GameObject.FindGameObjectWithTag("Health Bar").GetComponent<Image>(),
+            GameObject.FindGameObjectWithTag("Wave Bar").GetComponent<Image>(),
+            GameObject.FindGameObjectWithTag("Money Text").GetComponent<Text>(),
+            GameObject.FindGameObjectWithTag("Top UI Info"),
+            GameObject.FindGameObjectWithTag("Bottom UI Info")
+            );
+
         spooky = GameObject.FindGameObjectWithTag("Spooky").transform;
         LookForHousePoints();
         LookForRunAwayPoints();
         LookForSpawnPoints();
-        LookForUIElements();
     }
 
-    void Start()
+    private void OnDisable()
     {
-        currentCrop = maxCrop;
-        currentMoney = startingMoney;
-        cropUIBar.fillAmount = currentCrop / maxCrop;
-        gameMoneyText.text = "" + currentMoney;
+        uiManager.OnDisable();
+    }
+
+    private void Start()
+    {
+        uiManager.Start();
     }
 
     // Caching
@@ -83,32 +87,7 @@ public class LevelManager : MonoBehaviour
             houseStealPoints[i] = hPoints[i].GetComponent<Transform>();
         }
     }
-    private void LookForUIElements()
-    {
-        gameMoneyText = GameObject.FindGameObjectWithTag("Money Text").GetComponent<Text>();
-        cropUIBar = GameObject.FindGameObjectWithTag("Health Bar").GetComponent<Image>();
-    }
 
-    public void LoseCrop(int _stole)
-    {
-        currentCrop -= _stole;
-        cropUIBar.fillAmount = currentCrop / maxCrop;
-        if (currentCrop <= 0)
-        {
-            //GameOver Code
-            GameOver();
-        }
-    }
-    public void GiveMoney(int reward)
-    {
-        currentMoney += reward;
-        gameMoneyText.text = "$:" + currentMoney;
-    }
-    public void TakeMoney(int money)
-    {
-        currentMoney -= money;
-        gameMoneyText.text = "$:" + currentMoney;
-    }
     public Transform GetRandomHousePoint()
     {
         int random = Random.Range(0, houseStealPoints.Length);

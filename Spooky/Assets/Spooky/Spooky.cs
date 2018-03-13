@@ -27,8 +27,9 @@ public class Spooky : MonoBehaviour
     public Settings settings;
 
     public delegate void FireButtonPress();
-
     public event FireButtonPress OnFireButtonPressed;
+    public delegate void InFightWithEnemy();
+    public event InFightWithEnemy OnFightWithEnemy;
 
     private void Awake()
     {

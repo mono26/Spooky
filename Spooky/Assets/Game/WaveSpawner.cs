@@ -30,7 +30,6 @@ public class WaveSpawner : MonoBehaviour
 
     //To store different waves
     public Wave[] waves;
-    public Image gameWaveBar;
     public int gameNumberOfEnemies = 0;
     //Wich wave is next
     public int nextWave = 0;
@@ -43,6 +42,9 @@ public class WaveSpawner : MonoBehaviour
 
     //State of the waveSpawn
     public SpawnState state;
+
+    public delegate void OnWaveSpawn();
+    public event OnWaveSpawn SpawnStart;
 
     private void Awake()
     {
@@ -59,7 +61,6 @@ public class WaveSpawner : MonoBehaviour
     {
         waveCountDown = timeBetweenWaves;
         state = SpawnState.COUNTING;
-        gameWaveBar.fillAmount = (float)(nextWave) / (float)(waves.Length);
 
         //SoundHandler.Instance.PlayClip(spawnStart);
     }
@@ -98,7 +99,7 @@ public class WaveSpawner : MonoBehaviour
     IEnumerator SpawnWave(Wave _wave)
     {
         state = SpawnState.SPAWNING;
-        gameWaveBar.fillAmount = (float)(nextWave + 1) / (float)(waves.Length);
+        SpawnStart();
         gameNumberOfEnemies = 0;
         for (int enemy = 0; enemy < _wave.enemy.Length; enemy++)
         {

@@ -17,6 +17,9 @@ TagManager:
   - Plant
   - Plant Point
   - Plant Point Detector
+  - Top UI Info
+  - Bottom UI Info
+  - Wave Bar
   layers:
   - Default
   - TransparentFX

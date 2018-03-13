@@ -29,7 +29,7 @@ public class Steal : ICloseRangeAttack
         /*var time = Time.timeSinceLevelLoad;
         Debug.Log(time + " health bar " + settings.HealthBar.gameObject);*/
 
-        LevelManager.Instance.LoseCrop(owner.stoleValue);
+        LevelManager.Instance.uiManager.LoseCrop(owner.stoleValue);
         owner.HasLoot(true);
 
         // TODO add loot
