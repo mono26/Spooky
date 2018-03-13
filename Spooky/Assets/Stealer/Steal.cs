@@ -19,9 +19,18 @@ public class Steal : ICloseRangeAttack
 
     private IEnumerator StealCrop()
     {
-        //TODO execute animation.
+        owner.animationComponent.PlayAnimation("Steal");
+
+        yield return new WaitForSecondsRealtime(
+                    owner.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length +
+                    owner.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime
+                    );
+
         LevelManager.Instance.LoseCrop(owner.stoleValue);
         owner.HasLoot(true);
+
+        // TODO add loot
+
         yield return 0;
     }
 }

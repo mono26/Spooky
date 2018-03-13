@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpookyAnimation : IAnimable
+public class EnemyAnimation : IAnimable
 {
     private SpriteRenderer sprite;
-    private SpriteRenderer handSprite;
     private Animator animator;
 
     public SpriteRenderer Sprite { get { return sprite; } }
     public Animator Animator { get { return animator; } }
 
-    public SpookyAnimation(SpriteRenderer _sprite, SpriteRenderer _handSprite, Animator _animator)
+    public EnemyAnimation(SpriteRenderer _sprite, Animator _animator)
     {
         sprite = _sprite;
-        handSprite = _handSprite;
         animator = _animator;
     }
 
@@ -25,13 +23,12 @@ public class SpookyAnimation : IAnimable
         if (sprite.transform.position.x < nextPosition.x)
         {
             sprite.flipX = false;
-            handSprite.flipX = false;
         }
         else if (sprite.transform.position.x > nextPosition.x)
         {
             sprite.flipX = true;
-            handSprite.flipX = true;
         }
+
         IsMoving(nexPosition);
         return;
     }
@@ -49,6 +46,10 @@ public class SpookyAnimation : IAnimable
             animator.SetInteger("Velocity", (int)_velocity.x);
             return true;
         }
+    }
 
+    public void PlayAnimation(string _animation)
+    {
+        animator.SetTrigger(_animation);
     }
 }

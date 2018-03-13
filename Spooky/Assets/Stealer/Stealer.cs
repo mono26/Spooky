@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class Stealer : Enemy, ISpawnable<Enemy>
@@ -52,7 +53,6 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
         if (currentState.Equals(State.Moving))
         {
-            //TODO execute decision
             if (IsTargetInRange())
             {
                 currentState = State.Stealing;
@@ -85,16 +85,16 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
             if (IsTargetInRange())
             {
-                //TODO release because it stealed
+                
                 ReleaseEnemy(this);
+                // TODO check if it has loot on it and do something
             }
             else return;
         }
 
         else if (currentState.Equals(State.Death))
         {
-            // TODO release enemy
-            ReleaseEnemy(this);
+            StartCoroutine(Die());
         }
 
         else return;
@@ -121,6 +121,18 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     {
         hasLoot = _hasLoot;
         return hasLoot;
+    }
+
+    protected IEnumerator Die()
+    {
+        animationComponent.PlayAnimation("Dead");
+
+        yield return new WaitForSecondsRealtime(
+                    animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length +
+                    animationComponent.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime
+                    );
+
+        ReleaseEnemy(this);
     }
 
     public Enemy Spawn(Transform _position)

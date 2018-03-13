@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 195625478652266936}
   - component: {fileID: 54612795838928992}
   - component: {fileID: 65213049345834584}
+  - component: {fileID: 95806726417820678}
   - component: {fileID: 114095580315903786}
   m_Layer: 11
   m_Name: Stealer
@@ -107,6 +108,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: -0.25}
+--- !u!95 &95806726417820678
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963016645295434}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f7f7f6914f34c5b4a9a5b687ed52ccbb, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114095580315903786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -131,10 +149,11 @@ MonoBehaviour:
       MaxYValue: 0
     HealthSettings:
       HealthBar: {fileID: 114171548478037278}
-      HealthCanvas: {fileID: 1363019339935784}
       HealthBarToggleTime: 3
   target: {fileID: 0}
   lastAttackExecution: 0
+  sprite: {fileID: 212499245088290674}
+  animator: {fileID: 95806726417820678}
   currentState: 0
   stoleValue: 5
   hasLoot: 0

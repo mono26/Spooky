@@ -3,22 +3,31 @@ using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
 {
-    protected EnemyMovement movementComponent;
+    // TODO use get component for getting dependencies?
+
+    public EnemyMovement movementComponent;
+    // TODO set a Getter for this
     public EnemyHealthComponent healthComponent;
+    public EnemyAnimation animationComponent;
     // TODO check if we have to set settings in constructor.
     public Settings settings;
 
-    public ICloseRangeAttack basicAbility;
+    protected ICloseRangeAttack basicAbility;
     [SerializeField]
     protected Coroutine ability;
     public Transform target;
     [SerializeField]
     protected float lastAttackExecution;
+    [SerializeField]
+    protected SpriteRenderer sprite;
+    [SerializeField]
+    protected Animator animator;
 
     protected void Awake()
     {
         movementComponent = new EnemyMovement(this, settings.MovementSettings);
         healthComponent = new EnemyHealthComponent(this, settings.MaxHealth, settings.HealthSettings);
+        animationComponent = new EnemyAnimation(sprite, animator);
     }
 
     protected void Start()
@@ -29,7 +38,7 @@ public abstract class Enemy : MonoBehaviour
         healthComponent.Start();
     }
 
-    public bool IsDead()
+    protected bool IsDead()
     {
         if (healthComponent.GetCurrentHealth() > 0)
         {
@@ -59,6 +68,7 @@ public abstract class Enemy : MonoBehaviour
         {
             int damage = _collision.gameObject.GetComponent<Bullet>().GetBulletDamage();
             healthComponent.TakeDamage(damage);
+            animationComponent.PlayAnimation("Damage");
         }
     }
 

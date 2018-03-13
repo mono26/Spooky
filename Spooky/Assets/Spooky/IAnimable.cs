@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public interface IAnimationHandler
+public interface IAnimable
 {
     SpriteRenderer Sprite { get; }
     Animator Animator { get; }
