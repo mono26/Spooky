@@ -56,6 +56,7 @@ public class Tomato : Plant
                 enemyDetect.HasEnemyDirection(out enemyDirection)
                 )
             {
+                animationComponent.CheckViewDirection(enemyDirection);
                 basicAttack.RangeAttack();
                 lastShoot = Time.timeSinceLevelLoad;
             }

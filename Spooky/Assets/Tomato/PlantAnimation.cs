@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class EnemyAnimation : IAnimable
+public class PlantAnimation : IAnimable
 {
     private SpriteRenderer sprite;
     private Animator animator;
@@ -10,7 +8,7 @@ public class EnemyAnimation : IAnimable
     public SpriteRenderer Sprite { get { return sprite; } }
     public Animator Animator { get { return animator; } }
 
-    public EnemyAnimation(SpriteRenderer _sprite, Animator _animator)
+    public PlantAnimation(SpriteRenderer _sprite, Animator _animator)
     {
         sprite = _sprite;
         animator = _animator;

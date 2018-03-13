@@ -63,9 +63,11 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
         else if (currentState.Equals(State.Stealing))
         {
-            if(Time.timeSinceLevelLoad > lastAttackExecution + settings.BasicCooldown)
+            if(!IsCasting &&
+                Time.timeSinceLevelLoad > lastAttackExecution + settings.BasicCooldown)
             {
                 basicAbility.CloseAttack();
+                lastAttackExecution = Time.timeSinceLevelLoad;
             }
 
             if (hasLoot)

@@ -23,6 +23,10 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField]
     protected Animator animator;
 
+    private bool isCasting;
+
+    protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
+
     protected void Awake()
     {
         movementComponent = new EnemyMovement(this, settings.MovementSettings);
@@ -57,9 +61,15 @@ public abstract class Enemy : MonoBehaviour
         else return false;
     }
 
+    public void StartCast(bool _cast)
+    {
+        IsCasting = _cast;
+    }
+
     public void CastAbility(Coroutine _cast)
     {
         ability = _cast;
+        StartCast(true);
     }
 
     protected void OnCollisionEnter(Collision _collision)

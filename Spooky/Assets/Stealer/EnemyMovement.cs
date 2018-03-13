@@ -69,6 +69,7 @@ public class EnemyMovement
                                 Time.fixedDeltaTime);
 
         enemy.settings.Rigidbody.MovePosition(newPosition);
+        enemy.animationComponent.CheckViewDirection(newPosition);
         return;
     }
 

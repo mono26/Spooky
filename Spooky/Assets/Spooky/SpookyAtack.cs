@@ -92,6 +92,7 @@ public class SpookyAttack
         {
             Bullet tempBullet = bullet.Spawn(shootPosition);
             RotateBullettowardsDirection(tempBullet.transform);
+            tempBullet.transform.SetParent(GameObject.Find("Bullets").transform);
             tempBullet.Launch(settings.LaunchForce);
             lastShoot = Time.timeSinceLevelLoad;
         }

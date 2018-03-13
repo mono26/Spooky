@@ -45,9 +45,6 @@ public class EnemyHealthComponent : IDamagable
 
     private IEnumerator ToggleHealthBar()
     {
-        /*var time = Time.timeSinceLevelLoad;
-        Debug.Log(time + " health bar " + settings.HealthBar.gameObject);*/
-
         settings.HealthBar.gameObject.SetActive(true);
 
         yield return new WaitForSecondsRealtime(settings.HealthBarToggleTime);

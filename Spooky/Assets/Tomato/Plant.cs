@@ -4,8 +4,13 @@ public class Plant : MonoBehaviour
 {
     [SerializeField]
     protected EnemyDetect enemyDetect;
+    public EnemyAnimation animationComponent;
     [SerializeField]
     public Settings settings;
+    [SerializeField]
+    protected SpriteRenderer sprite;
+    [SerializeField]
+    protected Animator animator;
 
     private Coroutine ability;
     private bool isCasting;
@@ -23,6 +28,8 @@ public class Plant : MonoBehaviour
             settings.EnemyDetectTrigger, 
             settings.ViewRange
             );
+
+        animationComponent = new EnemyAnimation(sprite, animator);
     }
 
     protected void Start()
@@ -33,6 +40,12 @@ public class Plant : MonoBehaviour
     public void StartCast(bool _cast)
     {
         IsCasting = _cast;
+    }
+
+    public void CastAbility(Coroutine _cast)
+    {
+        ability = _cast;
+        StartCast(true);
     }
 
     protected bool IsTargetInRange()
@@ -57,11 +70,6 @@ public class Plant : MonoBehaviour
     protected void LoseHealth(int _damage)
     {
         currentHealth -= _damage;
-    }
-
-    public void CastAbility(Coroutine _cast)
-    {
-        ability = _cast;
     }
 
     protected void OnTriggerEnter(Collider _collider)

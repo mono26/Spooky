@@ -136,10 +136,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c9e782ee0bd25a468f609b7be02bc6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementComponent:
+    enemy: {fileID: 0}
   settings:
     Rigidbody: {fileID: 54612795838928992}
     NavMesh: {fileID: 195625478652266936}
-    BasicCooldown: 5
+    BasicCooldown: 15
     BasicRange: 0.3
     MaxHealth: 3
     MovementSettings:

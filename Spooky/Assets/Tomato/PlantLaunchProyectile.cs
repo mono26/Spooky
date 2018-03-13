@@ -28,16 +28,17 @@ public class PlantLaunchProyectile : IRangeAttack
 
     protected IEnumerator BasicAtack(Vector3 _direction)
     {
-        //controller.animationHandler.Ability1Animation();
+        owner.animationComponent.PlayAnimation("Attack");
 
-            //yield return new WaitForSecondsRealtime(
-                //animationHandler.animator.GetCurrentAnimatorStateInfo(0).length
-                //);
+        yield return new WaitForSecondsRealtime(
+            owner.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length +
+            owner.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime
+            );
 
-        yield return owner.StartCoroutine(ThrowBasicAtack(_direction)); ;
+        ThrowBasicAtack(_direction);
 
     }
-    protected IEnumerator ThrowBasicAtack(Vector3 _direction)
+    protected void ThrowBasicAtack(Vector3 _direction)
     {
         GameObject tempBullet = GameObject.Instantiate(
             bulletPrefab.gameObject, 
@@ -47,10 +48,7 @@ public class PlantLaunchProyectile : IRangeAttack
 
         RotateBullettowardsDirection(tempBullet.transform, _direction);
 
-        yield return 0;
-
-        var bulletComponent = tempBullet.GetComponent<Bullet>();
-        bulletComponent.Launch(launchForce);
+        tempBullet.GetComponent<Bullet>().Launch(launchForce);
         owner.StartCast(false); //Private set of the variable; only by method and giving a false to end cast
     }
 
