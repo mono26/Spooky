@@ -3,7 +3,7 @@
 public class Tomaton : Tomato
 {
     [SerializeField]
-    protected Bullet specialBullet;
+    protected CorrosiveBullet specialBullet;
     protected PlantLaunchProyectile specialAttack;
     [SerializeField]
     protected float specialCooldown;
@@ -42,17 +42,19 @@ public class Tomaton : Tomato
         {
             if (!IsCasting &&
                 Time.timeSinceLevelLoad > lastSpecialShoot + specialCooldown &&
-                enemyDetect.HasEnemyDirection(out enemyDirection)
+                enemyDetect.HasTarget()
                 )
             {
+                animationComponent.CheckViewDirection(enemyDetect.GetEnemyDirection());
                 specialAttack.RangeAttack();
                 lastSpecialShoot = Time.timeSinceLevelLoad;
             }
             else if (!IsCasting &&
                 Time.timeSinceLevelLoad > lastShoot + settings.AttackSpeed &&
-                enemyDetect.HasEnemyDirection(out enemyDirection)
+                enemyDetect.HasTarget()
                 )
             {
+                animationComponent.CheckViewDirection(enemyDetect.GetEnemyDirection());
                 basicAttack.RangeAttack();
                 lastShoot = Time.timeSinceLevelLoad;
             }

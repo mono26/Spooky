@@ -7,20 +7,18 @@ public class SpookyAttack
 {
     // Variable for a bullet.
     private Spooky spooky;
-    EnemyDetect autoDetect;
     private Settings settings;
 
     [SerializeField]
     private Transform hand;
     private Transform shootPosition;
-    private SpookyBullet bullet;
+    private ISpawnable<Bullet> bullet;
     private Joystick joystick;
     private float lastShoot;
 
-    public SpookyAttack(Spooky _spooky, EnemyDetect _autoDetect, Transform _hand, Transform _shootPosition, SpookyBullet _bullet, Joystick _joystick, Settings _settings)
+    public SpookyAttack(Spooky _spooky, Transform _hand, Transform _shootPosition, SpookyBullet _bullet, Joystick _joystick, Settings _settings)
     {
         spooky = _spooky;
-        autoDetect = _autoDetect;
         hand = _hand;
         shootPosition = _shootPosition;
         bullet = _bullet;
@@ -44,8 +42,9 @@ public class SpookyAttack
         Vector3 _direction;
         float angle;
         float delta;
-        if (autoDetect.HasEnemyDirection(out _direction))
+        if (spooky.enemyDetectComponent.HasTarget())
         {
+            _direction = spooky.enemyDetectComponent.GetEnemyDirection();
             angle = Mathf.Atan2(_direction.z, _direction.x) * Mathf.Rad2Deg;
             delta = angle - hand.localRotation.eulerAngles.z;
             /*if (Mathf.Abs(delta) < 180)

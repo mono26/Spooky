@@ -44,16 +44,16 @@ public class EnemyDetect : IEnemyDetect
         return enemyList[0].GetComponent<Enemy>();
     }
 
-    public bool HasEnemyDirection(out Vector3 _direction)
+    public Vector3 GetEnemyDirection()
     {
-        _direction = Vector3.zero;
+        Vector3 _direction = Vector3.zero;
         if (HasTarget() && IsTargetActive())
         {
             _direction = (enemyList[0].settings.Rigidbody.position - owner.transform.position).normalized;
             _direction.y = 0;
-            return true;
+            return _direction;
         }
-        else return false;
+        else return _direction;
     }
 
     public bool HasTarget()

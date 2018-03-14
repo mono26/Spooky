@@ -125,13 +125,14 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         return hasLoot;
     }
 
-    protected IEnumerator Die()
+    protected new IEnumerator Die()
     {
+        base.Die();
+
         animationComponent.PlayAnimation("Dead");
 
         yield return new WaitForSecondsRealtime(
-                    animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length +
-                    animationComponent.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime
+                    animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
                     );
 
         ReleaseEnemy(this);

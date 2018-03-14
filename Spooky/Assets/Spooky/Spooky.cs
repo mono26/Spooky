@@ -21,7 +21,7 @@ public class Spooky : MonoBehaviour
     // Execute update, triggerevetns, awake, start, etc.
     private SpookyMovement movementComponent;
     private SpookyAttack attackComponent;
-    private EnemyDetect enemyDetectComponent;
+    public EnemyDetect enemyDetectComponent;
     private PlantPointDetect plantPointDetect;
     public SpookyAnimation animationComponent;
     public Settings settings;
@@ -46,7 +46,6 @@ public class Spooky : MonoBehaviour
 
         attackComponent = new SpookyAttack(
             this,
-            enemyDetectComponent,
             Hand,
             ShootPosition,
             Bullet,

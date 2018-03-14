@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -7,11 +6,11 @@ public class PlantLaunchProyectile : IRangeAttack
 {
     protected Plant owner;
 
-    public Bullet bulletPrefab;
+    public ISpawnable<Bullet> bulletPrefab;
     public float launchForce = 1;
     public Transform shootPosition;
 
-    public PlantLaunchProyectile(Plant _owner, Bullet _bullet, float _launchforce, Transform _shootPosition)
+    public PlantLaunchProyectile(Plant _owner, ISpawnable<Bullet> _bullet, float _launchforce, Transform _shootPosition)
     {
         owner = _owner;
         bulletPrefab = _bullet;
@@ -22,33 +21,34 @@ public class PlantLaunchProyectile : IRangeAttack
     public void RangeAttack()
     {
         owner.StartCast(true);
-        owner.CastAbility(owner.StartCoroutine(BasicAtack(owner.enemyDirection)));
+        owner.CastAbility(owner.StartCoroutine(BasicAtack()));
         return;
     }
 
-    protected IEnumerator BasicAtack(Vector3 _direction)
+    protected IEnumerator BasicAtack()
     {
         owner.animationComponent.PlayAnimation("Attack");
 
         yield return new WaitForSecondsRealtime(
-            owner.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length +
-            owner.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime
+            owner.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length //+
+            //owner.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime
             );
 
-        ThrowBasicAtack(_direction);
+        Bullet tempBullet = CreateBullet(bulletPrefab);
+        ThrowBasicAtack(tempBullet, owner.enemyDetect.GetEnemyDirection());
 
     }
-    protected void ThrowBasicAtack(Vector3 _direction)
+
+    protected Bullet CreateBullet(ISpawnable<Bullet> _bullet)
     {
-        GameObject tempBullet = GameObject.Instantiate(
-            bulletPrefab.gameObject, 
-            shootPosition.position, 
-            shootPosition.rotation
-            );
+        return _bullet.Spawn(owner.transform);
+    }
 
-        RotateBullettowardsDirection(tempBullet.transform, _direction);
+    protected void ThrowBasicAtack(Bullet _bullet, Vector3 _direction)
+    {
+        RotateBullettowardsDirection(_bullet.transform, _direction);
 
-        tempBullet.GetComponent<Bullet>().Launch(launchForce);
+        _bullet.Launch(launchForce);
         owner.StartCast(false); //Private set of the variable; only by method and giving a false to end cast
     }
 

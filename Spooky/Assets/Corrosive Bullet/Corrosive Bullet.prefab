@@ -38,8 +38,8 @@ GameObject:
   - component: {fileID: 4099405957619704}
   - component: {fileID: 54643246685280664}
   - component: {fileID: 212167517748330910}
-  - component: {fileID: 114170281989228104}
   - component: {fileID: 65866077351725054}
+  - component: {fileID: 114170281989228104}
   m_Layer: 9
   m_Name: Corrosive Bullet
   m_TagString: Bullet

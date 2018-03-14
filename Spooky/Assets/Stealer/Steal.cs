@@ -26,9 +26,6 @@ public class Steal : ICloseRangeAttack
                     owner.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime
                     );
 
-        /*var time = Time.timeSinceLevelLoad;
-        Debug.Log(time + " health bar " + settings.HealthBar.gameObject);*/
-
         LevelManager.Instance.uiManager.LoseCrop(owner.stoleValue);
         owner.HasLoot(true);
 

@@ -5,7 +5,7 @@ public class Tomato : Plant
     [SerializeField]
     protected float launchForce;
     [SerializeField]
-    protected Bullet bullet;
+    protected TomatoBullet bullet;
     [SerializeField]
     protected Transform launchPosition;
     protected PlantLaunchProyectile basicAttack;
@@ -53,10 +53,10 @@ public class Tomato : Plant
         {
             if (!IsCasting &&
                 Time.timeSinceLevelLoad > lastShoot + settings.AttackSpeed &&
-                enemyDetect.HasEnemyDirection(out enemyDirection)
+                enemyDetect.HasTarget()
                 )
             {
-                animationComponent.CheckViewDirection(enemyDirection);
+                animationComponent.CheckViewDirection(enemyDetect.GetEnemyDirection());
                 basicAttack.RangeAttack();
                 lastShoot = Time.timeSinceLevelLoad;
             }

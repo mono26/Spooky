@@ -3,7 +3,7 @@
 public class Plant : MonoBehaviour
 {
     [SerializeField]
-    protected EnemyDetect enemyDetect;
+    public EnemyDetect enemyDetect;
     public EnemyAnimation animationComponent;
     [SerializeField]
     public Settings settings;
@@ -16,7 +16,6 @@ public class Plant : MonoBehaviour
     private bool isCasting;
 
     public float lastShoot;
-    public Vector3 enemyDirection;
     protected int currentHealth;
 
     protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }

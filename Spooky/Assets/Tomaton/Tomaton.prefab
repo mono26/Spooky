@@ -53,6 +53,7 @@ GameObject:
   - component: {fileID: 212936167064955156}
   - component: {fileID: 54057058601023744}
   - component: {fileID: 65774770820588646}
+  - component: {fileID: 95267028207046288}
   - component: {fileID: 114158529005576618}
   m_Layer: 14
   m_Name: Tomaton
@@ -81,8 +82,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1824483377860578}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 6.361, y: -0, z: 0.756}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalPosition: {x: 6.27, y: 0, z: 0.32}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4029549295474286}
   - {fileID: 4260655277493156}
@@ -127,8 +128,25 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5394821, y: 0.61208284, z: 0.5}
-  m_Center: {x: 0, y: 0.032777667, z: -0.25}
+  m_Size: {x: 0.73, y: 0.73, z: 0.5}
+  m_Center: {x: 0, y: 0.36, z: -0.25}
+--- !u!95 &95267028207046288
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824483377860578}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: c17a2b284add1f24cb56420e9629a007, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114158529005576618
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -148,10 +166,12 @@ MonoBehaviour:
     ViewRange: 3.5
     MaxHealth: 1
     EnemyDetectTrigger: {fileID: 135569130457611010}
+  sprite: {fileID: 212936167064955156}
+  animator: {fileID: 95267028207046288}
   lastShoot: 0
   enemyDirection: {x: 0, y: 0, z: 0}
   launchForce: 1
-  bullet: {fileID: 114836561650180010, guid: 88d6af17c63e20148a99bdea2d1ebe40, type: 2}
+  bullet: {fileID: 114475811591300468, guid: 88d6af17c63e20148a99bdea2d1ebe40, type: 2}
   launchPosition: {fileID: 4260655277493156}
   currentState: 0
   specialBullet: {fileID: 114170281989228104, guid: 11a138c22bf03e9498aea661b645f42b,
@@ -204,8 +224,8 @@ SpriteRenderer:
   m_SortingLayerID: -1855537497
   m_SortingLayer: 7
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 006fe8c2c818b2b418a7eedce1b657b9, type: 3}
-  m_Color: {r: 1, g: 0.72794116, b: 0.72794116, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 9d36a7518006ccc4caa61090784679e5, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

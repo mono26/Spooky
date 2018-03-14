@@ -1,0 +1,14 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Tomaton
+  m_Controller: {fileID: 9100000, guid: 113d20df26d261347ad0405b1ce8c3f5, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 25f0d7e6f21f59045b25167f4ed7bdab, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 44643735d3e4dd14b8a1f2b6622692f8, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7ef58dae36e19e240a76b29de28d05a6, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 70814d3e8c1f7f947a1d028de4aa7a39, type: 2}

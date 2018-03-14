@@ -43,8 +43,8 @@ public class WaveSpawner : MonoBehaviour
     //State of the waveSpawn
     public SpawnState state;
 
-    public delegate void OnWaveSpawn();
-    public event OnWaveSpawn SpawnStart;
+    public delegate void SpawnStart();
+    public event SpawnStart OnSpawnStart;
 
     private void Awake()
     {
@@ -57,7 +57,7 @@ public class WaveSpawner : MonoBehaviour
             Destroy(gameObject);
     }
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         waveCountDown = timeBetweenWaves;
         state = SpawnState.COUNTING;
@@ -65,7 +65,7 @@ public class WaveSpawner : MonoBehaviour
         //SoundHandler.Instance.PlayClip(spawnStart);
     }
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         //To see if all waves are finished
         if (nextWave == waves.Length)
@@ -96,10 +96,10 @@ public class WaveSpawner : MonoBehaviour
             waveCountDown = Mathf.Clamp(waveCountDown, 0f, Mathf.Infinity);
         }
     }
-    IEnumerator SpawnWave(Wave _wave)
+    private IEnumerator SpawnWave(Wave _wave)
     {
         state = SpawnState.SPAWNING;
-        SpawnStart();
+        OnSpawnStart();
         gameNumberOfEnemies = 0;
         for (int enemy = 0; enemy < _wave.enemy.Length; enemy++)
         {
@@ -112,21 +112,29 @@ public class WaveSpawner : MonoBehaviour
         state = SpawnState.WAITING;
         yield break;
     }
-    void SpawnEnemy(ISpawnable<Enemy> _enemy)
+
+    private void SpawnEnemy(ISpawnable<Enemy> _enemy)
     {
         //Random between all the spawnpoints
         var spawnPoint = LevelManager.Instance.GetRandomSpawnPoint();
         var parentPool = GameObject.Find("Enemies");
         Enemy tempEnemy = _enemy.Spawn(spawnPoint);
+        tempEnemy.OnKilled += DecreaseEnemyNumber;
         tempEnemy.transform.SetParent(parentPool.transform);
         //PoolsManagerEnemies.Instance.GetEnemy(_enemy.objectIndex, my_SpawnPoint);
         gameNumberOfEnemies++;
     }
-    void WaveCompleted()
+
+    private void WaveCompleted()
     {
         state = SpawnState.COUNTING;
         waveCountDown = timeBetweenWaves;
         nextWave++;
         Debug.Log("Se completo una wave");
+    }
+
+    void DecreaseEnemyNumber()
+    {
+        gameNumberOfEnemies--;
     }
 }

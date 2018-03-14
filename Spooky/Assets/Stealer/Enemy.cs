@@ -26,6 +26,9 @@ public abstract class Enemy : MonoBehaviour
     private bool isCasting;
     protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
 
+    public delegate void Killed();
+    public event Killed OnKilled;
+
     //TODO event called when killed
 
     protected void Awake()
@@ -81,6 +84,11 @@ public abstract class Enemy : MonoBehaviour
             healthComponent.TakeDamage(damage);
             animationComponent.PlayAnimation("Damage");
         }
+    }
+
+    protected void Die()
+    {
+        OnKilled();
     }
 
     [System.Serializable]

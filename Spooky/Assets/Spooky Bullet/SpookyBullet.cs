@@ -11,11 +11,11 @@ public class SpookyBullet : Bullet, ISpawnable<Bullet>
     {
         if (Pool.Count == 0)
             AddToPool();
-        Bullet enemy = Pool[Pool.Count - 1];
+        Bullet bullet = Pool[Pool.Count - 1];
         Pool.RemoveAt(Pool.Count - 1);
-        SetBulletPosition(enemy, _position);
-        enemy.gameObject.SetActive(true);
-        return enemy;
+        SetBulletPosition(bullet, _position);
+        bullet.gameObject.SetActive(true);
+        return bullet;
     }
 
     private void AddToPool()

@@ -25,17 +25,22 @@ public class LevelUIManager
         gameMoneyText = _gameMoneyText;
 
         HideUI();
-        GameManager.Instance.StartGame += ShowUI;
+        //TODO better protection
+        if(GameManager.Instance)
+            GameManager.Instance.OnStartGame += ShowUI;
+
     }
 
     public void OnDisable()
     {
-        WaveSpawner.Instance.SpawnStart -= IncreaseWave;
+        //TODO better protection
+        if (WaveSpawner.Instance)
+            WaveSpawner.Instance.OnSpawnStart -= IncreaseWave;
     }
 
     public void Start ()
     {
-        WaveSpawner.Instance.SpawnStart += IncreaseWave;
+        WaveSpawner.Instance.OnSpawnStart += IncreaseWave;
 
         currentCrop = maxCrop;
         currentMoney = startingMoney;

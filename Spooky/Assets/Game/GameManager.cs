@@ -11,6 +11,10 @@ public class GameManager : MonoBehaviour
     private SoundManager soundManager;
     public SoundManager SoundManager { get { return soundManager; } }
 
+    public Fader sceneFader;
+    public Image blackBackGround;
+    public AnimationCurve fadeCurve;
+
     [SerializeField]
     private AudioSource efxSource;
     [SerializeField]
@@ -19,8 +23,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private float minLoadDuration = 3f;
 
-    public delegate void OnGameStart();
-    public event OnGameStart StartGame;
+    public delegate void StartGame();
+    public event StartGame OnStartGame;
 
     private void Awake()
     {
@@ -32,25 +36,46 @@ public class GameManager : MonoBehaviour
         else
             instance = this;
 
+        sceneFader = new Fader(blackBackGround, fadeCurve);
         soundManager = new SoundManager(efxSource, musicSource);
+    }
+
+    private void Start()
+    {
+        StartCoroutine(sceneFader.FadeInLevel());
     }
 
     public IEnumerator LoadLevel(string _level)
     {
+        var startLoad = Time.unscaledDeltaTime;
         Time.timeScale = 0f;
 
         yield return SceneManager.LoadSceneAsync("LoadScene");
+
+        sceneFader.FadeInLevel();
 
         bool continueToLevel = false;
 
         // Load level async
         yield return SceneManager.LoadSceneAsync(_level, LoadSceneMode.Additive);
 
-        // TODO loading fade during the minduration.
-        yield return new WaitForSecondsRealtime(minLoadDuration - Time.timeSinceLevelLoad);
+        var loadingText = GameObject.Find("Load Text").GetComponent<Text>();
+        loadingText.text = "Loading";
 
-        var text = GameObject.Find("Load Text");
-        text.GetComponent<Text>().text = "Click to continue";
+        do
+        {
+            var time = Time.unscaledTime;
+            Debug.Log(time + " fading loading text");
+
+            yield return StartCoroutine(sceneFader.FadeOutObject(loadingText));
+
+            Debug.Log(time + " fading loading text");
+
+            yield return StartCoroutine(sceneFader.FadeInObject(loadingText));
+        }
+        while (minLoadDuration > Time.unscaledTime - startLoad);
+
+        loadingText.text = "Click to continue";
 
         while (!continueToLevel)
         {
@@ -66,11 +91,6 @@ public class GameManager : MonoBehaviour
 
         yield return SceneManager.UnloadSceneAsync("LoadScene");
 
-        StartGame();
-    }
-
-    void FadeObject()
-    {
-
+        OnStartGame();
     }
 }
