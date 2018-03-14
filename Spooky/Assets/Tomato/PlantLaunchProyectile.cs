@@ -9,13 +9,15 @@ public class PlantLaunchProyectile : IRangeAttack
     public ISpawnable<Bullet> bulletPrefab;
     public float launchForce = 1;
     public Transform shootPosition;
+    public AudioClip soundEffect;
 
-    public PlantLaunchProyectile(Plant _owner, ISpawnable<Bullet> _bullet, float _launchforce, Transform _shootPosition)
+    public PlantLaunchProyectile(Plant _owner, ISpawnable<Bullet> _bullet, float _launchforce, Transform _shootPosition, AudioClip _soundEffect)
     {
         owner = _owner;
         bulletPrefab = _bullet;
         launchForce = _launchforce;
         shootPosition = _shootPosition;
+        soundEffect = _soundEffect;
     }
 
     public void RangeAttack()
@@ -49,6 +51,7 @@ public class PlantLaunchProyectile : IRangeAttack
         RotateBullettowardsDirection(_bullet.transform, _direction);
 
         _bullet.Launch(launchForce);
+        GameManager.Instance.SoundManager.PlayClip(soundEffect);
         owner.StartCast(false); //Private set of the variable; only by method and giving a false to end cast
     }
 

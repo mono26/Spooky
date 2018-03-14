@@ -333,15 +333,9 @@ MonoBehaviour:
   spawnPoints: []
   runAwayPoints: []
   spooky: {fileID: 0}
-  cropUIBar: {fileID: 0}
-  gameMoneyText: {fileID: 0}
-  startingMoney: 400
-  currentMoney: 0
-  maxCrop: 800
-  currentCrop: 0
   gameOverUI: {fileID: 0}
   completeLvlUI: {fileID: 0}
-  gameSounds: []
+  musicClip: {fileID: 0}
 --- !u!114 &114951207490674992
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -353,12 +347,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd0da2f12f2955488d030f24c74bf51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves: []
-  gameWaveBar: {fileID: 0}
+  waves:
+  - name: 
+    enemy:
+    - {fileID: 114095580315903786, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
+    spawnRate: 0.5
+    count: 05000000
+  - name: 
+    enemy:
+    - {fileID: 114095580315903786, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
+    spawnRate: 0.5
+    count: 0a000000
+  - name: 
+    enemy:
+    - {fileID: 114095580315903786, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
+    spawnRate: 0.5
+    count: 0f000000
   gameNumberOfEnemies: 0
   nextWave: 0
   timeBetweenWaves: 5
-  spawnStart: {fileID: 0}
+  spawnStart: {fileID: 8300000, guid: 783ce37a3589d68419e688038e12052d, type: 3}
   state: 0
 --- !u!212 &212128300472108326
 SpriteRenderer:

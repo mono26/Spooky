@@ -26,8 +26,8 @@ public abstract class Enemy : MonoBehaviour
     private bool isCasting;
     protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
 
-    public delegate void Killed();
-    public event Killed OnKilled;
+    public delegate void Release();
+    public event Release OnReleased;
 
     //TODO event called when killed
 
@@ -86,9 +86,9 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected void Die()
+    protected void ReleaseEnemy()
     {
-        OnKilled();
+        OnReleased();
     }
 
     [System.Serializable]

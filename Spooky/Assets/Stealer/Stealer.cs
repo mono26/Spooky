@@ -87,8 +87,8 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
             if (IsTargetInRange())
             {
-                
-                ReleaseEnemy(this);
+                ReleaseEnemy(); // Fires the vent so the wave spawner decreases the number off enemies.
+                ReleaseStealer(this);
                 // TODO check if it has loot on it and do something
             }
             else return;
@@ -125,9 +125,9 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         return hasLoot;
     }
 
-    protected new IEnumerator Die()
+    protected IEnumerator Die()
     {
-        base.Die();
+        ReleaseEnemy();
 
         animationComponent.PlayAnimation("Dead");
 
@@ -135,7 +135,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
                     animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
                     );
 
-        ReleaseEnemy(this);
+        ReleaseStealer(this);
     }
 
     public Enemy Spawn(Transform _position)
@@ -166,7 +166,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         _enemy.transform.position = target.position;
     }
 
-    public void ReleaseEnemy(Enemy _enemy)
+    public void ReleaseStealer(Enemy _enemy)
     {
         _enemy.gameObject.SetActive(false);
         Pool.Add(_enemy);

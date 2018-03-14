@@ -65,13 +65,13 @@ public class GameManager : MonoBehaviour
         do
         {
             var time = Time.unscaledTime;
-            Debug.Log(time + " fading loading text");
-
-            yield return StartCoroutine(sceneFader.FadeOutObject(loadingText));
-
-            Debug.Log(time + " fading loading text");
+            Debug.Log(time + " fading IN loading text");
 
             yield return StartCoroutine(sceneFader.FadeInObject(loadingText));
+
+            Debug.Log(time + " fading OUT loading text");
+
+            yield return StartCoroutine(sceneFader.FadeOutObject(loadingText));
         }
         while (minLoadDuration > Time.unscaledTime - startLoad);
 
@@ -79,12 +79,15 @@ public class GameManager : MonoBehaviour
 
         while (!continueToLevel)
         {
+            yield return StartCoroutine(sceneFader.FadeInObject(loadingText));
+
             if (Input.GetMouseButton(0))
             {
                 continueToLevel = true;
                 yield return 0;
             }
-            yield return 0;
+
+            yield return StartCoroutine(sceneFader.FadeOutObject(loadingText));
         }
 
         Time.timeScale = 1f;

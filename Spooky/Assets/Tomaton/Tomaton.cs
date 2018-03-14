@@ -13,7 +13,7 @@ public class Tomaton : Tomato
     {
         base.Start();
 
-        specialAttack = new PlantLaunchProyectile(this, specialBullet, launchForce, launchPosition);
+        specialAttack = new PlantLaunchProyectile(this, specialBullet, launchForce, launchPosition, soundEffect);
         lastSpecialShoot = -specialCooldown;    // Because it will only execute after 15 secondas passed into the level.
 	}
 

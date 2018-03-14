@@ -21,7 +21,7 @@ public class Fader
         {
             t -= Time.unscaledDeltaTime;
             float a = fadeCurve.Evaluate(t);
-            _object.color = new Color(0f, 0f, 0f, a);
+            _object.color = new Color(1f, 1f, 1f, a);
             yield return 0;
         }
     }
@@ -34,7 +34,7 @@ public class Fader
         {
             t += Time.unscaledDeltaTime;
             float a = fadeCurve.Evaluate(t);
-            _object.color = new Color(0f, 0f, 0f, a);
+            _object.color = new Color(1f, 1f, 1f, a);
             yield return 0;
         }
     }

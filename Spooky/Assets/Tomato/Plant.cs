@@ -11,6 +11,8 @@ public class Plant : MonoBehaviour
     protected SpriteRenderer sprite;
     [SerializeField]
     protected Animator animator;
+    [SerializeField]
+    protected AudioClip soundEffect;
 
     private Coroutine ability;
     private bool isCasting;
