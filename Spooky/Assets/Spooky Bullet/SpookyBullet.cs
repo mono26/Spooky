@@ -42,11 +42,6 @@ public class SpookyBullet : Bullet, ISpawnable<Bullet>
         Pool.Add(_bullet);
     }
 
-    private void Restart(Bullet _bullet)
-    {
-        _bullet.rigidBody.velocity = Vector3.zero;
-    }
-
     protected void OnCollisionEnter(Collision _collision)
     {
         if (_collision.gameObject.CompareTag("Enemy"))

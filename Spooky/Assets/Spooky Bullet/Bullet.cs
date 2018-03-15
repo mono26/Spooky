@@ -20,4 +20,9 @@ public class Bullet : MonoBehaviour
     {
         return damage;
     }
+
+    protected void Restart(Bullet _bullet)
+    {
+        _bullet.rigidBody.velocity = Vector3.zero;
+    }
 }

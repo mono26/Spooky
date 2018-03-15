@@ -34,9 +34,9 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     }
 
 	// Use this for initialization
-	protected new void Start ()
+	protected new void OnEnable ()
     {
-        base.Start();
+        base.OnEnable();
 
         basicAbility = new Steal(this);
         ChangeTargetToHousePoint();

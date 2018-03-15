@@ -335,7 +335,7 @@ MonoBehaviour:
   spooky: {fileID: 0}
   gameOverUI: {fileID: 0}
   completeLvlUI: {fileID: 0}
-  musicClip: {fileID: 0}
+  musicClip: {fileID: 8300000, guid: 040257887a5c04446b0b84b51e4b7d26, type: 3}
 --- !u!114 &114951207490674992
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -38,10 +38,8 @@ public abstract class Enemy : MonoBehaviour
         animationComponent = new EnemyAnimation(sprite, animator);
     }
 
-    protected void Start()
+    protected void OnEnable()
     {
-        Physics.IgnoreLayerCollision(11, 11, true);
-
         movementComponent.Start();
         healthComponent.Start();
     }

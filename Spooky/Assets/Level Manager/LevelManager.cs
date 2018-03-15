@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
@@ -20,10 +21,16 @@ public class LevelManager : MonoBehaviour
     //TODO add get for spooky
     public Transform spooky;
 
+    // TODO set up automatic set in script, not in editor.
     //Variables relacionadas con el fin del nivel
     public static bool GameIsOver;
     public GameObject gameOverUI;
     public GameObject completeLvlUI;
+
+    // TODO set up automatic set in script, not in editor.
+    public Canvas pauseCanvas;
+    public Button botonPause;
+    public bool isPaused;
 
     public AudioClip musicClip;
 
@@ -48,7 +55,12 @@ public class LevelManager : MonoBehaviour
         LookForRunAwayPoints();
         LookForSpawnPoints();
 
-        GameManager.Instance.OnStartGame += PlayStartMusic;
+        pauseCanvas = GameObject.FindGameObjectWithTag("Pause UI").GetComponent<Canvas>();
+        botonPause = GameObject.FindGameObjectWithTag("Pause Button").GetComponent<Button>();
+
+        pauseCanvas.enabled = false;
+
+        GameManager.Instance.OnStartGame += PlayLevelMusic;
     }
 
     private void OnDisable()
@@ -118,8 +130,38 @@ public class LevelManager : MonoBehaviour
         completeLvlUI.SetActive(true);
     }
 
-    void PlayStartMusic()
+    void PlayLevelMusic()
     {
         GameManager.Instance.SoundManager.PlayMusic(musicClip);
+    }
+
+    public void QuitLevel()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    public void RetryLevel()
+    {
+        Time.timeScale = 1;
+        var CurrentScene = SceneManager.GetActiveScene();
+        string SceneName = CurrentScene.name;
+        GameManager.Instance.LoadLevel(SceneName);
+    }
+
+    public void PauseLevel()
+    {
+        isPaused = !isPaused;
+        if (isPaused)
+        {
+            pauseCanvas.enabled = true;
+            Time.timeScale = 0;
+        }
+        else if (!isPaused)
+        {
+            pauseCanvas.enabled = false;
+            Time.timeScale = 1;
+        }
+
     }
 }

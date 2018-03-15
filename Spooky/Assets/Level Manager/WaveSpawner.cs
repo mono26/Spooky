@@ -30,7 +30,7 @@ public class WaveSpawner : MonoBehaviour
 
     //To store different waves
     public Wave[] waves;
-    public int gameNumberOfEnemies = 0;
+    public int numberOfEnemies = 0;
     //Wich wave is next
     public int nextWave = 0;
     //Automatic next wave spawn
@@ -76,13 +76,13 @@ public class WaveSpawner : MonoBehaviour
 
         if (state == SpawnState.WAITING)
         {
-            if (gameNumberOfEnemies <= 0)
+            if (numberOfEnemies.Equals(0))
             {
                 //Begin a new Round
                 WaveCompleted();
             }
         }
-        if (waveCountDown <= 0.0f && gameNumberOfEnemies <= 0)
+        if (waveCountDown <= 0.0f && numberOfEnemies.Equals(0))
         {
             //If the countdown to start spawning the next wave is 0 and is not spawning auotomaticly force it to spawn
             if (state != SpawnState.SPAWNING)
@@ -100,7 +100,7 @@ public class WaveSpawner : MonoBehaviour
     {
         state = SpawnState.SPAWNING;
         OnSpawnStart();
-        gameNumberOfEnemies = 0;
+        numberOfEnemies = 0;
         for (int enemy = 0; enemy < _wave.enemy.Length; enemy++)
         {
             for (int count = 0; count < _wave.count[enemy]; count++)
@@ -121,8 +121,7 @@ public class WaveSpawner : MonoBehaviour
         Enemy tempEnemy = _enemy.Spawn(spawnPoint);
         tempEnemy.OnReleased += DecreaseEnemyNumber;
         tempEnemy.transform.SetParent(parentPool.transform);
-        //PoolsManagerEnemies.Instance.GetEnemy(_enemy.objectIndex, my_SpawnPoint);
-        gameNumberOfEnemies++;
+        numberOfEnemies++;
     }
 
     private void WaveCompleted()
@@ -135,7 +134,8 @@ public class WaveSpawner : MonoBehaviour
 
     void DecreaseEnemyNumber()
     {
-        gameNumberOfEnemies--;
+        numberOfEnemies--;
+        Mathf.Clamp(numberOfEnemies, 0, Mathf.Infinity);    // So the number of enemies never goes below 0
     }
 
     void PlaySpawnClip()

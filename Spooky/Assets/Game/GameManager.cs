@@ -64,12 +64,10 @@ public class GameManager : MonoBehaviour
 
         do
         {
-            var time = Time.unscaledTime;
-            Debug.Log(time + " fading IN loading text");
+            /*var time = Time.unscaledTime;
+            Debug.Log(time + " fading IN loading text");*/
 
             yield return StartCoroutine(sceneFader.FadeInObject(loadingText));
-
-            Debug.Log(time + " fading OUT loading text");
 
             yield return StartCoroutine(sceneFader.FadeOutObject(loadingText));
         }
