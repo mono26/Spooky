@@ -1,25 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField]
-    private GameManager screenManager;
+    public void GoToMainMenu()
+    {
+        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(0));
+    }
 
     public void PlayGame()
     {
-        screenManager.StartCoroutine(screenManager.LoadLevel("Level1"));
+        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(2));
     }
 
     public void Credits()
     {
-        screenManager.StartCoroutine(screenManager.LoadLevel("Credits"));
-    }
-
-    public void GoToMainMenu()
-    {
-        screenManager.StartCoroutine(screenManager.LoadLevel("Main Menu"));
+        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(3));
     }
 
     public void QuitGame()

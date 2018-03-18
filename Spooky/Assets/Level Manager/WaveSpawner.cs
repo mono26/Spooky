@@ -56,7 +56,9 @@ public class WaveSpawner : MonoBehaviour
         else
             Destroy(gameObject);
 
-        GameManager.Instance.OnStartGame += PlaySpawnClip;
+        // TODO mejorar proteccion
+        if(GameManager.Instance)
+            GameManager.Instance.OnStartGame += PlaySpawnClip;
     }
     // Use this for initialization
     private void Start()
@@ -72,17 +74,20 @@ public class WaveSpawner : MonoBehaviour
         {
             LevelManager.Instance.WinLevel();
             this.enabled = false;
+            return;
         }
 
         if (state == SpawnState.WAITING)
         {
-            if (numberOfEnemies.Equals(0))
+            if (numberOfEnemies <= 0)
             {
                 //Begin a new Round
                 WaveCompleted();
+                return;
             }
         }
-        if (waveCountDown <= 0.0f && numberOfEnemies.Equals(0))
+
+        if (waveCountDown <= 0.0f && numberOfEnemies <= 0)
         {
             //If the countdown to start spawning the next wave is 0 and is not spawning auotomaticly force it to spawn
             if (state != SpawnState.SPAWNING)

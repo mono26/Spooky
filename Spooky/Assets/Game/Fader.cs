@@ -56,7 +56,7 @@ public class Fader
         blackBackGround.gameObject.SetActive(false);
     }
 
-    public IEnumerator FadeOutLevel(string scene)
+    public IEnumerator FadeOutLevel()
     {
         blackBackGround.gameObject.SetActive(true);
 

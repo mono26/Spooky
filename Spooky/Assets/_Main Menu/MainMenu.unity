@@ -395,8 +395,8 @@ GameObject:
   - component: {fileID: 792172966}
   - component: {fileID: 792172965}
   m_Layer: 0
-  m_Name: BlackFade
-  m_TagString: Untagged
+  m_Name: Black Fade
+  m_TagString: Black Fade
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -626,7 +626,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70aa41e5268a3cb4d9fca1b8642655af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  screenManager: {fileID: 1909584073}
 --- !u!1 &1240241841
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,7 +1136,6 @@ MonoBehaviour:
     m_RotationOrder: 0
   efxSource: {fileID: 1909584076}
   musicSource: {fileID: 1909584075}
-  minLoadDuration: 3
 --- !u!4 &1909584074
 Transform:
   m_ObjectHideFlags: 0

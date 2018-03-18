@@ -1,12 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelUIManager
 {
     public GameObject topUI;
     public GameObject bottomUI;
+    public GameObject pauseButton;
+    public GameObject pauseCanvas;
+
+    // TODO getter
+    public bool isPaused;
 
     public Image cropUIBar;
     public Image gameWaveBar;
@@ -16,13 +20,19 @@ public class LevelUIManager
     public int maxCrop = 800;
     public float currentCrop;
 
-    public LevelUIManager(Image _cropUIBar, Image _waveBar, Text _gameMoneyText, GameObject _topUi, GameObject _bottomUi)
+    public LevelUIManager(
+        Image _cropUIBar, Image _waveBar, Text _gameMoneyText, 
+        GameObject _topUi, GameObject _bottomUi, GameObject _pauseButton, 
+        GameObject _pauseCanvas)
     {
         topUI = _topUi;
         bottomUI = _bottomUi;
         cropUIBar = _cropUIBar;
         gameWaveBar = _waveBar;
         gameMoneyText = _gameMoneyText;
+        pauseButton = _pauseButton;
+        pauseCanvas = _pauseCanvas;
+
 
         HideUI();
         //TODO better protection
@@ -77,6 +87,8 @@ public class LevelUIManager
     {
         topUI.SetActive(false);
         bottomUI.SetActive(false);
+        pauseCanvas.SetActive(false);
+        pauseButton.SetActive(false);
     }
 
     private void ShowUI()
@@ -88,5 +100,36 @@ public class LevelUIManager
     private void IncreaseWave()
     {
         gameWaveBar.fillAmount = (float)(WaveSpawner.Instance.nextWave) / (float)(WaveSpawner.Instance.waves.Length);
+    }
+
+    public void QuitLevel()
+    {
+        Time.timeScale = 1;
+        GameManager.Instance.LoadLevel(0);
+    }
+
+    public void RetryLevel()
+    {
+        Time.timeScale = 1;
+        var currentScene = SceneManager.GetActiveScene();
+        int scenIndex = currentScene.buildIndex;
+        GameManager.Instance.LoadLevel(scenIndex);
+    }
+
+    public void PauseLevel()
+    {
+        isPaused = !isPaused;
+        if (isPaused)
+        {
+            pauseCanvas.SetActive(true);
+            Time.timeScale = 0;
+            return;
+        }
+        else if (!isPaused)
+        {
+            pauseCanvas.SetActive(false);
+            Time.timeScale = 1;
+            return;
+        }
     }
 }

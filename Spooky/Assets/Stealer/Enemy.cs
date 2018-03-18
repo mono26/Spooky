@@ -26,10 +26,10 @@ public abstract class Enemy : MonoBehaviour
     private bool isCasting;
     protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
 
+    // TODO extraer interfaz IKillable o IRelesable???
     public delegate void Release();
     public event Release OnReleased;
-
-    //TODO event called when killed
+    public bool isDying;
 
     protected void Awake()
     {
@@ -42,6 +42,9 @@ public abstract class Enemy : MonoBehaviour
     {
         movementComponent.Start();
         healthComponent.Start();
+        // When enemy starts death Coroutine the collider still detects collision and decreases number of enemies.
+        GetComponent<Collider>().enabled = true;
+        isDying = false;
     }
 
     protected bool IsDead()
@@ -87,6 +90,7 @@ public abstract class Enemy : MonoBehaviour
     protected void ReleaseEnemy()
     {
         OnReleased();
+        GetComponent<Collider>().enabled = false;
     }
 
     [System.Serializable]

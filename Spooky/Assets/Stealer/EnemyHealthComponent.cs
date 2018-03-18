@@ -28,6 +28,7 @@ public class EnemyHealthComponent : IDamagable
         currentHealth = maxHealth;
         // Need to cast to float because the result of "/" by two ints gives a int.
         settings.HealthBar.fillAmount = (float)currentHealth / (float)maxHealth;
+        settings.HealthBar.gameObject.SetActive(false);
     }
 
     public void TakeDamage(int _damage)

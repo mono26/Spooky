@@ -20,7 +20,11 @@ TagManager:
   - Top UI Info
   - Bottom UI Info
   - Wave Bar
-  - Black Background
+  - WinGameUI
+  - GameOverUI
+  - Pause Button
+  - Pause UI
+  - Black Fade
   layers:
   - Default
   - TransparentFX

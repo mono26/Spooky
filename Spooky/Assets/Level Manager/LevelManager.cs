@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
@@ -27,11 +26,6 @@ public class LevelManager : MonoBehaviour
     public GameObject gameOverUI;
     public GameObject completeLvlUI;
 
-    // TODO set up automatic set in script, not in editor.
-    public Canvas pauseCanvas;
-    public Button botonPause;
-    public bool isPaused;
-
     public AudioClip musicClip;
 
     void Awake()
@@ -47,18 +41,15 @@ public class LevelManager : MonoBehaviour
             GameObject.FindGameObjectWithTag("Wave Bar").GetComponent<Image>(),
             GameObject.FindGameObjectWithTag("Money Text").GetComponent<Text>(),
             GameObject.FindGameObjectWithTag("Top UI Info"),
-            GameObject.FindGameObjectWithTag("Bottom UI Info")
+            GameObject.FindGameObjectWithTag("Bottom UI Info"),
+            GameObject.FindGameObjectWithTag("Pause Button"),
+            GameObject.FindGameObjectWithTag("Pause UI")
             );
 
         spooky = GameObject.FindGameObjectWithTag("Spooky").transform;
         LookForHousePoints();
         LookForRunAwayPoints();
         LookForSpawnPoints();
-
-        pauseCanvas = GameObject.FindGameObjectWithTag("Pause UI").GetComponent<Canvas>();
-        botonPause = GameObject.FindGameObjectWithTag("Pause Button").GetComponent<Button>();
-
-        pauseCanvas.enabled = false;
 
         GameManager.Instance.OnStartGame += PlayLevelMusic;
     }
@@ -137,31 +128,16 @@ public class LevelManager : MonoBehaviour
 
     public void QuitLevel()
     {
-        Time.timeScale = 1;
-        SceneManager.LoadScene("Main Menu");
+        uiManager.QuitLevel();
     }
 
     public void RetryLevel()
     {
-        Time.timeScale = 1;
-        var CurrentScene = SceneManager.GetActiveScene();
-        string SceneName = CurrentScene.name;
-        GameManager.Instance.LoadLevel(SceneName);
+        uiManager.RetryLevel();
     }
 
     public void PauseLevel()
     {
-        isPaused = !isPaused;
-        if (isPaused)
-        {
-            pauseCanvas.enabled = true;
-            Time.timeScale = 0;
-        }
-        else if (!isPaused)
-        {
-            pauseCanvas.enabled = false;
-            Time.timeScale = 1;
-        }
-
+        uiManager.PauseLevel();
     }
 }

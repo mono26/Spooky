@@ -96,7 +96,9 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
         else if (currentState.Equals(State.Death))
         {
-            StartCoroutine(Die());
+            // So it can execute the Coroutine just once!
+            if(!isDying)
+                StartCoroutine(Die());
         }
 
         else return;
@@ -127,6 +129,8 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
     protected IEnumerator Die()
     {
+        isDying = true;
+
         ReleaseEnemy();
 
         animationComponent.PlayAnimation("Dead");
