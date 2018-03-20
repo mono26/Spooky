@@ -23,8 +23,8 @@ public class LevelManager : MonoBehaviour
     // TODO set up automatic set in script, not in editor.
     //Variables relacionadas con el fin del nivel
     public static bool GameIsOver;
-    public GameObject gameOverUI;
-    public GameObject completeLvlUI;
+    public GameObject loseUI;
+    public GameObject winUI;
 
     public AudioClip musicClip;
 
@@ -37,13 +37,14 @@ public class LevelManager : MonoBehaviour
         else Destroy(gameObject);
 
         uiManager = new LevelUIManager(
-            GameObject.FindGameObjectWithTag("Health Bar").GetComponent<Image>(),
-            GameObject.FindGameObjectWithTag("Wave Bar").GetComponent<Image>(),
+            GameObject.FindGameObjectWithTag("CropBar").GetComponent<Image>(),
+            GameObject.FindGameObjectWithTag("WaveBar").GetComponent<Image>(),
             GameObject.FindGameObjectWithTag("Money Text").GetComponent<Text>(),
-            GameObject.FindGameObjectWithTag("Top UI Info"),
-            GameObject.FindGameObjectWithTag("Bottom UI Info"),
+            GameObject.FindGameObjectWithTag("TopUIInfo"),
+            GameObject.FindGameObjectWithTag("BottomUIInfo"),
             GameObject.FindGameObjectWithTag("Pause Button"),
-            GameObject.FindGameObjectWithTag("Pause UI")
+            GameObject.FindGameObjectWithTag("PauseUI"),
+            GameObject.FindGameObjectWithTag("Enemies Counter").GetComponent<Text>()
             );
 
         spooky = GameObject.FindGameObjectWithTag("Spooky").transform;
@@ -62,6 +63,11 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         uiManager.Start();
+    }
+
+    private void Update()
+    {
+        uiManager.Update();
     }
 
     // Caching
@@ -109,16 +115,16 @@ public class LevelManager : MonoBehaviour
         return spawnPoints[random];
     }
 
-    void GameOver()
+    public void GameOver()
     {
         GameIsOver = true;
         // SoundHandler.Instance.PlayClip(gameSounds[0]);
-        gameOverUI.SetActive(true);
+        loseUI.SetActive(true);
     }
     public void WinLevel()
     {
         GameIsOver = true;
-        completeLvlUI.SetActive(true);
+        winUI.SetActive(true);
     }
 
     void PlayLevelMusic()

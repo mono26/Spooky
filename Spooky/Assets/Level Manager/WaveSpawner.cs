@@ -147,4 +147,9 @@ public class WaveSpawner : MonoBehaviour
     {
         GameManager.Instance.SoundManager.PlayClip(spawnStart);
     }
+
+    public int GetNumberOfEnemies()
+    {
+        return numberOfEnemies;
+    }
 }

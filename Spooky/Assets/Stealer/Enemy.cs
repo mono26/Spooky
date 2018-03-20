@@ -7,7 +7,7 @@ public abstract class Enemy : MonoBehaviour
 
     public EnemyMovement movementComponent;
     // TODO set a Getter for this
-    public EnemyHealthComponent healthComponent;
+    public EnemyHealth healthComponent;
     public EnemyAnimation animationComponent;
     // TODO check if we have to set settings in constructor.
     public Settings settings;
@@ -34,7 +34,7 @@ public abstract class Enemy : MonoBehaviour
     protected void Awake()
     {
         movementComponent = new EnemyMovement(this, settings.MovementSettings);
-        healthComponent = new EnemyHealthComponent(this, settings.MaxHealth, settings.HealthSettings);
+        healthComponent = new EnemyHealth(this, settings.MaxHealth, settings.HealthSettings);
         animationComponent = new EnemyAnimation(sprite, animator);
     }
 
@@ -105,6 +105,6 @@ public abstract class Enemy : MonoBehaviour
         [SerializeField]
         public EnemyMovement.Settings MovementSettings;
         [SerializeField]
-        public EnemyHealthComponent.Settings HealthSettings;
+        public EnemyHealth.Settings HealthSettings;
     }
 }

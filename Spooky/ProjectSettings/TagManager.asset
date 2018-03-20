@@ -11,20 +11,22 @@ TagManager:
   - Runaway Point
   - Steal Point
   - Money Text
-  - Health Bar
   - Enemy
   - Plant Range
   - Plant
   - Plant Point
   - Plant Point Detector
-  - Top UI Info
-  - Bottom UI Info
-  - Wave Bar
   - WinGameUI
   - GameOverUI
   - Pause Button
-  - Pause UI
   - Black Fade
+  - Black Background
+  - Enemies Counter
+  - BottomUIInfo
+  - TopUIInfo
+  - CropBar
+  - WaveBar
+  - PauseUI
   layers:
   - Default
   - TransparentFX

@@ -6,7 +6,6 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
 {
     [SerializeField]
     private float startTime;
-
     [SerializeField]
     protected int corrosiveDamage;
     [SerializeField]    // Per second
@@ -16,7 +15,8 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
     [SerializeField]
     protected GameObject corrosiveTrigger;
 
-    protected List<Enemy> enemyList;
+    public delegate void CorrosiveDamage(int _damage);
+    public event CorrosiveDamage OnCorrosiveDamage;
 
     [SerializeField]
     private static List<Bullet> bulletList = new List<Bullet>();
@@ -36,13 +36,10 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
         startTime = Time.timeSinceLevelLoad;
         while(Time.timeSinceLevelLoad < startTime + corrosiveDuration)
         {
-            if (enemyList.Count > 0)
+            if (OnCorrosiveDamage != null)
             {
-                for (int i = 0; i < enemyList.Count; i++) //TODO With a foreach???
-                {
-                    enemyList[i].GetComponent<Enemy>().healthComponent.TakeDamage(corrosiveDamage);
-                    yield return new WaitForSeconds(1 / corrosiveTickRate);
-                }
+                OnCorrosiveDamage(corrosiveDamage);
+                yield return new WaitForSeconds(1 / corrosiveTickRate);
             }
             else yield return new WaitForSeconds(1 / corrosiveTickRate);
         }
@@ -52,22 +49,14 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
 
     private void AddEnemy(Enemy _enemy)
     {
-        if (!enemyList.Contains(_enemy))
-        {
-            enemyList.Add(_enemy);
-            return;
-        }
-        else return;
+        OnCorrosiveDamage += _enemy.healthComponent.TakeDamage;
+        return;
     }
 
     private void RemoveEnemy(Enemy _enemy)
     {
-        if (enemyList.Contains(_enemy))
-        {
-            enemyList.Remove(_enemy);
-            return;
-        }
-        else return;
+        OnCorrosiveDamage -= _enemy.healthComponent.TakeDamage;
+        return;
     }
 
     public Bullet Spawn(Transform _position)
@@ -103,11 +92,6 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
         Restart(_bullet);
         _bullet.gameObject.SetActive(false);
         Pool.Add(_bullet);
-    }
-
-    private void Restart(Bullet _bullet)
-    {
-        _bullet.rigidBody.velocity = Vector3.zero;
     }
 
     protected void OnCollisionEnter(Collision _collision)

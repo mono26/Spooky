@@ -170,7 +170,7 @@ MonoBehaviour:
   animator: {fileID: 95267028207046288}
   soundEffect: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   lastShoot: 0
-  launchForce: 1
+  launchForce: 5
   bullet: {fileID: 114475811591300468, guid: 88d6af17c63e20148a99bdea2d1ebe40, type: 2}
   launchPosition: {fileID: 4260655277493156}
   currentState: 0

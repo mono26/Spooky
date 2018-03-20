@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealthComponent : IDamagable
+public class EnemyHealth : IDamagable
 {
     //AIEffectsHandler effects;
     private Enemy owner;
@@ -11,7 +11,7 @@ public class EnemyHealthComponent : IDamagable
     public int maxHealth;
     public int currentHealth;
 
-    public EnemyHealthComponent(Enemy _owner, int _maxHealth, Settings _settings)
+    public EnemyHealth(Enemy _owner, int _maxHealth, Settings _settings)
     {
         owner = _owner;
         maxHealth = _maxHealth;

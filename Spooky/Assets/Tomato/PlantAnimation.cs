@@ -20,13 +20,12 @@ public class PlantAnimation : IAnimable
         Vector3 nexPosition = sprite.transform.position + nextPosition;
         if (sprite.transform.position.x < nextPosition.x)
         {
-            sprite.flipX = false;
+            sprite.flipX = true;
         }
         else if (sprite.transform.position.x > nextPosition.x)
         {
-            sprite.flipX = true;
+            sprite.flipX = false;
         }
-
         return;
     }
 

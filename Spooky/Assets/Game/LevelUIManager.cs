@@ -13,8 +13,9 @@ public class LevelUIManager
     public bool isPaused;
 
     public Image cropUIBar;
-    public Image gameWaveBar;
+    public Image waveBar;
     public Text gameMoneyText;
+    public Text enemiesCounter;
     public int startingMoney = 400;
     public int currentMoney;
     public int maxCrop = 800;
@@ -23,15 +24,17 @@ public class LevelUIManager
     public LevelUIManager(
         Image _cropUIBar, Image _waveBar, Text _gameMoneyText, 
         GameObject _topUi, GameObject _bottomUi, GameObject _pauseButton, 
-        GameObject _pauseCanvas)
+        GameObject _pauseCanvas, Text _enemiesCounter)
     {
         topUI = _topUi;
         bottomUI = _bottomUi;
         cropUIBar = _cropUIBar;
-        gameWaveBar = _waveBar;
+        waveBar = _waveBar;
         gameMoneyText = _gameMoneyText;
         pauseButton = _pauseButton;
         pauseCanvas = _pauseCanvas;
+        enemiesCounter = _enemiesCounter;
+
 
 
         HideUI();
@@ -60,6 +63,11 @@ public class LevelUIManager
         IncreaseWave();
     }
 
+    public void Update()
+    {
+        enemiesCounter.text = WaveSpawner.Instance.GetNumberOfEnemies().ToString();
+    }
+
     public void LoseCrop(int _stole)
     {
         currentCrop -= _stole;
@@ -67,7 +75,7 @@ public class LevelUIManager
         if (currentCrop <= 0)
         {
             //GameOver Code
-            //GameOver();
+            LevelManager.Instance.GameOver();
         }
     }
 
@@ -99,7 +107,7 @@ public class LevelUIManager
 
     private void IncreaseWave()
     {
-        gameWaveBar.fillAmount = (float)(WaveSpawner.Instance.nextWave) / (float)(WaveSpawner.Instance.waves.Length);
+        waveBar.fillAmount = (float)(WaveSpawner.Instance.nextWave) / (float)(WaveSpawner.Instance.waves.Length);
     }
 
     public void QuitLevel()
