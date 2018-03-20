@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyAnimation : IAnimable
 {
@@ -16,10 +14,10 @@ public class EnemyAnimation : IAnimable
         animator = _animator;
     }
 
-    public void CheckViewDirection(Vector3 nextPosition)
+    public void CheckViewDirection(Vector3 _nextPosition)
     {
         // With this we check the hypotetic newPosition of spooky so we can know if its going left or right
-        Vector3 nexPosition = sprite.transform.position + nextPosition;
+        Vector3 nextPosition = sprite.transform.position + _nextPosition;
         if (sprite.transform.position.x < nextPosition.x)
         {
             sprite.flipX = false;

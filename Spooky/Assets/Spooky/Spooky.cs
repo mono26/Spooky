@@ -27,7 +27,11 @@ public class Spooky : MonoBehaviour
     public Settings settings;
 
     public delegate void FireButtonPress();
-    public event FireButtonPress OnFireButtonPressed;
+    public event FireButtonPress OnFireButtonPress;
+
+    public delegate void FireButtonRelease();
+    public event FireButtonPress OnFireButtonRelease;
+
     public delegate void InFightWithEnemy();
     public event InFightWithEnemy OnFightWithEnemy;
 
@@ -105,10 +109,16 @@ public class Spooky : MonoBehaviour
         plantPointDetect.OnTriggerExit(_collider);
     }
 
-    public void FireButton()
+    public void StartCharge()
     {
-        if (OnFireButtonPressed != null)
-            OnFireButtonPressed();
+        if (OnFireButtonPress != null)
+            OnFireButtonPress();
+    }
+
+    public void StopCharge()
+    {
+        if (OnFireButtonRelease != null)
+            OnFireButtonRelease();
     }
 
     [System.Serializable]

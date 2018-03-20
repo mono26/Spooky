@@ -107,7 +107,7 @@ public class LevelUIManager
 
     private void IncreaseWave()
     {
-        waveBar.fillAmount = (float)(WaveSpawner.Instance.nextWave) / (float)(WaveSpawner.Instance.waves.Length);
+        waveBar.fillAmount = (float)(WaveSpawner.Instance.nextWave) + 1 / (float)(WaveSpawner.Instance.waves.Length);
     }
 
     public void QuitLevel()

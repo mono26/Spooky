@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
@@ -42,9 +41,6 @@ public class LoadManager
 
     public IEnumerator FinishLoading()
     {
-        var time = Time.unscaledTime;
-        Debug.Log(time + " Finish loading ");
-
         Time.timeScale = 1f;
         GameManager.Instance.sceneFader.FadeOutLevel();
 

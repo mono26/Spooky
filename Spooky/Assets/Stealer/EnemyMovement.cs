@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 [System.Serializable]
@@ -69,7 +67,7 @@ public class EnemyMovement
                                 Time.fixedDeltaTime);
 
         enemy.settings.Rigidbody.MovePosition(newPosition);
-        enemy.animationComponent.CheckViewDirection(newPosition);
+        enemy.animationComponent.CheckViewDirection(_direction);
         return;
     }
 

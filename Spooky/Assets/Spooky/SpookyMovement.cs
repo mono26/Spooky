@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SpookyMovement
 {
@@ -49,7 +47,7 @@ public class SpookyMovement
         // For moving the Rigidbody in the desired direction
         Vector3 newPosition = spooky.Rigidbody.position + spooky.Rigidbody.transform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
         spooky.Rigidbody.MovePosition(newPosition);
-        spooky.animationComponent.CheckViewDirection(newPosition);
+        spooky.animationComponent.CheckViewDirection(_direction);
         return;
     }
 

@@ -4,7 +4,7 @@ public class Plant : MonoBehaviour
 {
     [SerializeField]
     public EnemyDetect enemyDetect;
-    public EnemyAnimation animationComponent;
+    public PlantAnimation animationComponent;
     [SerializeField]
     public Settings settings;
     [SerializeField]
@@ -30,7 +30,7 @@ public class Plant : MonoBehaviour
             settings.ViewRange
             );
 
-        animationComponent = new EnemyAnimation(sprite, animator);
+        animationComponent = new PlantAnimation(sprite, animator);
     }
 
     protected void Start()

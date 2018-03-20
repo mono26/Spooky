@@ -9,29 +9,33 @@ public class SpookyAttack
 
     [SerializeField]
     private Transform hand;
-    private Transform shootPosition;
-    private ISpawnable<Bullet> bullet;
+    private Bullet actualBullet;
+    private Transform shootTransform;
+    private ISpawnable<Bullet> bulletPrefab;
+    private Coroutine chargingBullet;
     private Joystick joystick;
     private float lastShoot;
 
-    public SpookyAttack(Spooky _spooky, Transform _hand, Transform _shootPosition, SpookyBullet _bullet, Joystick _joystick, Settings _settings)
+    public SpookyAttack(Spooky _spooky, Transform _hand, Transform _shootTransform, SpookyBullet _bulletPrefab, Joystick _joystick, Settings _settings)
     {
         spooky = _spooky;
         hand = _hand;
-        shootPosition = _shootPosition;
-        bullet = _bullet;
+        shootTransform = _shootTransform;
+        bulletPrefab = _bulletPrefab;
         joystick = _joystick;
         settings = _settings;
     }
 
     public void OnEnable()
     {
-        spooky.OnFireButtonPressed += LaunchBullet;
+        spooky.OnFireButtonPress += ReadyToShoot;
+        spooky.OnFireButtonRelease += Shoot;
     }
 
     public void OnDisable()
     {
-        spooky.OnFireButtonPressed -= LaunchBullet;
+        spooky.OnFireButtonPress -= ReadyToShoot;
+        spooky.OnFireButtonRelease -= Shoot;
     }
 
     public void Update()
@@ -76,24 +80,40 @@ public class SpookyAttack
         }
     }
 
-    protected void RotateBullettowardsDirection(Transform _bullet)
+    private void RotateBullettowardsDirection(Transform _bullet)
     {
         _bullet.right = hand.right;
         return;
     }
 
-    private void LaunchBullet()
+    private void ReadyToShoot()
     {
-        // TODO create the bullet and then tell the bullet to launch
         if (Time.timeSinceLevelLoad > lastShoot + settings.AttackRate)
         {
-            Bullet tempBullet = bullet.Spawn(shootPosition);
-            RotateBullettowardsDirection(tempBullet.transform);
-            tempBullet.transform.SetParent(GameObject.Find("Bullets").transform);
-            tempBullet.Launch(settings.LaunchForce);
-            lastShoot = Time.timeSinceLevelLoad;
+            actualBullet = GetBulletToShoot();
+            actualBullet.transform.SetParent(shootTransform);
+            // TODO start charging
         }
         else return;
+    }
+
+    private void Shoot()
+    {
+        if(actualBullet)
+            LaunchBullet(actualBullet);
+    }
+
+    private void LaunchBullet(Bullet _bullet)
+    {
+        RotateBullettowardsDirection(_bullet.transform);
+        _bullet.transform.SetParent(GameObject.Find("Bullets").transform);
+        _bullet.Launch(settings.LaunchForce);
+        lastShoot = Time.timeSinceLevelLoad;
+    }
+
+    private Bullet GetBulletToShoot()
+    {
+        return bulletPrefab.Spawn(shootTransform);
     }
 
     [System.Serializable]

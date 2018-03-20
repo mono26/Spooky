@@ -42,8 +42,8 @@ public abstract class Enemy : MonoBehaviour
     {
         movementComponent.Start();
         healthComponent.Start();
+        ActivateCollider();
         // When enemy starts death Coroutine the collider still detects collision and decreases number of enemies.
-        GetComponent<Collider>().enabled = true;
         isDying = false;
     }
 
@@ -77,6 +77,16 @@ public abstract class Enemy : MonoBehaviour
         StartCast(true);
     }
 
+    protected void ActivateCollider()
+    {
+        GetComponent<Collider>().enabled = false;
+    }
+
+    protected void DeactivateCollider()
+    {
+        GetComponent<Collider>().enabled = false;
+    }
+
     protected void OnCollisionEnter(Collision _collision)
     {
         if (_collision.gameObject.CompareTag("Bullet"))
@@ -87,10 +97,9 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected void ReleaseEnemy()
+    protected void Die()
     {
         OnReleased();
-        GetComponent<Collider>().enabled = false;
     }
 
     [System.Serializable]

@@ -87,7 +87,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
             if (IsTargetInRange())
             {
-                ReleaseEnemy(); // Fires the vent so the wave spawner decreases the number off enemies.
+                base.Die(); // Fires the vent so the wave spawner decreases the number off enemies.
                 ReleaseStealer(this);
                 // TODO check if it has loot on it and do something
             }
@@ -98,7 +98,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         {
             // So it can execute the Coroutine just once!
             if(!isDying)
-                StartCoroutine(Die());
+                StartCoroutine(StartDeath());
         }
 
         else return;
@@ -127,11 +127,15 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         return hasLoot;
     }
 
-    protected IEnumerator Die()
+    protected IEnumerator StartDeath()
     {
         isDying = true;
+        DeactivateCollider();
 
-        ReleaseEnemy();
+        // To make sure the dead damage animation is finished before the death one.
+        yield return new WaitForSecondsRealtime(
+                    animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
+                    );
 
         animationComponent.PlayAnimation("Dead");
 
@@ -139,6 +143,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
                     animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
                     );
 
+        base.Die();
         ReleaseStealer(this);
     }
 
