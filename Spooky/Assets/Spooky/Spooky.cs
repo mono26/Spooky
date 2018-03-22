@@ -2,28 +2,45 @@
 
 public class Spooky : MonoBehaviour
 {
+    // Common section
+    [Header("Common Settings")]
+    public Joystick joystick;
+
+    // Movement section
+    [Header("Movement Settings")]
     public Rigidbody Rigidbody;
-    public Joystick Joystick;
+    private SpookyMovement movementComponent;
+
+    // Detection Section
+    [Header("Detection Settings")]
     public SphereCollider EnemyDetectTrigger;
     public SphereCollider PlantPointDetectTrigger;
     [Range(3f,4f)]
     public float EnemyDetectionRange;
     [Range(1.5f, 2f)]
     public float PlantPointDetectionRange;
-    public Transform Hand;
-    public SpookyBullet Bullet;
-    public Transform ShootPosition;
+    [SerializeField]
+    public SpookyDetect enemyDetectComponent;
+    private PlantPointDetect plantPointDetect;
+
+    // Animation section
+    [Header("Animation Settings")]
     public SpriteRenderer SpookySprite;
     public SpriteRenderer HandSprite;
     public Animator Animator;
+    public SpookyAnimation animationComponent;
+
+    // Attack section
+    [Header("Attack Settings")]
+    public SpookyBullet bulletPrefab;
+    public Transform hand;
+    public Transform shootTransform;
+    [SerializeField]
+    private SpookyAttack attackComponent;
 
     // This is going to be the class the connects all the components of spooky
     // Execute update, triggerevetns, awake, start, etc.
-    private SpookyMovement movementComponent;
-    private SpookyAttack attackComponent;
-    public EnemyDetect enemyDetectComponent;
-    private PlantPointDetect plantPointDetect;
-    public SpookyAnimation animationComponent;
+
     public Settings settings;
 
     public delegate void FireButtonPress();
@@ -42,7 +59,7 @@ public class Spooky : MonoBehaviour
             settings.MovementSettings
             );
 
-        enemyDetectComponent = new EnemyDetect(
+        enemyDetectComponent = new SpookyDetect(
             gameObject,
             EnemyDetectTrigger,
             EnemyDetectionRange
@@ -50,10 +67,7 @@ public class Spooky : MonoBehaviour
 
         attackComponent = new SpookyAttack(
             this,
-            Hand,
-            ShootPosition,
-            Bullet,
-            Joystick,
+            bulletPrefab,
             settings.AttackSettings
             );
 

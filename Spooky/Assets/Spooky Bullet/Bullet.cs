@@ -4,7 +4,7 @@ public class Bullet : MonoBehaviour
 {
     public Rigidbody rigidBody;
     [SerializeField]
-    protected int damage;
+    protected float damage;
 
     protected void Awake()
     {
@@ -16,7 +16,7 @@ public class Bullet : MonoBehaviour
         rigidBody.AddForce(transform.right * _speed, ForceMode.Impulse);
     }
 
-    public int GetBulletDamage()
+    public float GetBulletDamage()
     {
         return damage;
     }
@@ -24,5 +24,6 @@ public class Bullet : MonoBehaviour
     protected void Restart(Bullet _bullet)
     {
         _bullet.rigidBody.velocity = Vector3.zero;
+        _bullet.transform.localScale = Vector3.one;
     }
 }

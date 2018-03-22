@@ -25,8 +25,8 @@ public class SpookyMovement
     public void FixedUpdate()
     {
         // For moving the Rigidbody
-        float horizontal = spooky.Joystick.Horizontal;
-        float vertical = spooky.Joystick.Vertical;
+        float horizontal = spooky.joystick.Horizontal;
+        float vertical = spooky.joystick.Vertical;
 
         if (!vertical.Equals(0) || !vertical.Equals(0))
         {

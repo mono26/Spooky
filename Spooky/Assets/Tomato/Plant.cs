@@ -3,7 +3,7 @@
 public class Plant : MonoBehaviour
 {
     [SerializeField]
-    public EnemyDetect enemyDetect;
+    public SpookyDetect enemyDetect;
     public PlantAnimation animationComponent;
     [SerializeField]
     public Settings settings;
@@ -24,7 +24,7 @@ public class Plant : MonoBehaviour
 
     protected void Awake()
     {
-        enemyDetect = new EnemyDetect(
+        enemyDetect = new SpookyDetect(
             this.gameObject, 
             settings.EnemyDetectTrigger, 
             settings.ViewRange

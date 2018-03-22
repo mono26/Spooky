@@ -8,8 +8,8 @@ public class EnemyHealth : IDamagable
     private Enemy owner;
     private Settings settings;
 
-    public int maxHealth;
-    public int currentHealth;
+    public float maxHealth;
+    public float currentHealth;
 
     public EnemyHealth(Enemy _owner, int _maxHealth, Settings _settings)
     {
@@ -27,16 +27,16 @@ public class EnemyHealth : IDamagable
     {
         currentHealth = maxHealth;
         // Need to cast to float because the result of "/" by two ints gives a int.
-        settings.HealthBar.fillAmount = (float)currentHealth / (float)maxHealth;
+        settings.HealthBar.fillAmount = currentHealth / maxHealth;
         settings.HealthBar.gameObject.SetActive(false);
     }
 
-    public void TakeDamage(int _damage)
+    public void TakeDamage(float _damage)
     {
         //var feathersP = Instantiate(controller.feathersParticle, transform.position, Quaternion.Euler(-90, 0, 0));
         owner.StartCoroutine(ToggleHealthBar());
         currentHealth = Mathf.Max(0, currentHealth - _damage);
-        settings.HealthBar.fillAmount = (float)currentHealth / (float)maxHealth;
+        settings.HealthBar.fillAmount = currentHealth / maxHealth;
     }
 
     public float GetCurrentHealth()

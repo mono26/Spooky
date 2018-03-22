@@ -141,7 +141,7 @@ public class WaveSpawner : MonoBehaviour
     {
         numberOfEnemies--;
         Debug.Log("Decreasing enemy number");
-        Mathf.Clamp(numberOfEnemies, 0, Mathf.Infinity);    // So the number of enemies never goes below 0
+        numberOfEnemies = (int)Mathf.Clamp(numberOfEnemies, 0, Mathf.Infinity);    // So the number of enemies never goes below 0
     }
 
     void PlaySpawnClip()

@@ -99,7 +99,6 @@ GameObject:
   - component: {fileID: 4232568596918846}
   - component: {fileID: 20535038656222526}
   - component: {fileID: 124709509721647380}
-  - component: {fileID: 81853667005128296}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -218,7 +217,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1098089096312838}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.511, y: 0.077, z: 0}
+  m_LocalPosition: {x: 0.499, y: 0.019, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4467767140962094}
@@ -287,13 +286,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.8, z: 0.5}
   m_Center: {x: 0, y: -0.31, z: -0.25}
---- !u!81 &81853667005128296
-AudioListener:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1761133120773292}
-  m_Enabled: 1
 --- !u!95 &95708093824852228
 Animator:
   serializedVersion: 3
@@ -322,27 +314,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff54c2151fee0d54b8417fc47d62cb9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  joystick: {fileID: 0}
   Rigidbody: {fileID: 54996514214459900}
-  Joystick: {fileID: 0}
   EnemyDetectTrigger: {fileID: 135549795504933472}
   PlantPointDetectTrigger: {fileID: 135313261536518600}
   EnemyDetectionRange: 3.5
   PlantPointDetectionRange: 2
-  Hand: {fileID: 4467767140962094}
-  Bullet: {fileID: 114886156663784738, guid: 62a763f9f753a7c4fb1133535e726fb3, type: 2}
-  ShootPosition: {fileID: 4970978718526566}
+  enemyDetectComponent:
+    enemyDetectionRange: 0
+    enemyList: []
   SpookySprite: {fileID: 212835599350365438}
   HandSprite: {fileID: 212749081230055284}
   Animator: {fileID: 95708093824852228}
+  bulletPrefab: {fileID: 114751990671467428, guid: 592720f6ac46d8b4882bc1a6a1b49175,
+    type: 2}
+  hand: {fileID: 4467767140962094}
+  shootTransform: {fileID: 4970978718526566}
   settings:
     MovementSettings:
       MaxSpeed: 5
-      SlowMotionSpeed: 0
+      SlowMotionSpeed: 3
       MaxXValue: 0
       MaxYValue: 0
     AttackSettings:
       AttackRate: 0.3
       LaunchForce: 5
+      ChargeRate: 2
 --- !u!124 &124709509721647380
 Behaviour:
   m_ObjectHideFlags: 1

@@ -7,7 +7,7 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
     [SerializeField]
     private float startTime;
     [SerializeField]
-    protected int corrosiveDamage;
+    protected float corrosiveDamage;
     [SerializeField]    // Per second
     protected float corrosiveTickRate;
     [SerializeField]    // In seconds
@@ -15,7 +15,7 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
     [SerializeField]
     protected GameObject corrosiveTrigger;
 
-    public delegate void CorrosiveDamage(int _damage);
+    public delegate void CorrosiveDamage(float _damage);
     public event CorrosiveDamage OnCorrosiveDamage;
 
     [SerializeField]

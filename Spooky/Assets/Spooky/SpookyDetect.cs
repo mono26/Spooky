@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class EnemyDetect : IEnemyDetect
+public class SpookyDetect : IEnemyDetect
 {
     // Give the value of the range in settings to the radius of the collider
     // it must be in a separate layer to wrk properly.
@@ -16,7 +16,7 @@ public class EnemyDetect : IEnemyDetect
     private List<Enemy> enemyList;
 
     // Create a stack to store all the enemies that come in range
-    public EnemyDetect(GameObject _owner, SphereCollider _detectionTrigger, float _enemyDetectionRange)
+    public SpookyDetect(GameObject _owner, SphereCollider _detectionTrigger, float _enemyDetectionRange)
     {
         // Constructor, sets all needed dependencies.
         owner = _owner;

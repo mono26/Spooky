@@ -79,7 +79,7 @@ public abstract class Enemy : MonoBehaviour
 
     protected void ActivateCollider()
     {
-        GetComponent<Collider>().enabled = false;
+        GetComponent<Collider>().enabled = true;
     }
 
     protected void DeactivateCollider()
@@ -91,7 +91,7 @@ public abstract class Enemy : MonoBehaviour
     {
         if (_collision.gameObject.CompareTag("Bullet"))
         {
-            int damage = _collision.gameObject.GetComponent<Bullet>().GetBulletDamage();
+            float damage = _collision.gameObject.GetComponent<Bullet>().GetBulletDamage();
             healthComponent.TakeDamage(damage);
             animationComponent.PlayAnimation("Damage");
         }
