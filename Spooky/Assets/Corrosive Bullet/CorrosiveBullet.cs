@@ -49,13 +49,13 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
 
     private void AddEnemy(Enemy _enemy)
     {
-        OnCorrosiveDamage += _enemy.healthComponent.TakeDamage;
+        OnCorrosiveDamage += _enemy.HealthComponent.TakeDamage;
         return;
     }
 
     private void RemoveEnemy(Enemy _enemy)
     {
-        OnCorrosiveDamage -= _enemy.healthComponent.TakeDamage;
+        OnCorrosiveDamage -= _enemy.HealthComponent.TakeDamage;
         return;
     }
 

@@ -315,8 +315,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildCanvas: {fileID: 0}
   plantCanvas: {fileID: 0}
-  currentPlantPoint: {fileID: 0}
-  uiSounds: []
   zOffset: 0.7
 --- !u!114 &114188510794227474
 MonoBehaviour:
@@ -365,7 +363,7 @@ MonoBehaviour:
     count: 0f000000
   numberOfEnemies: 0
   nextWave: 0
-  timeBetweenWaves: 5
+  timeBetweenWaves: 3
   waveCountDown: 0
   spawnStart: {fileID: 8300000, guid: 783ce37a3589d68419e688038e12052d, type: 3}
 --- !u!212 &212128300472108326

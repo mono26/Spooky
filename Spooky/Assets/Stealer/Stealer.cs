@@ -80,7 +80,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
         else if (currentState.Equals(State.Escaping))
         {
-            if (!target.CompareTag("Runaway Point"))
+            if (!Target.CompareTag("Runaway Point"))
             {
                 ChangeTargetToRunPoint();
             }
@@ -107,18 +107,18 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     protected void FixedUpdate()
     {
         if (currentState.Equals(State.Moving) || currentState.Equals(State.Escaping))
-            movementComponent.FixedUpdate();
+            MovementComponent.FixedUpdate();
         else return;
     }
 
     protected void ChangeTargetToHousePoint()
     {
-        target = LevelManager.Instance.GetRandomHousePoint();
+        SetTarget(LevelManager.Instance.GetRandomHousePoint());
     }
 
     protected void ChangeTargetToRunPoint()
     {
-        target = LevelManager.Instance.GetRandomRunawayPoint();
+        SetTarget(LevelManager.Instance.GetRandomRunawayPoint());
     }
 
     public bool HasLoot(bool _hasLoot)
@@ -134,13 +134,13 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
         // To make sure the dead damage animation is finished before the death one.
         yield return new WaitForSecondsRealtime(
-                    animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
+                    AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
                     );
 
-        animationComponent.PlayAnimation("Dead");
+        AnimationComponent.PlayAnimation("Dead");
 
         yield return new WaitForSecondsRealtime(
-                    animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
+                    AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
                     );
 
         base.Die();

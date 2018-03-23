@@ -49,7 +49,7 @@ public class SpookyDetect : IEnemyDetect
         Vector3 _direction = Vector3.zero;
         if (HasTarget() && IsTargetActive())
         {
-            _direction = (enemyList[0].settings.Rigidbody.position - owner.transform.position).normalized;
+            _direction = (enemyList[0].transform.position - owner.transform.position).normalized;
             _direction.y = 0;
             return _direction;
         }

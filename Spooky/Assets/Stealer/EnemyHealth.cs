@@ -5,16 +5,14 @@ using UnityEngine.UI;
 public class EnemyHealth : IDamagable
 {
     //AIEffectsHandler effects;
-    private Enemy owner;
+    private Enemy enemy;
     private Settings settings;
 
-    public float maxHealth;
-    public float currentHealth;
+    private float currentHealth;
 
-    public EnemyHealth(Enemy _owner, int _maxHealth, Settings _settings)
+    public EnemyHealth(Enemy _owner, Settings _settings)
     {
-        owner = _owner;
-        maxHealth = _maxHealth;
+        enemy = _owner;
         settings = _settings;
     }
 
@@ -25,18 +23,18 @@ public class EnemyHealth : IDamagable
 
     public void RestartValues()
     {
-        currentHealth = maxHealth;
+        currentHealth = settings.MaxHealth;
         // Need to cast to float because the result of "/" by two ints gives a int.
-        settings.HealthBar.fillAmount = currentHealth / maxHealth;
+        settings.HealthBar.fillAmount = currentHealth / settings.MaxHealth;
         settings.HealthBar.gameObject.SetActive(false);
     }
 
     public void TakeDamage(float _damage)
     {
         //var feathersP = Instantiate(controller.feathersParticle, transform.position, Quaternion.Euler(-90, 0, 0));
-        owner.StartCoroutine(ToggleHealthBar());
+        enemy.StartCoroutine(ToggleHealthBar());
         currentHealth = Mathf.Max(0, currentHealth - _damage);
-        settings.HealthBar.fillAmount = currentHealth / maxHealth;
+        settings.HealthBar.fillAmount = currentHealth / settings.MaxHealth;
     }
 
     public float GetCurrentHealth()
@@ -58,6 +56,7 @@ public class EnemyHealth : IDamagable
     public class Settings
     {
         public Image HealthBar;
+        public float MaxHealth;
         public float HealthBarToggleTime;
     }
 }

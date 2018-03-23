@@ -1,41 +1,51 @@
 ﻿using UnityEngine;
-using UnityEngine.AI;
 
 public abstract class Enemy : MonoBehaviour
 {
-    // TODO use get component for getting dependencies?
+    private EnemyMovement movementComponent;
+    public EnemyMovement MovementComponent { get { return movementComponent; } }
+    private EnemyHealth healthComponent;
+    public EnemyHealth HealthComponent { get { return healthComponent; } }
+    private EnemyAnimation animationComponent;
+    public EnemyAnimation AnimationComponent { get { return animationComponent; } }
 
-    public EnemyMovement movementComponent;
-    // TODO set a Getter for this
-    public EnemyHealth healthComponent;
-    public EnemyAnimation animationComponent;
-    // TODO check if we have to set settings in constructor.
-    public Settings settings;
+    [SerializeField]
+    protected Settings settings;
 
     protected ICloseRangeAttack basicAbility;
     [SerializeField]
     protected Coroutine ability;
-    public Transform target;
+    [SerializeField]
+    private Transform target;
+    public Transform Target { get { return target; } }
     [SerializeField]
     protected float lastAttackExecution;
-    [SerializeField]
-    protected SpriteRenderer sprite;
-    [SerializeField]
-    protected Animator animator;
-
-    private bool isCasting;
-    protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
 
     // TODO extraer interfaz IKillable o IRelesable???
     public delegate void Release();
     public event Release OnReleased;
+
     public bool isDying;
+    private bool isCasting;
+    protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
 
     protected void Awake()
     {
-        movementComponent = new EnemyMovement(this, settings.MovementSettings);
-        healthComponent = new EnemyHealth(this, settings.MaxHealth, settings.HealthSettings);
-        animationComponent = new EnemyAnimation(sprite, animator);
+        movementComponent = new EnemyMovement(
+            this,
+            GetComponent<Rigidbody>(),
+            settings.MovementSettings
+            );
+
+        healthComponent = new EnemyHealth(
+            this,
+            settings.HealthSettings
+            );
+
+        animationComponent = new EnemyAnimation(
+            GetComponent<SpriteRenderer>(),
+            GetComponent<Animator>()
+            );
     }
 
     protected void OnEnable()
@@ -87,6 +97,16 @@ public abstract class Enemy : MonoBehaviour
         GetComponent<Collider>().enabled = false;
     }
 
+    protected void Die()
+    {
+        OnReleased();
+    }
+
+    protected void SetTarget(Transform _target)
+    {
+        target = _target;
+    }
+
     protected void OnCollisionEnter(Collision _collision)
     {
         if (_collision.gameObject.CompareTag("Bullet"))
@@ -97,19 +117,11 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-    protected void Die()
-    {
-        OnReleased();
-    }
-
     [System.Serializable]
     public class  Settings
     {
-        public Rigidbody Rigidbody;
-        public NavMeshAgent NavMesh;
         public float BasicCooldown;
         public float BasicRange;
-        public int MaxHealth;
 
         [SerializeField]
         public EnemyMovement.Settings MovementSettings;

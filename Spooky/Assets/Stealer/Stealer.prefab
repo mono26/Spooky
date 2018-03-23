@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222825676013907580}
   - component: {fileID: 114171548478037278}
   m_Layer: 11
-  m_Name: Health Bar
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 114951604829026382}
   - component: {fileID: 114684583226181220}
   m_Layer: 11
-  m_Name: Health Canvas
+  m_Name: HealthCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,10 +54,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4130179145791594}
-  - component: {fileID: 212499245088290674}
-  - component: {fileID: 195625478652266936}
   - component: {fileID: 54612795838928992}
   - component: {fileID: 65213049345834584}
+  - component: {fileID: 195569544062278668}
+  - component: {fileID: 212499245088290674}
   - component: {fileID: 95806726417820678}
   - component: {fileID: 114095580315903786}
   m_Layer: 11
@@ -136,26 +136,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c9e782ee0bd25a468f609b7be02bc6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementComponent:
-    enemy: {fileID: 0}
   settings:
-    Rigidbody: {fileID: 54612795838928992}
-    NavMesh: {fileID: 195625478652266936}
-    BasicCooldown: 15
-    BasicRange: 0.3
-    MaxHealth: 3
+    BasicCooldown: 0
+    BasicRange: 0
     MovementSettings:
+      navMeshAgent: {fileID: 195569544062278668}
       MaxSpeed: 1
-      SlowMotionSpeed: 0
+      SlowMotionSpeed: 3
       MaxXValue: 0
       MaxYValue: 0
     HealthSettings:
       HealthBar: {fileID: 114171548478037278}
-      HealthBarToggleTime: 3
+      MaxHealth: 3
+      HealthBarToggleTime: 2
   target: {fileID: 0}
   lastAttackExecution: 0
-  sprite: {fileID: 212499245088290674}
-  animator: {fileID: 95806726417820678}
+  isDying: 0
   currentState: 0
   stoleValue: 5
   hasLoot: 0
@@ -223,7 +219,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!195 &195625478652266936
+--- !u!195 &195569544062278668
 NavMeshAgent:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -239,7 +235,7 @@ NavMeshAgent:
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
-  m_AutoRepath: 0
+  m_AutoRepath: 1
   m_Height: 0.5
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
