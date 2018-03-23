@@ -4,37 +4,36 @@ public class Spooky : MonoBehaviour
 {
     // Common section
     [Header("Common Settings")]
-    public Joystick joystick;
+    [SerializeField]
+    private Joystick joystick;
+    public Joystick Joystick { get { return joystick; } }
 
     // Movement section
     [Header("Movement Settings")]
-    public Rigidbody Rigidbody;
     private SpookyMovement movementComponent;
 
     // Detection Section
     [Header("Detection Settings")]
-    public SphereCollider EnemyDetectTrigger;
-    public SphereCollider PlantPointDetectTrigger;
-    [Range(3f,4f)]
-    public float EnemyDetectionRange;
-    [Range(1.5f, 2f)]
-    public float PlantPointDetectionRange;
     [SerializeField]
-    public SpookyDetect enemyDetectComponent;
+    [Range(3f, 4f)]
+    private float EnemyDetectionRange;
+    [SerializeField]
+    [Range(1.5f, 2f)]
+    private float PlantPointDetectionRange;
+    [SerializeField]
+    private SpookyDetect enemyDetectComponent;
+    public SpookyDetect EnemyDetectComponent { get { return enemyDetectComponent; } }
     private PlantPointDetect plantPointDetect;
 
     // Animation section
     [Header("Animation Settings")]
-    public SpriteRenderer SpookySprite;
-    public SpriteRenderer HandSprite;
-    public Animator Animator;
-    public SpookyAnimation animationComponent;
+    private SpookyAnimation animationComponent;
+    public SpookyAnimation AnimationComponent { get { return animationComponent; } }
 
     // Attack section
     [Header("Attack Settings")]
-    public SpookyBullet bulletPrefab;
-    public Transform hand;
-    public Transform shootTransform;
+    [SerializeField]
+    private SpookyBullet bulletPrefab;
     [SerializeField]
     private SpookyAttack attackComponent;
 
@@ -56,31 +55,34 @@ public class Spooky : MonoBehaviour
     {
         movementComponent = new SpookyMovement(
             this,
+            GetComponent<Rigidbody>(),
             settings.MovementSettings
             );
 
         enemyDetectComponent = new SpookyDetect(
             gameObject,
-            EnemyDetectTrigger,
+            GameObject.FindGameObjectWithTag("EnemyDetector").GetComponent<SphereCollider>(),
             EnemyDetectionRange
             );
 
         attackComponent = new SpookyAttack(
             this,
+            GameObject.FindGameObjectWithTag("SpookyHand").transform,
+            GameObject.FindGameObjectWithTag("SpookyShootPoint").transform,
             bulletPrefab,
             settings.AttackSettings
             );
 
         plantPointDetect = new PlantPointDetect(
             this,
-            PlantPointDetectTrigger,
+            GameObject.FindGameObjectWithTag("PlantpointDetector").GetComponent<SphereCollider>(),
             PlantPointDetectionRange
             );
 
         animationComponent = new SpookyAnimation(
-            SpookySprite,
-            HandSprite,
-            Animator
+            GetComponent<SpriteRenderer>(),
+            GameObject.FindGameObjectWithTag("SpookyHandSprite").GetComponent<SpriteRenderer>(),
+            GetComponent<Animator>()
             );
     }
 

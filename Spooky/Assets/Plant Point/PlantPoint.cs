@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlantPoint : MonoBehaviour
+public class Plantpoint : MonoBehaviour
 {
     public PlantBlueprint currentBlueprint;
     public Plant currentPlant;
@@ -16,7 +16,7 @@ public class PlantPoint : MonoBehaviour
 
     public void BuildPlant(PlantBlueprint blueprint)       //Luego de que se tenga una planta seleccionada cuando se escoja un nodo se construira ahi
     {
-        LevelManager.Instance.uiManager.TakeMoney(blueprint.price);
+        LevelManager.Instance.UiManager.TakeMoney(blueprint.price);
         currentPlant = Instantiate(blueprint.plant.gameObject, transform.position, transform.rotation).GetComponent<Plant>();
         currentBlueprint = blueprint;
         //SoundHandler.Instance.PlayClip(plantPointSounds[0]);
@@ -27,14 +27,14 @@ public class PlantPoint : MonoBehaviour
     {
         if (!isUpgraded)
         {
-            LevelManager.Instance.uiManager.GiveMoney(currentBlueprint.price);
+            LevelManager.Instance.UiManager.GiveMoney(currentBlueprint.price);
             Destroy(currentPlant.gameObject);
             ClearPlantPoint();
             PlantStore.Instance.DeselectPlantPoint();
         }
         else if (isUpgraded)
         {
-            LevelManager.Instance.uiManager.GiveMoney(currentBlueprint.upgradePrice);
+            LevelManager.Instance.UiManager.GiveMoney(currentBlueprint.upgradePrice);
             Destroy(currentPlant.gameObject);
             ClearPlantPoint();
             PlantStore.Instance.DeselectPlantPoint();
@@ -45,9 +45,10 @@ public class PlantPoint : MonoBehaviour
 
     public void UpgradePlant()
     {
-        LevelManager.Instance.uiManager.TakeMoney(currentBlueprint.upgradePrice);
+        LevelManager.Instance.UiManager.TakeMoney(currentBlueprint.upgradePrice);
         Destroy(currentPlant.gameObject);
         currentPlant = Instantiate(currentBlueprint.upgradePlant.gameObject, transform.position, transform.rotation).GetComponent<Plant>();
+        isUpgraded = true;
         currentPlant.transform.position = transform.position;
         PlantStore.Instance.DeselectPlantPoint();
         //SoundHandler.Instance.PlayClip(plantPointSounds[2]);

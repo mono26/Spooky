@@ -26,7 +26,7 @@ public class Steal : ICloseRangeAttack
                     owner.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime
                     );
 
-        LevelManager.Instance.uiManager.LoseCrop(owner.stoleValue);
+        LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
         owner.HasLoot(true);
 
         // TODO add loot

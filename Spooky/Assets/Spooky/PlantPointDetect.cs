@@ -1,22 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [System.Serializable]
 public class PlantPointDetect
 {
     //Reference variable to the player class, so you can acces the variables, like position, rigidbody, etc.
-    public Spooky spooky;
+    private Spooky spooky;
     //SphereCollider for detecting the collision with the plantPoints
-    public SphereCollider sphereTrigger;
+    private SphereCollider sphereTrigger;
 
-    public float detectRange;
+    private float detectRange;
 
     //Value of the current plantPoint. It changes through time by collision detection
     //Also the value can be null if the current plantPoint is out of the collider boundaries
-    public PlantPoint currentPlantPoint;
+    private Plantpoint currentPlantPoint;
 
-    public PlantPoint CurrentPlantPoint
+    public Plantpoint CurrentPlantPoint
     {
         get { return currentPlantPoint; }
         set { currentPlantPoint = value; }
@@ -29,13 +27,6 @@ public class PlantPointDetect
         detectRange = _detectRange;
     }
 
-    private void Awake()
-    {
-        //This component is founf on the ParentObject because this object is child of the Spooky main object
-        //so we can have multiple trigger colliders for multiple collision detection purposes so each collider
-        //manages it own collisions. This one only manges plantPoint collisions.
-        //sphereTrigger = GetComponent<SphereCollider>();
-    }
     public void Start()
     {
         //When the game starts we give the collider its radius value
@@ -44,7 +35,7 @@ public class PlantPointDetect
 
     public void Update()
     {
-        if (!currentPlantPoint && PlantStore.Instance.currentPlantPoint)
+        if (!currentPlantPoint && PlantStore.Instance.CurrentPlantPoint)
         {
             PlantStore.Instance.DeselectBuildPoint();
             PlantStore.Instance.DeselectPlantPoint();
@@ -88,7 +79,7 @@ public class PlantPointDetect
                 PlantStore.Instance.DeselectBuildPoint();
                 PlantStore.Instance.DeselectPlantPoint();
             }
-            CurrentPlantPoint = collider.gameObject.GetComponent<PlantPoint>();
+            CurrentPlantPoint = collider.gameObject.GetComponent<Plantpoint>();
             if (CurrentPlantPoint.currentPlant)
                 PlantStore.Instance.SelectPlantPoint(CurrentPlantPoint);
             else if (!currentPlantPoint.currentPlant)
@@ -105,7 +96,7 @@ public class PlantPointDetect
         if (collider.CompareTag("Plant Point"))
         {
             //If the collider that exited the bounds is equal to the current it calls the ClearPlantPoint() method
-            if (currentPlantPoint && currentPlantPoint == collider.GetComponent<PlantPoint>())
+            if (currentPlantPoint && currentPlantPoint == collider.GetComponent<Plantpoint>())
             {
                 ClearPlantPoint();
             }

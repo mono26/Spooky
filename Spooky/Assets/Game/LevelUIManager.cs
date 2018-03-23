@@ -4,22 +4,26 @@ using UnityEngine.SceneManagement;
 
 public class LevelUIManager
 {
-    public GameObject topUI;
-    public GameObject bottomUI;
-    public GameObject pauseButton;
-    public GameObject pauseCanvas;
+    private GameObject topUI;
+    private GameObject bottomUI;
+    private GameObject pauseButton;
+    private GameObject pauseCanvas;
+    private Image cropUIBar;
+    private Image waveBar;
+    private Text gameMoneyText;
+    private Text enemiesCounter;
+
+    private int startingMoney = 400;
+    private float currentMoney;
+    public float CurrentMoney { get { return currentMoney; } }
+
+    private float maxCrop = 800;
+    private float currentCrop;
+    public float CurrentCrop { get { return currentCrop; } }
 
     // TODO getter
-    public bool isPaused;
-
-    public Image cropUIBar;
-    public Image waveBar;
-    public Text gameMoneyText;
-    public Text enemiesCounter;
-    public int startingMoney = 400;
-    public int currentMoney;
-    public int maxCrop = 800;
-    public float currentCrop;
+    private bool isPaused;
+    public bool IsPaused { get { return isPaused; } }
 
     public LevelUIManager(
         Image _cropUIBar, Image _waveBar, Text _gameMoneyText, 
@@ -34,8 +38,6 @@ public class LevelUIManager
         pauseButton = _pauseButton;
         pauseCanvas = _pauseCanvas;
         enemiesCounter = _enemiesCounter;
-
-
 
         HideUI();
         //TODO better protection
@@ -65,10 +67,10 @@ public class LevelUIManager
 
     public void Update()
     {
-        enemiesCounter.text = WaveSpawner.Instance.GetNumberOfEnemies().ToString();
+        enemiesCounter.text = WaveSpawner.Instance.NumberOfEnemies.ToString();
     }
 
-    public void LoseCrop(int _stole)
+    public void LoseCrop(float _stole)
     {
         currentCrop -= _stole;
         cropUIBar.fillAmount = currentCrop / maxCrop;
@@ -79,13 +81,13 @@ public class LevelUIManager
         }
     }
 
-    public void GiveMoney(int reward)
+    public void GiveMoney(float reward)
     {
         currentMoney += reward;
         gameMoneyText.text = "$:" + currentMoney;
     }
 
-    public void TakeMoney(int money)
+    public void TakeMoney(float money)
     {
         currentMoney -= money;
         gameMoneyText.text = "$:" + currentMoney;
@@ -107,7 +109,7 @@ public class LevelUIManager
 
     private void IncreaseWave()
     {
-        waveBar.fillAmount = (float)(WaveSpawner.Instance.nextWave) + 1 / (float)(WaveSpawner.Instance.waves.Length);
+        waveBar.fillAmount = (float)(WaveSpawner.Instance.NextWave) + 1 / (float)(WaveSpawner.Instance.Waves.Length);
     }
 
     public void QuitLevel()
@@ -127,13 +129,13 @@ public class LevelUIManager
     public void PauseLevel()
     {
         isPaused = !isPaused;
-        if (isPaused)
+        if (IsPaused)
         {
             pauseCanvas.SetActive(true);
             Time.timeScale = 0;
             return;
         }
-        else if (!isPaused)
+        else if (!IsPaused)
         {
             pauseCanvas.SetActive(false);
             Time.timeScale = 1;

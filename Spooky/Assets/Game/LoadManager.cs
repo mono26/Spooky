@@ -15,7 +15,7 @@ public class LoadManager
 
         yield return SceneManager.LoadSceneAsync("LoadScene");
 
-        GameManager.Instance.sceneFader.FadeInLevel();
+        GameManager.Instance.SceneFader.FadeInLevel();
 
         StartLoading(_levelIndex);
 
@@ -42,10 +42,10 @@ public class LoadManager
     public IEnumerator FinishLoading()
     {
         Time.timeScale = 1f;
-        GameManager.Instance.sceneFader.FadeOutLevel();
+        GameManager.Instance.SceneFader.FadeOutLevel();
 
         yield return SceneManager.UnloadSceneAsync("LoadScene");
 
-        GameManager.Instance.sceneFader.FadeInLevel();
+        GameManager.Instance.SceneFader.FadeInLevel();
     }
 }

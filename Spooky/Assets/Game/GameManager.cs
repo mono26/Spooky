@@ -14,8 +14,11 @@ public class GameManager : MonoBehaviour
     public LoadManager LoadManager { get { return loadManager; } }
 
     // TODO use gameObject Find
-    public Fader sceneFader;
-    public AnimationCurve fadeCurve;
+    private Fader sceneFader;
+    public Fader SceneFader { get { return sceneFader; } }
+    [SerializeField]
+    private AnimationCurve fadeCurve;
+    public AnimationCurve FadeCurve { get { return fadeCurve; } }
 
     [SerializeField]
     private AudioSource efxSource;
@@ -35,14 +38,14 @@ public class GameManager : MonoBehaviour
         else
             instance = this;
 
-        sceneFader = new Fader(GameObject.FindGameObjectWithTag("Black Fade").GetComponent<Image>(), fadeCurve);
+        sceneFader = new Fader(GameObject.FindGameObjectWithTag("Black Fade").GetComponent<Image>(), FadeCurve);
         soundManager = new SoundManager(efxSource, musicSource);
         loadManager = new LoadManager();
     }
 
     private void Start()
     {
-        StartCoroutine(sceneFader.FadeInLevel());
+        StartCoroutine(SceneFader.FadeInLevel());
     }
 
     public IEnumerator LoadLevel(int _levelIndex)
@@ -51,7 +54,8 @@ public class GameManager : MonoBehaviour
 
         yield return StartCoroutine(loadManager.FinishLoading());
 
-        OnStartGame();
+        if(OnStartGame != null)
+            OnStartGame();
     }
 
 }

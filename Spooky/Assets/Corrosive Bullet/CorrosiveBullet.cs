@@ -5,7 +5,7 @@ using UnityEngine;
 public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
 {
     [SerializeField]
-    private float startTime;
+    protected float startTime;
     [SerializeField]
     protected float corrosiveDamage;
     [SerializeField]    // Per second

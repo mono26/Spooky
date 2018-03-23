@@ -6,6 +6,8 @@ public class SpookyAttack
 {
     // Variable for a bullet.
     private Spooky spooky;
+    private Transform hand;
+    private Transform shootTransform;
     private Settings settings;
 
     [SerializeField]
@@ -17,9 +19,11 @@ public class SpookyAttack
 
     private float lastShoot;
 
-    public SpookyAttack(Spooky _spooky, SpookyBullet _bulletPrefab, Settings _settings)
+    public SpookyAttack(Spooky _spooky, Transform _hand, Transform _shootTransform, SpookyBullet _bulletPrefab, Settings _settings)
     {
         spooky = _spooky;
+        hand = _hand;
+        shootTransform = _shootTransform;
         bulletPrefab = _bulletPrefab;
         settings = _settings;
     }
@@ -40,16 +44,16 @@ public class SpookyAttack
     {
         // TODO check if there is a target
         Vector3 _direction = Vector3.zero;
-        if (spooky.enemyDetectComponent.HasTarget())
+        if (spooky.EnemyDetectComponent.HasTarget())
         {
-            _direction = spooky.enemyDetectComponent.GetEnemyDirection();
+            _direction = spooky.EnemyDetectComponent.GetEnemyDirection();
             RotateHand(_direction);
             return;
         }
         else
         {
-            _direction.x = spooky.joystick.Horizontal;
-            _direction.z = spooky.joystick.Vertical;
+            _direction.x = spooky.Joystick.Horizontal;
+            _direction.z = spooky.Joystick.Vertical;
             if (!_direction.x.Equals(0f) || !_direction.z.Equals(0f))
             {
                 RotateHand(_direction);
@@ -62,20 +66,14 @@ public class SpookyAttack
     private void RotateHand(Vector3 _direction)
     {
         float angle = Mathf.Atan2(_direction.z, _direction.x) * Mathf.Rad2Deg;
-        float delta = angle - spooky.hand.localRotation.eulerAngles.z;
-        /*if (Mathf.Abs(delta) < 180)
-        {
-            hand.Rotate(new Vector3(0, 0, delta), Space.Self);
-        }
-        else
-            hand.Rotate(new Vector3(0, 0, -delta), Space.Self);*/
-        spooky.hand.localRotation = Quaternion.RotateTowards(spooky.hand.localRotation, Quaternion.Euler(new Vector3(0, 0, angle)), Mathf.Abs(delta));
+        float delta = angle - hand.localRotation.eulerAngles.z;
+        hand.localRotation = Quaternion.RotateTowards(hand.localRotation, Quaternion.Euler(new Vector3(0, 0, angle)), Mathf.Abs(delta));
         return;
     }
 
     private void RotateBullettowardsDirection(Transform _bullet)
     {
-        _bullet.right = spooky.hand.right;
+        _bullet.right = hand.right;
         return;
     }
 
@@ -84,8 +82,7 @@ public class SpookyAttack
         if (Time.timeSinceLevelLoad > lastShoot + settings.AttackRate)
         {
             actualBullet = GetBulletToShoot();
-            actualBullet.transform.SetParent(spooky.shootTransform);
-            // TODO start charging
+            actualBullet.transform.SetParent(shootTransform);
             spooky.StartCoroutine(ChargeAttack());
         }
         else return;
@@ -113,7 +110,7 @@ public class SpookyAttack
 
     private SpookyBullet GetBulletToShoot()
     {
-        return (SpookyBullet)bulletPrefab.Spawn(spooky.shootTransform);
+        return (SpookyBullet)bulletPrefab.Spawn(shootTransform);
     }
 
     private IEnumerator ChargeAttack()

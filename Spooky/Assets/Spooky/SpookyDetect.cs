@@ -9,7 +9,7 @@ public class SpookyDetect : IEnemyDetect
     private GameObject owner;
 
     [Range(3f, 5f)]
-    public float enemyDetectionRange;
+    private float enemyDetectionRange;
     private SphereCollider detectionTrigger;
 
     [SerializeField]

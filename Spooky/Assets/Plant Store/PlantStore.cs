@@ -1,22 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlantStore : MonoBehaviour
 {
     //Singleton part
     private static PlantStore instance;
-    public static PlantStore Instance
-    {
-        get { return instance; }
-    }
+    public static PlantStore Instance { get { return instance; } }
 
-    //Esta es informacion para toda la programacion del plantpoint y sus funciones
-    public GameObject buildCanvas;
-    public GameObject plantCanvas;
-    public PlantPoint currentPlantPoint;
-    //public SceneFader sceneFader;
-    public AudioClip[] uiSounds;
+    [SerializeField]
+    private GameObject buildCanvas;
+    [SerializeField]
+    private GameObject plantCanvas;
+
+    private Plantpoint currentPlantPoint;
+    public Plantpoint CurrentPlantPoint { get { return currentPlantPoint; } }
+
+    private AudioClip[] uiSounds;
 
     [SerializeField]
     private float zOffset = 0.7f;
@@ -29,10 +27,16 @@ public class PlantStore : MonoBehaviour
         }
         else
             Destroy(gameObject);
+
+        buildCanvas = GameObject.FindGameObjectWithTag("BuildCanvas");
+        plantCanvas = GameObject.FindGameObjectWithTag("PlantCanvas");
+
+        HideBuildUI();
+        HidePlantUI();
     }
 
     //Metodos para el manejo de los plantpoints y la UI
-    public void SelectPlantPoint(PlantPoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
+    public void SelectPlantPoint(Plantpoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
     {
         if (currentPlantPoint == plantPoint)
         {
@@ -42,7 +46,7 @@ public class PlantStore : MonoBehaviour
         currentPlantPoint = plantPoint;
         SetPlantPoint(currentPlantPoint);
     }
-    public void SelectBuildPoint(PlantPoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
+    public void SelectBuildPoint(Plantpoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
     {
         if (currentPlantPoint == plantPoint)
         {
@@ -62,14 +66,14 @@ public class PlantStore : MonoBehaviour
         currentPlantPoint = null;
         HideBuildUI();
     }
-    public void SetPlantPoint(PlantPoint plantPoint)
+    public void SetPlantPoint(Plantpoint plantPoint)
     {
         //Si el plantPoint tiene una planta se activa el plantpointUI con la informacion de la planta.
         currentPlantPoint = plantPoint;
         plantCanvas.transform.position = currentPlantPoint.transform.position + new Vector3(0, 0, zOffset);
         plantCanvas.SetActive(true);
     }
-    public void SetBuildPoint(PlantPoint plantPoint)
+    public void SetBuildPoint(Plantpoint plantPoint)
     {
         //Cuadno el plant poin esta vacio para sacar el buildUI
         currentPlantPoint = plantPoint;
@@ -89,7 +93,7 @@ public class PlantStore : MonoBehaviour
     //planta como el UI de construccion.
     public void PurchasePlant(PlantBlueprint bluePrint)
     {
-        if (LevelManager.Instance.uiManager.currentMoney >= bluePrint.price)
+        if (LevelManager.Instance.UiManager.CurrentMoney >= bluePrint.price)
         {
             currentPlantPoint.BuildPlant(bluePrint);
             //SoundHandler.Instance.PlayClip(uiSounds[0]);
@@ -100,7 +104,7 @@ public class PlantStore : MonoBehaviour
     }
     public void Upgrade()
     {
-        if (LevelManager.Instance.uiManager.currentMoney > currentPlantPoint.currentBlueprint.upgradePrice)
+        if (LevelManager.Instance.UiManager.CurrentMoney > currentPlantPoint.currentBlueprint.upgradePrice)
         {
             currentPlantPoint.UpgradePlant();
             //SoundHandler.Instance.PlayClip(uiSounds[0]);

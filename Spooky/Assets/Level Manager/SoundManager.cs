@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class SoundManager
 {
-    public AudioSource efxSource;                   //Drag a reference to the audio source which will play the sound effects.
-    public AudioSource musicSource;                 //Drag a reference to the audio source which will play the music. 
+    private AudioSource efxSource;                   //Drag a reference to the audio source which will play the sound effects.
+    private AudioSource musicSource;                 //Drag a reference to the audio source which will play the music. 
 
     public SoundManager(AudioSource _efxSource, AudioSource _musicSource)
     {

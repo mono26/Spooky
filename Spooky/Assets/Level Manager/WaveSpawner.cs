@@ -6,10 +6,7 @@ public class WaveSpawner : MonoBehaviour
 {
     //Singleton part
     private static WaveSpawner instance;
-    public static WaveSpawner Instance
-    {
-        get { return instance; }
-    }
+    public static WaveSpawner Instance { get { return instance; } }
 
     public enum SpawnState
     {
@@ -29,19 +26,28 @@ public class WaveSpawner : MonoBehaviour
     }
 
     //To store different waves
-    public Wave[] waves;
-    public int numberOfEnemies = 0;
+    [SerializeField]
+    private Wave[] waves;
+    public Wave[] Waves { get { return waves; } }
+    [SerializeField]
+    private int numberOfEnemies = 0;
+    public int NumberOfEnemies { get { return numberOfEnemies; } }
     //Wich wave is next
-    public int nextWave = 0;
+    [SerializeField]
+    private int nextWave = 0;
+    public int NextWave { get { return nextWave; } }
     //Automatic next wave spawn
-    public float timeBetweenWaves = 5.0f;
+    [SerializeField]
+    private float timeBetweenWaves = 5.0f;
     //Wave spawn counter
+    [SerializeField]
     private float waveCountDown;
 
-    public AudioClip spawnStart;
+    [SerializeField]
+    private AudioClip spawnStart;
 
     //State of the waveSpawn
-    public SpawnState state;
+    private SpawnState state;
 
     public delegate void SpawnStart();
     public event SpawnStart OnSpawnStart;
@@ -121,11 +127,9 @@ public class WaveSpawner : MonoBehaviour
     private void SpawnEnemy(ISpawnable<Enemy> _enemy)
     {
         //Random between all the spawnpoints
-        var spawnPoint = LevelManager.Instance.GetRandomSpawnPoint();
-        var parentPool = GameObject.Find("Enemies");
-        Enemy tempEnemy = _enemy.Spawn(spawnPoint);
+        Enemy tempEnemy = _enemy.Spawn(LevelManager.Instance.GetRandomSpawnPoint());
         tempEnemy.OnReleased += DecreaseEnemyNumber;
-        tempEnemy.transform.SetParent(parentPool.transform);
+        tempEnemy.transform.SetParent(GameObject.Find("Enemies").transform);
         numberOfEnemies++;
     }
 
@@ -147,10 +151,5 @@ public class WaveSpawner : MonoBehaviour
     void PlaySpawnClip()
     {
         GameManager.Instance.SoundManager.PlayClip(spawnStart);
-    }
-
-    public int GetNumberOfEnemies()
-    {
-        return numberOfEnemies;
     }
 }

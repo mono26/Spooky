@@ -6,7 +6,8 @@ public class LevelManager : MonoBehaviour
     private static LevelManager instance;
     public static LevelManager Instance { get { return instance; } }
 
-    public LevelUIManager uiManager;
+    private LevelUIManager uiManager;
+    public LevelUIManager UiManager;
 
     // HouseSteal points used by the Stealer to note setting the target to the middle of the house. (out of navmesh)
     [SerializeField]
@@ -22,9 +23,12 @@ public class LevelManager : MonoBehaviour
 
     // TODO set up automatic set in script, not in editor.
     //Variables relacionadas con el fin del nivel
-    public static bool GameIsOver;
-    public GameObject loseUI;
-    public GameObject winUI;
+    private static bool gameIsOver = false;
+
+    [SerializeField]
+    private GameObject loseUI;
+    [SerializeField]
+    private GameObject winUI;
 
     public AudioClip musicClip;
 
@@ -117,13 +121,13 @@ public class LevelManager : MonoBehaviour
 
     public void GameOver()
     {
-        GameIsOver = true;
+        gameIsOver = true;
         // SoundHandler.Instance.PlayClip(gameSounds[0]);
         loseUI.SetActive(true);
     }
     public void WinLevel()
     {
-        GameIsOver = true;
+        gameIsOver = true;
         winUI.SetActive(true);
     }
 

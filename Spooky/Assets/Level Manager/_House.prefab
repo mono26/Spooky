@@ -333,8 +333,8 @@ MonoBehaviour:
   spawnPoints: []
   runAwayPoints: []
   spooky: {fileID: 0}
-  gameOverUI: {fileID: 0}
-  completeLvlUI: {fileID: 0}
+  loseUI: {fileID: 0}
+  winUI: {fileID: 0}
   musicClip: {fileID: 8300000, guid: 040257887a5c04446b0b84b51e4b7d26, type: 3}
 --- !u!114 &114951207490674992
 MonoBehaviour:
@@ -363,11 +363,11 @@ MonoBehaviour:
     - {fileID: 114095580315903786, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
     spawnRate: 0.5
     count: 0f000000
-  gameNumberOfEnemies: 0
+  numberOfEnemies: 0
   nextWave: 0
   timeBetweenWaves: 5
+  waveCountDown: 0
   spawnStart: {fileID: 8300000, guid: 783ce37a3589d68419e688038e12052d, type: 3}
-  state: 0
 --- !u!212 &212128300472108326
 SpriteRenderer:
   m_ObjectHideFlags: 1

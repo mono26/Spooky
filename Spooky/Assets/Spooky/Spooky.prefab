@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4970978718526566}
   m_Layer: 0
-  m_Name: Shoot Point
-  m_TagString: Untagged
+  m_Name: ShootPoint
+  m_TagString: SpookyShootPoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,8 +36,8 @@ GameObject:
   - component: {fileID: 4424475983447936}
   - component: {fileID: 212749081230055284}
   m_Layer: 0
-  m_Name: Hand Sprite
-  m_TagString: Untagged
+  m_Name: HandSprite
+  m_TagString: SpookyHandSprite
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,7 +52,7 @@ GameObject:
   - component: {fileID: 4467767140962094}
   m_Layer: 0
   m_Name: Hand
-  m_TagString: Untagged
+  m_TagString: SpookyHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -67,8 +67,8 @@ GameObject:
   - component: {fileID: 4611298257410260}
   - component: {fileID: 135313261536518600}
   m_Layer: 16
-  m_Name: Plant Point Detector
-  m_TagString: Plant Point Detector
+  m_Name: PlantPointDetector
+  m_TagString: PlantpointDetector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83,8 +83,8 @@ GameObject:
   - component: {fileID: 4635779403664712}
   - component: {fileID: 135549795504933472}
   m_Layer: 12
-  m_Name: Enemy Detector
-  m_TagString: Enemy Detector
+  m_Name: EnemyDetector
+  m_TagString: EnemyDetector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -315,21 +315,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 0}
-  Rigidbody: {fileID: 54996514214459900}
-  EnemyDetectTrigger: {fileID: 135549795504933472}
-  PlantPointDetectTrigger: {fileID: 135313261536518600}
   EnemyDetectionRange: 3.5
   PlantPointDetectionRange: 2
   enemyDetectComponent:
     enemyDetectionRange: 0
     enemyList: []
-  SpookySprite: {fileID: 212835599350365438}
-  HandSprite: {fileID: 212749081230055284}
-  Animator: {fileID: 95708093824852228}
   bulletPrefab: {fileID: 114751990671467428, guid: 592720f6ac46d8b4882bc1a6a1b49175,
     type: 2}
-  hand: {fileID: 4467767140962094}
-  shootTransform: {fileID: 4970978718526566}
   settings:
     MovementSettings:
       MaxSpeed: 5
