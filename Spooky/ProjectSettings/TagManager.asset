@@ -45,13 +45,13 @@ TagManager:
   - Bullet
   - Spooky
   - Enemy
-  - Enemy Detector
-  - Plant Detector
+  - EnemyDetector
+  - PlantDetector
   - Plant
-  - Plant Range
-  - Plant Point Detector
-  - Plant Point
-  - 
+  - PlantRange
+  - PlantPointDetector
+  - PlantPoint
+  - CorrosiveField
   - 
   - 
   - 

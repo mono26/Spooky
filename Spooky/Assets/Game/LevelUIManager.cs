@@ -98,7 +98,6 @@ public class LevelUIManager
         topUI.SetActive(false);
         bottomUI.SetActive(false);
         pauseCanvas.SetActive(false);
-        pauseButton.SetActive(false);
     }
 
     private void ShowUI()
@@ -115,15 +114,16 @@ public class LevelUIManager
     public void QuitLevel()
     {
         Time.timeScale = 1;
-        GameManager.Instance.LoadLevel(0);
+        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(0));
+        GameManager.Instance.SoundManager.StopMusic();
     }
 
     public void RetryLevel()
     {
         Time.timeScale = 1;
-        var currentScene = SceneManager.GetActiveScene();
-        int scenIndex = currentScene.buildIndex;
-        GameManager.Instance.LoadLevel(scenIndex);
+        GameManager.Instance.StartCoroutine(
+            GameManager.Instance.LoadLevel(SceneManager.GetActiveScene().buildIndex)
+            );
     }
 
     public void PauseLevel()

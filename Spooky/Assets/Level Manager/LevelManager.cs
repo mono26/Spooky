@@ -7,7 +7,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get { return instance; } }
 
     private LevelUIManager uiManager;
-    public LevelUIManager UiManager;
+    public LevelUIManager UiManager { get { return uiManager; } }
 
     // HouseSteal points used by the Stealer to note setting the target to the middle of the house. (out of navmesh)
     [SerializeField]

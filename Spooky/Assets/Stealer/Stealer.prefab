@@ -138,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     BasicCooldown: 0
-    BasicRange: 0
+    BasicRange: 0.3
     MovementSettings:
       navMeshAgent: {fileID: 195569544062278668}
       MaxSpeed: 1

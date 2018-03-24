@@ -100,6 +100,7 @@ public abstract class Enemy : MonoBehaviour
     protected void Die()
     {
         OnReleased();
+        OnReleased = null;
     }
 
     protected void SetTarget(Transform _target)

@@ -159,7 +159,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyDetect:
-    enemyDetectionRange: 3
     enemyList: []
   settings:
     AttackSpeed: 1
@@ -171,7 +170,7 @@ MonoBehaviour:
   soundEffect: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   lastShoot: 0
   launchForce: 5
-  bullet: {fileID: 114475811591300468, guid: 88d6af17c63e20148a99bdea2d1ebe40, type: 2}
+  bullet: {fileID: 114768004279819712, guid: 71d322d4d54f70f45baaa1d842bc51be, type: 2}
   launchPosition: {fileID: 4370896873869142}
   currentState: 0
 --- !u!135 &135564382731587366

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,5 +30,11 @@ public class SoundManager
         musicSource.clip = _musicClip;
 
         musicSource.Play();
+    }
+
+    internal void StopMusic()
+    {
+        musicSource.Stop();
+        efxSource.Stop();
     }
 }

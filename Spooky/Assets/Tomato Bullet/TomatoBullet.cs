@@ -7,15 +7,23 @@ public class TomatoBullet : Bullet, ISpawnable<Bullet>
     private static List<Bullet> bulletList = new List<Bullet>();
     public List<Bullet> Pool { get { return bulletList; } }
 
+    protected void Update()
+    {
+        if (IsBulletTimerOver())
+        {
+            ReleaseBullet(this);
+        }
+    }
+
     public Bullet Spawn(Transform _position)
     {
         if (Pool.Count == 0)
             AddToPool();
-        Bullet enemy = Pool[Pool.Count - 1];
+        Bullet bullet = Pool[Pool.Count - 1];
         Pool.RemoveAt(Pool.Count - 1);
-        SetBulletPosition(enemy, _position);
-        enemy.gameObject.SetActive(true);
-        return enemy;
+        SetBulletPosition(bullet, _position);
+        bullet.gameObject.SetActive(true);
+        return bullet;
     }
 
     private void AddToPool()

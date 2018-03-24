@@ -7,11 +7,11 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
     [SerializeField]
     protected float startTime;
     [SerializeField]
-    protected float corrosiveDamage;
+    protected float corrosiveDamage = 0.5f;
     [SerializeField]    // Per second
-    protected float corrosiveTickRate;
+    protected float corrosiveTickRate = 0.5f;
     [SerializeField]    // In seconds
-    protected float corrosiveDuration;
+    protected float corrosiveDuration = 5.0f;
     [SerializeField]
     protected GameObject corrosiveTrigger;
 
@@ -22,16 +22,29 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
     private static List<Bullet> bulletList = new List<Bullet>();
     public List<Bullet> Pool { get { return bulletList; } }
 
+    protected void Update()
+    {
+        if (IsBulletTimerOver())
+        {
+            ReleaseBullet(this);
+        }
+    }
+
     protected new void Awake()
     {
         base.Awake();
+    }
 
+    protected void OnEnabled()
+    {
         rigidBody.constraints = RigidbodyConstraints.None;   //Because the rigidBody when it hits the enemy stays in rotation
         rigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+        GetComponent<Collider>().enabled = true;
         corrosiveTrigger.SetActive(false);
     }
     protected IEnumerator CorrosiveEffect()
     {
+        GetComponent<Collider>().enabled = false;
         corrosiveTrigger.SetActive(true);
         startTime = Time.timeSinceLevelLoad;
         while(Time.timeSinceLevelLoad < startTime + corrosiveDuration)
@@ -63,11 +76,11 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
     {
         if (Pool.Count == 0)
             AddToPool();
-        Bullet enemy = Pool[Pool.Count - 1];
+        Bullet bullet = Pool[Pool.Count - 1];
         Pool.RemoveAt(Pool.Count - 1);
-        SetBulletPosition(enemy, _position);
-        enemy.gameObject.SetActive(true);
-        return enemy;
+        SetBulletPosition(bullet, _position);
+        bullet.gameObject.SetActive(true);
+        return bullet;
     }
 
     private void AddToPool()
@@ -100,6 +113,7 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
         {
             GetComponent<Collider>().enabled = false;   // So the only collidr activated is the trigger for the area damage.
             rigidBody.velocity = Vector3.zero;
+            rigidBody.rotation = Quaternion.Euler(Vector3.zero);
             rigidBody.constraints = RigidbodyConstraints.FreezeRotationZ;   // TODO fin better way to do this.
             StartCoroutine(CorrosiveEffect());
         }

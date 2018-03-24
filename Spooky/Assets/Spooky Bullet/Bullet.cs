@@ -1,19 +1,32 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public Rigidbody rigidBody;
+    protected Rigidbody rigidBody;
+    public Rigidbody RigidBody { get { return rigidBody; } }
     [SerializeField]
     protected float damage;
+    protected float launchTime;
 
     protected void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
     }
 
+    protected bool IsBulletTimerOver()
+    {
+        if (launchTime + 10f < Time.timeSinceLevelLoad)
+        {
+            return true;
+        }
+        else return false;
+    }
+
     public void Launch(float _speed)
     {
         rigidBody.AddForce(transform.right * _speed, ForceMode.Impulse);
+        launchTime = Time.timeSinceLevelLoad;
     }
 
     public float GetBulletDamage()

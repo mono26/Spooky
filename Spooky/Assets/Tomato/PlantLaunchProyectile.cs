@@ -51,6 +51,7 @@ public class PlantLaunchProyectile : IRangeAttack
         RotateBullettowardsDirection(_bullet.transform, _direction);
 
         _bullet.Launch(launchForce);
+        _bullet.transform.SetParent(GameObject.Find("Bullets").transform);
         GameManager.Instance.SoundManager.PlayClip(soundEffect);
         owner.StartCast(false); //Private set of the variable; only by method and giving a false to end cast
     }

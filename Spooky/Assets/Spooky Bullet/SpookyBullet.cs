@@ -13,6 +13,14 @@ public class SpookyBullet : Bullet, ISpawnable<Bullet>
     private static List<Bullet> bulletList = new List<Bullet>();
     public List<Bullet> Pool { get { return bulletList; } }
 
+    protected void Update()
+    {
+        if (IsBulletTimerOver())
+        {
+            ReleaseBullet(this);
+        }
+    }
+
     public void IncreaseSize(SpookyBullet _bullet)
     {
         Vector3 newScale = _bullet.transform.localScale + new Vector3(sizeIncreasePerSeconds, sizeIncreasePerSeconds, 0f);

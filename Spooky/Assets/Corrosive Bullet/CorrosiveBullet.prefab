@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4456275049219856}
   - component: {fileID: 212933241414479698}
   - component: {fileID: 65003038247668556}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: CorrosiveField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4ae0709afabb3341b1da9108482886d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidBody: {fileID: 0}
   damage: 1
   startTime: 0
   corrosiveDamage: 1
