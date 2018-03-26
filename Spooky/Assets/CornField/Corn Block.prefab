@@ -117,9 +117,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4766504432630046}
   - component: {fileID: 65610280735112138}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: Corn Block
-  m_TagString: Untagged
+  m_TagString: CornField
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

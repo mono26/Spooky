@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class SpookyMovement
 {
     private Spooky spooky;
     private Rigidbody rigidbody;
     private Settings settings;
+    private bool OnCropField;
 
     private float currentSpeed;
 
@@ -56,6 +58,37 @@ public class SpookyMovement
     private void ClampPosition()
     {
         // For clamping Spooky position inside the max and min value
+    }
+
+    private IEnumerator SlowDownEffect()
+    {
+        while(OnCropField)
+        {
+            currentSpeed = settings.SlowMotionSpeed;
+            yield return 0;
+        }
+
+        currentSpeed = settings.MaxSpeed;
+        yield return 0.25f;
+    }
+
+    private void OnTriggerEnter(Collider _collider)
+    {
+        if (_collider.CompareTag("CornField"))
+        {
+            OnCropField = true;
+            spooky.StartCoroutine(SlowDownEffect());
+        }
+        else return;
+    }
+
+    private void OnTriggerExit(Collider _collider)
+    {
+        if (_collider.CompareTag("Enemy"))
+        {
+            OnCropField = false;
+        }
+        else return;
     }
 
     [System.Serializable]

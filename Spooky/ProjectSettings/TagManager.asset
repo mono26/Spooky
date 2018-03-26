@@ -32,6 +32,7 @@ TagManager:
   - SpookyShootPoint
   - BuildCanvas
   - PlantCanvas
+  - CornField
   layers:
   - Default
   - TransparentFX
@@ -52,7 +53,7 @@ TagManager:
   - PlantPointDetector
   - PlantPoint
   - CorrosiveField
-  - 
+  - CornField
   - 
   - 
   - 
@@ -69,16 +70,16 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Level Floor
+  - name: LevelFloor
     uniqueID: 2887959783
     locked: 0
   - name: House
     uniqueID: 665516177
     locked: 0
-  - name: Corn Field
+  - name: CornField
     uniqueID: 3926406901
     locked: 0
-  - name: Plant Point
+  - name: PlantPoint
     uniqueID: 585512549
     locked: 0
   - name: Enemy
@@ -95,4 +96,7 @@ TagManager:
     locked: 0
   - name: UI
     uniqueID: 2125826309
+    locked: 0
+  - name: Enviroment
+    uniqueID: 2210126843
     locked: 0

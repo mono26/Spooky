@@ -1875,6 +1875,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1860154039515082, guid: 508dba604a5e45d468df493d07524c22, type: 2}
+      propertyPath: m_Name
+      value: CornBlock
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 508dba604a5e45d468df493d07524c22, type: 2}
   m_IsPrefabParent: 0
@@ -2783,7 +2787,7 @@ Prefab:
     - target: {fileID: 224861941912563902, guid: 48991f638f5d3534bada0afdbb49831c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -2.09
+      value: -2.0899963
       objectReference: {fileID: 0}
     - target: {fileID: 224861941912563902, guid: 48991f638f5d3534bada0afdbb49831c,
         type: 2}
@@ -2818,7 +2822,7 @@ Prefab:
     - target: {fileID: 224276631538382184, guid: 48991f638f5d3534bada0afdbb49831c,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: -3.88
+      value: -3.880005
       objectReference: {fileID: 0}
     - target: {fileID: 224276631538382184, guid: 48991f638f5d3534bada0afdbb49831c,
         type: 2}
@@ -2828,7 +2832,7 @@ Prefab:
     - target: {fileID: 224276631538382184, guid: 48991f638f5d3534bada0afdbb49831c,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -14.09
+      value: -14.089996
       objectReference: {fileID: 0}
     - target: {fileID: 224276631538382184, guid: 48991f638f5d3534bada0afdbb49831c,
         type: 2}
@@ -2838,7 +2842,7 @@ Prefab:
     - target: {fileID: 224284481618545084, guid: 48991f638f5d3534bada0afdbb49831c,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 3.8
+      value: 3.800003
       objectReference: {fileID: 0}
     - target: {fileID: 224505152522124696, guid: 48991f638f5d3534bada0afdbb49831c,
         type: 2}
