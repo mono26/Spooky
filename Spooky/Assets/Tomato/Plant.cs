@@ -3,7 +3,7 @@
 public class Plant : MonoBehaviour
 {
     [SerializeField]
-    public SpookyDetect enemyDetect;
+    public EnemyDetect enemyDetect;
     public PlantAnimation animationComponent;
     [SerializeField]
     public Settings settings;
@@ -24,10 +24,9 @@ public class Plant : MonoBehaviour
 
     protected void Awake()
     {
-        enemyDetect = new SpookyDetect(
-            this.gameObject, 
-            settings.EnemyDetectTrigger, 
-            settings.ViewRange
+        enemyDetect = new EnemyDetect(
+            this.gameObject,
+            settings.EnemyDetectSettings
             );
 
         animationComponent = new PlantAnimation(sprite, animator);
@@ -52,7 +51,7 @@ public class Plant : MonoBehaviour
     protected bool IsTargetInRange()
     {
         float distance = Vector3.Distance(transform.position, enemyDetect.GetCurrentTarget().transform.position);
-        if (distance <= settings.ViewRange)
+        if (distance <= settings.EnemyDetectSettings.enemyDetectionRange)
         {
             return true;
         }
@@ -87,9 +86,7 @@ public class Plant : MonoBehaviour
     public class Settings
     {
         public float AttackSpeed;
-        [Range(3f, 5f)]
-        public float ViewRange;
         public int MaxHealth;
-        public SphereCollider EnemyDetectTrigger;
+        public EnemyDetect.Settings EnemyDetectSettings;
     }
 }

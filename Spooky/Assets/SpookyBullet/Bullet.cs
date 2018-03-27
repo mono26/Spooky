@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
@@ -27,6 +26,7 @@ public class Bullet : MonoBehaviour
     {
         rigidBody.AddForce(transform.right * _speed, ForceMode.Impulse);
         launchTime = Time.timeSinceLevelLoad;
+        return;
     }
 
     public float GetBulletDamage()
@@ -38,5 +38,6 @@ public class Bullet : MonoBehaviour
     {
         _bullet.rigidBody.velocity = Vector3.zero;
         _bullet.transform.localScale = Vector3.one;
+        return;
     }
 }

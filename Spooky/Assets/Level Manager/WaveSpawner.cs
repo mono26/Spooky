@@ -137,13 +137,11 @@ public class WaveSpawner : MonoBehaviour
         state = SpawnState.COUNTING;
         waveCountDown = timeBetweenWaves;
         nextWave++;
-        Debug.Log("Se completo una wave");
     }
 
     void DecreaseEnemyNumber()
     {
         numberOfEnemies--;
-        Debug.Log("Decreasing enemy number");
         numberOfEnemies = (int)Mathf.Clamp(numberOfEnemies, 0, Mathf.Infinity);    // So the number of enemies never goes below 0
     }
 

@@ -2,30 +2,29 @@
 using UnityEngine;
 
 [System.Serializable]
-public class SpookyDetect : IEnemyDetect
+public class EnemyDetect : IDetect
 {
     // Give the value of the range in settings to the radius of the collider
     // it must be in a separate layer to wrk properly.
     private GameObject owner;
-
-    [Range(3f, 5f)]
-    private float enemyDetectionRange;
-    private SphereCollider detectionTrigger;
+    private Settings settings;
 
     [SerializeField]
     private List<Enemy> enemyList;
 
     // Create a stack to store all the enemies that come in range
-    public SpookyDetect(GameObject _owner, SphereCollider _detectionTrigger, float _enemyDetectionRange)
+    public EnemyDetect(GameObject _owner, Settings _settings)
     {
         // Constructor, sets all needed dependencies.
         owner = _owner;
-        detectionTrigger = _detectionTrigger;
-        enemyDetectionRange = _enemyDetectionRange;
+        settings = _settings;
 
         enemyList = new List<Enemy>();
+    }
 
-        detectionTrigger.radius = enemyDetectionRange;
+    public void Start()
+    {
+        settings.detectionTrigger.radius = settings.enemyDetectionRange;
     }
 
     public void Detect()
@@ -82,7 +81,7 @@ public class SpookyDetect : IEnemyDetect
 
     private void AddEnemy(Enemy _enemy)
     {
-        if (!enemyList.Contains(_enemy))
+        if (enemyList.Count == 0 || !enemyList.Contains(_enemy))
         {
             enemyList.Add(_enemy);
             return;
@@ -92,7 +91,7 @@ public class SpookyDetect : IEnemyDetect
 
     private void RemoveEnemy(Enemy _enemy)
     {
-        if (enemyList.Contains(_enemy))
+        if (enemyList.Count > 0 || enemyList.Contains(_enemy))
         {
             enemyList.Remove(_enemy);
             return;
@@ -120,5 +119,13 @@ public class SpookyDetect : IEnemyDetect
             return;
         }
         else return;
+    }
+
+    [System.Serializable]
+    public class Settings
+    {
+        [Range(3f, 5f)]
+        public float enemyDetectionRange;
+        public SphereCollider detectionTrigger;
     }
 }

@@ -13,7 +13,6 @@ TagManager:
   - Enemy
   - Plant Range
   - Plant
-  - Plant Point
   - WinGameUI
   - GameOverUI
   - Pause Button
@@ -33,6 +32,7 @@ TagManager:
   - BuildCanvas
   - PlantCanvas
   - CornField
+  - Plantpoint
   layers:
   - Default
   - TransparentFX
@@ -54,7 +54,7 @@ TagManager:
   - PlantPoint
   - CorrosiveField
   - CornField
-  - 
+  - House
   - 
   - 
   - 
@@ -73,30 +73,30 @@ TagManager:
   - name: LevelFloor
     uniqueID: 2887959783
     locked: 0
-  - name: House
-    uniqueID: 665516177
-    locked: 0
-  - name: CornField
-    uniqueID: 3926406901
-    locked: 0
   - name: PlantPoint
     uniqueID: 585512549
-    locked: 0
-  - name: Enemy
-    uniqueID: 400645025
     locked: 0
   - name: Spooky
     uniqueID: 2056888067
     locked: 0
+  - name: Enemy
+    uniqueID: 400645025
+    locked: 0
   - name: Plant
     uniqueID: 2439429799
+    locked: 0
+  - name: Enviroment
+    uniqueID: 2210126843
+    locked: 0
+  - name: CornField
+    uniqueID: 3926406901
+    locked: 0
+  - name: House
+    uniqueID: 665516177
     locked: 0
   - name: Bullet
     uniqueID: 385247043
     locked: 0
   - name: UI
     uniqueID: 2125826309
-    locked: 0
-  - name: Enviroment
-    uniqueID: 2210126843
     locked: 0

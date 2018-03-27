@@ -12,7 +12,9 @@ public class TomatoBullet : Bullet, ISpawnable<Bullet>
         if (IsBulletTimerOver())
         {
             ReleaseBullet(this);
+            return;
         }
+        else return;
     }
 
     public Bullet Spawn(Transform _position)
@@ -28,19 +30,22 @@ public class TomatoBullet : Bullet, ISpawnable<Bullet>
 
     private void AddToPool()
     {
-        var parentPool = GameObject.Find("Bullets");    //Can't store a transform inside a prefab. Ensure always a tranform Enemies on level.
+        var parentPool = GameObject.Find("Bullets").transform;    //Can't store a transform inside a prefab. Ensure always a tranform Enemies on level.
         Bullet bullet = Instantiate(
             gameObject,
             parentPool.transform.position,
             Quaternion.Euler(90f, 0f, 0f)
             ).GetComponent<Bullet>();
+        bullet.transform.SetParent(parentPool);
         bullet.gameObject.SetActive(false);
         Pool.Add(bullet);
+        return;
     }
 
     private void SetBulletPosition(Bullet _bullet, Transform target)
     {
         _bullet.transform.position = target.position;
+        return;
     }
 
     public void ReleaseBullet(Bullet _bullet)
@@ -48,12 +53,17 @@ public class TomatoBullet : Bullet, ISpawnable<Bullet>
         Restart(_bullet);
         _bullet.gameObject.SetActive(false);
         Pool.Add(_bullet);
+        return;
     }
 
     protected void OnCollisionEnter(Collision _collision)
     {
         if (_collision.gameObject.CompareTag("Enemy"))
+        {
             ReleaseBullet(this);
+            return;
+        }
+        else return;
     }
 
 }

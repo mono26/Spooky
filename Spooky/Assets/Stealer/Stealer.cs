@@ -49,6 +49,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         if(IsDead())
         {
             currentState = State.Death;
+            return;
         }
 
         if (currentState.Equals(State.Moving))
@@ -68,6 +69,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
             {
                 basicAbility.CloseAttack();
                 lastAttackExecution = Time.timeSinceLevelLoad;
+                return;
             }
 
             if (hasLoot)
@@ -83,12 +85,14 @@ public class Stealer : Enemy, ISpawnable<Enemy>
             if (!Target.CompareTag("Runaway Point"))
             {
                 ChangeTargetToRunPoint();
+                return;
             }
 
             if (IsTargetInRange())
             {
                 base.Die(); // Fires the vent so the wave spawner decreases the number off enemies.
                 ReleaseStealer(this);
+                return;
                 // TODO check if it has loot on it and do something
             }
             else return;
@@ -99,6 +103,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
             // So it can execute the Coroutine just once!
             if(!isDying)
                 StartCoroutine(StartDeath());
+            return;
         }
 
         else return;
@@ -114,11 +119,13 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     protected void ChangeTargetToHousePoint()
     {
         SetTarget(LevelManager.Instance.GetRandomHousePoint());
+        return;
     }
 
     protected void ChangeTargetToRunPoint()
     {
         SetTarget(LevelManager.Instance.GetRandomRunawayPoint());
+        return;
     }
 
     public bool HasLoot(bool _hasLoot)
@@ -145,6 +152,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
         base.Die();
         ReleaseStealer(this);
+        yield return 0;
     }
 
     public Enemy Spawn(Transform _position)
@@ -160,24 +168,28 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
     private void AddToPool()
     {
-        var parentPool = GameObject.Find("Enemies");    //Can't store a transform inside a prefab. Ensure always a tranform Enemies on level.
+        var parentPool = GameObject.Find("Enemies").transform;    //Can't store a transform inside a prefab. Ensure always a tranform Enemies on level.
         Stealer enemy = Instantiate(
             gameObject, 
             parentPool.transform.position, 
             Quaternion.Euler(90f,0f,0f)
             ).GetComponent<Stealer>();
-        enemy.gameObject.SetActive(false);
+        enemy.transform.SetParent(parentPool);
         Pool.Add(enemy);
+        enemy.gameObject.SetActive(false);
+        return;
     }
 
     private void SetEnemyPosition(Enemy _enemy, Transform target)
     {
         _enemy.transform.position = target.position;
+        return;
     }
 
     public void ReleaseStealer(Enemy _enemy)
     {
         _enemy.gameObject.SetActive(false);
         Pool.Add(_enemy);
+        return;
     }
 }

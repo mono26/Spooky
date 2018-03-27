@@ -67,7 +67,11 @@ public class SpookyAttack
     {
         float angle = Mathf.Atan2(_direction.z, _direction.x) * Mathf.Rad2Deg;
         float delta = angle - hand.localRotation.eulerAngles.z;
-        hand.localRotation = Quaternion.RotateTowards(hand.localRotation, Quaternion.Euler(new Vector3(0, 0, angle)), Mathf.Abs(delta));
+        hand.localRotation = Quaternion.RotateTowards(
+            hand.localRotation,
+            Quaternion.Euler(new Vector3(0, 0, angle)),
+            Mathf.Abs(delta)
+            );
         return;
     }
 
@@ -102,7 +106,6 @@ public class SpookyAttack
     private void LaunchAttack(Bullet _bullet)
     {
         RotateBullettowardsDirection(_bullet.transform);
-        _bullet.transform.SetParent(GameObject.Find("Bullets").transform);
         actualBullet = null;
         _bullet.Launch(settings.LaunchForce);
         lastShoot = Time.timeSinceLevelLoad;

@@ -27,12 +27,15 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
         if (IsBulletTimerOver())
         {
             ReleaseBullet(this);
+            return;
         }
+        else return;
     }
 
     protected new void Awake()
     {
         base.Awake();
+        return;
     }
 
     protected void OnEnabled()
@@ -41,10 +44,10 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
         rigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
         GetComponent<Collider>().enabled = true;
         corrosiveTrigger.SetActive(false);
+        return;
     }
     protected IEnumerator CorrosiveEffect()
     {
-        GetComponent<Collider>().enabled = false;
         corrosiveTrigger.SetActive(true);
         startTime = Time.timeSinceLevelLoad;
         while(Time.timeSinceLevelLoad < startTime + corrosiveDuration)
@@ -58,6 +61,7 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
         }
 
         ReleaseBullet(this);
+        yield return 0;
     }
 
     private void AddEnemy(Enemy _enemy)
@@ -75,36 +79,42 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
     public Bullet Spawn(Transform _position)
     {
         if (Pool.Count == 0)
+        {
             AddToPool();
+        }
         Bullet bullet = Pool[Pool.Count - 1];
         Pool.RemoveAt(Pool.Count - 1);
-        SetBulletPosition(bullet, _position);
         bullet.gameObject.SetActive(true);
+        SetBulletPosition(bullet, _position);
         return bullet;
     }
 
     private void AddToPool()
     {
-        var parentPool = GameObject.Find("Bullets");    //Can't store a transform inside a prefab. Ensure always a tranform Enemies on level.
+        var parentPool = GameObject.Find("Bullets").transform;    //Can't store a transform inside a prefab. Ensure always a tranform Enemies on level.
         Bullet bullet = Instantiate(
             gameObject,
             parentPool.transform.position,
             Quaternion.Euler(90f, 0f, 0f)
             ).GetComponent<Bullet>();
-        bullet.gameObject.SetActive(false);
+        bullet.transform.SetParent(parentPool);
         Pool.Add(bullet);
+        bullet.gameObject.SetActive(false);
+        return;
     }
 
     private void SetBulletPosition(Bullet _bullet, Transform target)
     {
         _bullet.transform.position = target.position;
+        return;
     }
 
     public void ReleaseBullet(Bullet _bullet)
     {
         Restart(_bullet);
-        _bullet.gameObject.SetActive(false);
         Pool.Add(_bullet);
+        _bullet.gameObject.SetActive(false);
+        return;
     }
 
     protected void OnCollisionEnter(Collision _collision)
@@ -113,10 +123,12 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
         {
             GetComponent<Collider>().enabled = false;   // So the only collidr activated is the trigger for the area damage.
             rigidBody.velocity = Vector3.zero;
-            rigidBody.rotation = Quaternion.Euler(Vector3.zero);
+            transform.localRotation = Quaternion.Euler(Vector3.zero);
             rigidBody.constraints = RigidbodyConstraints.FreezeRotationZ;   // TODO fin better way to do this.
             StartCoroutine(CorrosiveEffect());
+            return;
         }
+        return;
     }
 
     protected void OnTriggerEnter(Collider _collider)
@@ -124,6 +136,7 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
         if (_collider.CompareTag("Enemy"))
         {
             AddEnemy(_collider.GetComponent<Enemy>());
+            return;
         }
         else return;
     }
@@ -133,6 +146,7 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
         if (_collider.CompareTag("Enemy"))
         {
             RemoveEnemy(_collider.GetComponent<Enemy>());
+            return;
         }
         else return;
     }

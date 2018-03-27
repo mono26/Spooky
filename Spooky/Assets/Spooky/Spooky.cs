@@ -15,14 +15,9 @@ public class Spooky : MonoBehaviour
     // Detection Section
     [Header("Detection Settings")]
     [SerializeField]
-    [Range(3f, 4f)]
-    private float EnemyDetectionRange;
+    private EnemyDetect enemyDetectComponent;
+    public EnemyDetect EnemyDetectComponent { get { return enemyDetectComponent; } }
     [SerializeField]
-    [Range(1.5f, 2f)]
-    private float PlantPointDetectionRange;
-    [SerializeField]
-    private SpookyDetect enemyDetectComponent;
-    public SpookyDetect EnemyDetectComponent { get { return enemyDetectComponent; } }
     private PlantPointDetect plantPointDetect;
 
     // Animation section
@@ -59,10 +54,9 @@ public class Spooky : MonoBehaviour
             settings.MovementSettings
             );
 
-        enemyDetectComponent = new SpookyDetect(
+        enemyDetectComponent = new EnemyDetect(
             gameObject,
-            GameObject.FindGameObjectWithTag("EnemyDetector").GetComponent<SphereCollider>(),
-            EnemyDetectionRange
+            settings.EnemyDetectSettings
             );
 
         attackComponent = new SpookyAttack(
@@ -75,8 +69,7 @@ public class Spooky : MonoBehaviour
 
         plantPointDetect = new PlantPointDetect(
             this,
-            GameObject.FindGameObjectWithTag("PlantpointDetector").GetComponent<SphereCollider>(),
-            PlantPointDetectionRange
+            settings.PlantPointDetectSettings
             );
 
         animationComponent = new SpookyAnimation(
@@ -100,12 +93,14 @@ public class Spooky : MonoBehaviour
     {
         // Execute all Start() functions in the components. Here is variable setting.
         movementComponent.Start();
+        plantPointDetect.Start();
     }
 
     private void Update()
     {
         attackComponent.Update();
         enemyDetectComponent.Detect();
+        plantPointDetect.Detect();
     }
 
     private void FixedUpdate()
@@ -142,5 +137,7 @@ public class Spooky : MonoBehaviour
     {
         public SpookyMovement.Settings MovementSettings;
         public SpookyAttack.Settings AttackSettings;
+        public PlantPointDetect.Settings PlantPointDetectSettings;
+        public EnemyDetect.Settings EnemyDetectSettings;
     }
 }

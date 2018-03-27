@@ -18,7 +18,9 @@ public class SpookyBullet : Bullet, ISpawnable<Bullet>
         if (IsBulletTimerOver())
         {
             ReleaseBullet(this);
+            return;
         }
+        else return;
     }
 
     public void IncreaseSize(SpookyBullet _bullet)
@@ -26,8 +28,6 @@ public class SpookyBullet : Bullet, ISpawnable<Bullet>
         Vector3 newScale = _bullet.transform.localScale + new Vector3(sizeIncreasePerSeconds, sizeIncreasePerSeconds, 0f);
         newScale.x = Mathf.Clamp(newScale.x, 1, 3);
         newScale.y = Mathf.Clamp(newScale.y, 1, 3);
-        var time = Time.deltaTime;
-        Debug.Log(time + " Increazing size of bullet. " + newScale);
         _bullet.transform.localScale = newScale;   // 1 in z because z scale values is always constant
         return;
     }
@@ -60,11 +60,13 @@ public class SpookyBullet : Bullet, ISpawnable<Bullet>
             ).GetComponent<Bullet>();
         bullet.gameObject.SetActive(false);
         Pool.Add(bullet);
+        return;
     }
 
     private void SetBulletPosition(Bullet _bullet, Transform target)
     {
-        _bullet.transform.position = target.position;
+        _bullet.transform.localPosition = target.position;
+        return;
     }
 
     public void ReleaseBullet(Bullet _bullet)
@@ -72,11 +74,15 @@ public class SpookyBullet : Bullet, ISpawnable<Bullet>
         Restart(_bullet);
         _bullet.gameObject.SetActive(false);
         Pool.Add(_bullet);
+        return;
     }
 
     protected void OnCollisionEnter(Collision _collision)
     {
         if (_collision.gameObject.CompareTag("Enemy"))
+        {
             ReleaseBullet(this);
+            return;
+        }
     }
 }
