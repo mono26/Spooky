@@ -4,6 +4,7 @@ public abstract class Enemy : MonoBehaviour
 {
     private EnemyMovement movementComponent;
     public EnemyMovement MovementComponent { get { return movementComponent; } }
+    [SerializeField]
     private EnemyHealth healthComponent;
     public EnemyHealth HealthComponent { get { return healthComponent; } }
     private EnemyAnimation animationComponent;
@@ -13,7 +14,6 @@ public abstract class Enemy : MonoBehaviour
     protected Settings settings;
 
     protected ICloseRangeAttack basicAbility;
-    [SerializeField]
     protected Coroutine ability;
     [SerializeField]
     private Transform target;
@@ -25,7 +25,8 @@ public abstract class Enemy : MonoBehaviour
     public delegate void Release();
     public event Release OnReleased;
 
-    public bool isDying;
+    [SerializeField]
+    protected bool isDying;
     private bool isCasting;
     protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
 

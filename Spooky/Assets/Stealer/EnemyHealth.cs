@@ -2,12 +2,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public class EnemyHealth : IDamagable
 {
     //AIEffectsHandler effects;
     private Enemy enemy;
     private Settings settings;
 
+    [SerializeField]
     private float currentHealth;
 
     public EnemyHealth(Enemy _owner, Settings _settings)

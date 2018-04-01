@@ -33,6 +33,7 @@ TagManager:
   - PlantCanvas
   - CornField
   - Plantpoint
+  - VariableJoystick
   layers:
   - Default
   - TransparentFX

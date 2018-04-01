@@ -11,14 +11,19 @@ public class Spooky : MonoBehaviour
     // Movement section
     [Header("Movement Settings")]
     private SpookyMovement movementComponent;
+    [SerializeField]
+    private SpookyMovement.Settings movementSettings;
 
     // Detection Section
     [Header("Detection Settings")]
-    [SerializeField]
     private EnemyDetect enemyDetectComponent;
     public EnemyDetect EnemyDetectComponent { get { return enemyDetectComponent; } }
     [SerializeField]
+    private EnemyDetect.Settings enemyDetectSettings;
+    [SerializeField]
     private PlantPointDetect plantPointDetect;
+    [SerializeField]
+    private PlantPointDetect.Settings plantPointDetectSettings;
 
     // Animation section
     [Header("Animation Settings")]
@@ -31,11 +36,8 @@ public class Spooky : MonoBehaviour
     private SpookyBullet bulletPrefab;
     [SerializeField]
     private SpookyAttack attackComponent;
-
-    // This is going to be the class the connects all the components of spooky
-    // Execute update, triggerevetns, awake, start, etc.
-
-    public Settings settings;
+    [SerializeField]
+    private SpookyAttack.Settings attackSettings;
 
     public delegate void FireButtonPress();
     public event FireButtonPress OnFireButtonPress;
@@ -51,12 +53,12 @@ public class Spooky : MonoBehaviour
         movementComponent = new SpookyMovement(
             this,
             GetComponent<Rigidbody>(),
-            settings.MovementSettings
+            movementSettings
             );
 
         enemyDetectComponent = new EnemyDetect(
             gameObject,
-            settings.EnemyDetectSettings
+            enemyDetectSettings
             );
 
         attackComponent = new SpookyAttack(
@@ -64,12 +66,12 @@ public class Spooky : MonoBehaviour
             GameObject.FindGameObjectWithTag("SpookyHand").transform,
             GameObject.FindGameObjectWithTag("SpookyShootPoint").transform,
             bulletPrefab,
-            settings.AttackSettings
+            attackSettings
             );
 
         plantPointDetect = new PlantPointDetect(
             this,
-            settings.PlantPointDetectSettings
+            plantPointDetectSettings
             );
 
         animationComponent = new SpookyAnimation(
@@ -130,14 +132,5 @@ public class Spooky : MonoBehaviour
     {
         if (OnFireButtonRelease != null)
             OnFireButtonRelease();
-    }
-
-    [System.Serializable]
-    public class Settings
-    {
-        public SpookyMovement.Settings MovementSettings;
-        public SpookyAttack.Settings AttackSettings;
-        public PlantPointDetect.Settings PlantPointDetectSettings;
-        public EnemyDetect.Settings EnemyDetectSettings;
     }
 }

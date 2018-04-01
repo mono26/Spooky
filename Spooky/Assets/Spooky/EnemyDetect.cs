@@ -10,7 +10,7 @@ public class EnemyDetect : IDetect
     private Settings settings;
 
     [SerializeField]
-    private List<Enemy> enemyList;
+    private List<Enemy> nearEnemies = null;
 
     // Create a stack to store all the enemies that come in range
     public EnemyDetect(GameObject _owner, Settings _settings)
@@ -19,11 +19,13 @@ public class EnemyDetect : IDetect
         owner = _owner;
         settings = _settings;
 
-        enemyList = new List<Enemy>();
+        nearEnemies = new List<Enemy>();
     }
 
     public void Start()
     {
+
+        //enemyList = new List<Enemy>();
         settings.detectionTrigger.radius = settings.enemyDetectionRange;
     }
 
@@ -40,7 +42,7 @@ public class EnemyDetect : IDetect
 
     public Enemy GetCurrentTarget()
     {
-        return enemyList[0].GetComponent<Enemy>();
+        return nearEnemies[0].GetComponent<Enemy>();
     }
 
     public Vector3 GetEnemyDirection()
@@ -48,7 +50,7 @@ public class EnemyDetect : IDetect
         Vector3 _direction = Vector3.zero;
         if (HasTarget() && IsTargetActive())
         {
-            _direction = (enemyList[0].transform.position - owner.transform.position).normalized;
+            _direction = (nearEnemies[0].transform.position - owner.transform.position).normalized;
             _direction.y = 0;
             return _direction;
         }
@@ -57,7 +59,7 @@ public class EnemyDetect : IDetect
 
     public bool HasTarget()
     {
-        if (enemyList.Count > 0)
+        if (nearEnemies.Count > 0)
         {
             return true;
         }
@@ -68,7 +70,7 @@ public class EnemyDetect : IDetect
     {
         if (HasTarget())
         {
-            return enemyList[0].gameObject.activeInHierarchy;
+            return nearEnemies[0].gameObject.activeInHierarchy;
         }
         else return false;
     }
@@ -76,14 +78,14 @@ public class EnemyDetect : IDetect
     private void ClearCurrentTarget()
     {
         // Clear the top of the stack if its destroyes, null, or inactive, out of range
-        enemyList.RemoveAt(0);
+        nearEnemies.RemoveAt(0);
     }
 
     private void AddEnemy(Enemy _enemy)
     {
-        if (enemyList.Count == 0 || !enemyList.Contains(_enemy))
+        if (nearEnemies.Count == 0 || !nearEnemies.Contains(_enemy))
         {
-            enemyList.Add(_enemy);
+            nearEnemies.Add(_enemy);
             return;
         }
         else return;
@@ -91,9 +93,9 @@ public class EnemyDetect : IDetect
 
     private void RemoveEnemy(Enemy _enemy)
     {
-        if (enemyList.Count > 0 || enemyList.Contains(_enemy))
+        if (nearEnemies.Count > 0 || nearEnemies.Contains(_enemy))
         {
-            enemyList.Remove(_enemy);
+            nearEnemies.Remove(_enemy);
             return;
         }
         else return;
@@ -105,6 +107,7 @@ public class EnemyDetect : IDetect
         if (_collider.CompareTag("Enemy"))
         {
             AddEnemy(_collider.GetComponent<Enemy>());
+            // TODO start coroutine display nearest enemy
             return;
         }
         else return;
@@ -116,6 +119,7 @@ public class EnemyDetect : IDetect
         if (_collider.CompareTag("Enemy"))
         {
             RemoveEnemy(_collider.GetComponent<Enemy>());
+            // TODO stop coroutine display nearest enemy if count = 0
             return;
         }
         else return;

@@ -102,8 +102,12 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         {
             // So it can execute the Coroutine just once!
             if(!isDying)
+            {
+                StopAllCoroutines();
                 StartCoroutine(StartDeath());
-            return;
+                return;
+            }
+            else return;
         }
 
         else return;
@@ -136,6 +140,9 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
     protected IEnumerator StartDeath()
     {
+        var time = Time.timeSinceLevelLoad;
+        Debug.Log(time + " start death. " + this.ToString());
+
         isDying = true;
         DeactivateCollider();
 

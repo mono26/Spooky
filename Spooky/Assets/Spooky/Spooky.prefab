@@ -133,7 +133,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1937644174119942}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 4.1, y: 0, z: -0.64}
+  m_LocalPosition: {x: 0.19, y: 0, z: -2.44}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4232568596918846}
@@ -191,7 +191,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1534174093174432}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.213, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4193135421944750}
@@ -315,27 +315,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joystick: {fileID: 0}
-  enemyDetectComponent:
-    enemyList: []
+  movementSettings:
+    MaxSpeed: 5
+    SlowMotionSpeed: 3.5
+    MaxXValue: 0
+    MaxYValue: 0
+  enemyDetectSettings:
+    enemyDetectionRange: 3.5
+    detectionTrigger: {fileID: 135549795504933472}
+  plantPointDetectSettings:
+    SphereTrigger: {fileID: 135313261536518600}
+    DetectRange: 2.5
+    UpdateRate: 0
   bulletPrefab: {fileID: 114751990671467428, guid: 592720f6ac46d8b4882bc1a6a1b49175,
     type: 2}
-  settings:
-    MovementSettings:
-      MaxSpeed: 5
-      SlowMotionSpeed: 3
-      MaxXValue: 0
-      MaxYValue: 0
-    AttackSettings:
-      AttackRate: 0.3
-      LaunchForce: 5
-      ChargeRate: 2
-    PlantPointDetectSettings:
-      SphereTrigger: {fileID: 135313261536518600}
-      DetectRange: 2
-      UpdateRate: 0.5
-    EnemyDetectSettings:
-      enemyDetectionRange: 3.5
-      detectionTrigger: {fileID: 135549795504933472}
+  attackSettings:
+    AttackRate: 1
+    LaunchForce: 10
+    ChargeRate: 2
 --- !u!124 &124709509721647380
 Behaviour:
   m_ObjectHideFlags: 1
@@ -353,7 +350,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
+  m_Radius: 2.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &135549795504933472
 SphereCollider:

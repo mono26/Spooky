@@ -6,7 +6,9 @@ public class SpookyAttack
 {
     // Variable for a bullet.
     private Spooky spooky;
+    [SerializeField]
     private Transform hand;
+    [SerializeField]
     private Transform shootTransform;
     private Settings settings;
 
@@ -107,6 +109,7 @@ public class SpookyAttack
     {
         RotateBullettowardsDirection(_bullet.transform);
         actualBullet = null;
+        _bullet.transform.SetParent(GameObject.Find("Bullets").transform);
         _bullet.Launch(settings.LaunchForce);
         lastShoot = Time.timeSinceLevelLoad;
     }

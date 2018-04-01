@@ -11,9 +11,11 @@ public class PlantPointDetect : IDetect
 
     //Value of the current plantPoint. It changes through time by collision detection
     //Also the value can be null if the current plantPoint is out of the collider boundaries
+    private Coroutine detection = null;
+    [SerializeField]
     private Plantpoint currentPlantPoint;
     [SerializeField]
-    private List<Plantpoint> nearPlantPoints;
+    private List<Plantpoint> nearPlantPoints = null;
 
     public PlantPointDetect(Spooky _spooky, Settings _settings)
     {
@@ -27,7 +29,6 @@ public class PlantPointDetect : IDetect
     {
         //When the game starts we give the collider its radius value
         settings.SphereTrigger.radius = settings.DetectRange;
-        spooky.StartCoroutine(DisplayNearestPlantPoint());
     }
 
     public void Detect()
@@ -39,17 +40,6 @@ public class PlantPointDetect : IDetect
             return;
         }
 
-        if (currentPlantPoint)
-        {
-            if (Vector3.SqrMagnitude(
-                spooky.transform.position - currentPlantPoint.transform.position
-                ) > settings.DetectRange * settings.DetectRange)
-            {
-                ClearCurrentPlantPoint();
-                return;
-            }
-        }
-
         return;
     }
 
@@ -59,7 +49,7 @@ public class PlantPointDetect : IDetect
         {
             var distance1 = Vector3.SqrMagnitude(spooky.transform.position - nearPlantPoints[0].transform.position);
             var tempPlantPoint = nearPlantPoints[0];
-            for (int plantPoint = 0; plantPoint < nearPlantPoints.Count -1; plantPoint++)
+            for (int plantPoint = 0; plantPoint < nearPlantPoints.Count; plantPoint++)
             {
                 var distance2 = Vector3.SqrMagnitude(spooky.transform.position - nearPlantPoints[plantPoint].transform.position);
                 if (distance2 < distance1)
@@ -89,13 +79,28 @@ public class PlantPointDetect : IDetect
                 PlantStore.Instance.DeselectPlantPoint();
             else if (!currentPlantPoint.currentPlant)
                 PlantStore.Instance.DeselectBuildPoint();
-            nearPlantPoints = null;
-            return;
+
+            currentPlantPoint = null;
         }
+
         else return;
     }
 
     private void SelectPlantPoint(Plantpoint _plantPoint)
+    {
+        // To prevent flickering of the UI
+        if (!currentPlantPoint)
+        {
+            ChangePlantPointAndDisplay(_plantPoint);
+        }
+        else if (currentPlantPoint && !currentPlantPoint.Equals(_plantPoint))
+        {
+            ChangePlantPointAndDisplay(_plantPoint);
+        }
+        else return;
+    }
+
+    private void ChangePlantPointAndDisplay(Plantpoint _plantPoint)
     {
         currentPlantPoint = _plantPoint;
         if (currentPlantPoint.currentPlant)
@@ -114,8 +119,6 @@ public class PlantPointDetect : IDetect
     {
         if (nearPlantPoints.Count == 0 || !nearPlantPoints.Contains(_plantPoint))
         {
-            var time = Time.deltaTime;
-            Debug.Log(time + " adding plantpoint. " + _plantPoint.ToString());
             nearPlantPoints.Add(_plantPoint);
             return;
         }
@@ -134,19 +137,22 @@ public class PlantPointDetect : IDetect
 
     //This are the built-in methos for detecting trigger collision.
     //Here is called each time an object enters in collision with the sphereCollider
-    public void OnTriggerEnter(Collider _plantPoint)
+    public void OnTriggerEnter(Collider _collider)
     {
         //If the object that entered collision is tagged as PlantPoint. Here for telling the
         //script to not check any collision that is not a plantPoint
-        if (_plantPoint.CompareTag("Plantpoint"))
+        if (_collider.CompareTag("Plantpoint"))
         {
-            var plantPoint = _plantPoint.GetComponent<Plantpoint>();
-            if (!currentPlantPoint)
+            var plantPoint = _collider.GetComponent<Plantpoint>();
+            if (currentPlantPoint == null)
             {
                 SelectPlantPoint(plantPoint);
             }
 
             AddPlantPoint(plantPoint);
+
+            detection = spooky.StartCoroutine(DisplayNearestPlantPoint());
+
             return;
         }
         else return;
@@ -154,19 +160,24 @@ public class PlantPointDetect : IDetect
 
     //Is called each time a colliders exits the bounds of the sphereCollider
     //Each time a plantPoint exits the bouds it checks if its equal to the current one
-    public void OnTriggerExit(Collider _plantPoint)
+    public void OnTriggerExit(Collider _collider)
     {
         //If the tag matches PlantPoint it continues to the next step, else it cancels execution
-        if (_plantPoint.CompareTag("Plantpoint"))
+        if (_collider.CompareTag("Plantpoint"))
         {
             //If the collider that exited the bounds is equal to the current it calls the ClearPlantPoint() method
-            var plantPoint = _plantPoint.GetComponent<Plantpoint>();
+            var plantPoint = _collider.GetComponent<Plantpoint>();
             if (currentPlantPoint && currentPlantPoint == plantPoint)
             {
                 ClearCurrentPlantPoint();
             }
 
             RemovePlantPoint(plantPoint);
+
+            if(nearPlantPoints.Count == 0)
+            {
+                spooky.StopCoroutine(detection);
+            }
             return;
         }
         else return;
@@ -177,7 +188,7 @@ public class PlantPointDetect : IDetect
     {
         //SphereCollider for detecting the collision with the plantPoints
         public SphereCollider SphereTrigger;
-        [Range(1.5f, 2f)]
+        [Range(1.5f, 2.5f)]
         public float DetectRange;
         public float UpdateRate;
     }
