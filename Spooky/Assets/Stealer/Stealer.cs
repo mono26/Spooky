@@ -38,7 +38,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     {
         base.OnEnable();
 
-        basicAbility = new Steal(this);
+        settings.basicAbility = new Steal(this);
         ChangeTargetToHousePoint();
         currentState = State.Moving;
     }
@@ -46,7 +46,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 	// Update is called once per frame
 	public void Update ()
     {
-        if(IsDead())
+        if(IsDead() && !currentState.Equals(State.Death))
         {
             currentState = State.Death;
             return;
@@ -67,7 +67,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
             if(!IsCasting &&
                 Time.timeSinceLevelLoad > lastAttackExecution + settings.BasicCooldown)
             {
-                basicAbility.CloseAttack();
+                settings.basicAbility.CloseAttack();
                 lastAttackExecution = Time.timeSinceLevelLoad;
                 return;
             }
@@ -100,11 +100,13 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
         else if (currentState.Equals(State.Death))
         {
+            Debug.Log("Is dead!");
             // So it can execute the Coroutine just once!
-            if(!isDying)
+            if (!isDying)
             {
+                Debug.Log("Start dead process");
                 StopAllCoroutines();
-                StartCoroutine(StartDeath());
+                dieProcess = StartCoroutine(StartDeath());
                 return;
             }
             else return;

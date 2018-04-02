@@ -133,7 +133,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1937644174119942}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.19, y: 0, z: -2.44}
+  m_LocalPosition: {x: -3.53, y: -0, z: -2.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4232568596918846}
@@ -323,12 +323,18 @@ MonoBehaviour:
   enemyDetectSettings:
     enemyDetectionRange: 3.5
     detectionTrigger: {fileID: 135549795504933472}
+  plantPointDetect:
+    currentPlantPoint: {fileID: 0}
+    nearPlantPoints: []
   plantPointDetectSettings:
     SphereTrigger: {fileID: 135313261536518600}
     DetectRange: 2.5
     UpdateRate: 0
   bulletPrefab: {fileID: 114751990671467428, guid: 592720f6ac46d8b4882bc1a6a1b49175,
     type: 2}
+  attackComponent:
+    hand: {fileID: 0}
+    shootTransform: {fileID: 0}
   attackSettings:
     AttackRate: 1
     LaunchForce: 10

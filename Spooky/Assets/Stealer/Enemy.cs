@@ -13,13 +13,14 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField]
     protected Settings settings;
 
-    protected ICloseRangeAttack basicAbility;
-    protected Coroutine ability;
     [SerializeField]
     private Transform target;
     public Transform Target { get { return target; } }
     [SerializeField]
     protected float lastAttackExecution;
+
+    protected Coroutine abilityCast;
+    protected Coroutine dieProcess;
 
     // TODO extraer interfaz IKillable o IRelesable???
     public delegate void Release();
@@ -64,7 +65,11 @@ public abstract class Enemy : MonoBehaviour
         {
             return false;
         }
-        else return true;
+        else if (healthComponent.GetCurrentHealth() == 0)
+        {
+            return true;
+        }
+        else return false;
     }
 
     protected bool IsTargetInRange()
@@ -84,7 +89,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void CastAbility(Coroutine _cast)
     {
-        ability = _cast;
+        abilityCast = _cast;
         StartCast(true);
     }
 
@@ -122,6 +127,7 @@ public abstract class Enemy : MonoBehaviour
     [System.Serializable]
     public class  Settings
     {
+        public ICloseRangeAttack basicAbility;
         public float BasicCooldown;
         public float BasicRange;
 

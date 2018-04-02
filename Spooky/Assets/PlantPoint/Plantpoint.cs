@@ -30,14 +30,14 @@ public class Plantpoint : MonoBehaviour
             LevelManager.Instance.UiManager.GiveMoney(currentBlueprint.price);
             Destroy(currentPlant.gameObject);
             ClearPlantPoint();
-            PlantStore.Instance.DeselectPlantPoint();
+            PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
         }
         else if (isUpgraded)
         {
             LevelManager.Instance.UiManager.GiveMoney(currentBlueprint.upgradePrice);
             Destroy(currentPlant.gameObject);
             ClearPlantPoint();
-            PlantStore.Instance.DeselectPlantPoint();
+            PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
         }
         //SoundHandler.Instance.PlayClip(plantPointSounds[1]);
         return;
@@ -50,7 +50,7 @@ public class Plantpoint : MonoBehaviour
         currentPlant = Instantiate(currentBlueprint.upgradePlant.gameObject, transform.position, transform.rotation).GetComponent<Plant>();
         isUpgraded = true;
         currentPlant.transform.position = transform.position;
-        PlantStore.Instance.DeselectPlantPoint();
+        PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
         //SoundHandler.Instance.PlayClip(plantPointSounds[2]);
         return;
     }

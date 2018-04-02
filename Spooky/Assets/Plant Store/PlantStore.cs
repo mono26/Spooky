@@ -7,17 +7,17 @@ public class PlantStore : MonoBehaviour
     public static PlantStore Instance { get { return instance; } }
 
     [SerializeField]
-    private GameObject buildCanvas;
+    private GameObject buildCanvasUI;
     [SerializeField]
-    private GameObject plantCanvas;
+    private GameObject plantCanvasUI;
 
-    private Plantpoint currentPlantPoint;
-    public Plantpoint CurrentPlantPoint { get { return currentPlantPoint; } }
+    private Plantpoint currentlyActivePlantPoint;
+    public Plantpoint CurrentPlantPoint { get { return currentlyActivePlantPoint; } }
 
     private AudioClip[] uiSounds;
 
     [SerializeField]
-    private float zOffset = 0.7f;
+    private float zOffsetForCanvasLocation = 0.7f;
 
     private void Awake()
     {
@@ -28,93 +28,95 @@ public class PlantStore : MonoBehaviour
         else
             Destroy(gameObject);
 
-        buildCanvas = GameObject.FindGameObjectWithTag("BuildCanvas");
-        plantCanvas = GameObject.FindGameObjectWithTag("PlantCanvas");
+        buildCanvasUI = GameObject.FindGameObjectWithTag("BuildCanvas");
+        plantCanvasUI = GameObject.FindGameObjectWithTag("PlantCanvas");
 
         HideBuildUI();
         HidePlantUI();
     }
 
     //Metodos para el manejo de los plantpoints y la UI
-    public void SelectPlantPoint(Plantpoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
+    public void ActivatePlantUI(Plantpoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
     {
-        if (currentPlantPoint == plantPoint)
-        {
-            DeselectPlantPoint();
-            return;
-        }
-        currentPlantPoint = plantPoint;
-        SetPlantPoint(currentPlantPoint);
+        DeselectCurrentActivePlantpointWithPlant();
+        currentlyActivePlantPoint = plantPoint;
+        SetCurrentActivePlantPoint(currentlyActivePlantPoint);
+        return;
     }
-    public void SelectBuildPoint(Plantpoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
+
+    public void ActivateBuildUI(Plantpoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
     {
-        if (currentPlantPoint == plantPoint)
-        {
-            DeselectBuildPoint();
-            return;
-        }
-        currentPlantPoint = plantPoint;
-        SetBuildPoint(currentPlantPoint);
+        DeselectCurrentActivePlantpointWithPlant();
+        currentlyActivePlantPoint = plantPoint;
+        SetActiveBuildpoint(currentlyActivePlantPoint);
+        return;
     }
-    public void DeselectPlantPoint()        //Function for deselection the plantpoint
+
+    public void DeselectCurrentActivePlantpointWithPlant()        //Function for deselection the plantpoint
     {
-        currentPlantPoint = null;
+        currentlyActivePlantPoint = null;
         HidePlantUI();
     }
-    public void DeselectBuildPoint()        //Function for deselection the plantpoint
+
+    public void DeselectCurrentActiveEmptyPlantpoint()        //Function for deselection the plantpoint
     {
-        currentPlantPoint = null;
+        currentlyActivePlantPoint = null;
         HideBuildUI();
     }
-    public void SetPlantPoint(Plantpoint plantPoint)
+
+    public void SetCurrentActivePlantPoint(Plantpoint plantPoint)
     {
         //Si el plantPoint tiene una planta se activa el plantpointUI con la informacion de la planta.
-        currentPlantPoint = plantPoint;
-        plantCanvas.transform.position = currentPlantPoint.transform.position + new Vector3(0, 0, zOffset);
-        plantCanvas.SetActive(true);
+        currentlyActivePlantPoint = plantPoint;
+        plantCanvasUI.transform.position = currentlyActivePlantPoint.transform.position + new Vector3(0, 0, zOffsetForCanvasLocation);
+        plantCanvasUI.SetActive(true);
     }
-    public void SetBuildPoint(Plantpoint plantPoint)
+
+    public void SetActiveBuildpoint(Plantpoint plantPoint)
     {
         //Cuadno el plant poin esta vacio para sacar el buildUI
-        currentPlantPoint = plantPoint;
-        buildCanvas.transform.position = currentPlantPoint.transform.position + new Vector3(0, 0, zOffset);
-        buildCanvas.SetActive(true);
+        currentlyActivePlantPoint = plantPoint;
+        buildCanvasUI.transform.position = currentlyActivePlantPoint.transform.position + new Vector3(0, 0, zOffsetForCanvasLocation);
+        buildCanvasUI.SetActive(true);
     }
+
     public void HideBuildUI()
     {
-        buildCanvas.SetActive(false);
+        buildCanvasUI.SetActive(false);
     }
+
     public void HidePlantUI()
     {
-        plantCanvas.SetActive(false);
+        plantCanvasUI.SetActive(false);
     }
 
     //Esta parte del script esta dedicada a las funiones de la UI de las plantas. Tanto para la UI de la
     //planta como el UI de construccion.
-    public void PurchasePlant(PlantBlueprint bluePrint)
+    public void PurchasePlantForCurrentActivePlantpoint(PlantBlueprint bluePrint)
     {
         if (LevelManager.Instance.UiManager.CurrentMoney >= bluePrint.price)
         {
-            currentPlantPoint.BuildPlant(bluePrint);
+            currentlyActivePlantPoint.BuildPlant(bluePrint);
             //SoundHandler.Instance.PlayClip(uiSounds[0]);
             //SoundHandler.Instance.PlayClip(uiSounds[1]);
-            DeselectBuildPoint();
+            DeselectCurrentActiveEmptyPlantpoint();
         }
         else return;
     }
-    public void Upgrade()
+    public void UpgradeCurrentActivePlantInPlantpoint()
     {
-        if (LevelManager.Instance.UiManager.CurrentMoney > currentPlantPoint.currentBlueprint.upgradePrice)
+        if (LevelManager.Instance.UiManager.CurrentMoney > currentlyActivePlantPoint.currentBlueprint.upgradePrice)
         {
-            currentPlantPoint.UpgradePlant();
+            currentlyActivePlantPoint.UpgradePlant();
             //SoundHandler.Instance.PlayClip(uiSounds[0]);
+            DeselectCurrentActivePlantpointWithPlant();
         }
         else return;
     }
-    public void Sell()
+    public void SellPlantInCurrentActivePlantpoint()
     {
-        currentPlantPoint.SellPlant();
+        currentlyActivePlantPoint.SellPlant();
         //SoundHandler.Instance.PlayClip(uiSounds[0]);
-        DeselectPlantPoint();
+        DeselectCurrentActivePlantpointWithPlant();
     }
 }

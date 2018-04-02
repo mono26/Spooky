@@ -35,8 +35,8 @@ public class PlantPointDetect : IDetect
     {
         if (!currentPlantPoint && PlantStore.Instance.CurrentPlantPoint)
         {
-            PlantStore.Instance.DeselectBuildPoint();
-            PlantStore.Instance.DeselectPlantPoint();
+            PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
+            PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
             return;
         }
 
@@ -59,9 +59,14 @@ public class PlantPointDetect : IDetect
                 }
             }
 
-            yield return new WaitForSeconds(settings.UpdateRate);
+            if(!currentPlantPoint.Equals(tempPlantPoint))
+            {
+                SelectPlantPoint(tempPlantPoint);
+                yield return 0;
+            }
 
-            SelectPlantPoint(tempPlantPoint);
+            yield return 0;
+
         }
 
         yield return new WaitForSeconds(settings.UpdateRate);
@@ -76,9 +81,9 @@ public class PlantPointDetect : IDetect
         if (currentPlantPoint)
         {
             if (currentPlantPoint.currentPlant)
-                PlantStore.Instance.DeselectPlantPoint();
+                PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
             else if (!currentPlantPoint.currentPlant)
-                PlantStore.Instance.DeselectBuildPoint();
+                PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
 
             currentPlantPoint = null;
         }
@@ -91,31 +96,32 @@ public class PlantPointDetect : IDetect
         // To prevent flickering of the UI
         if (!currentPlantPoint)
         {
-            ChangePlantPointAndDisplay(_plantPoint);
+            ChangeCurrentPlantPointAndDisplay(_plantPoint);
         }
         else if (currentPlantPoint && !currentPlantPoint.Equals(_plantPoint))
         {
-            ChangePlantPointAndDisplay(_plantPoint);
+            ClearCurrentPlantPoint();
+            ChangeCurrentPlantPointAndDisplay(_plantPoint);
         }
         else return;
     }
 
-    private void ChangePlantPointAndDisplay(Plantpoint _plantPoint)
+    private void ChangeCurrentPlantPointAndDisplay(Plantpoint _plantPoint)
     {
         currentPlantPoint = _plantPoint;
         if (currentPlantPoint.currentPlant)
         {
-            PlantStore.Instance.SelectPlantPoint(currentPlantPoint);
+            PlantStore.Instance.ActivatePlantUI(currentPlantPoint);
             return;
         }
         else if (!currentPlantPoint.currentPlant)
         {
-            PlantStore.Instance.SelectBuildPoint(currentPlantPoint);
+            PlantStore.Instance.ActivateBuildUI(currentPlantPoint);
             return;
         }
     }
 
-    private void AddPlantPoint(Plantpoint _plantPoint)
+    private void AddPlantPointToTheList(Plantpoint _plantPoint)
     {
         if (nearPlantPoints.Count == 0 || !nearPlantPoints.Contains(_plantPoint))
         {
@@ -125,7 +131,7 @@ public class PlantPointDetect : IDetect
         else return;
     }
 
-    private void RemovePlantPoint(Plantpoint _plantPoint)
+    private void RemovePlantPointFromTheList(Plantpoint _plantPoint)
     {
         if (nearPlantPoints.Count > 0 || nearPlantPoints.Contains(_plantPoint))
         {
@@ -149,7 +155,7 @@ public class PlantPointDetect : IDetect
                 SelectPlantPoint(plantPoint);
             }
 
-            AddPlantPoint(plantPoint);
+            AddPlantPointToTheList(plantPoint);
 
             detection = spooky.StartCoroutine(DisplayNearestPlantPoint());
 
@@ -172,7 +178,7 @@ public class PlantPointDetect : IDetect
                 ClearCurrentPlantPoint();
             }
 
-            RemovePlantPoint(plantPoint);
+            RemovePlantPointFromTheList(plantPoint);
 
             if(nearPlantPoints.Count == 0)
             {

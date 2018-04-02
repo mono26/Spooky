@@ -452,7 +452,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: PurchasePlant
+        m_MethodName: PurchasePlantForCurrentActivePlantpoint
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: ee53e8a288025a54694b4fa6bd6171a4,
