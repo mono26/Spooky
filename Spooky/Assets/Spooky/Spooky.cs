@@ -16,8 +16,12 @@ public class Spooky : MonoBehaviour
 
     // Detection Section
     [Header("Detection Settings")]
-    private EnemyDetect enemyDetectComponent;
-    public EnemyDetect EnemyDetectComponent { get { return enemyDetectComponent; } }
+    // Number of executions per second
+    [SerializeField]
+    private float enemyDetectUpdateRate;
+    [SerializeField]
+    private SpookyEnemyDetect enemyDetectComponent;
+    public SpookyEnemyDetect EnemyDetectComponent { get { return enemyDetectComponent; } }
     [SerializeField]
     private EnemyDetect.Settings enemyDetectSettings;
     [SerializeField]
@@ -56,8 +60,9 @@ public class Spooky : MonoBehaviour
             movementSettings
             );
 
-        enemyDetectComponent = new EnemyDetect(
-            gameObject,
+        enemyDetectComponent = new SpookyEnemyDetect(
+            this,
+            enemyDetectUpdateRate,
             enemyDetectSettings
             );
 

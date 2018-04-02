@@ -100,11 +100,8 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
         else if (currentState.Equals(State.Death))
         {
-            Debug.Log("Is dead!");
-            // So it can execute the Coroutine just once!
             if (!isDying)
             {
-                Debug.Log("Start dead process");
                 StopAllCoroutines();
                 dieProcess = StartCoroutine(StartDeath());
                 return;
@@ -142,9 +139,6 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
     protected IEnumerator StartDeath()
     {
-        var time = Time.timeSinceLevelLoad;
-        Debug.Log(time + " start death. " + this.ToString());
-
         isDying = true;
         DeactivateCollider();
 

@@ -11,7 +11,7 @@ public class PlantPointDetect : IDetect
 
     //Value of the current plantPoint. It changes through time by collision detection
     //Also the value can be null if the current plantPoint is out of the collider boundaries
-    private Coroutine detection = null;
+    private Coroutine lookForClosestPlantpoint = null;
     [SerializeField]
     private Plantpoint currentPlantPoint;
     [SerializeField]
@@ -59,19 +59,13 @@ public class PlantPointDetect : IDetect
                 }
             }
 
-            if(!currentPlantPoint.Equals(tempPlantPoint))
+            if(currentPlantPoint != null && !currentPlantPoint.Equals(tempPlantPoint))
             {
-                SelectPlantPoint(tempPlantPoint);
-                yield return 0;
+                SelectNewPlantpoint(tempPlantPoint);
             }
-
-            yield return 0;
-
         }
-
-        yield return new WaitForSeconds(settings.UpdateRate);
-
-        spooky.StartCoroutine(DisplayNearestPlantPoint());
+        yield return new WaitForSeconds(1 / settings.DisplayNearPlantpointTicksPerSecond);
+        lookForClosestPlantpoint = spooky.StartCoroutine(DisplayNearestPlantPoint());
     }
 
     //This method checks if the current plantPoint has a plant on it or not
@@ -91,7 +85,7 @@ public class PlantPointDetect : IDetect
         else return;
     }
 
-    private void SelectPlantPoint(Plantpoint _plantPoint)
+    private void SelectNewPlantpoint(Plantpoint _plantPoint)
     {
         // To prevent flickering of the UI
         if (!currentPlantPoint)
@@ -152,13 +146,11 @@ public class PlantPointDetect : IDetect
             var plantPoint = _collider.GetComponent<Plantpoint>();
             if (currentPlantPoint == null)
             {
-                SelectPlantPoint(plantPoint);
+                SelectNewPlantpoint(plantPoint);
+                lookForClosestPlantpoint = spooky.StartCoroutine(DisplayNearestPlantPoint());
             }
 
             AddPlantPointToTheList(plantPoint);
-
-            detection = spooky.StartCoroutine(DisplayNearestPlantPoint());
-
             return;
         }
         else return;
@@ -182,7 +174,7 @@ public class PlantPointDetect : IDetect
 
             if(nearPlantPoints.Count == 0)
             {
-                spooky.StopCoroutine(detection);
+                spooky.StopCoroutine(lookForClosestPlantpoint);
             }
             return;
         }
@@ -196,6 +188,7 @@ public class PlantPointDetect : IDetect
         public SphereCollider SphereTrigger;
         [Range(1.5f, 2.5f)]
         public float DetectRange;
-        public float UpdateRate;
+        // Number of executions per second
+        public float DisplayNearPlantpointTicksPerSecond;
     }
 }

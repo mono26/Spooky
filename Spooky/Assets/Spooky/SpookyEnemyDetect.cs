@@ -1,0 +1,96 @@
+﻿using System.Collections;
+using UnityEngine;
+
+[System.Serializable]
+public class SpookyEnemyDetect : EnemyDetect
+{
+    private Coroutine targetClosestEnemy = null;
+    [SerializeField]
+    private Enemy currentEnemyTarget;
+    public Enemy CurrentEnemyTarget { get { return currentEnemyTarget; } }
+    [SerializeField]
+    private float changeNearEnemyTicksPerSecond;
+
+    public SpookyEnemyDetect(MonoBehaviour _owner, float _changeNearEnemyRate, Settings _settings) : base(_owner, _settings)
+    {
+        changeNearEnemyTicksPerSecond = _changeNearEnemyRate;
+    }
+
+    private IEnumerator TargetNearestEnemy()
+    {
+        if (nearEnemies.Count > 0)
+        {
+            float distanceToTheFirstEnemy = Vector3.SqrMagnitude(owner.transform.position - nearEnemies[0].transform.position);
+            Enemy temporalCurrentEnemy = nearEnemies[0];
+            for (int plantPoint = 0; plantPoint < nearEnemies.Count; plantPoint++)
+            {
+                float distanceToTheNextEnemy = Vector3.SqrMagnitude(owner.transform.position - nearEnemies[plantPoint].transform.position);
+                if (distanceToTheNextEnemy < distanceToTheFirstEnemy)
+                {
+                    distanceToTheFirstEnemy = distanceToTheNextEnemy;
+                    temporalCurrentEnemy = nearEnemies[plantPoint];
+                }
+            }
+            if (!currentEnemyTarget.Equals(temporalCurrentEnemy))
+            {
+                ChangeCurrentEnemyTarget(temporalCurrentEnemy);
+            }
+        }
+        yield return new WaitForSeconds(1 / changeNearEnemyTicksPerSecond);
+        targetClosestEnemy = owner.StartCoroutine(TargetNearestEnemy());
+    }
+
+    private void ChangeCurrentEnemyTarget(Enemy _enemy)
+    {
+        var time = Time.timeSinceLevelLoad;
+        Debug.Log(time + " changing currentEnemyTarget." + _enemy.ToString());
+        currentEnemyTarget = _enemy;
+    }
+
+    public Vector3 GetCurrentEnemyTargetDirection()
+    {
+        Vector3 _direction = Vector3.zero;
+        if (currentEnemyTarget)
+        {
+            _direction = (currentEnemyTarget.transform.position - owner.transform.position).normalized;
+            _direction.y = 0;
+            return _direction;
+        }
+        else return _direction;
+    }
+
+    public new void OnTriggerEnter(Collider _enemyCollider)
+    {
+        base.OnTriggerEnter(_enemyCollider);
+        // Check if the collider is tagged as enemy
+        if (_enemyCollider.CompareTag("Enemy"))
+        {
+            if (GetFirstEnemyInTheList() != null)
+            {
+                var time = Time.timeSinceLevelLoad;
+                Debug.Log(time + " colliding with enemy." + _enemyCollider.ToString());
+                ChangeCurrentEnemyTarget(_enemyCollider.GetComponent<Enemy>());
+                targetClosestEnemy = owner.StartCoroutine(TargetNearestEnemy()); 
+            }
+            return;
+        }
+        else return;
+    }
+
+    public new void OnTriggerExit(Collider _enemyCollider)
+    {
+        base.OnTriggerExit(_enemyCollider);
+        // Check if the collider is tagged as enemy
+        if (_enemyCollider.CompareTag("Enemy"))
+        {
+            if(nearEnemies.Count.Equals(0))
+            {
+                owner.StopCoroutine(targetClosestEnemy);
+            }
+            // TODO stop coroutine display nearest enemy if count = 0
+            return;
+        }
+        else return;
+    }
+
+}

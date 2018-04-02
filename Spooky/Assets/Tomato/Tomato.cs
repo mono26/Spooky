@@ -41,7 +41,7 @@ public class Tomato : Plant
         if (currentState.Equals(State.Waiting))
         {
             //TODO execute decision
-            if (enemyDetect.HasTarget() && IsTargetInRange())
+            if (enemyDetect.HasAValidTarget() && IsTargetInRange())
             {
                 currentState = State.Attacking;
                 return;
@@ -53,7 +53,7 @@ public class Tomato : Plant
         {
             if (!IsCasting &&
                 Time.timeSinceLevelLoad > lastShoot + settings.AttackSpeed &&
-                enemyDetect.HasTarget()
+                enemyDetect.HasAValidTarget()
                 )
             {
                 animationComponent.CheckViewDirection(enemyDetect.GetEnemyDirection());

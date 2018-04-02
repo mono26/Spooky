@@ -6,14 +6,15 @@ public class EnemyDetect : IDetect
 {
     // Give the value of the range in settings to the radius of the collider
     // it must be in a separate layer to wrk properly.
-    private GameObject owner;
+    protected MonoBehaviour owner;
     private Settings settings;
 
+    private Coroutine detection = null;
     [SerializeField]
-    private List<Enemy> nearEnemies = null;
+    protected List<Enemy> nearEnemies = null;
 
     // Create a stack to store all the enemies that come in range
-    public EnemyDetect(GameObject _owner, Settings _settings)
+    public EnemyDetect(MonoBehaviour _owner, Settings _settings)
     {
         // Constructor, sets all needed dependencies.
         owner = _owner;
@@ -32,23 +33,25 @@ public class EnemyDetect : IDetect
     public void Detect()
     {
         // To check if the top of the stack is out of range or dead, or any other condition for clearing it
-        if (HasTarget())
+        if (nearEnemies.Count > 0)
         {
-            if (!IsTargetActive())
+            if (!HasAValidTarget())
                 ClearCurrentTarget();
         }
         else return;
     }
 
-    public Enemy GetCurrentTarget()
+    public Enemy GetFirstEnemyInTheList()
     {
-        return nearEnemies[0].GetComponent<Enemy>();
+        if (nearEnemies.Count > 0)
+            return nearEnemies[0].GetComponent<Enemy>();
+        else return null;
     }
 
     public Vector3 GetEnemyDirection()
     {
         Vector3 _direction = Vector3.zero;
-        if (HasTarget() && IsTargetActive())
+        if (nearEnemies.Count > 0 && HasAValidTarget())
         {
             _direction = (nearEnemies[0].transform.position - owner.transform.position).normalized;
             _direction.y = 0;
@@ -57,18 +60,9 @@ public class EnemyDetect : IDetect
         else return _direction;
     }
 
-    public bool HasTarget()
+    public bool HasAValidTarget()
     {
         if (nearEnemies.Count > 0)
-        {
-            return true;
-        }
-        else return false;
-    }
-
-    public bool IsTargetActive()
-    {
-        if (HasTarget())
         {
             return nearEnemies[0].gameObject.activeInHierarchy;
         }
@@ -81,7 +75,7 @@ public class EnemyDetect : IDetect
         nearEnemies.RemoveAt(0);
     }
 
-    private void AddEnemy(Enemy _enemy)
+    private void AddEnemyToTheList(Enemy _enemy)
     {
         if (nearEnemies.Count == 0 || !nearEnemies.Contains(_enemy))
         {
@@ -91,7 +85,7 @@ public class EnemyDetect : IDetect
         else return;
     }
 
-    private void RemoveEnemy(Enemy _enemy)
+    private void RemoveEnemyFromTheList(Enemy _enemy)
     {
         if (nearEnemies.Count > 0 || nearEnemies.Contains(_enemy))
         {
@@ -103,11 +97,9 @@ public class EnemyDetect : IDetect
 
     public void OnTriggerEnter(Collider _collider)
     {
-        // Check if the collider is tagged as enemy
         if (_collider.CompareTag("Enemy"))
         {
-            AddEnemy(_collider.GetComponent<Enemy>());
-            // TODO start coroutine display nearest enemy
+            AddEnemyToTheList(_collider.GetComponent<Enemy>());
             return;
         }
         else return;
@@ -115,11 +107,9 @@ public class EnemyDetect : IDetect
 
     public void OnTriggerExit(Collider _collider)
     {
-        // Check if the collider is tagged as enemy
         if (_collider.CompareTag("Enemy"))
         {
-            RemoveEnemy(_collider.GetComponent<Enemy>());
-            // TODO stop coroutine display nearest enemy if count = 0
+            RemoveEnemyFromTheList(_collider.GetComponent<Enemy>());
             return;
         }
         else return;

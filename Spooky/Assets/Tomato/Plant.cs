@@ -25,7 +25,7 @@ public class Plant : MonoBehaviour
     protected void Awake()
     {
         enemyDetect = new EnemyDetect(
-            this.gameObject,
+            this,
             settings.EnemyDetectSettings
             );
 
@@ -50,7 +50,7 @@ public class Plant : MonoBehaviour
 
     protected bool IsTargetInRange()
     {
-        float distance = Vector3.Distance(transform.position, enemyDetect.GetCurrentTarget().transform.position);
+        float distance = Vector3.Distance(transform.position, enemyDetect.GetFirstEnemyInTheList().transform.position);
         if (distance <= settings.EnemyDetectSettings.enemyDetectionRange)
         {
             return true;

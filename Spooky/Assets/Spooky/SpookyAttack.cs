@@ -46,13 +46,14 @@ public class SpookyAttack
     {
         // TODO check if there is a target
         Vector3 _direction = Vector3.zero;
-        if (spooky.EnemyDetectComponent.HasTarget())
+        if (spooky.EnemyDetectComponent.CurrentEnemyTarget != null)
         {
-            _direction = spooky.EnemyDetectComponent.GetEnemyDirection();
+            _direction = spooky.EnemyDetectComponent.GetCurrentEnemyTargetDirection();
             RotateHand(_direction);
             return;
         }
-        else
+
+        else if (spooky.EnemyDetectComponent.CurrentEnemyTarget == null)
         {
             _direction.x = spooky.Joystick.Horizontal;
             _direction.z = spooky.Joystick.Vertical;

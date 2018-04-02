@@ -320,16 +320,18 @@ MonoBehaviour:
     SlowMotionSpeed: 3.5
     MaxXValue: 0
     MaxYValue: 0
+  enemyDetectUpdateRate: 2
+  enemyDetectComponent:
+    nearEnemies: []
+    currentEnemyTarget: {fileID: 0}
+    changeNearEnemyTicksPerSecond: 0
   enemyDetectSettings:
     enemyDetectionRange: 3.5
     detectionTrigger: {fileID: 135549795504933472}
-  plantPointDetect:
-    currentPlantPoint: {fileID: 0}
-    nearPlantPoints: []
   plantPointDetectSettings:
     SphereTrigger: {fileID: 135313261536518600}
     DetectRange: 2.5
-    UpdateRate: 0
+    DisplayNearPlantpointTicksPerSecond: 2
   bulletPrefab: {fileID: 114751990671467428, guid: 592720f6ac46d8b4882bc1a6a1b49175,
     type: 2}
   attackComponent:

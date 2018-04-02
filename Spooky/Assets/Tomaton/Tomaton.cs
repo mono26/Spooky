@@ -30,7 +30,7 @@ public class Tomaton : Tomato
         if (currentState.Equals(State.Waiting))
         {
             //TODO execute decision
-            if (enemyDetect.HasTarget() && IsTargetInRange())
+            if (enemyDetect.HasAValidTarget() && IsTargetInRange())
             {
                 currentState = State.Attacking;
                 return;
@@ -42,7 +42,7 @@ public class Tomaton : Tomato
         {
             if (!IsCasting &&
                 Time.timeSinceLevelLoad > lastSpecialShoot + specialCooldown &&
-                enemyDetect.HasTarget()
+                enemyDetect.HasAValidTarget()
                 )
             {
                 animationComponent.CheckViewDirection(enemyDetect.GetEnemyDirection());
@@ -51,7 +51,7 @@ public class Tomaton : Tomato
             }
             else if (!IsCasting &&
                 Time.timeSinceLevelLoad > lastShoot + settings.AttackSpeed &&
-                enemyDetect.HasTarget()
+                enemyDetect.HasAValidTarget()
                 )
             {
                 animationComponent.CheckViewDirection(enemyDetect.GetEnemyDirection());
