@@ -22,7 +22,7 @@ public class Tomaton : Tomato
     {
         enemyDetect.Detect();
 
-        if (IsDead())
+        if (IsPlantDead())
         {
             currentState = State.Death;
         }

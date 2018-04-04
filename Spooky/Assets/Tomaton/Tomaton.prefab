@@ -159,18 +159,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyDetect:
-    enemyList: []
+    nearEnemies: []
   settings:
     AttackSpeed: 1
     MaxHealth: 1
     EnemyDetectSettings:
       enemyDetectionRange: 3.5
       detectionTrigger: {fileID: 135569130457611010}
-  sprite: {fileID: 212936167064955156}
-  animator: {fileID: 95267028207046288}
   soundEffect: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   lastShoot: 0
-  launchForce: 5
+  launchForce: 10
   bullet: {fileID: 114768004279819712, guid: 71d322d4d54f70f45baaa1d842bc51be, type: 2}
   launchPosition: {fileID: 4260655277493156}
   currentState: 0

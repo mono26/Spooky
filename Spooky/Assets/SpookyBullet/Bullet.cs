@@ -5,8 +5,8 @@ public class Bullet : MonoBehaviour
     protected Rigidbody rigidBody;
     public Rigidbody RigidBody { get { return rigidBody; } }
     [SerializeField]
-    protected float damage;
-    protected float launchTime;
+    protected float bulletDamaga;
+    protected float bulletLaunchTime;
 
     protected void Awake()
     {
@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour
 
     protected bool IsBulletTimerOver()
     {
-        if (launchTime + 10f < Time.timeSinceLevelLoad)
+        if (bulletLaunchTime + 10f < Time.timeSinceLevelLoad)
         {
             return true;
         }
@@ -25,13 +25,13 @@ public class Bullet : MonoBehaviour
     public void Launch(float _speed)
     {
         rigidBody.AddForce(transform.right * _speed, ForceMode.Impulse);
-        launchTime = Time.timeSinceLevelLoad;
+        bulletLaunchTime = Time.timeSinceLevelLoad;
         return;
     }
 
     public float GetBulletDamage()
     {
-        return damage;
+        return bulletDamaga;
     }
 
     protected void Restart(Bullet _bullet)

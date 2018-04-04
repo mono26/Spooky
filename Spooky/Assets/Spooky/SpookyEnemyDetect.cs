@@ -42,8 +42,6 @@ public class SpookyEnemyDetect : EnemyDetect
 
     private void ChangeCurrentEnemyTarget(Enemy _enemy)
     {
-        var time = Time.timeSinceLevelLoad;
-        Debug.Log(time + " changing currentEnemyTarget." + _enemy.ToString());
         currentEnemyTarget = _enemy;
     }
 
@@ -67,8 +65,6 @@ public class SpookyEnemyDetect : EnemyDetect
         {
             if (GetFirstEnemyInTheList() != null)
             {
-                var time = Time.timeSinceLevelLoad;
-                Debug.Log(time + " colliding with enemy." + _enemyCollider.ToString());
                 ChangeCurrentEnemyTarget(_enemyCollider.GetComponent<Enemy>());
                 targetClosestEnemy = owner.StartCoroutine(TargetNearestEnemy()); 
             }

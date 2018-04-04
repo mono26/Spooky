@@ -2,6 +2,13 @@
 
 public class Tomato : Plant
 {
+    protected enum State
+    {
+        Waiting,
+        Attacking,
+        Death,
+    }
+
     [SerializeField]
     protected float launchForce;
     [SerializeField]
@@ -12,13 +19,6 @@ public class Tomato : Plant
 
     [SerializeField]
     protected State currentState;
-
-    protected enum State
-    {
-        Waiting,
-        Attacking,
-        Death,
-    }
 
     public new void Start()
     {
@@ -33,7 +33,7 @@ public class Tomato : Plant
     {
         enemyDetect.Detect();
 
-        if (IsDead())
+        if (IsPlantDead())
         {
             currentState = State.Death;
         }
@@ -69,7 +69,7 @@ public class Tomato : Plant
 
         else if (currentState.Equals(State.Death))
         {
-            // TODO release enemy
+            // TODO destroy plant
         }
 
         else return;

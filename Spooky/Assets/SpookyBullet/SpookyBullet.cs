@@ -34,8 +34,8 @@ public class SpookyBullet : Bullet, ISpawnable<Bullet>
 
     public void IncreaseDamage(SpookyBullet _bullet)
     {
-        _bullet.damage += damageIncreasePerSeconds;
-        _bullet.damage = Mathf.Clamp(_bullet.damage, 1, 3);
+        _bullet.bulletDamaga += damageIncreasePerSeconds;
+        _bullet.bulletDamaga = Mathf.Clamp(_bullet.bulletDamaga, 1, 3);
         return;
     }
 

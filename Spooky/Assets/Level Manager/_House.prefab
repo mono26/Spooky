@@ -313,9 +313,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f73935e850316948a9898793aab32a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildCanvas: {fileID: 0}
-  plantCanvas: {fileID: 0}
-  zOffset: 0.7
+  buildCanvasUI: {fileID: 0}
+  plantCanvasUI: {fileID: 0}
+  zOffsetForCanvasLocation: 0.7
 --- !u!114 &114188510794227474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -361,11 +361,11 @@ MonoBehaviour:
     - {fileID: 114095580315903786, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
     spawnRate: 0.5
     count: 0f000000
-  numberOfEnemies: 0
-  nextWave: 0
-  timeBetweenWaves: 3
-  waveCountDown: 0
-  spawnStart: {fileID: 8300000, guid: 783ce37a3589d68419e688038e12052d, type: 3}
+  numberOfEnemiesInCurrentWave: 0
+  currentWave: 0
+  timeBetweenNextWaveSpawn: 5
+  waveTimerCountDown: 0
+  firstSpawnSound: {fileID: 8300000, guid: 783ce37a3589d68419e688038e12052d, type: 3}
 --- !u!212 &212128300472108326
 SpriteRenderer:
   m_ObjectHideFlags: 1

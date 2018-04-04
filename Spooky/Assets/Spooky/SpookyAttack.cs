@@ -16,7 +16,7 @@ public class SpookyAttack
     private ISpawnable<Bullet> bulletPrefab;
     private SpookyBullet actualBullet;
     private bool isCharging;
-    private Coroutine chargingBullet;
+    private Coroutine chargeBullet;
     // Number of charges persecond
 
     private float lastShoot;
@@ -44,7 +44,9 @@ public class SpookyAttack
 
     public void Update()
     {
-        // TODO check if there is a target
+        if (actualBullet)
+            RotateBullettowardsDirection(actualBullet.transform);
+
         Vector3 _direction = Vector3.zero;
         if (spooky.EnemyDetectComponent.CurrentEnemyTarget != null)
         {
@@ -90,7 +92,7 @@ public class SpookyAttack
         {
             actualBullet = GetBulletToShoot();
             actualBullet.transform.SetParent(shootTransform);
-            spooky.StartCoroutine(ChargeAttack());
+            chargeBullet = spooky.StartCoroutine(ChargeAttack());
         }
         else return;
     }
@@ -108,6 +110,7 @@ public class SpookyAttack
 
     private void LaunchAttack(Bullet _bullet)
     {
+        spooky.StopCoroutine(chargeBullet);
         RotateBullettowardsDirection(_bullet.transform);
         actualBullet = null;
         _bullet.transform.SetParent(GameObject.Find("Bullets").transform);

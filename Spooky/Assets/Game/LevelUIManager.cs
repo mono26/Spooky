@@ -67,7 +67,7 @@ public class LevelUIManager
 
     public void Update()
     {
-        enemiesCounter.text = WaveSpawner.Instance.NumberOfEnemies.ToString();
+        enemiesCounter.text = WaveSpawner.Instance.NumberOfEnemiesInCurrentWave.ToString();
     }
 
     public void LoseCrop(float _stole)
@@ -108,7 +108,7 @@ public class LevelUIManager
 
     private void IncreaseWave()
     {
-        waveBar.fillAmount = (float)(WaveSpawner.Instance.NextWave) + 1 / (float)(WaveSpawner.Instance.Waves.Length);
+        waveBar.fillAmount = (float)(WaveSpawner.Instance.CurrentWave) / (float)(WaveSpawner.Instance.Waves.Length);
     }
 
     public void QuitLevel()

@@ -23,7 +23,7 @@ public class PlantLaunchProyectile : IRangeAttack
 
     public void RangeAttack()
     {
-        plant.StartCast(true);
+        plant.StartCastingAbility(true);
         plant.CastAbility(plant.StartCoroutine(BasicAtack()));
         return;
     }
@@ -33,8 +33,7 @@ public class PlantLaunchProyectile : IRangeAttack
         plant.animationComponent.PlayAnimation("Attack");
 
         yield return new WaitForSecondsRealtime(
-            plant.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length //+
-            //owner.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime
+            plant.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
             );
 
         Bullet tempBullet = CreateBullet(bulletPrefab);
@@ -54,7 +53,7 @@ public class PlantLaunchProyectile : IRangeAttack
 
         _bullet.Launch(launchForce);
         GameManager.Instance.SoundManager.PlayClip(soundEffect);
-        plant.StartCast(false); //Private set of the variable; only by method and giving a false to end cast
+        plant.StartCastingAbility(false); //Private set of the variable; only by method and giving a false to end cast
         return;
     }
 

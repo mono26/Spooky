@@ -11,8 +11,8 @@ public class PlantStore : MonoBehaviour
     [SerializeField]
     private GameObject plantCanvasUI;
 
-    private Plantpoint currentlyActivePlantPoint;
-    public Plantpoint CurrentPlantPoint { get { return currentlyActivePlantPoint; } }
+    private Plantpoint currentActivePlantPoint;
+    public Plantpoint CurrentPlantPoint { get { return currentActivePlantPoint; } }
 
     private AudioClip[] uiSounds;
 
@@ -39,53 +39,53 @@ public class PlantStore : MonoBehaviour
     public void ActivatePlantUI(Plantpoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
     {
         DeselectCurrentActivePlantpointWithPlant();
-        currentlyActivePlantPoint = plantPoint;
-        SetCurrentActivePlantPoint(currentlyActivePlantPoint);
+        currentActivePlantPoint = plantPoint;
+        SetCurrentActivePlantPoint(currentActivePlantPoint);
         return;
     }
 
     public void ActivateBuildUI(Plantpoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
     {
         DeselectCurrentActivePlantpointWithPlant();
-        currentlyActivePlantPoint = plantPoint;
-        SetActiveBuildpoint(currentlyActivePlantPoint);
+        currentActivePlantPoint = plantPoint;
+        SetCurrentActiveBuildpoint(currentActivePlantPoint);
         return;
     }
 
     public void DeselectCurrentActivePlantpointWithPlant()        //Function for deselection the plantpoint
     {
-        currentlyActivePlantPoint = null;
+        currentActivePlantPoint = null;
         HidePlantUI();
     }
 
     public void DeselectCurrentActiveEmptyPlantpoint()        //Function for deselection the plantpoint
     {
-        currentlyActivePlantPoint = null;
+        currentActivePlantPoint = null;
         HideBuildUI();
     }
 
-    public void SetCurrentActivePlantPoint(Plantpoint plantPoint)
+    private void SetCurrentActivePlantPoint(Plantpoint plantPoint)
     {
         //Si el plantPoint tiene una planta se activa el plantpointUI con la informacion de la planta.
-        currentlyActivePlantPoint = plantPoint;
-        plantCanvasUI.transform.position = currentlyActivePlantPoint.transform.position + new Vector3(0, 0, zOffsetForCanvasLocation);
+        currentActivePlantPoint = plantPoint;
+        plantCanvasUI.transform.position = currentActivePlantPoint.transform.position + new Vector3(0, 0, zOffsetForCanvasLocation);
         plantCanvasUI.SetActive(true);
     }
 
-    public void SetActiveBuildpoint(Plantpoint plantPoint)
+    private void SetCurrentActiveBuildpoint(Plantpoint plantPoint)
     {
         //Cuadno el plant poin esta vacio para sacar el buildUI
-        currentlyActivePlantPoint = plantPoint;
-        buildCanvasUI.transform.position = currentlyActivePlantPoint.transform.position + new Vector3(0, 0, zOffsetForCanvasLocation);
+        currentActivePlantPoint = plantPoint;
+        buildCanvasUI.transform.position = currentActivePlantPoint.transform.position + new Vector3(0, 0, zOffsetForCanvasLocation);
         buildCanvasUI.SetActive(true);
     }
 
-    public void HideBuildUI()
+    private void HideBuildUI()
     {
         buildCanvasUI.SetActive(false);
     }
 
-    public void HidePlantUI()
+    private void HidePlantUI()
     {
         plantCanvasUI.SetActive(false);
     }
@@ -96,26 +96,26 @@ public class PlantStore : MonoBehaviour
     {
         if (LevelManager.Instance.UiManager.CurrentMoney >= bluePrint.price)
         {
-            currentlyActivePlantPoint.BuildPlant(bluePrint);
+            currentActivePlantPoint.BuildPlant(bluePrint);
             //SoundHandler.Instance.PlayClip(uiSounds[0]);
             //SoundHandler.Instance.PlayClip(uiSounds[1]);
-            DeselectCurrentActiveEmptyPlantpoint();
+            HideBuildUI();
+            SetCurrentActivePlantPoint(currentActivePlantPoint);
         }
         else return;
     }
     public void UpgradeCurrentActivePlantInPlantpoint()
     {
-        if (LevelManager.Instance.UiManager.CurrentMoney > currentlyActivePlantPoint.currentBlueprint.upgradePrice)
+        if (LevelManager.Instance.UiManager.CurrentMoney > currentActivePlantPoint.currentBlueprint.upgradePrice)
         {
-            currentlyActivePlantPoint.UpgradePlant();
+            currentActivePlantPoint.UpgradePlant();
             //SoundHandler.Instance.PlayClip(uiSounds[0]);
-            DeselectCurrentActivePlantpointWithPlant();
         }
         else return;
     }
     public void SellPlantInCurrentActivePlantpoint()
     {
-        currentlyActivePlantPoint.SellPlant();
+        currentActivePlantPoint.SellPlant();
         //SoundHandler.Instance.PlayClip(uiSounds[0]);
         DeselectCurrentActivePlantpointWithPlant();
     }

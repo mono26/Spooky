@@ -27,7 +27,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1315302860701234
 GameObject:
   m_ObjectHideFlags: 0
@@ -124,12 +124,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4ae0709afabb3341b1da9108482886d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  bulletDamaga: 0
   startTime: 0
   corrosiveDamage: 0.5
   corrosiveTickRate: 0.5
   corrosiveDuration: 5
-  corrosiveTrigger: {fileID: 1071330208783592}
+  corrosiveField: {fileID: 1071330208783592}
 --- !u!212 &212586296778798466
 SpriteRenderer:
   m_ObjectHideFlags: 1

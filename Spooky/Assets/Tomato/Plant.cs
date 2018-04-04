@@ -8,13 +8,9 @@ public class Plant : MonoBehaviour
     [SerializeField]
     public Settings settings;
     [SerializeField]
-    protected SpriteRenderer sprite;
-    [SerializeField]
-    protected Animator animator;
-    [SerializeField]
     protected AudioClip soundEffect;
 
-    private Coroutine ability;
+    private Coroutine abilityCast;
     private bool isCasting;
 
     public float lastShoot;
@@ -29,7 +25,10 @@ public class Plant : MonoBehaviour
             settings.EnemyDetectSettings
             );
 
-        animationComponent = new PlantAnimation(sprite, animator);
+        animationComponent = new PlantAnimation(
+            GetComponent<SpriteRenderer>(),
+            GetComponent<Animator>()
+            );
     }
 
     protected void Start()
@@ -37,15 +36,15 @@ public class Plant : MonoBehaviour
         currentHealth = settings.MaxHealth;
     }
 
-    public void StartCast(bool _cast)
+    public void StartCastingAbility(bool _cast)
     {
         IsCasting = _cast;
     }
 
-    public void CastAbility(Coroutine _cast)
+    public void CastAbility(Coroutine _abilityCast)
     {
-        ability = _cast;
-        StartCast(true);
+        abilityCast = _abilityCast;
+        StartCastingAbility(true);
     }
 
     protected bool IsTargetInRange()
@@ -58,7 +57,7 @@ public class Plant : MonoBehaviour
         else return false;
     }
 
-    protected bool IsDead()
+    protected bool IsPlantDead()
     {
         if (currentHealth > 0)
         {

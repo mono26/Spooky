@@ -13,7 +13,9 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
     [SerializeField]    // In seconds
     protected float corrosiveDuration = 5.0f;
     [SerializeField]
-    protected GameObject corrosiveTrigger;
+    protected Coroutine corrosiveEffect;
+    [SerializeField]
+    protected GameObject corrosiveField;
 
     public delegate void CorrosiveDamage(float _damage);
     public event CorrosiveDamage OnCorrosiveDamage;
@@ -26,6 +28,7 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
     {
         if (IsBulletTimerOver())
         {
+            StopCoroutine(corrosiveEffect);
             ReleaseBullet(this);
             return;
         }
@@ -42,13 +45,14 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
     {
         rigidBody.constraints = RigidbodyConstraints.None;   //Because the rigidBody when it hits the enemy stays in rotation
         rigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+        GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<Collider>().enabled = true;
-        corrosiveTrigger.SetActive(false);
+        corrosiveField.SetActive(false);
         return;
     }
     protected IEnumerator CorrosiveEffect()
     {
-        corrosiveTrigger.SetActive(true);
+        corrosiveField.SetActive(true);
         startTime = Time.timeSinceLevelLoad;
         while(Time.timeSinceLevelLoad < startTime + corrosiveDuration)
         {
@@ -121,11 +125,12 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
     {
         if (_collision.gameObject.CompareTag("Enemy"))
         {
+            GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Collider>().enabled = false;   // So the only collidr activated is the trigger for the area damage.
             rigidBody.velocity = Vector3.zero;
-            transform.localRotation = Quaternion.Euler(Vector3.zero);
+            transform.localRotation = Quaternion.Euler(new Vector3(90,0,0));    // Standar rotation for every object in the game!
             rigidBody.constraints = RigidbodyConstraints.FreezeRotationZ;   // TODO fin better way to do this.
-            StartCoroutine(CorrosiveEffect());
+            corrosiveEffect = StartCoroutine(CorrosiveEffect());
             return;
         }
         return;
