@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICloseRangeAttack
+public interface CloseRangeAttack
 {
     void CloseAttack();
 }

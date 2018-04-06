@@ -4,6 +4,14 @@ using UnityEngine;
 
 public class Stealer : Enemy, ISpawnable<Enemy>
 {
+    public enum State
+    {
+        Moving,
+        Stealing,
+        Escaping,
+        Death,
+    }
+
     [SerializeField]
     private State currentState;
     [SerializeField]
@@ -13,14 +21,6 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     [SerializeField]
     private static List<Enemy> enemyList = new List<Enemy>();
     public List<Enemy> Pool { get { return enemyList; } }
-
-    public enum State
-    {
-        Moving,
-        Stealing,
-        Escaping,
-        Death,
-    }
 
     protected new void Awake()
     {
@@ -38,7 +38,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     {
         base.OnEnable();
 
-        settings.basicAbility = new Steal(this);
+        settings.basicAbility = new StealCorn(this);
         ChangeTargetToHousePoint();
         currentState = State.Moving;
     }
@@ -147,7 +147,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
                     AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
                     );
 
-        AnimationComponent.PlayAnimation("Dead");
+        //AnimationComponent.PlayAnimation("Dead");
 
         yield return new WaitForSecondsRealtime(
                     AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length

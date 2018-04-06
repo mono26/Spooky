@@ -1,23 +1,18 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class Steal : ICloseRangeAttack
-
+public class AttackPlayer : CloseRangeAttack
 {
-    protected Stealer owner;
-
-    public Steal(Stealer _enemy)
-    {
-        owner = _enemy;
-    }
+    protected Attacker owner;
 
     public void CloseAttack()
     {
-        owner.CastAbility(owner.StartCoroutine(StealCrop()));
+        owner.CastAbility(owner.StartCoroutine(MeleeAttackThePlayer()));
         return;
     }
 
-    private IEnumerator StealCrop()
+    private IEnumerator MeleeAttackThePlayer()
     {
         owner.AnimationComponent.PlayAnimation("Steal");
 
@@ -26,8 +21,8 @@ public class Steal : ICloseRangeAttack
                     owner.AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime
                     );
 
-        LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
-        owner.HasLoot(true);
+        //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
+        //owner.HasLoot(true);
 
         // TODO add loot
 

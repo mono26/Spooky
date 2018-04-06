@@ -127,7 +127,7 @@ public abstract class Enemy : MonoBehaviour
     [System.Serializable]
     public class  Settings
     {
-        public ICloseRangeAttack basicAbility;
+        public CloseRangeAttack basicAbility;
         public float BasicCooldown;
         public float BasicRange;
 
