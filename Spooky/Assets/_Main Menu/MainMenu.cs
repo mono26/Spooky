@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(2));
+        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(3));
     }
 
     public void Credits()

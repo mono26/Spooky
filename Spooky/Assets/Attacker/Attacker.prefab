@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 195569544062278668}
   - component: {fileID: 212499245088290674}
   - component: {fileID: 95806726417820678}
-  - component: {fileID: 114095580315903786}
+  - component: {fileID: 114534652539622646}
   m_Layer: 11
   m_Name: Attacker
   m_TagString: Enemy
@@ -125,38 +125,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114095580315903786
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1963016645295434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c9e782ee0bd25a468f609b7be02bc6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthComponent:
-    currentHealth: 0
-  settings:
-    BasicCooldown: 0
-    BasicRange: 0.3
-    MovementSettings:
-      navMeshAgent: {fileID: 195569544062278668}
-      MaxSpeed: 1
-      SlowMotionSpeed: 3
-      MaxXValue: 0
-      MaxYValue: 0
-    HealthSettings:
-      HealthBar: {fileID: 114171548478037278}
-      MaxHealth: 3
-      HealthBarToggleTime: 2
-  target: {fileID: 0}
-  lastAttackExecution: 0
-  isDying: 0
-  currentState: 0
-  stoleValue: 5
-  hasLoot: 0
 --- !u!114 &114171548478037278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -184,6 +152,30 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114534652539622646
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963016645295434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5076d94cd27a0b043b07dac9b9393658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthComponent:
+    currentHealth: 0
+  settings:
+    MovementSettings:
+      navMeshAgent: {fileID: 0}
+      LevelBoundsInX: 0
+      LevelBoundsInY: 0
+    HealthSettings:
+      HealthBar: {fileID: 0}
+      HealthBarToggleTime: 0
+  target: {fileID: 0}
+  lastAttackExecution: 0
+  currentState: 0
 --- !u!114 &114684583226181220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -276,7 +268,7 @@ SpriteRenderer:
   m_SortingLayerID: 400645025
   m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 9fcd8814962d9534cadf645da51b77c3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 53383c673faddb64fa42a0ac593f8c67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

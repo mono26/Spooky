@@ -166,21 +166,15 @@ MonoBehaviour:
   healthComponent:
     currentHealth: 0
   settings:
-    BasicCooldown: 0
-    BasicRange: 0.3
     MovementSettings:
       navMeshAgent: {fileID: 195556580042034666}
-      MaxSpeed: 1
-      SlowMotionSpeed: 3
-      MaxXValue: 0
-      MaxYValue: 0
+      LevelBoundsInX: 0
+      LevelBoundsInY: 0
     HealthSettings:
       HealthBar: {fileID: 114374761130639530}
-      MaxHealth: 3
       HealthBarToggleTime: 2
   target: {fileID: 0}
   lastAttackExecution: 0
-  isDying: 0
   currentState: 0
   stoleValue: 5
   hasLoot: 0

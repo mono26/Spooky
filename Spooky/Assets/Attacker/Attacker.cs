@@ -4,19 +4,27 @@ using UnityEngine;
 
 public class Attacker : Enemy, ISpawnable<Enemy>
 {
-    public enum State
-    {
-        Moving,
-        Attacking,
-        Death,
-    }
-
     [SerializeField]
-    private State currentState;
+    private EnemyStates currentState;
+    protected CloseRangeAttack attackPlayer;
 
     [SerializeField]
     private static List<Enemy> enemyList = new List<Enemy>();
     public List<Enemy> Pool { get { return enemyList; } }
+
+    new void Awake()
+    {
+        base.Awake();
+
+        //attackPlayer = new StealCorn(this);
+        StatsComponent = EnemyStatsCollection.attackerStats;
+
+        if (enemyList == null)
+        {
+            enemyList = new List<Enemy>();
+        }
+        else return;
+    }
 
     // Use this for initialization
     void Start () {
@@ -24,9 +32,71 @@ public class Attacker : Enemy, ISpawnable<Enemy>
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	void Update ()
+    {
+        if (DeathComponent.IsDead() && !currentState.Equals(EnemyStates.Death))
+        {
+            currentState = EnemyStates.Death;
+            return;
+        }
+
+        if (currentState.Equals(EnemyStates.Moving))
+        {
+            if (IsTargetInRange())
+            {
+                currentState = EnemyStates.Attacking;
+                return;
+            }
+            else return;
+        }
+
+        else if (currentState.Equals(EnemyStates.Attacking))
+        {
+            if (!IsCasting &&
+                Time.timeSinceLevelLoad > lastAttackExecution + StatsComponent.basicCooldown)
+            {
+                attackPlayer.CloseAttack();
+                lastAttackExecution = Time.timeSinceLevelLoad;
+                return;
+            }
+
+            else return;
+        }
+
+        else if (currentState.Equals(EnemyStates.Death))
+        {
+            if (!DeathComponent.IsDying)
+            {
+                StopAllCoroutines();
+                DeathComponent.DieProcess = StartCoroutine(StartDeath());
+                return;
+            }
+            else return;
+        }
+
+        else return;
+    }
+
+    protected IEnumerator StartDeath()
+    {
+        DeathComponent.IsDying = true;
+        DeactivateCollider();
+
+        // To make sure the dead damage animation is finished before the death one.
+        yield return new WaitForSecondsRealtime(
+                    AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
+                    );
+
+        AnimationComponent.PlayAnimation("Dead");
+
+        yield return new WaitForSecondsRealtime(
+                    AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
+                    );
+
+        base.ReleaseEnemy();
+        ReleaseAttacker(this);
+        yield return 0;
+    }
 
     public Enemy Spawn(Transform _position)
     {

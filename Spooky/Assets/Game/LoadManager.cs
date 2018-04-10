@@ -30,7 +30,7 @@ public class LoadManager
     private void StartLoading(int _levelIndex)
     {
         Time.timeScale = 0f;
-        Application.backgroundLoadingPriority = ThreadPriority.Normal;
+        Application.backgroundLoadingPriority = ThreadPriority.High;
         loadOperation = SceneManager.LoadSceneAsync(_levelIndex, LoadSceneMode.Additive);
     }
 

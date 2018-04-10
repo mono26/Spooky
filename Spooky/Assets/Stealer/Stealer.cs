@@ -4,16 +4,10 @@ using UnityEngine;
 
 public class Stealer : Enemy, ISpawnable<Enemy>
 {
-    public enum State
-    {
-        Moving,
-        Stealing,
-        Escaping,
-        Death,
-    }
-
     [SerializeField]
-    private State currentState;
+    protected EnemyStates currentState;
+    [SerializeField]
+    protected CloseRangeAttack stealCorn;
     [SerializeField]
     public int stoleValue;
     public bool hasLoot = false;
@@ -25,6 +19,9 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     protected new void Awake()
     {
         base.Awake();
+
+        stealCorn = new StealCorn(this);
+        StatsComponent = EnemyStatsCollection.stealerStats;
 
         if (enemyList == null)
         {
@@ -38,49 +35,48 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     {
         base.OnEnable();
 
-        settings.basicAbility = new StealCorn(this);
         ChangeTargetToHousePoint();
-        currentState = State.Moving;
+        currentState = EnemyStates.Moving;
     }
 	
 	// Update is called once per frame
 	public void Update ()
     {
-        if(IsDead() && !currentState.Equals(State.Death))
+        if(DeathComponent.IsDead() && !currentState.Equals(EnemyStates.Death))
         {
-            currentState = State.Death;
+            currentState = EnemyStates.Death;
             return;
         }
 
-        if (currentState.Equals(State.Moving))
+        if (currentState.Equals(EnemyStates.Moving))
         {
             if (IsTargetInRange())
             {
-                currentState = State.Stealing;
+                currentState = EnemyStates.Stealing;
                 return;
             }
             else return;
         }
 
-        else if (currentState.Equals(State.Stealing))
+        else if (currentState.Equals(EnemyStates.Stealing))
         {
             if(!IsCasting &&
-                Time.timeSinceLevelLoad > lastAttackExecution + settings.BasicCooldown)
+                Time.timeSinceLevelLoad > lastAttackExecution + StatsComponent.basicCooldown)
             {
-                settings.basicAbility.CloseAttack();
+                stealCorn.CloseAttack();
                 lastAttackExecution = Time.timeSinceLevelLoad;
                 return;
             }
 
             if (hasLoot)
             {
-                currentState = State.Escaping;
+                currentState = EnemyStates.Escaping;
                 return;
             }
             else return;
         }
 
-        else if (currentState.Equals(State.Escaping))
+        else if (currentState.Equals(EnemyStates.Escaping))
         {
             if (!Target.CompareTag("Runaway Point"))
             {
@@ -90,7 +86,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
             if (IsTargetInRange())
             {
-                base.Die(); // Fires the vent so the wave spawner decreases the number off enemies.
+                base.ReleaseEnemy(); // Fires the vent so the wave spawner decreases the number off enemies.
                 ReleaseStealer(this);
                 return;
                 // TODO check if it has loot on it and do something
@@ -98,12 +94,12 @@ public class Stealer : Enemy, ISpawnable<Enemy>
             else return;
         }
 
-        else if (currentState.Equals(State.Death))
+        else if (currentState.Equals(EnemyStates.Death))
         {
-            if (!isDying)
+            if (!DeathComponent.IsDying)
             {
                 StopAllCoroutines();
-                dieProcess = StartCoroutine(StartDeath());
+                DeathComponent.DieProcess = StartCoroutine(StartDeath());
                 return;
             }
             else return;
@@ -114,20 +110,20 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
     protected void FixedUpdate()
     {
-        if (currentState.Equals(State.Moving) || currentState.Equals(State.Escaping))
+        if (currentState.Equals(EnemyStates.Moving) || currentState.Equals(EnemyStates.Escaping))
             MovementComponent.FixedUpdate();
         else return;
     }
 
     protected void ChangeTargetToHousePoint()
     {
-        SetTarget(LevelManager.Instance.GetRandomHousePoint());
+        SetEnemyTarget(LevelManager.Instance.GetRandomHousePoint());
         return;
     }
 
     protected void ChangeTargetToRunPoint()
     {
-        SetTarget(LevelManager.Instance.GetRandomRunawayPoint());
+        SetEnemyTarget(LevelManager.Instance.GetRandomRunawayPoint());
         return;
     }
 
@@ -139,7 +135,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
     protected IEnumerator StartDeath()
     {
-        isDying = true;
+        DeathComponent.IsDying = true;
         DeactivateCollider();
 
         // To make sure the dead damage animation is finished before the death one.
@@ -153,7 +149,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
                     AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
                     );
 
-        base.Die();
+        base.ReleaseEnemy();
         ReleaseStealer(this);
         yield return 0;
     }

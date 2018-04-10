@@ -9,19 +9,21 @@ public class EnemyMovement
     private Rigidbody rigidbody;
     private Settings settings;
 
-    private NavMeshPath path;
+    private NavMeshPath pathToTheTarget;
+    public float maxMovementSpeed;
+    public float slowMotionSpeed;
+    private float currentMovementSpeed;
 
-    private float currentSpeed;
-
-    public EnemyMovement(Enemy _enemy, Rigidbody _rigidbody, Settings _settings)
+    public EnemyMovement(Enemy _enemy, float _maxMovementSpeed, Rigidbody _rigidbody, Settings _settings)
     {
         // Constructor for the class passes all the required components into the class.
         // Done before the game starts
         enemy = _enemy;
+        maxMovementSpeed = _maxMovementSpeed;
         rigidbody = _rigidbody;
-        path = new NavMeshPath();
         settings = _settings;
 
+        pathToTheTarget = new NavMeshPath();
     }
 
     public void Start()
@@ -32,9 +34,9 @@ public class EnemyMovement
         settings.navMeshAgent.updateUpAxis = false;
 
         if (enemy.Target)
-            settings.navMeshAgent.CalculatePath(enemy.Target.position, path);
+            settings.navMeshAgent.CalculatePath(enemy.Target.position, pathToTheTarget);
 
-        currentSpeed = settings.MaxSpeed;
+        currentMovementSpeed = maxMovementSpeed;
     }
 
     // TODO check if it's better to use Update() or FixedUpdate()
@@ -42,12 +44,12 @@ public class EnemyMovement
     {
         if (enemy.Target)
         {
-            settings.navMeshAgent.CalculatePath(enemy.Target.position, path);
+            settings.navMeshAgent.CalculatePath(enemy.Target.position, pathToTheTarget);
 
-            if (!path.Equals(null))
+            if (!pathToTheTarget.Equals(null))
             {
                 // TODO calculate dot and cross product for input values moving the rigidBody
-                Vector3 desiredDirection = (path.corners[1] - rigidbody.transform.position).normalized;
+                Vector3 desiredDirection = (pathToTheTarget.corners[1] - rigidbody.transform.position).normalized;
                 desiredDirection.y = 0;
                 float horizontal = Vector3.Dot(rigidbody.transform.right, desiredDirection);
                 float vertical = -Vector3.Cross(rigidbody.transform.right, desiredDirection).y;
@@ -67,7 +69,7 @@ public class EnemyMovement
         // For moving the rigidbody in the desired direction
         Vector3 newPosition = (rigidbody.position +
                                 rigidbody.transform.TransformDirection(_direction) * 
-                                currentSpeed * 
+                                currentMovementSpeed * 
                                 Time.fixedDeltaTime);
 
         rigidbody.MovePosition(newPosition);
@@ -79,11 +81,7 @@ public class EnemyMovement
     public class Settings
     {
         public NavMeshAgent navMeshAgent;
-
-        public float MaxSpeed;
-        public float SlowMotionSpeed;
-
-        public float MaxXValue;
-        public float MaxYValue;
+        public float LevelBoundsInX;
+        public float LevelBoundsInY;
     }
 }

@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 114951207490674992}
   - component: {fileID: 114055343446617678}
   m_Layer: 20
-  m_Name: _House
+  m_Name: _LevelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -348,17 +348,17 @@ MonoBehaviour:
   waves:
   - name: 
     enemy:
-    - {fileID: 114095580315903786, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
+    - {fileID: 0}
     spawnRate: 0.5
     count: 05000000
   - name: 
     enemy:
-    - {fileID: 114095580315903786, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
+    - {fileID: 0}
     spawnRate: 0.5
     count: 0a000000
   - name: 
     enemy:
-    - {fileID: 114095580315903786, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
+    - {fileID: 0}
     spawnRate: 0.5
     count: 0f000000
   numberOfEnemiesInCurrentWave: 0

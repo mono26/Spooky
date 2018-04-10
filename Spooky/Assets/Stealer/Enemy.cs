@@ -2,6 +2,8 @@
 
 public abstract class Enemy : MonoBehaviour
 {
+    private EnemyStats statsComponent;
+    public EnemyStats StatsComponent { get { return statsComponent; } set { statsComponent = value; } }
     private EnemyMovement movementComponent;
     public EnemyMovement MovementComponent { get { return movementComponent; } }
     [SerializeField]
@@ -9,6 +11,8 @@ public abstract class Enemy : MonoBehaviour
     public EnemyHealth HealthComponent { get { return healthComponent; } }
     private EnemyAnimation animationComponent;
     public EnemyAnimation AnimationComponent { get { return animationComponent; } }
+    private EnemyDeath deathComponent;
+    public EnemyDeath DeathComponent { get { return deathComponent; } }
 
     [SerializeField]
     protected Settings settings;
@@ -20,14 +24,11 @@ public abstract class Enemy : MonoBehaviour
     protected float lastAttackExecution;
 
     protected Coroutine abilityCast;
-    protected Coroutine dieProcess;
 
     // TODO extraer interfaz IKillable o IRelesable???
     public delegate void Release();
     public event Release OnReleased;
 
-    [SerializeField]
-    protected bool isDying;
     private bool isCasting;
     protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
 
@@ -35,12 +36,14 @@ public abstract class Enemy : MonoBehaviour
     {
         movementComponent = new EnemyMovement(
             this,
+            statsComponent.movementSpeed,
             GetComponent<Rigidbody>(),
             settings.MovementSettings
             );
 
         healthComponent = new EnemyHealth(
             this,
+            statsComponent.maxHealth,
             settings.HealthSettings
             );
 
@@ -48,6 +51,8 @@ public abstract class Enemy : MonoBehaviour
             GetComponent<SpriteRenderer>(),
             GetComponent<Animator>()
             );
+
+        deathComponent = new EnemyDeath();
     }
 
     protected void OnEnable()
@@ -56,26 +61,12 @@ public abstract class Enemy : MonoBehaviour
         healthComponent.Start();
         ActivateCollider();
         // When enemy starts death Coroutine the collider still detects collision and decreases number of enemies.
-        isDying = false;
-    }
-
-    protected bool IsDead()
-    {
-        if (healthComponent.GetCurrentHealth() > 0)
-        {
-            return false;
-        }
-        else if (healthComponent.GetCurrentHealth() == 0)
-        {
-            return true;
-        }
-        else return false;
     }
 
     protected bool IsTargetInRange()
     {
         float distance = Vector3.Distance(transform.position, target.position);
-        if (distance <= settings.BasicRange)
+        if (distance <= statsComponent.basicRange)
         {
             return true;
         }
@@ -103,13 +94,13 @@ public abstract class Enemy : MonoBehaviour
         GetComponent<Collider>().enabled = false;
     }
 
-    protected void Die()
+    protected void ReleaseEnemy()
     {
         OnReleased();
         OnReleased = null;
     }
 
-    protected void SetTarget(Transform _target)
+    protected void SetEnemyTarget(Transform _target)
     {
         target = _target;
     }
@@ -127,10 +118,6 @@ public abstract class Enemy : MonoBehaviour
     [System.Serializable]
     public class  Settings
     {
-        public CloseRangeAttack basicAbility;
-        public float BasicCooldown;
-        public float BasicRange;
-
         [SerializeField]
         public EnemyMovement.Settings MovementSettings;
         [SerializeField]

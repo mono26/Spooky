@@ -33,7 +33,7 @@ public class Plant : MonoBehaviour
 
     protected void Start()
     {
-        currentHealth = settings.MaxHealth;
+        currentHealth = settings.maxHealth;
     }
 
     public void StartCastingAbility(bool _cast)
@@ -85,7 +85,7 @@ public class Plant : MonoBehaviour
     public class Settings
     {
         public float AttackSpeed;
-        public int MaxHealth;
+        public int maxHealth;
         public EnemyDetect.Settings EnemyDetectSettings;
     }
 }

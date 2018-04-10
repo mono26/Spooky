@@ -7,14 +7,16 @@ public class EnemyHealth : IDamagable
 {
     //AIEffectsHandler effects;
     private Enemy enemy;
+    private float maxHealth;
     private Settings settings;
 
     [SerializeField]
     private float currentHealth;
 
-    public EnemyHealth(Enemy _owner, Settings _settings)
+    public EnemyHealth(Enemy _owner, float _maxHealth, Settings _settings)
     {
         enemy = _owner;
+        maxHealth = _maxHealth;
         settings = _settings;
     }
 
@@ -25,9 +27,9 @@ public class EnemyHealth : IDamagable
 
     public void RestartValues()
     {
-        currentHealth = settings.MaxHealth;
+        currentHealth = maxHealth;
         // Need to cast to float because the result of "/" by two ints gives a int.
-        settings.HealthBar.fillAmount = currentHealth / settings.MaxHealth;
+        settings.HealthBar.fillAmount = currentHealth / maxHealth;
         settings.HealthBar.gameObject.SetActive(false);
     }
 
@@ -36,7 +38,7 @@ public class EnemyHealth : IDamagable
         //var feathersP = Instantiate(controller.feathersParticle, transform.position, Quaternion.Euler(-90, 0, 0));
         enemy.StartCoroutine(ToggleHealthBar());
         currentHealth = Mathf.Max(0, currentHealth - _damage);
-        settings.HealthBar.fillAmount = currentHealth / settings.MaxHealth;
+        settings.HealthBar.fillAmount = currentHealth / maxHealth;
     }
 
     public float GetCurrentHealth()
@@ -58,7 +60,6 @@ public class EnemyHealth : IDamagable
     public class Settings
     {
         public Image HealthBar;
-        public float MaxHealth;
         public float HealthBarToggleTime;
     }
 }
