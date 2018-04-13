@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(menuName = "Enemies/StatCollection")]
+[CreateAssetMenu(menuName = "Enemies/StatsCollection")]
 public class EnemyStatsCollection : ScriptableObject
 {
     [Header("Stealer Settings")]
     [SerializeField]
-    public static EnemyStats stealerStats = new EnemyStats();
+    private EnemyStats stealerStats;
+    public EnemyStats StealerStats { get { return stealerStats; } }
 
     [Header("Attacker Settings")]
     [SerializeField]
-    public static EnemyStats attackerStats = new EnemyStats();
+    private EnemyStats attackerStats;
+    public EnemyStats AttackerStats { get { return attackerStats; } }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyDeath
 {
-    private Enemy owner;
+    private Enemy enemy;
 
     [SerializeField]
     private bool isDying;
@@ -12,28 +12,23 @@ public class EnemyDeath
     private Coroutine dieProcess;
     public Coroutine DieProcess { get { return dieProcess; } set { dieProcess = value; } }
 
+    public EnemyDeath(Enemy _enemy)
+    {
+        enemy = _enemy;
+    }
+
     public void OnEnable()
     {
         isDying = false;
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public bool IsDead()
     {
-        if (owner.HealthComponent.GetCurrentHealth() > 0)
+        if (enemy.HealthComponent.GetCurrentHealth() > 0)
         {
             return false;
         }
-        else if (owner.HealthComponent.GetCurrentHealth() == 0)
+        else if (enemy.HealthComponent.GetCurrentHealth() == 0)
         {
             return true;
         }

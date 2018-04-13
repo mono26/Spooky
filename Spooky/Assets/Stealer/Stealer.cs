@@ -13,19 +13,18 @@ public class Stealer : Enemy, ISpawnable<Enemy>
     public bool hasLoot = false;
 
     [SerializeField]
-    private static List<Enemy> enemyList = new List<Enemy>();
-    public List<Enemy> Pool { get { return enemyList; } }
+    private static List<Enemy> enemyPool = new List<Enemy>();
+    public List<Enemy> Pool { get { return enemyPool; } }
 
     protected new void Awake()
     {
+        StatsComponent = GameManager.Instance.EnemyStats.StealerStats;
         base.Awake();
-
         stealCorn = new StealCorn(this);
-        StatsComponent = EnemyStatsCollection.stealerStats;
 
-        if (enemyList == null)
+        if (enemyPool == null)
         {
-            enemyList = new List<Enemy>();
+            enemyPool = new List<Enemy>();
         }
         else return;
     }

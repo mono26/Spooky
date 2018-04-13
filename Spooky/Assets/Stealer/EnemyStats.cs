@@ -1,13 +1,16 @@
 ﻿[System.Serializable]
-public struct EnemyStats
+public class EnemyStats
 {
-    public float maxHealth, movementSpeed, basicCooldown, basicRange;
+    public float maxHealth;
+    public float movementSpeed;
+    public float basicCooldown;
+    public float basicRange;
 
-    public EnemyStats(float _maxhealth, float _movementSpeed, float _basicCooldown, float _basicRange)
+    /*public EnemyStats(float _maxhealth, float _movementSpeed, float _basicCooldown, float _basicRange)
     {
         maxHealth = _maxhealth;
         movementSpeed = _movementSpeed;
         basicCooldown = _basicCooldown;
         basicRange = _basicRange;
-    }
+    }*/
 }

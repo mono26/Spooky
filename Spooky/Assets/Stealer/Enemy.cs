@@ -52,7 +52,7 @@ public abstract class Enemy : MonoBehaviour
             GetComponent<Animator>()
             );
 
-        deathComponent = new EnemyDeath();
+        deathComponent = new EnemyDeath(this);
     }
 
     protected void OnEnable()

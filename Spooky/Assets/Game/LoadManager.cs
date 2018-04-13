@@ -9,7 +9,7 @@ public class LoadManager
     private float minLoadDuration = 3f;
     private AsyncOperation loadOperation;
 
-    public IEnumerator LoadLevel(int _levelIndex)
+    public IEnumerator LoadLevel(string _sceneName)
     {
         var startLoad = Time.unscaledTime;
 
@@ -17,7 +17,7 @@ public class LoadManager
 
         GameManager.Instance.SceneFader.FadeInLevel();
 
-        StartLoading(_levelIndex);
+        StartLoading(_sceneName);
 
         while(!IsDoneLoading())
         {
@@ -27,11 +27,11 @@ public class LoadManager
         yield return new WaitForSecondsRealtime(minLoadDuration);
     }
 
-    private void StartLoading(int _levelIndex)
+    private void StartLoading(string _sceneName)
     {
         Time.timeScale = 0f;
         Application.backgroundLoadingPriority = ThreadPriority.High;
-        loadOperation = SceneManager.LoadSceneAsync(_levelIndex, LoadSceneMode.Additive);
+        loadOperation = SceneManager.LoadSceneAsync(_sceneName, LoadSceneMode.Additive);
     }
 
     private bool IsDoneLoading()

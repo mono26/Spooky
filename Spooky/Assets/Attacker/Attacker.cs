@@ -9,19 +9,18 @@ public class Attacker : Enemy, ISpawnable<Enemy>
     protected CloseRangeAttack attackPlayer;
 
     [SerializeField]
-    private static List<Enemy> enemyList = new List<Enemy>();
-    public List<Enemy> Pool { get { return enemyList; } }
+    private static List<Enemy> enemyPool = new List<Enemy>();
+    public List<Enemy> Pool { get { return enemyPool; } }
 
     new void Awake()
     {
+        StatsComponent = GameManager.Instance.EnemyStats.AttackerStats;
         base.Awake();
-
         //attackPlayer = new StealCorn(this);
-        StatsComponent = EnemyStatsCollection.attackerStats;
 
-        if (enemyList == null)
+        if (enemyPool == null)
         {
-            enemyList = new List<Enemy>();
+            enemyPool = new List<Enemy>();
         }
         else return;
     }

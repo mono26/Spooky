@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelUIManager
 {
+    public string mainMenuScene;
+
     private GameObject topUI;
     private GameObject bottomUI;
     private GameObject pauseButton;
@@ -21,7 +23,6 @@ public class LevelUIManager
     private float currentCrop;
     public float CurrentCrop { get { return currentCrop; } }
 
-    // TODO getter
     private bool isPaused;
     public bool IsPaused { get { return isPaused; } }
 
@@ -114,7 +115,7 @@ public class LevelUIManager
     public void QuitLevel()
     {
         Time.timeScale = 1;
-        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(0));
+        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(mainMenuScene));
         GameManager.Instance.SoundManager.StopMusic();
     }
 
@@ -122,7 +123,7 @@ public class LevelUIManager
     {
         Time.timeScale = 1;
         GameManager.Instance.StartCoroutine(
-            GameManager.Instance.LoadLevel(SceneManager.GetActiveScene().buildIndex)
+            GameManager.Instance.LoadLevel(SceneManager.GetActiveScene().name)
             );
     }
 

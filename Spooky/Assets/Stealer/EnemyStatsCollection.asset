@@ -11,3 +11,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d929744f4b664c40a9d7a4393f451e9, type: 3}
   m_Name: EnemyStatsCollection
   m_EditorClassIdentifier: 
+  stealerStats:
+    maxHealth: 3
+    movementSpeed: 5
+    basicCooldown: 15
+    basicRange: 0.3
+  attackerStats:
+    maxHealth: 3
+    movementSpeed: 5
+    basicCooldown: 1.5
+    basicRange: 0.3
