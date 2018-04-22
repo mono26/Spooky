@@ -91,6 +91,7 @@ public class SpookyAttack
         if (Time.timeSinceLevelLoad > lastShoot + settings.AttackRate)
         {
             actualBullet = GetBulletToShoot();
+           // actualBullet.transform.position = shootTransform.position;
             actualBullet.transform.SetParent(shootTransform);
             chargeBullet = spooky.StartCoroutine(ChargeAttack());
         }
@@ -110,6 +111,7 @@ public class SpookyAttack
 
     private void LaunchAttack(Bullet _bullet)
     {
+
         spooky.StopCoroutine(chargeBullet);
         RotateBullettowardsDirection(_bullet.transform);
         actualBullet = null;
