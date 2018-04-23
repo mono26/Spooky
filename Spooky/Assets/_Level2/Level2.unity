@@ -2425,6 +2425,16 @@ Prefab:
       propertyPath: joystick
       value: 
       objectReference: {fileID: 1980796932}
+    - target: {fileID: 114322976981061640, guid: 03eec82f6166ae249b763a5982ae7eee,
+        type: 2}
+      propertyPath: movementSettings.MaxSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114322976981061640, guid: 03eec82f6166ae249b763a5982ae7eee,
+        type: 2}
+      propertyPath: movementSettings.SlowMotionSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
   m_IsPrefabParent: 0
