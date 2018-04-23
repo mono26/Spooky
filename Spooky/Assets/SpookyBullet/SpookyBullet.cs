@@ -65,6 +65,8 @@ public class SpookyBullet : Bullet, ISpawnable<Bullet>
 
     private void SetBulletPosition(Bullet _bullet, Transform target)
     {
+        Debug.Log("posición balas world" + _bullet.transform.position);
+        Debug.Log("posición balas local" + _bullet.transform.localPosition);
         _bullet.transform.localPosition = target.position;
         return;
     }
