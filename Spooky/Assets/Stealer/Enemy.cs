@@ -36,14 +36,13 @@ public abstract class Enemy : MonoBehaviour
     {
         movementComponent = new EnemyMovement(
             this,
-            statsComponent.movementSpeed,
             GetComponent<Rigidbody>(),
+            GetComponent<UnityEngine.AI.NavMeshAgent>(),
             settings.MovementSettings
             );
 
         healthComponent = new EnemyHealth(
             this,
-            statsComponent.maxHealth,
             settings.HealthSettings
             );
 
@@ -96,8 +95,12 @@ public abstract class Enemy : MonoBehaviour
 
     protected void ReleaseEnemy()
     {
-        OnReleased();
-        OnReleased = null;
+        if (OnReleased != null)
+        {
+            OnReleased();
+            OnReleased = null;
+        }
+        else return;
     }
 
     protected void SetEnemyTarget(Transform _target)

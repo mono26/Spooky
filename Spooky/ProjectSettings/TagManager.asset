@@ -34,6 +34,7 @@ TagManager:
   - CornField
   - Plantpoint
   - VariableJoystick
+  - MeleeCollider
   layers:
   - Default
   - TransparentFX

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [System.Serializable]
-public class PlantLaunchProyectile : IRangeAttack
+public class PlantLaunchProyectile : RangeAttack
 {
     protected Plant plant;
 

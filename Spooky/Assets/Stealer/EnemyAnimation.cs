@@ -32,6 +32,8 @@ public class EnemyAnimation : IAnimable
 
     public void PlayAnimation(string _animation)
     {
+        var time = Time.timeSinceLevelLoad;
+        Debug.Log(time +" Setting animation: " + _animation);
         animator.SetTrigger(_animation);
     }
 }

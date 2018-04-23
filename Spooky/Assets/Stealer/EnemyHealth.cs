@@ -6,22 +6,22 @@ using UnityEngine.UI;
 public class EnemyHealth : IDamagable
 {
     //AIEffectsHandler effects;
-    private Enemy enemy;
+    private Enemy owner;
     private float maxHealth;
     private Settings settings;
 
     [SerializeField]
     private float currentHealth;
 
-    public EnemyHealth(Enemy _owner, float _maxHealth, Settings _settings)
+    public EnemyHealth(Enemy _owner, Settings _settings)
     {
-        enemy = _owner;
-        maxHealth = _maxHealth;
+        owner = _owner;
         settings = _settings;
     }
 
     public void Start()
     {
+        maxHealth = owner.StatsComponent.maxHealth;
         RestartValues();
     }
 
@@ -36,7 +36,7 @@ public class EnemyHealth : IDamagable
     public void TakeDamage(float _damage)
     {
         //var feathersP = Instantiate(controller.feathersParticle, transform.position, Quaternion.Euler(-90, 0, 0));
-        enemy.StartCoroutine(ToggleHealthBar());
+        owner.StartCoroutine(ToggleHealthBar());
         currentHealth = Mathf.Max(0, currentHealth - _damage);
         settings.HealthBar.fillAmount = currentHealth / maxHealth;
     }

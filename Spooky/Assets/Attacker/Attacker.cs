@@ -16,7 +16,7 @@ public class Attacker : Enemy, ISpawnable<Enemy>
     {
         StatsComponent = GameManager.Instance.EnemyStats.AttackerStats;
         base.Awake();
-        //attackPlayer = new StealCorn(this);
+        attackPlayer = new MeleeAttack(this, transform.Find("MeleeCollider").GetComponent<Collider>());
 
         if (enemyPool == null)
         {

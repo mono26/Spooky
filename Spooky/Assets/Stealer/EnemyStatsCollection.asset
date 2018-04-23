@@ -13,11 +13,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stealerStats:
     maxHealth: 3
-    movementSpeed: 5
+    movementSpeed: 3
     basicCooldown: 15
     basicRange: 0.3
   attackerStats:
     maxHealth: 3
-    movementSpeed: 5
+    movementSpeed: 3
     basicCooldown: 1.5
     basicRange: 0.3

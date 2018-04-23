@@ -21,8 +21,7 @@ public class StealCorn : CloseRangeAttack
         owner.AnimationComponent.PlayAnimation("Steal");
 
         yield return new WaitForSecondsRealtime(
-                    owner.AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length +
-                    owner.AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).normalizedTime
+                    owner.AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
                     );
 
         LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);

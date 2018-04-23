@@ -59,6 +59,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
         else if (currentState.Equals(EnemyStates.Stealing))
         {
+            // TODO fix bug that the enemies are not executing attack before levelTime is superior than the basicCooldown.
             if(!IsCasting &&
                 Time.timeSinceLevelLoad > lastAttackExecution + StatsComponent.basicCooldown)
             {

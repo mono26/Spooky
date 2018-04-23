@@ -5,22 +5,25 @@ using UnityEngine.AI;
 public class EnemyMovement
 {
     [SerializeField]
-    private Enemy enemy;
-    private Rigidbody rigidbody;
-    private Settings settings;
+    protected Enemy owner;
+    protected Rigidbody rigidbody;
+    public Rigidbody Rigidbody { get { return rigidbody; } }
+    protected NavMeshAgent navMeshAgent;
+    public NavMeshAgent NavMeshAgent { get { return navMeshAgent; } }
+    protected Settings settings;
 
-    private NavMeshPath pathToTheTarget;
+    protected NavMeshPath pathToTheTarget;
     public float maxMovementSpeed;
     public float slowMotionSpeed;
-    private float currentMovementSpeed;
+    protected float currentMovementSpeed;
 
-    public EnemyMovement(Enemy _enemy, float _maxMovementSpeed, Rigidbody _rigidbody, Settings _settings)
+    public EnemyMovement(Enemy _enemy, Rigidbody _rigidbody, NavMeshAgent _navMeshAgent, Settings _settings)
     {
         // Constructor for the class passes all the required components into the class.
         // Done before the game starts
-        enemy = _enemy;
-        maxMovementSpeed = _maxMovementSpeed;
+        owner = _enemy;
         rigidbody = _rigidbody;
+        navMeshAgent = _navMeshAgent;
         settings = _settings;
 
         pathToTheTarget = new NavMeshPath();
@@ -30,11 +33,12 @@ public class EnemyMovement
     {
         // When the game starts set values
         //navMesh.updatePosition = false;
-        settings.navMeshAgent.updateRotation = false;
-        settings.navMeshAgent.updateUpAxis = false;
+        navMeshAgent.updateRotation = false;
+        navMeshAgent.updateUpAxis = false;
+        maxMovementSpeed = owner.StatsComponent.movementSpeed;
 
-        if (enemy.Target)
-            settings.navMeshAgent.CalculatePath(enemy.Target.position, pathToTheTarget);
+        if (owner.Target)
+            navMeshAgent.CalculatePath(owner.Target.position, pathToTheTarget);
 
         currentMovementSpeed = maxMovementSpeed;
     }
@@ -42,9 +46,9 @@ public class EnemyMovement
     // TODO check if it's better to use Update() or FixedUpdate()
     public void FixedUpdate()
     {
-        if (enemy.Target)
+        if (owner.Target)
         {
-            settings.navMeshAgent.CalculatePath(enemy.Target.position, pathToTheTarget);
+            navMeshAgent.CalculatePath(owner.Target.position, pathToTheTarget);
 
             if (!pathToTheTarget.Equals(null))
             {
@@ -73,14 +77,13 @@ public class EnemyMovement
                                 Time.fixedDeltaTime);
 
         rigidbody.MovePosition(newPosition);
-        enemy.AnimationComponent.CheckViewDirection(_direction);
+        owner.AnimationComponent.CheckViewDirection(_direction);
         return;
     }
 
     [System.Serializable]
     public class Settings
     {
-        public NavMeshAgent navMeshAgent;
         public float LevelBoundsInX;
         public float LevelBoundsInY;
     }
