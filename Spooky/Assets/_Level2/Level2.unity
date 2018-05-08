@@ -6043,11 +6043,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4193135421944750, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4193135421944750, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -3.21
+      value: -8.42
       objectReference: {fileID: 0}
     - target: {fileID: 4193135421944750, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}
       propertyPath: m_LocalRotation.x
@@ -6113,6 +6113,16 @@ Prefab:
         type: 2}
       propertyPath: hideControlsInEditor
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114816397037179488, guid: 03eec82f6166ae249b763a5982ae7eee,
+        type: 2}
+      propertyPath: playerID
+      value: Player1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114089981798325646, guid: 03eec82f6166ae249b763a5982ae7eee,
+        type: 2}
+      propertyPath: characterID
+      value: Player1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 03eec82f6166ae249b763a5982ae7eee, type: 2}

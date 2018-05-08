@@ -3,20 +3,21 @@ using UnityEngine;
 
 public class SpookyEnemyDetect : EnemyDetect
 {
-    private Coroutine targetClosestEnemy = null;
     [SerializeField]
     private Enemy currentEnemyTarget;
     public Enemy CurrentEnemyTarget { get { return currentEnemyTarget; } }
+
+    private Coroutine targetClosestEnemy = null;
 
     private IEnumerator TargetNearestEnemy()
     {
         if (nearEnemies.Count > 0)
         {
-            float distanceToTheFirstEnemy = Vector3.SqrMagnitude(owner.transform.position - nearEnemies[0].transform.position);
+            float distanceToTheFirstEnemy = Vector3.SqrMagnitude(character.CharacterTransform.position - nearEnemies[0].transform.position);
             Enemy temporalCurrentEnemy = nearEnemies[0];
             for (int plantPoint = 0; plantPoint < nearEnemies.Count; plantPoint++)
             {
-                float distanceToTheNextEnemy = Vector3.SqrMagnitude(owner.transform.position - nearEnemies[plantPoint].transform.position);
+                float distanceToTheNextEnemy = Vector3.SqrMagnitude(character.CharacterTransform.position - nearEnemies[plantPoint].transform.position);
                 if (distanceToTheNextEnemy < distanceToTheFirstEnemy)
                 {
                     distanceToTheFirstEnemy = distanceToTheNextEnemy;
@@ -42,7 +43,7 @@ public class SpookyEnemyDetect : EnemyDetect
         Vector3 _direction = Vector3.zero;
         if (currentEnemyTarget)
         {
-            _direction = (currentEnemyTarget.transform.position - owner.transform.position).normalized;
+            _direction = (currentEnemyTarget.transform.position - character.CharacterTransform.position).normalized;
             _direction.y = 0;
             return _direction;
         }

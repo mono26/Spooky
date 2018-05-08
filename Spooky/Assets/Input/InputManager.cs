@@ -2,6 +2,8 @@
 
 public class InputManager : SceneSingleton<InputManager>
 {
+    public string playerID;
+
     public bool AutoDetectMovile { get; protected set; }
     public bool IsOnMobile { get; protected set; }
     public CustomButton FireButton { get; protected set; }

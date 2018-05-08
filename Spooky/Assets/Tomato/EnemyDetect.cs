@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyDetect : MonoBehaviour, IDetect
+public class EnemyDetect : CharacterComponent, IDetect
 {
     // TODO encapsulate Spooky, Enemy and Plant in Character.
-    protected MonoBehaviour owner;
     protected SphereCollider detectionTrigger;
     [Range(3f, 5f)]
     public float enemyDetectionRange;
@@ -12,22 +11,21 @@ public class EnemyDetect : MonoBehaviour, IDetect
     [SerializeField]
     protected List<Enemy> nearEnemies = null;
 
-    public void Awake()
+    protected override void Awake()
     {
-        owner = GetComponent<Spooky>();
+        base.Awake();
+
         detectionTrigger = transform.Find("EnemyDetector").GetComponent<SphereCollider>();
 
         nearEnemies = new List<Enemy>();
     }
 
-    public void Start()
+    protected void Start()
     {
-
-        //enemyList = new List<Enemy>();
         detectionTrigger.radius = enemyDetectionRange;
     }
 
-    private void ProcessAbility()
+    public override void EveryFrame()
     {
         Detect();
     }
@@ -55,7 +53,7 @@ public class EnemyDetect : MonoBehaviour, IDetect
         Vector3 _direction = Vector3.zero;
         if (nearEnemies.Count > 0 && HasAValidTarget())
         {
-            _direction = (nearEnemies[0].transform.position - owner.transform.position).normalized;
+            _direction = (nearEnemies[0].transform.position - character.CharacterTransform.position).normalized;
             _direction.y = 0;
             return _direction;
         }
@@ -115,11 +113,5 @@ public class EnemyDetect : MonoBehaviour, IDetect
             return;
         }
         else return;
-    }
-
-    [System.Serializable]
-    public class Settings
-    {
-
     }
 }

@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpookyPlantPointDetection : MonoBehaviour, IDetect
+public class SpookyPlantPointDetection : CharacterComponent, IDetect
 {
-    //Reference variable to the player class, so you can acces the variables, like position, rigidbody, etc.
-    private Spooky spooky;
     //SphereCollider for detecting the collision with the plantPoints
     public SphereCollider detectionTrigger;
     [Range(1.5f, 2.5f)]
@@ -19,21 +17,22 @@ public class SpookyPlantPointDetection : MonoBehaviour, IDetect
     [SerializeField]
     private List<Plantpoint> nearPlantPoints = null;
 
-    public void Awake()
+    protected override void Awake()
     {
-        spooky = GetComponent<Spooky>();
+        base.Awake();
+        
         detectionTrigger = transform.Find("PlantPointDetector").GetComponent<SphereCollider>();
 
         nearPlantPoints = new List<Plantpoint>();
     }
 
-    public void Start()
+    protected void Start()
     {
         //When the game starts we give the collider its radius value
         detectionTrigger.radius = detectRange;
     }
 
-    public void ProcessAbility()
+    public override void EveryFrame()
     {
         Detect();
     }
@@ -54,11 +53,11 @@ public class SpookyPlantPointDetection : MonoBehaviour, IDetect
     {
         if (nearPlantPoints.Count > 0)
         {
-            var distance1 = Vector3.SqrMagnitude(spooky.transform.position - nearPlantPoints[0].transform.position);
+            var distance1 = Vector3.SqrMagnitude(character.CharacterTransform.position - nearPlantPoints[0].transform.position);
             var tempPlantPoint = nearPlantPoints[0];
             for (int plantPoint = 0; plantPoint < nearPlantPoints.Count; plantPoint++)
             {
-                var distance2 = Vector3.SqrMagnitude(spooky.transform.position - nearPlantPoints[plantPoint].transform.position);
+                var distance2 = Vector3.SqrMagnitude(character.CharacterTransform.position - nearPlantPoints[plantPoint].transform.position);
                 if (distance2 < distance1)
                 {
                     distance1 = distance2;
@@ -181,7 +180,7 @@ public class SpookyPlantPointDetection : MonoBehaviour, IDetect
 
             if(nearPlantPoints.Count == 0)
             {
-                spooky.StopCoroutine(lookForClosestPlantpoint);
+                StopCoroutine(lookForClosestPlantpoint);
             }
             return;
         }

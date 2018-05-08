@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(SingleObjectPool))]
-public class SpookyAttack : MonoBehaviour
+[RequireComponent(typeof(SingleObjectPool), typeof(SpookyEnemyDetect))]
+public class SpookyAttack : CharacterComponent
 {
     // Variable for a bullet.
-    private Spooky spooky;
+    private SpookyEnemyDetect enemyDetector;
     private Transform hand;
     private Transform shootPoint;
 
@@ -20,34 +20,34 @@ public class SpookyAttack : MonoBehaviour
 
     private float lastShoot;
 
-    private void Awake()
+    protected override void Awake()
     {
-        spooky = GetComponent<Spooky>();
+        base.Awake();
+
+        enemyDetector = GetComponent<SpookyEnemyDetect>();
         hand = transform.Find("Hand").GetComponent<Transform>();
         shootPoint = hand.Find("ShootPoint").GetComponent<Transform>();
         bulletPool = GetComponent<SingleObjectPool>();
     }
-    private void Start()
-    {
 
-    }
-
-    public void EveryFrameProcess()
+    public override void EveryFrame()
     {
+        base.EveryFrame();
+
         if (actualBullet != null)
             RotateBullettowardsDirection(actualBullet.transform);
 
-        if (spooky.EnemyDetectComponent.CurrentEnemyTarget != null)
+        if (enemyDetector.CurrentEnemyTarget != null)
         {
-            aimDirection = spooky.EnemyDetectComponent.GetCurrentEnemyTargetDirection();
+            aimDirection = enemyDetector.GetCurrentEnemyTargetDirection();
             RotateHand(aimDirection);
             return;
         }
 
-        else if (spooky.EnemyDetectComponent.CurrentEnemyTarget == null)
+        else if (enemyDetector.CurrentEnemyTarget == null)
         {
-            aimDirection.x = InputManager.Instance.Movement.x;
-            aimDirection.y = InputManager.Instance.Movement.y;
+            aimDirection.x = character.characterInput.Movement.x;
+            aimDirection.y = character.characterInput.Movement.y;
             if (!aimDirection.x.Equals(0f) || !aimDirection.y.Equals(0f))
             {
                 RotateHand(aimDirection);
@@ -121,7 +121,7 @@ public class SpookyAttack : MonoBehaviour
         else return;
     }
 
-    public void HandleInput()
+    protected override void HandleInput()
     {
         if (InputManager.Instance.FireButton.CurrentState == CustomButton.ButtonStates.Pressed)
         {

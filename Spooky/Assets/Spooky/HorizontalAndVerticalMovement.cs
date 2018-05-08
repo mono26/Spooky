@@ -1,13 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class SpookyMovement : MonoBehaviour
+public class HorizontalAndVerticalMovement : CharacterComponent
 {
-    /// <summary>
-    /// Dependencies for the component.
-    /// </summary>
-    private Spooky spooky;
-
     private Vector3 movementDirection;
 
     [SerializeField]
@@ -24,26 +19,31 @@ public class SpookyMovement : MonoBehaviour
 
     private bool onSloweffect;
 
-    private void Awake()
-    {
-        // Constructor for the class passes all the required components into the class.
-        // Done before the game starts
-        spooky = GetComponent<Spooky>();
-        if (spooky == null)
-            Debug.LogError("There is no Spooky component attached to the object.");
-    }
-
-    public void Start()
+    protected void Start()
     {
         // When the game starts set values
         currentSpeed = maxSpeed;
     }
 
+    public override void FixedFrame()
+    {
+        base.FixedFrame();
+
+        Move(movementDirection);
+
+        ClampPosition();
+    }
+
+    protected override void HandleInput()
+    {
+        movementDirection = character.characterInput.Movement;
+    }
+
     private void Move(Vector3 _direction)
     {
         // For moving the Rigidbody in the desired direction
-        Vector3 newPosition = spooky.SpookyBody.position + spooky.SpookyBody.transform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
-        spooky.SpookyBody.MovePosition(newPosition);
+        Vector3 newPosition = character.CharacterBody.position + character.CharacterTransform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
+        character.CharacterBody.MovePosition(newPosition);
         //spooky.AnimationComponent.CheckViewDirection(_direction);
         return;
     }
@@ -63,18 +63,6 @@ public class SpookyMovement : MonoBehaviour
 
         currentSpeed = maxSpeed;
         yield return 0.25f;
-    }
-
-    public void HandleInput()
-    {
-        movementDirection = InputManager.Instance.Movement;
-    }
-
-    public void FixedFrameProcess()
-    {
-        Move(movementDirection);
-
-        ClampPosition();
     }
 
     private void OnTriggerEnter(Collider _collider)

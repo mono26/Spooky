@@ -86,6 +86,5 @@ public class Plant : MonoBehaviour
     {
         public float AttackSpeed;
         public int maxHealth;
-        public EnemyDetect.Settings EnemyDetectSettings;
     }
 }
