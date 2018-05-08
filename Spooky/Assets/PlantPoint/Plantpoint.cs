@@ -16,7 +16,7 @@ public class Plantpoint : MonoBehaviour
 
     public void BuildPlant(PlantBlueprint blueprint)       //Luego de que se tenga una planta seleccionada cuando se escoja un nodo se construira ahi
     {
-        LevelManager.Instance.UiManager.TakeMoney(blueprint.price);
+        //LevelManager.Instance.UiManager.TakeMoney(blueprint.price);
         currentPlant = Instantiate(blueprint.plant.gameObject, transform.position, transform.rotation).GetComponent<Plant>();
         currentBlueprint = blueprint;
         //SoundHandler.Instance.PlayClip(plantPointSounds[0]);
@@ -27,14 +27,14 @@ public class Plantpoint : MonoBehaviour
     {
         if (!isUpgraded)
         {
-            LevelManager.Instance.UiManager.GiveMoney(currentBlueprint.price);
+            //LevelManager.Instance.UiManager.GiveMoney(currentBlueprint.price);
             Destroy(currentPlant.gameObject);
             ClearPlantPoint();
             PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
         }
         else if (isUpgraded)
         {
-            LevelManager.Instance.UiManager.GiveMoney(currentBlueprint.upgradePrice);
+            //LevelManager.Instance.UiManager.GiveMoney(currentBlueprint.upgradePrice);
             Destroy(currentPlant.gameObject);
             ClearPlantPoint();
             PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
@@ -45,7 +45,7 @@ public class Plantpoint : MonoBehaviour
 
     public void UpgradePlant()
     {
-        LevelManager.Instance.UiManager.TakeMoney(currentBlueprint.upgradePrice);
+        //LevelManager.Instance.UiManager.TakeMoney(currentBlueprint.upgradePrice);
         Destroy(currentPlant.gameObject);
         currentPlant = Instantiate(currentBlueprint.upgradePlant.gameObject, transform.position, transform.rotation).GetComponent<Plant>();
         isUpgraded = true;

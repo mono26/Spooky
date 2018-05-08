@@ -31,8 +31,11 @@ public class GameManager : MonoBehaviour
     private EnemyStatsCollection enemyStats;
     public EnemyStatsCollection EnemyStats { get { return enemyStats; } }
 
-    public delegate void StartGame();
-    public event StartGame OnStartGame;
+    private bool isPaused;
+    public bool IsPaused { get { return isPaused; } }
+
+    public delegate void OnFinishLoadingLevelDelegate();
+    public event OnFinishLoadingLevelDelegate OnFinishloading;
 
     private void Awake()
     {
@@ -62,8 +65,26 @@ public class GameManager : MonoBehaviour
 
         yield return StartCoroutine(loadManager.FinishLoading());
 
-        if (OnStartGame != null)
-            OnStartGame();
+        if (OnFinishloading != null)
+            OnFinishloading();
+
+        yield return 0;
     }
 
+    public void PauseLevel()
+    {
+        isPaused = !isPaused;
+        if (IsPaused)
+        {
+            //pauseCanvas.SetActive(true);
+            Time.timeScale = 0;
+            return;
+        }
+        else if (!IsPaused)
+        {
+            //pauseCanvas.SetActive(false);
+            Time.timeScale = 1;
+            return;
+        }
+    }
 }

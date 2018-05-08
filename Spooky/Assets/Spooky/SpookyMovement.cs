@@ -1,57 +1,50 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class SpookyMovement
+public class SpookyMovement : MonoBehaviour
 {
+    /// <summary>
+    /// Dependencies for the component.
+    /// </summary>
     private Spooky spooky;
-    private Rigidbody rigidbody;
-    private Settings settings;
-    private bool OnCropField;
 
+    private Vector3 movementDirection;
+
+    [SerializeField]
     private float currentSpeed;
+    [SerializeField]
+    private float maxSpeed;
+    [SerializeField]
+    private float slowMotionSpeed;
 
-    public SpookyMovement(Spooky _spooky, Rigidbody _rigidbody, Settings _settings)
+    [SerializeField]
+    private float MaxXValue;
+    [SerializeField]
+    private float MaxYValue;
+
+    private bool onSloweffect;
+
+    private void Awake()
     {
         // Constructor for the class passes all the required components into the class.
         // Done before the game starts
-        spooky = _spooky;
-        rigidbody = _rigidbody;
-        settings = _settings;
+        spooky = GetComponent<Spooky>();
+        if (spooky == null)
+            Debug.LogError("There is no Spooky component attached to the object.");
     }
 
     public void Start()
     {
         // When the game starts set values
-        currentSpeed = settings.MaxSpeed;
-    }
-
-    // TODO check if it's better to use Update() or FixedUpdate()
-    public void FixedUpdate()
-    {
-        // For moving the Rigidbody
-        float horizontal = spooky.Joystick.Horizontal;
-        float vertical = spooky.Joystick.Vertical;
-
-        if (!vertical.Equals(0) || !vertical.Equals(0))
-        {
-            Vector3 direction = new Vector3(horizontal, vertical, 0);
-            Move(direction);
-            return;
-        }
-        // We need to pass a movement in "y" because of the rotation of the object, so the sprite can be seen.
-        else
-        {
-            spooky.AnimationComponent.IsMoving(new Vector3(0,0,0));
-            return;
-        }
+        currentSpeed = maxSpeed;
     }
 
     private void Move(Vector3 _direction)
     {
         // For moving the Rigidbody in the desired direction
-        Vector3 newPosition = rigidbody.position + rigidbody.transform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
-        rigidbody.MovePosition(newPosition);
-        spooky.AnimationComponent.CheckViewDirection(_direction);
+        Vector3 newPosition = spooky.SpookyBody.position + spooky.SpookyBody.transform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
+        spooky.SpookyBody.MovePosition(newPosition);
+        //spooky.AnimationComponent.CheckViewDirection(_direction);
         return;
     }
 
@@ -62,22 +55,34 @@ public class SpookyMovement
 
     private IEnumerator SlowDownEffect()
     {
-        while(OnCropField)
+        while (onSloweffect)
         {
-            currentSpeed = settings.SlowMotionSpeed;
+            currentSpeed = slowMotionSpeed;
             yield return 0;
         }
 
-        currentSpeed = settings.MaxSpeed;
+        currentSpeed = maxSpeed;
         yield return 0.25f;
+    }
+
+    public void HandleInput()
+    {
+        movementDirection = InputManager.Instance.Movement;
+    }
+
+    public void FixedFrameProcess()
+    {
+        Move(movementDirection);
+
+        ClampPosition();
     }
 
     private void OnTriggerEnter(Collider _collider)
     {
         if (_collider.CompareTag("CornField"))
         {
-            OnCropField = true;
-            spooky.StartCoroutine(SlowDownEffect());
+            onSloweffect = true;
+            StartCoroutine(SlowDownEffect());
         }
         else return;
     }
@@ -86,18 +91,8 @@ public class SpookyMovement
     {
         if (_collider.CompareTag("Enemy"))
         {
-            OnCropField = false;
+            onSloweffect = false;
         }
         else return;
-    }
-
-    [System.Serializable]
-    public class Settings
-    {
-        public float MaxSpeed;
-        public float SlowMotionSpeed;
-
-        public float MaxXValue;
-        public float MaxYValue;
     }
 }

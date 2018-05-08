@@ -94,7 +94,7 @@ public class PlantStore : MonoBehaviour
     //planta como el UI de construccion.
     public void PurchasePlantForCurrentActivePlantpoint(PlantBlueprint bluePrint)
     {
-        if (LevelManager.Instance.UiManager.CurrentMoney >= bluePrint.price)
+        /*if (LevelManager.Instance.UiManager.CurrentMoney >= bluePrint.price)
         {
             currentActivePlantPoint.BuildPlant(bluePrint);
             //SoundHandler.Instance.PlayClip(uiSounds[0]);
@@ -102,16 +102,16 @@ public class PlantStore : MonoBehaviour
             HideBuildUI();
             SetCurrentActivePlantPoint(currentActivePlantPoint);
         }
-        else return;
+        else return;*/
     }
     public void UpgradeCurrentActivePlantInPlantpoint()
     {
-        if (LevelManager.Instance.UiManager.CurrentMoney > currentActivePlantPoint.currentBlueprint.upgradePrice)
+        /*if (LevelManager.Instance.UiManager.CurrentMoney > currentActivePlantPoint.currentBlueprint.upgradePrice)
         {
             currentActivePlantPoint.UpgradePlant();
             //SoundHandler.Instance.PlayClip(uiSounds[0]);
         }
-        else return;
+        else return;*/
     }
     public void SellPlantInCurrentActivePlantpoint()
     {

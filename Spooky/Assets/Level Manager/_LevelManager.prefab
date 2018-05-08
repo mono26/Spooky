@@ -129,8 +129,9 @@ GameObject:
   - component: {fileID: 212128300472108326}
   - component: {fileID: 65181824216742822}
   - component: {fileID: 114188510794227474}
-  - component: {fileID: 114951207490674992}
   - component: {fileID: 114055343446617678}
+  - component: {fileID: 114333420084890814}
+  - component: {fileID: 114951207490674992}
   m_Layer: 20
   m_Name: _LevelManager
   m_TagString: Untagged
@@ -333,8 +334,8 @@ MonoBehaviour:
   spooky: {fileID: 0}
   loseUI: {fileID: 0}
   winUI: {fileID: 0}
-  musicClip: {fileID: 8300000, guid: 040257887a5c04446b0b84b51e4b7d26, type: 3}
---- !u!114 &114951207490674992
+  backgroundMusicClip: {fileID: 0}
+--- !u!114 &114333420084890814
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -342,23 +343,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 1736335610250038}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a453fbdeb3bdcd4c9c8cff03a75c01e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainMenuScene: MainMenu
+--- !u!114 &114951207490674992
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1736335610250038}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccd0da2f12f2955488d030f24c74bf51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   waves:
   - name: 
     enemy:
-    - {fileID: 0}
+    - {fileID: 114534652539622646, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
     spawnRate: 0.5
     count: 05000000
   - name: 
     enemy:
-    - {fileID: 0}
+    - {fileID: 114534652539622646, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
     spawnRate: 0.5
     count: 0a000000
   - name: 
     enemy:
-    - {fileID: 0}
+    - {fileID: 114534652539622646, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
     spawnRate: 0.5
     count: 0f000000
   numberOfEnemiesInCurrentWave: 0

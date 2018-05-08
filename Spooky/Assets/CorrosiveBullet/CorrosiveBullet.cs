@@ -26,13 +26,13 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
 
     protected void Update()
     {
-        if (IsBulletTimerOver())
+        /*if (IsBulletTimerOver())
         {
             StopCoroutine(corrosiveEffect);
             ReleaseBullet(this);
             return;
         }
-        else return;
+        else return;*/
     }
 
     protected new void Awake()

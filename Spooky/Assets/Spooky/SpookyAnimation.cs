@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SpookyAnimation : IAnimable
+public class SpookyAnimation : MonoBehaviour, IAnimable
 {
     private SpriteRenderer sprite;
     private SpriteRenderer handSprite;

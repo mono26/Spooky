@@ -30,12 +30,12 @@ public class Tomaton : Tomato
         if (currentState.Equals(State.Waiting))
         {
             //TODO execute decision
-            if (enemyDetect.HasAValidTarget() && IsTargetInRange())
+            /*if (enemyDetect.HasAValidTarget() && IsTargetInRange())
             {
                 currentState = State.Attacking;
                 return;
             }
-            else return;
+            else return;*/
         }
 
         else if (currentState.Equals(State.Attacking))

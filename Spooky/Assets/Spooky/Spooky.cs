@@ -1,141 +1,92 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(SpookyAnimation), typeof(SpookyAttack), typeof(SpookyEnemyDetect))]
+[RequireComponent(typeof(SpookyMovement), typeof(SpookyPlantPointDetection), typeof(Rigidbody))]
 public class Spooky : MonoBehaviour
 {
-    // Common section
-    [Header("Common Settings")]
-    [SerializeField]
-    private Joystick joystick;
-    public Joystick Joystick { get { return joystick; } }
+    // Components
+    private Rigidbody spookyBody;
+    public Rigidbody SpookyBody { get { return spookyBody; } }
+    private Transform spookyTransform;
+    public Transform SpookyTransform { get { return spookyTransform; } }
 
     // Movement section
     [Header("Movement Settings")]
     private SpookyMovement movementComponent;
-    [SerializeField]
-    private SpookyMovement.Settings movementSettings;
-
+    public SpookyMovement MovementComponent { get { return movementComponent; } }
     // Detection Section
     [Header("Detection Settings")]
-    // Number of executions per second
-    [SerializeField]
-    private float enemyDetectUpdateRate;
     [SerializeField]
     private SpookyEnemyDetect enemyDetectComponent;
     public SpookyEnemyDetect EnemyDetectComponent { get { return enemyDetectComponent; } }
     [SerializeField]
-    private EnemyDetect.Settings enemyDetectSettings;
-    [SerializeField]
-    private PlantPointDetect plantPointDetect;
-    [SerializeField]
-    private PlantPointDetect.Settings plantPointDetectSettings;
-
+    private SpookyPlantPointDetection plantPointDetectComponent;
+    public SpookyPlantPointDetection PlantPointDetectComponent { get { return plantPointDetectComponent; } }
     // Animation section
     [Header("Animation Settings")]
     private SpookyAnimation animationComponent;
     public SpookyAnimation AnimationComponent { get { return animationComponent; } }
-
     // Attack section
     [Header("Attack Settings")]
     [SerializeField]
-    private SpookyBullet bulletPrefab;
-    [SerializeField]
     private SpookyAttack attackComponent;
-    [SerializeField]
-    private SpookyAttack.Settings attackSettings;
-
-    public delegate void FireButtonPress();
-    public event FireButtonPress OnFireButtonPress;
-
-    public delegate void FireButtonRelease();
-    public event FireButtonPress OnFireButtonRelease;
+    public SpookyAttack AttackComponent { get { return attackComponent; } }
 
     public delegate void InFightWithEnemy();
     public event InFightWithEnemy OnFightWithEnemy;
 
     private void Awake()
     {
-        movementComponent = new SpookyMovement(
-            this,
-            GetComponent<Rigidbody>(),
-            movementSettings
-            );
+        spookyBody = GetComponent<Rigidbody>();
+        spookyTransform = GetComponent<Transform>();
 
-        enemyDetectComponent = new SpookyEnemyDetect(
-            this,
-            enemyDetectUpdateRate,
-            enemyDetectSettings
-            );
-
-        attackComponent = new SpookyAttack(
-            this,
-            GameObject.FindGameObjectWithTag("SpookyHand").transform,
-            GameObject.FindGameObjectWithTag("SpookyShootPoint").transform,
-            bulletPrefab,
-            attackSettings
-            );
-
-        plantPointDetect = new PlantPointDetect(
-            this,
-            plantPointDetectSettings
-            );
-
-        animationComponent = new SpookyAnimation(
-            GetComponent<SpriteRenderer>(),
-            GameObject.FindGameObjectWithTag("SpookyHandSprite").GetComponent<SpriteRenderer>(),
-            GetComponent<Animator>()
-            );
+        movementComponent = GetComponent<SpookyMovement>();
+        enemyDetectComponent = GetComponent<SpookyEnemyDetect>();
+        attackComponent = GetComponent<SpookyAttack>();
+        plantPointDetectComponent = GetComponent<SpookyPlantPointDetection>();
+        animationComponent = GetComponent<SpookyAnimation>();
     }
 
     private void OnEnable()
     {
-        attackComponent.OnEnable();
+
     }
 
     private void OnDisable()
     {
-        attackComponent.OnDisable();
+
     }
 
     private void Start()
     {
-        // Execute all Start() functions in the components. Here is variable setting.
-        movementComponent.Start();
-        plantPointDetect.Start();
+
     }
 
     private void Update()
     {
-        attackComponent.Update();
-        enemyDetectComponent.Detect();
-        plantPointDetect.Detect();
+        movementComponent.HandleInput();
+        attackComponent.HandleInput();
+        attackComponent.EveryFrameProcess();
     }
 
     private void FixedUpdate()
     {
-        movementComponent.FixedUpdate();
+        movementComponent.FixedFrameProcess();
+        /*else
+        {
+            spooky.AnimationComponent.IsMoving(new Vector3(0, 0, 0));
+            return;
+        }*/
     }
 
     public void OnTriggerEnter(Collider _collider)
     {
-        enemyDetectComponent.OnTriggerEnter(_collider);
-        plantPointDetect.OnTriggerEnter(_collider);
+
     }
 
     public void OnTriggerExit(Collider _collider)
     {
-        enemyDetectComponent.OnTriggerExit(_collider);
-        plantPointDetect.OnTriggerExit(_collider);
+
     }
 
-    public void StartCharge()
-    {
-        if (OnFireButtonPress != null)
-            OnFireButtonPress();
-    }
-
-    public void StopCharge()
-    {
-        if (OnFireButtonRelease != null)
-            OnFireButtonRelease();
-    }
 }

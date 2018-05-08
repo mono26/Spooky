@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class PlantPointDetect : IDetect
+public class SpookyPlantPointDetection : MonoBehaviour, IDetect
 {
     //Reference variable to the player class, so you can acces the variables, like position, rigidbody, etc.
     private Spooky spooky;
-    private Settings settings;
+    //SphereCollider for detecting the collision with the plantPoints
+    public SphereCollider detectionTrigger;
+    [Range(1.5f, 2.5f)]
+    public float detectRange = 2.5f;
 
     //Value of the current plantPoint. It changes through time by collision detection
     //Also the value can be null if the current plantPoint is out of the collider boundaries
@@ -17,10 +19,10 @@ public class PlantPointDetect : IDetect
     [SerializeField]
     private List<Plantpoint> nearPlantPoints = null;
 
-    public PlantPointDetect(Spooky _spooky, Settings _settings)
+    public void Awake()
     {
-        spooky = _spooky;
-        settings = _settings;
+        spooky = GetComponent<Spooky>();
+        detectionTrigger = transform.Find("PlantPointDetector").GetComponent<SphereCollider>();
 
         nearPlantPoints = new List<Plantpoint>();
     }
@@ -28,7 +30,12 @@ public class PlantPointDetect : IDetect
     public void Start()
     {
         //When the game starts we give the collider its radius value
-        settings.SphereTrigger.radius = settings.DetectRange;
+        detectionTrigger.radius = detectRange;
+    }
+
+    public void ProcessAbility()
+    {
+        Detect();
     }
 
     public void Detect()
@@ -64,8 +71,8 @@ public class PlantPointDetect : IDetect
                 SelectNewPlantpoint(tempPlantPoint);
             }
         }
-        yield return new WaitForSeconds(1 / settings.DisplayNearPlantpointTicksPerSecond);
-        lookForClosestPlantpoint = spooky.StartCoroutine(DisplayNearestPlantPoint());
+        yield return new WaitForSeconds(Time.deltaTime);
+        lookForClosestPlantpoint = StartCoroutine(DisplayNearestPlantPoint());
     }
 
     //This method checks if the current plantPoint has a plant on it or not
@@ -147,7 +154,7 @@ public class PlantPointDetect : IDetect
             if (currentPlantPoint == null)
             {
                 SelectNewPlantpoint(plantPoint);
-                lookForClosestPlantpoint = spooky.StartCoroutine(DisplayNearestPlantPoint());
+                lookForClosestPlantpoint = StartCoroutine(DisplayNearestPlantPoint());
             }
 
             AddPlantPointToTheList(plantPoint);
@@ -179,16 +186,5 @@ public class PlantPointDetect : IDetect
             return;
         }
         else return;
-    }
-
-    [System.Serializable]
-    public class Settings
-    {
-        //SphereCollider for detecting the collision with the plantPoints
-        public SphereCollider SphereTrigger;
-        [Range(1.5f, 2.5f)]
-        public float DetectRange;
-        // Number of executions per second
-        public float DisplayNearPlantpointTicksPerSecond;
     }
 }

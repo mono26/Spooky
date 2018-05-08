@@ -1,67 +1,56 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[System.Serializable]
-public class SpookyAttack
+[RequireComponent(typeof(SingleObjectPool))]
+public class SpookyAttack : MonoBehaviour
 {
     // Variable for a bullet.
     private Spooky spooky;
-    [SerializeField]
     private Transform hand;
-    [SerializeField]
-    private Transform shootTransform;
-    private Settings settings;
+    private Transform shootPoint;
 
+    public float attackRate = 1f;
+    public float launchForce = 10f;
+    public float chargeRate = 2f;
+
+    private Vector3 aimDirection;
+    private SingleObjectPool bulletPool;
     [SerializeField]
-    private ISpawnable<Bullet> bulletPrefab;
     private SpookyBullet actualBullet;
-    private bool isCharging;
-    private Coroutine chargeBullet;
-    // Number of charges persecond
 
     private float lastShoot;
 
-    public SpookyAttack(Spooky _spooky, Transform _hand, Transform _shootTransform, SpookyBullet _bulletPrefab, Settings _settings)
+    private void Awake()
     {
-        spooky = _spooky;
-        hand = _hand;
-        shootTransform = _shootTransform;
-        bulletPrefab = _bulletPrefab;
-        settings = _settings;
+        spooky = GetComponent<Spooky>();
+        hand = transform.Find("Hand").GetComponent<Transform>();
+        shootPoint = hand.Find("ShootPoint").GetComponent<Transform>();
+        bulletPool = GetComponent<SingleObjectPool>();
+    }
+    private void Start()
+    {
+
     }
 
-    public void OnEnable()
+    public void EveryFrameProcess()
     {
-        spooky.OnFireButtonPress += ReadyToAttack;
-        spooky.OnFireButtonRelease += Attack;
-    }
-
-    public void OnDisable()
-    {
-        spooky.OnFireButtonPress -= ReadyToAttack;
-        spooky.OnFireButtonRelease -= Attack;
-    }
-
-    public void Update()
-    {
-        if (actualBullet)
+        if (actualBullet != null)
             RotateBullettowardsDirection(actualBullet.transform);
 
-        Vector3 _direction = Vector3.zero;
         if (spooky.EnemyDetectComponent.CurrentEnemyTarget != null)
         {
-            _direction = spooky.EnemyDetectComponent.GetCurrentEnemyTargetDirection();
-            RotateHand(_direction);
+            aimDirection = spooky.EnemyDetectComponent.GetCurrentEnemyTargetDirection();
+            RotateHand(aimDirection);
             return;
         }
 
         else if (spooky.EnemyDetectComponent.CurrentEnemyTarget == null)
         {
-            _direction.x = spooky.Joystick.Horizontal;
-            _direction.z = spooky.Joystick.Vertical;
-            if (!_direction.x.Equals(0f) || !_direction.z.Equals(0f))
+            aimDirection.x = InputManager.Instance.Movement.x;
+            aimDirection.y = InputManager.Instance.Movement.y;
+            if (!aimDirection.x.Equals(0f) || !aimDirection.y.Equals(0f))
             {
-                RotateHand(_direction);
+                RotateHand(aimDirection);
                 return;
             }
             else return;
@@ -70,7 +59,7 @@ public class SpookyAttack
 
     private void RotateHand(Vector3 _direction)
     {
-        float angle = Mathf.Atan2(_direction.z, _direction.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
         float delta = angle - hand.localRotation.eulerAngles.z;
         hand.localRotation = Quaternion.RotateTowards(
             hand.localRotation,
@@ -82,69 +71,71 @@ public class SpookyAttack
 
     private void RotateBullettowardsDirection(Transform _bullet)
     {
-        _bullet.right = hand.right;
+        _bullet.right = shootPoint.right;
+        _bullet.position = shootPoint.position;
         return;
     }
 
-    private void ReadyToAttack()
+    private void CreateCurrentBullet()
     {
-        actualBullet = GetBulletToShoot();
-        actualBullet.transform.SetParent(shootTransform);
-        chargeBullet = spooky.StartCoroutine(ChargeAttack());
-
-        /* if (Time.timeSinceLevelLoad > lastShoot + settings.AttackRate)
-        {
-            
-        }
-        else return; */
+        Debug.Log("Creating current bullet");
+        actualBullet = bulletPool.GetObjectFromPool().GetComponent<SpookyBullet>();
+        actualBullet.transform.position = shootPoint.position;
+        actualBullet.transform.SetParent(shootPoint);
+        actualBullet.gameObject.SetActive(true);
+        return;
     }
 
     private void Attack()
     {
         if (actualBullet)
         {
-            isCharging = false;
-            LaunchAttack(actualBullet);
+            LaunchAttack();
             return;
         }
         else return;
     }
 
-    private void LaunchAttack(Bullet _bullet)
+    private void LaunchAttack()
     {
-
-        spooky.StopCoroutine(chargeBullet);
-        RotateBullettowardsDirection(_bullet.transform);
-        actualBullet = null;
-        _bullet.transform.SetParent(GameObject.Find("Bullets").transform);
-        _bullet.Launch(settings.LaunchForce);
-        lastShoot = Time.timeSinceLevelLoad;
+        if (actualBullet != null)
+        {
+            RotateBullettowardsDirection(actualBullet.transform);
+            actualBullet.Launch(launchForce);
+            actualBullet.GetComponent<PoolableObject>().InvokeRelease();
+            actualBullet = null;
+            lastShoot = Time.timeSinceLevelLoad;
+            return;
+        }
+        else return;
     }
 
-    private SpookyBullet GetBulletToShoot()
+    private void ChargeAttack()
     {
-        return (SpookyBullet)bulletPrefab.Spawn(shootTransform);
-    }
-
-    private IEnumerator ChargeAttack()
-    {
-        isCharging = true;
-
-        while(isCharging == true)
+        if (actualBullet != null)
         {
             actualBullet.IncreaseSize(actualBullet);
             actualBullet.IncreaseDamage(actualBullet);
-            yield return new WaitForSeconds(1 / settings.ChargeRate);    // One charge per second
+            return;
         }
-
-        yield return 0;
+        else return;
     }
 
-    [System.Serializable]
-    public class Settings
+    public void HandleInput()
     {
-        public float AttackRate;
-        public float LaunchForce;
-        public float ChargeRate = 2f;
+        if (InputManager.Instance.FireButton.CurrentState == CustomButton.ButtonStates.Pressed)
+        {
+            CreateCurrentBullet();
+        }
+
+        if (InputManager.Instance.FireButton.CurrentState == CustomButton.ButtonStates.Down)
+        {
+            ChargeAttack();
+        }
+
+        if (InputManager.Instance.FireButton.CurrentState == CustomButton.ButtonStates.Up)
+        {
+            LaunchAttack();
+        }
     }
 }

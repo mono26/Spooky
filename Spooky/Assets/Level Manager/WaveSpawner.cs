@@ -48,8 +48,8 @@ public class WaveSpawner : MonoBehaviour
     //State of the waveSpawn
     private SpawnState waveSpawnerState;
 
-    public delegate void SpawnStartDelegate();
-    public event SpawnStartDelegate OnSpawnStart;
+    public delegate void OnSpawnStartDelegate();
+    public event OnSpawnStartDelegate OnSpawnStart;
 
     private void Awake()
     {
@@ -60,14 +60,18 @@ public class WaveSpawner : MonoBehaviour
         }
         else
             Destroy(gameObject);
-
-        // TODO mejorar proteccion
-        if(GameManager.Instance)
-            GameManager.Instance.OnStartGame += PlaySpawnClip;
     }
+
+    private void OnDisable()
+    {
+        LevelManager.Instance.OnStartLevel -= PlayEnemySpawnClip;
+    }
+
     // Use this for initialization
     private void Start()
     {
+        LevelManager.Instance.OnStartLevel += PlayEnemySpawnClip;
+
         waveTimerCountDown = timeBetweenNextWaveSpawn;
         waveSpawnerState = SpawnState.COUNTING;
     }
@@ -145,7 +149,7 @@ public class WaveSpawner : MonoBehaviour
         numberOfEnemiesInCurrentWave = (int)Mathf.Clamp(numberOfEnemiesInCurrentWave, 0, Mathf.Infinity);    // So the number of enemies never goes below 0
     }
 
-    void PlaySpawnClip()
+    void PlayEnemySpawnClip()
     {
         GameManager.Instance.SoundManager.PlayClip(firstSpawnSound);
     }

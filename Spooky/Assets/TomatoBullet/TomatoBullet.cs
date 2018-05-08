@@ -7,16 +7,6 @@ public class TomatoBullet : Bullet, ISpawnable<Bullet>
     private static List<Bullet> bulletList = new List<Bullet>();
     public List<Bullet> Pool { get { return bulletList; } }
 
-    protected void Update()
-    {
-        if (IsBulletTimerOver())
-        {
-            ReleaseBullet(this);
-            return;
-        }
-        else return;
-    }
-
     public Bullet Spawn(Transform _position)
     {
         if (Pool.Count == 0)

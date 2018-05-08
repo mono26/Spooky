@@ -1,24 +1,21 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class EnemyDetect : IDetect
+public class EnemyDetect : MonoBehaviour, IDetect
 {
-    // Give the value of the range in settings to the radius of the collider
-    // it must be in a separate layer to wrk properly.
+    // TODO encapsulate Spooky, Enemy and Plant in Character.
     protected MonoBehaviour owner;
-    private Settings settings;
+    protected SphereCollider detectionTrigger;
+    [Range(3f, 5f)]
+    public float enemyDetectionRange;
 
-    private Coroutine detection = null;
     [SerializeField]
     protected List<Enemy> nearEnemies = null;
 
-    // Create a stack to store all the enemies that come in range
-    public EnemyDetect(MonoBehaviour _owner, Settings _settings)
+    public void Awake()
     {
-        // Constructor, sets all needed dependencies.
-        owner = _owner;
-        settings = _settings;
+        owner = GetComponent<Spooky>();
+        detectionTrigger = transform.Find("EnemyDetector").GetComponent<SphereCollider>();
 
         nearEnemies = new List<Enemy>();
     }
@@ -27,7 +24,12 @@ public class EnemyDetect : IDetect
     {
 
         //enemyList = new List<Enemy>();
-        settings.detectionTrigger.radius = settings.enemyDetectionRange;
+        detectionTrigger.radius = enemyDetectionRange;
+    }
+
+    private void ProcessAbility()
+    {
+        Detect();
     }
 
     public void Detect()
@@ -118,8 +120,6 @@ public class EnemyDetect : IDetect
     [System.Serializable]
     public class Settings
     {
-        [Range(3f, 5f)]
-        public float enemyDetectionRange;
-        public SphereCollider detectionTrigger;
+
     }
 }

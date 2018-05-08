@@ -24,7 +24,7 @@ public class StealCorn : CloseRangeAttack
                     owner.AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
                     );
 
-        LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
+        //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
         owner.HasLoot(true);
 
         // TODO add loot

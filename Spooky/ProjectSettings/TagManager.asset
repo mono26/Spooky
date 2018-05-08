@@ -9,7 +9,6 @@ TagManager:
   - Spawn Point
   - Runaway Point
   - Steal Point
-  - Money Text
   - Enemy
   - Plant Range
   - Plant
@@ -18,11 +17,6 @@ TagManager:
   - Pause Button
   - Black Fade
   - Black Background
-  - Enemies Counter
-  - BottomUIInfo
-  - TopUIInfo
-  - CropBar
-  - WaveBar
   - PauseUI
   - EnemyDetector
   - PlantpointDetector

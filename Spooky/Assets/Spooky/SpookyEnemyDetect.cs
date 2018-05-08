@@ -1,20 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[System.Serializable]
 public class SpookyEnemyDetect : EnemyDetect
 {
     private Coroutine targetClosestEnemy = null;
     [SerializeField]
     private Enemy currentEnemyTarget;
     public Enemy CurrentEnemyTarget { get { return currentEnemyTarget; } }
-    [SerializeField]
-    private float changeNearEnemyTicksPerSecond;
-
-    public SpookyEnemyDetect(MonoBehaviour _owner, float _changeNearEnemyRate, Settings _settings) : base(_owner, _settings)
-    {
-        changeNearEnemyTicksPerSecond = _changeNearEnemyRate;
-    }
 
     private IEnumerator TargetNearestEnemy()
     {
@@ -36,8 +28,8 @@ public class SpookyEnemyDetect : EnemyDetect
                 ChangeCurrentEnemyTarget(temporalCurrentEnemy);
             }
         }
-        yield return new WaitForSeconds(1 / changeNearEnemyTicksPerSecond);
-        targetClosestEnemy = owner.StartCoroutine(TargetNearestEnemy());
+        yield return new WaitForSeconds(Time.deltaTime);
+        targetClosestEnemy = StartCoroutine(TargetNearestEnemy());
     }
 
     private void ChangeCurrentEnemyTarget(Enemy _enemy)
@@ -66,7 +58,7 @@ public class SpookyEnemyDetect : EnemyDetect
             if (GetFirstEnemyInTheList() != null)
             {
                 ChangeCurrentEnemyTarget(_enemyCollider.GetComponent<Enemy>());
-                targetClosestEnemy = owner.StartCoroutine(TargetNearestEnemy()); 
+                targetClosestEnemy = StartCoroutine(TargetNearestEnemy()); 
             }
             return;
         }
@@ -81,7 +73,7 @@ public class SpookyEnemyDetect : EnemyDetect
         {
             if(nearEnemies.Count.Equals(0))
             {
-                owner.StopCoroutine(targetClosestEnemy);
+                StopCoroutine(targetClosestEnemy);
             }
             // TODO stop coroutine display nearest enemy if count = 0
             return;

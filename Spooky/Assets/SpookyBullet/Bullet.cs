@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : PoolableObject
 {
     protected Rigidbody rigidBody;
     public Rigidbody RigidBody { get { return rigidBody; } }
@@ -11,15 +11,6 @@ public class Bullet : MonoBehaviour
     protected void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
-    }
-
-    protected bool IsBulletTimerOver()
-    {
-        if (bulletLaunchTime + 10f < Time.timeSinceLevelLoad)
-        {
-            return true;
-        }
-        else return false;
     }
 
     public void Launch(float _speed)

@@ -1,13 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : SceneSingleton<LevelManager>
 {
-    private static LevelManager instance;
-    public static LevelManager Instance { get { return instance; } }
-
-    private LevelUIManager uiManager;
-    public LevelUIManager UiManager { get { return uiManager; } }
+    public string mainMenuScene;
 
     // HouseSteal points used by the Stealer to note setting the target to the middle of the house. (out of navmesh)
     [SerializeField]
@@ -21,57 +17,49 @@ public class LevelManager : MonoBehaviour
     //TODO add get for spooky
     public Transform spooky;
 
+    [SerializeField]
+    private int startingMoney = 400;
+    public int StartingMoney { get { return startingMoney; } }
+    public int CurrentMoney { get; protected set;}
+
+    [SerializeField]
+    private int maxCrop = 800;
+    public int MaxCrop { get { return maxCrop; } }
+    public int CurrentCrop { get; protected set; }
+
     // TODO set up automatic set in script, not in editor.
     //Variables relacionadas con el fin del nivel
     private static bool gameIsOver = false;
 
-    [SerializeField]
-    private GameObject loseUI;
-    [SerializeField]
-    private GameObject winUI;
+    public AudioClip backgroundMusicClip;
 
-    public AudioClip musicClip;
+    public delegate void OnStartLevelDelegate();
+    public event OnStartLevelDelegate OnStartLevel;
 
-    void Awake()
+    protected override void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else Destroy(gameObject);
-
-        uiManager = new LevelUIManager(
-            GameObject.FindGameObjectWithTag("CropBar").GetComponent<Image>(),
-            GameObject.FindGameObjectWithTag("WaveBar").GetComponent<Image>(),
-            GameObject.FindGameObjectWithTag("Money Text").GetComponent<Text>(),
-            GameObject.FindGameObjectWithTag("TopUIInfo"),
-            GameObject.FindGameObjectWithTag("BottomUIInfo"),
-            GameObject.FindGameObjectWithTag("Pause Button"),
-            GameObject.FindGameObjectWithTag("PauseUI"),
-            GameObject.FindGameObjectWithTag("Enemies Counter").GetComponent<Text>()
-            );
+        base.Awake();
 
         spooky = GameObject.FindGameObjectWithTag("Spooky").transform;
         LookForHousePoints();
         LookForRunAwayPoints();
         LookForSpawnPoints();
+    }
 
-        GameManager.Instance.OnStartGame += PlayLevelMusic;
+    private void OnEnable()
+    {
+        GameManager.Instance.OnFinishloading += StartLevel;
     }
 
     private void OnDisable()
     {
-        uiManager.OnDisable();
+        GameManager.Instance.OnFinishloading -= StartLevel;
     }
 
     private void Start()
     {
-        uiManager.Start();
-    }
-
-    private void Update()
-    {
-        uiManager.Update();
+        CurrentCrop = maxCrop;
+        CurrentMoney = startingMoney;
     }
 
     // Caching
@@ -123,31 +111,63 @@ public class LevelManager : MonoBehaviour
     {
         gameIsOver = true;
         // SoundHandler.Instance.PlayClip(gameSounds[0]);
-        loseUI.SetActive(true);
+        //loseUI.SetActive(true);
     }
     public void WinLevel()
     {
         gameIsOver = true;
-        winUI.SetActive(true);
+        //winUI.SetActive(true);
     }
 
-    void PlayLevelMusic()
+    void PlayBackGroundLevelMusic()
     {
-        GameManager.Instance.SoundManager.PlayMusic(musicClip);
+        GameManager.Instance.SoundManager.PlayMusic(backgroundMusicClip);
+        return;
     }
 
     public void QuitLevel()
     {
-        uiManager.QuitLevel();
+        Time.timeScale = 1;
+        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(mainMenuScene));
+        GameManager.Instance.SoundManager.StopMusic();
     }
 
     public void RetryLevel()
     {
-        uiManager.RetryLevel();
+        Time.timeScale = 1;
+        GameManager.Instance.StartCoroutine(
+            GameManager.Instance.LoadLevel(SceneManager.GetActiveScene().name)
+            );
     }
 
-    public void PauseLevel()
+    private void StartLevel()
     {
-        uiManager.PauseLevel();
+        if (OnStartLevel != null)
+            OnStartLevel();
+
+        PlayBackGroundLevelMusic();
+        return;
+    }
+
+    public void GiveMoney(int reward)
+    {
+        CurrentMoney += reward;
+        return;
+    }
+
+    public void TakeMoney(int money)
+    {
+        CurrentMoney -= money;
+        return;
+    }
+
+    public void LoseCrop(int _stole)
+    {
+        CurrentCrop -= _stole;
+        if (CurrentCrop <= 0)
+        {
+            //GameOver Code
+            LevelManager.Instance.GameOver();
+        }
     }
 }

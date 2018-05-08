@@ -20,7 +20,7 @@ public class Plant : MonoBehaviour
 
     protected void Awake()
     {
-        enemyDetect = new EnemyDetect(
+        /*enemyDetect = new EnemyDetect(
             this,
             settings.EnemyDetectSettings
             );
@@ -28,7 +28,7 @@ public class Plant : MonoBehaviour
         animationComponent = new PlantAnimation(
             GetComponent<SpriteRenderer>(),
             GetComponent<Animator>()
-            );
+            );*/
     }
 
     protected void Start()
@@ -47,7 +47,7 @@ public class Plant : MonoBehaviour
         StartCastingAbility(true);
     }
 
-    protected bool IsTargetInRange()
+    /*protected bool IsTargetInRange()
     {
         float distance = Vector3.Distance(transform.position, enemyDetect.GetFirstEnemyInTheList().transform.position);
         if (distance <= settings.EnemyDetectSettings.enemyDetectionRange)
@@ -55,7 +55,7 @@ public class Plant : MonoBehaviour
             return true;
         }
         else return false;
-    }
+    }*/
 
     protected bool IsPlantDead()
     {

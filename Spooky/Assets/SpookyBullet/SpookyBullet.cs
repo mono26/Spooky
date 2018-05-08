@@ -1,27 +1,12 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 
-public class SpookyBullet : Bullet, ISpawnable<Bullet>
+public class SpookyBullet : Bullet
 {
     [SerializeField]
     private float damageIncreasePerSeconds = 0.25f;
     [SerializeField]
     private float sizeIncreasePerSeconds = 0.25f;
-
-    [SerializeField]
-    private static List<Bullet> bulletList = new List<Bullet>();
-    public List<Bullet> Pool { get { return bulletList; } }
-
-    protected void Update()
-    {
-        if (IsBulletTimerOver())
-        {
-            ReleaseBullet(this);
-            return;
-        }
-        else return;
-    }
 
     public void IncreaseSize(SpookyBullet _bullet)
     {
@@ -39,51 +24,11 @@ public class SpookyBullet : Bullet, ISpawnable<Bullet>
         return;
     }
 
-    public Bullet Spawn(Transform _position)
-    {
-        if (Pool.Count == 0)
-            AddToPool();
-        Bullet bullet = Pool[Pool.Count - 1];
-        Pool.RemoveAt(Pool.Count - 1);
-        SetBulletPosition(bullet, _position);
-        bullet.gameObject.SetActive(true);
-        return bullet;
-    }
-
-    private void AddToPool()
-    {
-        var parentPool = GameObject.Find("Bullets");    //Can't store a transform inside a prefab. Ensure always a tranform Enemies on level.
-        Bullet bullet = Instantiate(
-            gameObject,
-            parentPool.transform.position,
-            Quaternion.Euler(90f, 0f, 0f)
-            ).GetComponent<Bullet>();
-        bullet.gameObject.SetActive(false);
-        Pool.Add(bullet);
-        return;
-    }
-
-    private void SetBulletPosition(Bullet _bullet, Transform target)
-    {
-        Debug.Log("posición balas world" + _bullet.transform.position);
-        Debug.Log("posición balas local" + _bullet.transform.localPosition);
-        _bullet.transform.localPosition = target.position;
-        return;
-    }
-
-    public void ReleaseBullet(Bullet _bullet)
-    {
-        Restart(_bullet);
-        _bullet.gameObject.SetActive(false);
-        Pool.Add(_bullet);
-        return;
-    }
-
     protected void OnCollisionEnter(Collision _collision)
     {
         if (_collision.gameObject.CompareTag("Enemy"))
         {
-            ReleaseBullet(this);
+            Release();
             return;
         }
     }
