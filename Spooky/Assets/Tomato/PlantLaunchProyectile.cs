@@ -6,12 +6,12 @@ public class PlantLaunchProyectile : RangeAttack
 {
     protected Plant plant;
 
-    public ISpawnable<Bullet> bulletPrefab;
+    public GameObject bulletPrefab;
     public float launchForce = 1;
     public Transform shootPosition;
     public AudioClip soundEffect;
 
-    public PlantLaunchProyectile(Plant _owner, ISpawnable<Bullet> _bullet, float _launchforce, Transform _shootPosition, AudioClip _soundEffect)
+    public PlantLaunchProyectile(Plant _owner, GameObject _bullet, float _launchforce, Transform _shootPosition, AudioClip _soundEffect)
     {
         plant = _owner;
         bulletPrefab = _bullet;
@@ -24,11 +24,11 @@ public class PlantLaunchProyectile : RangeAttack
     public void RangeAttack()
     {
         plant.StartCastingAbility(true);
-        plant.CastAbility(plant.StartCoroutine(BasicAtack()));
+        //plant.CastAbility(plant.StartCoroutine(BasicAtack()));
         return;
     }
 
-    protected IEnumerator BasicAtack()
+    /*protected IEnumerator BasicAtack()
     {
         plant.animationComponent.PlayAnimation("Attack");
 
@@ -40,12 +40,12 @@ public class PlantLaunchProyectile : RangeAttack
         ThrowBasicAtack(tempBullet, plant.enemyDetect.GetEnemyDirection());
 
         yield return 0;
-    }
+    }*/
 
-    protected Bullet CreateBullet(ISpawnable<Bullet> _bullet)
+    /*protected Bullet CreateBullet(ISpawnable<Bullet> _bullet)
     {
         return _bullet.Spawn(plant.transform);
-    }
+    }*/
 
     protected void ThrowBasicAtack(Bullet _bullet, Vector3 _direction)
     {

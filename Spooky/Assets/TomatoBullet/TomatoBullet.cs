@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class TomatoBullet : Bullet, ISpawnable<Bullet>
+public class TomatoBullet : Bullet
 {
     [SerializeField]
     private static List<Bullet> bulletList = new List<Bullet>();

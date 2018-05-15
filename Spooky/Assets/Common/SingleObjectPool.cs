@@ -56,6 +56,7 @@ public class SingleObjectPool : ObjectPool
         {
             if (!pool[i].gameObject.activeInHierarchy)
             {
+                pool[i].SetActive(true);
                 return pool[i];
             }
         }		

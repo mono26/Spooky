@@ -3,23 +3,23 @@ using UnityEngine;
 
 public class HorizontalAndVerticalMovement : CharacterComponent
 {
-    private Vector3 movementDirection;
+    protected Vector3 movementDirection;
 
     [SerializeField]
-    private float currentSpeed;
+    protected float currentSpeed;
     [SerializeField]
-    private float maxSpeed;
+    protected float maxSpeed;
     [SerializeField]
-    private float slowMotionSpeed;
+    protected float slowMotionSpeed;
 
     [SerializeField]
-    private float MaxXValue;
+    protected float MaxXValue;
     [SerializeField]
-    private float MaxYValue;
+    protected float MaxYValue;
 
     private bool onSloweffect;
 
-    protected void Start()
+    protected virtual void Start()
     {
         // When the game starts set values
         currentSpeed = maxSpeed;
@@ -27,22 +27,27 @@ public class HorizontalAndVerticalMovement : CharacterComponent
 
     public override void FixedFrame()
     {
-        base.FixedFrame();
+        if (!movementDirection.Equals(Vector3.zero))
+        {
+            Move(movementDirection);
 
-        Move(movementDirection);
-
-        ClampPosition();
+            ClampPosition();
+        }
+        else return;
     }
 
     protected override void HandleInput()
     {
-        movementDirection = character.characterInput.Movement;
+        if (character.Type == Character.CharacterType.Player)
+            movementDirection = character.CharacterInput.Movement;
+        else return;
     }
 
-    private void Move(Vector3 _direction)
+    protected void Move(Vector3 _direction)
     {
         // For moving the Rigidbody in the desired direction
         Vector3 newPosition = character.CharacterBody.position + character.CharacterTransform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
+        Debug.Log("Enemy: " + this.gameObject + " moving towards " + newPosition);
         character.CharacterBody.MovePosition(newPosition);
         //spooky.AnimationComponent.CheckViewDirection(_direction);
         return;
@@ -63,6 +68,29 @@ public class HorizontalAndVerticalMovement : CharacterComponent
 
         currentSpeed = maxSpeed;
         yield return 0.25f;
+    }
+
+    protected virtual void StopMoving()
+    {
+        movementDirection = Vector3.zero;
+        character.CharacterBody.velocity = Vector3.zero;
+    }
+
+    protected override void UpdateState()
+    {
+        if (character.characterStateMachine != null)
+        {
+            if (movementDirection.Equals(Vector3.zero))
+            {
+                character.characterStateMachine.ChangeState(Character.CharacterState.Idle);
+            }
+            else
+            {
+                character.characterStateMachine.ChangeState(Character.CharacterState.Moving);
+            }
+
+        }
+        else return;
     }
 
     private void OnTriggerEnter(Collider _collider)

@@ -1,16 +1,18 @@
-﻿[System.Serializable]
-public class EnemyStats
-{
-    public float maxHealth;
-    public float movementSpeed;
-    public float basicCooldown;
-    public float basicRange;
+﻿using UnityEngine;
 
-    /*public EnemyStats(float _maxhealth, float _movementSpeed, float _basicCooldown, float _basicRange)
-    {
-        maxHealth = _maxhealth;
-        movementSpeed = _movementSpeed;
-        basicCooldown = _basicCooldown;
-        basicRange = _basicRange;
-    }*/
+[System.Serializable]
+public class EnemyStats : MonoBehaviour
+{
+    [SerializeField]
+    private float maxHealth;
+    public float MaxHealth { get { return maxHealth; } }
+    [SerializeField]
+    private float movementSpeed;
+    public float MovementSpeed { get { return movementSpeed; } }
+    [SerializeField]
+    private float basicCooldown;
+    public float BasicCooldown { get { return basicCooldown; } }
+    [SerializeField]
+    private float basicRange;
+    public float BasicRange { get { return basicRange; } }
 }

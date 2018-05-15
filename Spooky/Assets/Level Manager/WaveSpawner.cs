@@ -1,49 +1,36 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class WaveSpawner : MonoBehaviour
+[RequireComponent(typeof(SingleObjectPool), typeof(SingleObjectPool))]
+public class WaveSpawner : SceneSingleton<WaveSpawner>
 {
-    [System.Serializable]
-    public class Wave
-    {
-        public string name;
-        //To save the diferent enemy info
-        [SerializeField]
-        public Enemy[] enemy;
-        public float spawnRate;
-        //How many of each enemy to spawn
-        public int[] count;
-    }
-
     public enum SpawnState
     {
         SPAWNING, COUNTING, WAITING
     }
 
-    //Singleton part
-    private static WaveSpawner instance;
-    public static WaveSpawner Instance { get { return instance; } }
+    [SerializeField]
+    private Character[] enemiesToSpawn;
+    [SerializeField]
+    private SingleObjectPool[] enemiesPools;
+    [SerializeField]
+    private int[] minSpawnPerEnemy;
+    private const int minWaveRequiredToSpawnEnemy2 = 3;
 
-    //To store different waves
-    [SerializeField]
-    private Wave[] waves;
-    public Wave[] Waves { get { return waves; } }
-    [SerializeField]
-    private int numberOfEnemiesInCurrentWave = 0;
-    public int NumberOfEnemiesInCurrentWave { get { return numberOfEnemiesInCurrentWave; } }
-    //Wich wave is next
-    [SerializeField]
+    private int currentEnemiesLeft = 0;
+    public int CurrentEnemiesLeft { get { return currentEnemiesLeft; } }
     private int currentWave = 0;
     public int CurrentWave { get { return currentWave; } }
-    //Automatic next wave spawn
-    [SerializeField]
-    private float timeBetweenNextWaveSpawn = 5.0f;
-    //Wave spawn counter
-    [SerializeField]
-    private float waveTimerCountDown;
 
     [SerializeField]
-    private AudioClip firstSpawnSound;
+    private float timeBetweenNextWaveSpawn = 5.0f;
+    // Number of enemies to spawn per second
+    [SerializeField]
+    private float enemySpawnRate = 4;
+    private float waveCompletedTime;
+
+    [SerializeField]
+    private AudioClip SpawnSound;
 
     //State of the waveSpawn
     private SpawnState waveSpawnerState;
@@ -51,17 +38,12 @@ public class WaveSpawner : MonoBehaviour
     public delegate void OnSpawnStartDelegate();
     public event OnSpawnStartDelegate OnSpawnStart;
 
-    private void Awake()
+    protected override void Awake()
     {
-        //Singleton
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-            Destroy(gameObject);
-    }
+        base.Awake();
 
+        enemiesPools = GetComponents<SingleObjectPool>();
+    }
     private void OnDisable()
     {
         LevelManager.Instance.OnStartLevel -= PlayEnemySpawnClip;
@@ -72,14 +54,13 @@ public class WaveSpawner : MonoBehaviour
     {
         LevelManager.Instance.OnStartLevel += PlayEnemySpawnClip;
 
-        waveTimerCountDown = timeBetweenNextWaveSpawn;
         waveSpawnerState = SpawnState.COUNTING;
     }
     // Update is called once per frame
     private void Update()
     {
         //To see if all waves are finished
-        if (currentWave == waves.Length)
+        if (currentWave > 100)
         {
             LevelManager.Instance.WinLevel();
             this.enabled = false;
@@ -88,7 +69,7 @@ public class WaveSpawner : MonoBehaviour
 
         if (waveSpawnerState == SpawnState.WAITING)
         {
-            if (numberOfEnemiesInCurrentWave <= 0)
+            if (currentEnemiesLeft == 0)
             {
                 //Begin a new Round
                 WaveCompleted();
@@ -96,61 +77,110 @@ public class WaveSpawner : MonoBehaviour
             }
         }
 
-        if (waveTimerCountDown <= 0.0f && numberOfEnemiesInCurrentWave <= 0)
+        if (waveSpawnerState == SpawnState.COUNTING)
         {
-            //If the countdown to start spawning the next wave is 0 and is not spawning auotomaticly force it to spawn
-            if (waveSpawnerState != SpawnState.SPAWNING)
+            if (Time.timeSinceLevelLoad > timeBetweenNextWaveSpawn + waveCompletedTime && currentEnemiesLeft == 0)
             {
-                StartCoroutine(SpawnWave(waves[currentWave]));
+                //If the countdown to start spawning the next wave is 0 and is not spawning auotomaticly force it to spawn
+                if (waveSpawnerState != SpawnState.SPAWNING)
+                {
+                    StartCoroutine(SpawnWave());
+                    return;
+                }
             }
         }
-        else
-        {
-            waveTimerCountDown -= Time.deltaTime;
-            waveTimerCountDown = Mathf.Clamp(waveTimerCountDown, 0f, Mathf.Infinity);
-        }
+
+        else return;
+
     }
-    private IEnumerator SpawnWave(Wave _wave)
+    private IEnumerator SpawnWave()
     {
         waveSpawnerState = SpawnState.SPAWNING;
-        OnSpawnStart();
-        numberOfEnemiesInCurrentWave = 0;
-        for (int enemy = 0; enemy < _wave.enemy.Length; enemy++)
+        if(OnSpawnStart != null)
         {
-            for (int count = 0; count < _wave.count[enemy]; count++)
+            OnSpawnStart();
+        }
+
+        currentEnemiesLeft = 0;
+        int totalNumberOfEnemiesToSpawn = 0;
+        for(int i = 0; i < enemiesToSpawn.Length; i++)
+        {
+            totalNumberOfEnemiesToSpawn += CalculateNumberOfEnemiesToSpawn(enemiesToSpawn[i].CharacterID);
+        }
+
+        // TODO in the future think of better architecture
+        while (totalNumberOfEnemiesToSpawn > 0)
+        {
+            for (int i = 0; i < enemiesToSpawn.Length; i++)
             {
-                SpawnEnemy((ISpawnable<Enemy>)_wave.enemy[enemy]);
-                yield return new WaitForSeconds(1f / _wave.spawnRate);
+                SpawnEnemy(enemiesToSpawn[i].CharacterID);
+                totalNumberOfEnemiesToSpawn--;
+                yield return new WaitForSeconds(1f / enemySpawnRate);
             }
         }
         waveSpawnerState = SpawnState.WAITING;
         yield break;
     }
 
-    private void SpawnEnemy(ISpawnable<Enemy> _enemy)
+    private void SpawnEnemy(string _enemyID)
     {
         //Random between all the spawnpoints
-        Enemy tempEnemy = _enemy.Spawn(LevelManager.Instance.GetRandomSpawnPoint());
-        tempEnemy.OnReleased += DecreaseEnemyNumber;
-        tempEnemy.transform.SetParent(GameObject.Find("Enemies").transform);
-        numberOfEnemiesInCurrentWave++;
+        Enemy tempEnemy = null;
+        switch (_enemyID)
+        {
+            case "Stealer":
+                tempEnemy = enemiesPools[0].GetObjectFromPool().GetComponent<Enemy>();
+                break;
+
+            case "Attacker":
+                tempEnemy = enemiesPools[1].GetObjectFromPool().GetComponent<Enemy>();
+                break;
+
+            default:
+                break;
+        }
+        tempEnemy.CharacterTransform.position = LevelManager.Instance.GetRandomSpawnPoint().position;
+        PoolableObject poolable = tempEnemy.GetComponent<PoolableObject>();
+        if(poolable != null)
+            poolable.OnRelease += DecreaseEnemyNumber;
+        currentEnemiesLeft++;
     }
 
     private void WaveCompleted()
     {
         waveSpawnerState = SpawnState.COUNTING;
-        waveTimerCountDown = timeBetweenNextWaveSpawn;
+        waveCompletedTime = Time.timeSinceLevelLoad;
         currentWave++;
     }
 
-    void DecreaseEnemyNumber()
+    private void DecreaseEnemyNumber()
     {
-        numberOfEnemiesInCurrentWave--;
-        numberOfEnemiesInCurrentWave = (int)Mathf.Clamp(numberOfEnemiesInCurrentWave, 0, Mathf.Infinity);    // So the number of enemies never goes below 0
+        currentEnemiesLeft--;
+        currentEnemiesLeft = (int)Mathf.Clamp(currentEnemiesLeft, 0, Mathf.Infinity);    // So the number of enemies never goes below 0
     }
 
-    void PlayEnemySpawnClip()
+    private void PlayEnemySpawnClip()
     {
-        GameManager.Instance.SoundManager.PlayClip(firstSpawnSound);
+        GameManager.Instance.SoundManager.PlayClip(SpawnSound);
+    }
+
+    private int CalculateNumberOfEnemiesToSpawn(string _enemyID)
+    {
+        int numberOfEnemiesToSpawn = 0;
+        switch(_enemyID)
+        {
+            case "Stealer":
+                numberOfEnemiesToSpawn = minSpawnPerEnemy[0] * currentWave;
+                break;
+
+            case "Attacker":
+                if(currentWave > minWaveRequiredToSpawnEnemy2)
+                numberOfEnemiesToSpawn = minSpawnPerEnemy[1] * currentWave;
+                break;
+
+            default:
+                break;
+        }
+        return numberOfEnemiesToSpawn;
     }
 }

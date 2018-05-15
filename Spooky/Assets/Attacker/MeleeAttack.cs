@@ -15,7 +15,7 @@ public class MeleeAttack : CloseRangeAttack
 
     public void CloseAttack()
     {
-        owner.CastAbility(owner.StartCoroutine(StealCrop()));
+        //owner.CastAbility(owner.StartCoroutine(StealCrop()));
         return;
     }
 
@@ -25,11 +25,11 @@ public class MeleeAttack : CloseRangeAttack
         {
             //Debe de ir el resto del metodo de la planta para el melee
             //DDeberia activar la ejecucion de la aniacion y esperar a que pase pare activar.
-            owner.AnimationComponent.PlayAnimation("MeleeAttack");
+            //owner.AnimationComponent.PlayAnimation("MeleeAttack");
             LocateCollider();
 
-            yield return new WaitForSecondsRealtime(
-                owner.AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length);
+            /*yield return new WaitForSecondsRealtime(
+                owner.AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length);*/
 
             meleeCollider.gameObject.SetActive(true);
 
@@ -46,6 +46,6 @@ public class MeleeAttack : CloseRangeAttack
         Vector3 direccion = owner.Target.position - owner.transform.position;
         direccion.y = 0f;
         direccion = direccion.normalized;
-        meleeCollider.transform.position = owner.transform.position + (direccion * owner.StatsComponent.basicRange);
+        meleeCollider.transform.position = owner.transform.position + (direccion * owner.StatsComponent.BasicRange);
     }
 }

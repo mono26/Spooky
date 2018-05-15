@@ -2,10 +2,8 @@
 using System.Collections;
 using UnityEngine;
 
-public class Stealer : Enemy, ISpawnable<Enemy>
+public class Stealer : Enemy
 {
-    [SerializeField]
-    protected EnemyStates currentState;
     [SerializeField]
     protected CloseRangeAttack stealCorn;
     [SerializeField]
@@ -18,9 +16,8 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
     protected new void Awake()
     {
-        StatsComponent = GameManager.Instance.EnemyStats.StealerStats;
         base.Awake();
-        stealCorn = new StealCorn(this);
+        //stealCorn = new StealCorn(this);
 
         if (enemyPool == null)
         {
@@ -35,19 +32,18 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         base.OnEnable();
 
         ChangeTargetToHousePoint();
-        currentState = EnemyStates.Moving;
     }
 	
 	// Update is called once per frame
 	public void Update ()
     {
-        if(DeathComponent.IsDead() && !currentState.Equals(EnemyStates.Death))
+        /*if(DeathComponent.IsDead() && !currentState.Equals(EnemyStates.Death))
         {
             currentState = EnemyStates.Death;
             return;
-        }
+        }*/
 
-        if (currentState.Equals(EnemyStates.Moving))
+        /*if (currentState.Equals(EnemyStates.Moving))
         {
             if (IsTargetInRange())
             {
@@ -60,11 +56,11 @@ public class Stealer : Enemy, ISpawnable<Enemy>
         else if (currentState.Equals(EnemyStates.Stealing))
         {
             // TODO fix bug that the enemies are not executing attack before levelTime is superior than the basicCooldown.
-            if(!IsCasting &&
-                Time.timeSinceLevelLoad > lastAttackExecution + StatsComponent.basicCooldown)
+            if(!IsExecutingAction &&
+                Time.timeSinceLevelLoad > lastActionExecution + StatsComponent.BasicCooldown)
             {
                 stealCorn.CloseAttack();
-                lastAttackExecution = Time.timeSinceLevelLoad;
+                lastActionExecution = Time.timeSinceLevelLoad;
                 return;
             }
 
@@ -86,7 +82,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
             if (IsTargetInRange())
             {
-                base.ReleaseEnemy(); // Fires the vent so the wave spawner decreases the number off enemies.
+                //base.ReleaseEnemy(); // Fires the vent so the wave spawner decreases the number off enemies.
                 ReleaseStealer(this);
                 return;
                 // TODO check if it has loot on it and do something
@@ -96,7 +92,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
         else if (currentState.Equals(EnemyStates.Death))
         {
-            if (!DeathComponent.IsDying)
+            /*if (!DeathComponent.IsDying)
             {
                 StopAllCoroutines();
                 DeathComponent.DieProcess = StartCoroutine(StartDeath());
@@ -105,25 +101,25 @@ public class Stealer : Enemy, ISpawnable<Enemy>
             else return;
         }
 
-        else return;
+        else return;*/
     }
 
     protected void FixedUpdate()
     {
-        if (currentState.Equals(EnemyStates.Moving) || currentState.Equals(EnemyStates.Escaping))
+        /*if (currentState.Equals(EnemyStates.Moving) || currentState.Equals(EnemyStates.Escaping))
             MovementComponent.FixedUpdate();
-        else return;
+        else return;*/
     }
 
     protected void ChangeTargetToHousePoint()
     {
-        SetEnemyTarget(LevelManager.Instance.GetRandomHousePoint());
+        ChangeEnemyTarget(LevelManager.Instance.GetRandomHousePoint());
         return;
     }
 
     protected void ChangeTargetToRunPoint()
     {
-        SetEnemyTarget(LevelManager.Instance.GetRandomRunawayPoint());
+        ChangeEnemyTarget(LevelManager.Instance.GetRandomRunawayPoint());
         return;
     }
 
@@ -135,7 +131,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
 
     protected IEnumerator StartDeath()
     {
-        DeathComponent.IsDying = true;
+        /*DeathComponent.IsDying = true;
         DeactivateCollider();
 
         // To make sure the dead damage animation is finished before the death one.
@@ -150,7 +146,7 @@ public class Stealer : Enemy, ISpawnable<Enemy>
                     );
 
         base.ReleaseEnemy();
-        ReleaseStealer(this);
+        ReleaseStealer(this);*/
         yield return 0;
     }
 

@@ -1,66 +1,70 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-[System.Serializable]
-public class EnemyMovement
+[RequireComponent(typeof(Enemy), typeof(NavMeshAgent))]
+public class EnemyMovement : HorizontalAndVerticalMovement
 {
-    [SerializeField]
-    protected Enemy owner;
-    protected Rigidbody rigidbody;
-    public Rigidbody Rigidbody { get { return rigidbody; } }
+    protected Enemy enemy;
     protected NavMeshAgent navMeshAgent;
     public NavMeshAgent NavMeshAgent { get { return navMeshAgent; } }
-    protected Settings settings;
 
     protected NavMeshPath pathToTheTarget;
-    public float maxMovementSpeed;
-    public float slowMotionSpeed;
-    protected float currentMovementSpeed;
 
-    public EnemyMovement(Enemy _enemy, Rigidbody _rigidbody, NavMeshAgent _navMeshAgent, Settings _settings)
+    protected bool isEnemyStopped;
+
+    protected override void Awake()
     {
-        // Constructor for the class passes all the required components into the class.
-        // Done before the game starts
-        owner = _enemy;
-        rigidbody = _rigidbody;
-        navMeshAgent = _navMeshAgent;
-        settings = _settings;
+        base.Awake();
+
+        enemy = GetComponent<Enemy>();
+        navMeshAgent = GetComponent<NavMeshAgent>();
 
         pathToTheTarget = new NavMeshPath();
     }
 
-    public void Start()
+    protected override void Start()
     {
+        maxSpeed = enemy.StatsComponent.MovementSpeed;
+        slowMotionSpeed = maxSpeed * 0.5f;
+
+        base.Start();
+
         // When the game starts set values
         //navMesh.updatePosition = false;
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
-        maxMovementSpeed = owner.StatsComponent.movementSpeed;
-
-        if (owner.Target)
-            navMeshAgent.CalculatePath(owner.Target.position, pathToTheTarget);
-
-        currentMovementSpeed = maxMovementSpeed;
     }
 
-    // TODO check if it's better to use Update() or FixedUpdate()
-    public void FixedUpdate()
+    public override void FixedFrame()
     {
-        if (owner.Target)
+        if (isEnemyStopped)
         {
-            navMeshAgent.CalculatePath(owner.Target.position, pathToTheTarget);
+            StopMoving();
+        }
+        else if (!isEnemyStopped)
+        {
+            CalculateDirectionToTarget();
+        }
+
+        base.FixedFrame();
+    }
+
+    protected void CalculateDirectionToTarget()
+    {
+        if (enemy.Target && navMeshAgent != null)
+        {
+            navMeshAgent.CalculatePath(enemy.Target.position, pathToTheTarget);
 
             if (!pathToTheTarget.Equals(null))
             {
                 // TODO calculate dot and cross product for input values moving the rigidBody
-                Vector3 desiredDirection = (pathToTheTarget.corners[1] - rigidbody.transform.position).normalized;
+                Vector3 desiredDirection = (pathToTheTarget.corners[1] - character.CharacterTransform.position).normalized;
+                Debug.Log( "Enemy: "+ this.gameObject + " direction: " + desiredDirection.ToString() + "pathCorner[1]: " + pathToTheTarget.corners[1]);
                 desiredDirection.y = 0;
-                float horizontal = Vector3.Dot(rigidbody.transform.right, desiredDirection);
-                float vertical = -Vector3.Cross(rigidbody.transform.right, desiredDirection).y;
-
-                // We need to pass a movement in y because of the rotation of the object, so the sprite can be seen.
-                Vector3 direction = new Vector3(horizontal, vertical, 0);
-                Move(direction);
+                movementDirection.x = desiredDirection.x;
+                movementDirection.y = desiredDirection.z;
+                /*movementDirection.x = Vector3.Dot(GetComponent<Rigidbody>().transform.right, desiredDirection);
+                movementDirection.z = -Vector3.Cross(GetComponent<Rigidbody>().transform.right, desiredDirection).y;*/
                 return;
             }
             else return;
@@ -68,23 +72,9 @@ public class EnemyMovement
         else return;
     }
 
-    private void Move(Vector3 _direction)
+    public void StopEnemy(bool _stop)
     {
-        // For moving the rigidbody in the desired direction
-        Vector3 newPosition = (rigidbody.position +
-                                rigidbody.transform.TransformDirection(_direction) * 
-                                currentMovementSpeed * 
-                                Time.fixedDeltaTime);
-
-        rigidbody.MovePosition(newPosition);
-        owner.AnimationComponent.CheckViewDirection(_direction);
+        isEnemyStopped = _stop;
         return;
-    }
-
-    [System.Serializable]
-    public class Settings
-    {
-        public float LevelBoundsInX;
-        public float LevelBoundsInY;
     }
 }

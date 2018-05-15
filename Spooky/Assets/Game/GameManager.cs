@@ -26,11 +26,6 @@ public class GameManager : MonoBehaviour
     private Fader sceneFader;
     public Fader SceneFader { get { return sceneFader; } }
 
-    [Header("Enemy Stats Settings")]
-    [SerializeField]
-    private EnemyStatsCollection enemyStats;
-    public EnemyStatsCollection EnemyStats { get { return enemyStats; } }
-
     private bool isPaused;
     public bool IsPaused { get { return isPaused; } }
 

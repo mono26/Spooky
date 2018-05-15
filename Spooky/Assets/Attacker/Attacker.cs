@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Attacker : Enemy, ISpawnable<Enemy>
+public class Attacker : Enemy
 {
     [SerializeField]
-    private EnemyStates currentState;
+    //private EnemyStates currentState;
     protected CloseRangeAttack attackPlayer;
 
     [SerializeField]
@@ -14,8 +14,8 @@ public class Attacker : Enemy, ISpawnable<Enemy>
 
     new void Awake()
     {
-        StatsComponent = GameManager.Instance.EnemyStats.AttackerStats;
         base.Awake();
+
         attackPlayer = new MeleeAttack(this, transform.Find("MeleeCollider").GetComponent<Collider>());
 
         if (enemyPool == null)
@@ -33,13 +33,13 @@ public class Attacker : Enemy, ISpawnable<Enemy>
 	// Update is called once per frame
 	void Update ()
     {
-        if (DeathComponent.IsDead() && !currentState.Equals(EnemyStates.Death))
+        /*if (DeathComponent.IsDead() && !currentState.Equals(EnemyStates.Death))
         {
             currentState = EnemyStates.Death;
             return;
-        }
+        }*/
 
-        if (currentState.Equals(EnemyStates.Moving))
+        /*if (currentState.Equals(EnemyStates.Moving))
         {
             if (IsTargetInRange())
             {
@@ -51,11 +51,11 @@ public class Attacker : Enemy, ISpawnable<Enemy>
 
         else if (currentState.Equals(EnemyStates.Attacking))
         {
-            if (!IsCasting &&
-                Time.timeSinceLevelLoad > lastAttackExecution + StatsComponent.basicCooldown)
+            if (!IsExecutingAction &&
+                Time.timeSinceLevelLoad > lastActionExecution + StatsComponent.BasicCooldown)
             {
                 attackPlayer.CloseAttack();
-                lastAttackExecution = Time.timeSinceLevelLoad;
+                lastActionExecution = Time.timeSinceLevelLoad;
                 return;
             }
 
@@ -64,7 +64,7 @@ public class Attacker : Enemy, ISpawnable<Enemy>
 
         else if (currentState.Equals(EnemyStates.Death))
         {
-            if (!DeathComponent.IsDying)
+            /*if (!DeathComponent.IsDying)
             {
                 StopAllCoroutines();
                 DeathComponent.DieProcess = StartCoroutine(StartDeath());
@@ -73,12 +73,12 @@ public class Attacker : Enemy, ISpawnable<Enemy>
             else return;
         }
 
-        else return;
+        else return;*/
     }
 
     protected IEnumerator StartDeath()
     {
-        DeathComponent.IsDying = true;
+        /*DeathComponent.IsDying = true;
         DeactivateCollider();
 
         // To make sure the dead damage animation is finished before the death one.
@@ -93,7 +93,7 @@ public class Attacker : Enemy, ISpawnable<Enemy>
                     );
 
         base.ReleaseEnemy();
-        ReleaseAttacker(this);
+        ReleaseAttacker(this);*/
         yield return 0;
     }
 

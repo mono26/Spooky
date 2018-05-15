@@ -1,111 +1,96 @@
 ﻿using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour
+[RequireComponent(typeof(PoolableObject), typeof(EnemyStats), typeof(Health))]
+[RequireComponent(typeof(EnemyMovement))]
+public class Enemy : Character
 {
-    private EnemyStats statsComponent;
-    public EnemyStats StatsComponent { get { return statsComponent; } set { statsComponent = value; } }
-    private EnemyMovement movementComponent;
-    public EnemyMovement MovementComponent { get { return movementComponent; } }
-    [SerializeField]
-    private EnemyHealth healthComponent;
-    public EnemyHealth HealthComponent { get { return healthComponent; } }
-    private EnemyAnimation animationComponent;
-    public EnemyAnimation AnimationComponent { get { return animationComponent; } }
-    private EnemyDeath deathComponent;
-    public EnemyDeath DeathComponent { get { return deathComponent; } }
-
-    [SerializeField]
-    protected Settings settings;
-
     [SerializeField]
     private Transform target;
     public Transform Target { get { return target; } }
+    public bool IsExecutingAction { get; protected set; }
+
+    private EnemyStats statsComponent;
+    public EnemyStats StatsComponent { get { return statsComponent; } }
+    private Health healthComponent;
+    public Health HealthComponent { get { return healthComponent; } }
+
+    // Assigned by inspector.
     [SerializeField]
-    protected float lastAttackExecution;
+    private CharacterAction basicAbility;
+    public CharacterAction BasicAbility { get { return basicAbility; } }
 
-    protected Coroutine abilityCast;
-
-    // TODO extraer interfaz IKillable o IRelesable???
-    public delegate void Release();
-    public event Release OnReleased;
-
-    private bool isCasting;
-    protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
-
-    protected void Awake()
+    protected override void Awake()
     {
-        movementComponent = new EnemyMovement(
-            this,
-            GetComponent<Rigidbody>(),
-            GetComponent<UnityEngine.AI.NavMeshAgent>(),
-            settings.MovementSettings
-            );
+        base.Awake();
 
-        healthComponent = new EnemyHealth(
-            this,
-            settings.HealthSettings
-            );
+        statsComponent = GetComponent<EnemyStats>();
+        if (!statsComponent)
+            Debug.LogError("No stats component found on the enemy gameObject: " + this.gameObject.ToString());
 
-        animationComponent = new EnemyAnimation(
-            GetComponent<SpriteRenderer>(),
-            GetComponent<Animator>()
-            );
+        healthComponent = GetComponent<Health>();
+        if (!statsComponent)
+            Debug.LogError("No health component found on the enemy gameObject: " + this.gameObject.ToString());
 
-        deathComponent = new EnemyDeath(this);
+        basicAbility = GetComponent<CharacterAction>();
+        if (!basicAbility)
+            Debug.LogError("No action component found on the enemy gameObject: " + this.gameObject.ToString());
     }
 
     protected void OnEnable()
     {
-        movementComponent.Start();
-        healthComponent.Start();
-        ActivateCollider();
-        // When enemy starts death Coroutine the collider still detects collision and decreases number of enemies.
+        IsExecutingAction = false;
+        ActivateCollider(true);
+        SetTargetForFirstTime(CharacterID);
+    }
+
+    protected override void Update()
+    {
+        if (IsTargetInRange() && !IsExecutingAction)
+        {
+            GetComponent<EnemyMovement>().StopEnemy(true);
+            basicAbility.ExecuteAction();
+        }
+
+        base.Update();
     }
 
     protected bool IsTargetInRange()
     {
-        float distance = Vector3.Distance(transform.position, target.position);
-        if (distance <= statsComponent.basicRange)
+        float distance = Vector3.Distance(transform.position, Target.position);
+        if (distance <= statsComponent.BasicRange)
         {
             return true;
         }
         else return false;
     }
 
-    public void StartCast(bool _cast)
+    public void ExecuteAction(bool _cast)
     {
-        IsCasting = _cast;
+        IsExecutingAction = _cast;
+        return;
     }
 
-    public void CastAbility(Coroutine _cast)
+    public void ChangeEnemyTarget(Transform _newTarget)
     {
-        abilityCast = _cast;
-        StartCast(true);
+        target = _newTarget;
+        return;
     }
 
-    protected void ActivateCollider()
+    protected void SetTargetForFirstTime(string _enemyID)
     {
-        GetComponent<Collider>().enabled = true;
-    }
-
-    protected void DeactivateCollider()
-    {
-        GetComponent<Collider>().enabled = false;
-    }
-
-    protected void ReleaseEnemy()
-    {
-        if (OnReleased != null)
+        switch(_enemyID)
         {
-            OnReleased();
-            OnReleased = null;
-        }
-        else return;
-    }
+            case "Stealer":
+                ChangeEnemyTarget(LevelManager.Instance.GetRandomHousePoint());
+                break;
 
-    protected void SetEnemyTarget(Transform _target)
-    {
-        target = _target;
+            case "Attacker":
+                ChangeEnemyTarget(GameObject.Find("Spooky").transform);
+                break;
+
+            default:
+                break;
+        }
     }
 
     protected void OnCollisionEnter(Collision _collision)
@@ -114,16 +99,7 @@ public abstract class Enemy : MonoBehaviour
         {
             float damage = _collision.gameObject.GetComponent<Bullet>().GetBulletDamage();
             healthComponent.TakeDamage(damage);
-            animationComponent.PlayAnimation("Damage");
+            //animationComponent.PlayAnimation("Damage");
         }
-    }
-
-    [System.Serializable]
-    public class  Settings
-    {
-        [SerializeField]
-        public EnemyMovement.Settings MovementSettings;
-        [SerializeField]
-        public EnemyHealth.Settings HealthSettings;
     }
 }

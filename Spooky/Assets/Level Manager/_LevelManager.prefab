@@ -130,8 +130,8 @@ GameObject:
   - component: {fileID: 65181824216742822}
   - component: {fileID: 114188510794227474}
   - component: {fileID: 114055343446617678}
-  - component: {fileID: 114333420084890814}
   - component: {fileID: 114951207490674992}
+  - component: {fileID: 114764681292730518}
   m_Layer: 20
   m_Name: _LevelManager
   m_TagString: Untagged
@@ -328,14 +328,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc64ca53909f5f64794826ca8499ae3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuScene: 
   houseStealPoints: []
   spawnPoints: []
   runAwayPoints: []
   spooky: {fileID: 0}
-  loseUI: {fileID: 0}
-  winUI: {fileID: 0}
+  startingMoney: 400
+  maxCrop: 800
   backgroundMusicClip: {fileID: 0}
---- !u!114 &114333420084890814
+--- !u!114 &114764681292730518
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -343,42 +344,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1736335610250038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a453fbdeb3bdcd4c9c8cff03a75c01e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e84794f9baf15641a9e8b75a2c912e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuScene: MainMenu
+  combineObjectPools: 0
+  gameObjectToPool: {fileID: 1082193504202232, guid: 800fc7b33f2b6b646be89db3fbd15aa5,
+    type: 2}
+  startingPoolSize: 10
+  poolCanIncreaseSize: 1
 --- !u!114 &114951207490674992
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1736335610250038}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ccd0da2f12f2955488d030f24c74bf51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves:
-  - name: 
-    enemy:
-    - {fileID: 114534652539622646, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
-    spawnRate: 0.5
-    count: 05000000
-  - name: 
-    enemy:
-    - {fileID: 114534652539622646, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
-    spawnRate: 0.5
-    count: 0a000000
-  - name: 
-    enemy:
-    - {fileID: 114534652539622646, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
-    spawnRate: 0.5
-    count: 0f000000
-  numberOfEnemiesInCurrentWave: 0
-  currentWave: 0
+  enemiesToSpawn:
+  - {fileID: 114245778483799946, guid: 800fc7b33f2b6b646be89db3fbd15aa5, type: 2}
+  enemiesPools:
+  - {fileID: 114764681292730518}
   timeBetweenNextWaveSpawn: 5
-  waveTimerCountDown: 0
-  firstSpawnSound: {fileID: 8300000, guid: 783ce37a3589d68419e688038e12052d, type: 3}
+  enemySpawnRate: 4
+  SpawnSound: {fileID: 0}
 --- !u!212 &212128300472108326
 SpriteRenderer:
   m_ObjectHideFlags: 1

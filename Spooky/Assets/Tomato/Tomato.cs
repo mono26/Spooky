@@ -24,7 +24,7 @@ public class Tomato : Plant
     {
         base.Start();
 
-        basicAttack = new PlantLaunchProyectile(this, bullet, launchForce, launchPosition, soundEffect);
+        //basicAttack = new PlantLaunchProyectile(this, bullet, launchForce, launchPosition, soundEffect);
         currentState = State.Waiting;
     }
 

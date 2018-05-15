@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
+public class CorrosiveBullet : Bullet
 {
     [SerializeField]
     protected float startTime;
@@ -70,13 +70,13 @@ public class CorrosiveBullet : Bullet, ISpawnable<Bullet>
 
     private void AddEnemy(Enemy _enemy)
     {
-        OnCorrosiveDamage += _enemy.HealthComponent.TakeDamage;
+        //OnCorrosiveDamage += _enemy.HealthComponent.TakeDamage;
         return;
     }
 
     private void RemoveEnemy(Enemy _enemy)
     {
-        OnCorrosiveDamage -= _enemy.HealthComponent.TakeDamage;
+        //OnCorrosiveDamage -= _enemy.HealthComponent.TakeDamage;
         return;
     }
 

@@ -8,6 +8,8 @@ public class PoolableObject : MonoBehaviour
 
     public delegate void OnSpawnCompleteDelegate();
     public event OnSpawnCompleteDelegate OnSpawnComplete;
+    public delegate void OnReleaseDelegate();
+    public event OnReleaseDelegate OnRelease;
 
     protected void OnDisable()
     {

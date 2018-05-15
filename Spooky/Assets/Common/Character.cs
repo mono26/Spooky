@@ -4,13 +4,22 @@
 [RequireComponent(typeof(AudioSource))]
 public class Character : MonoBehaviour
 {
+    public enum CharacterState { Idle, Moving, ExecutingAction, Dead }
     public enum CharacterType { Player, AI}
 
-    public CharacterType type = CharacterType.AI;
-    public string characterID = "";
-    public InputManager characterInput { get; protected set; }
+    [SerializeField]
+    private CharacterType type = CharacterType.AI;
+    public CharacterType Type { get { return type; } }
+    [SerializeField]
+    private string characterID = "";
+    public string CharacterID { get { return characterID; } }
+    public InputManager CharacterInput { get; protected set; }
+    [SerializeField]
+    public StateMachine<CharacterState> characterStateMachine;
 
     // Obligatory Components
+    private Animator characterAnimator;
+    public Animator CharacterAnimator { get { return characterAnimator; } }
     private AudioSource characterAudioSource;
     public AudioSource CharacterAudioSource { get { return characterAudioSource; } }
     private BoxCollider characterCollider;
@@ -25,20 +34,21 @@ public class Character : MonoBehaviour
     public Rigidbody CharacterBody { get { return characterBody; } }
     protected CharacterComponent[] characterComponents;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         characterAudioSource = GetComponent<AudioSource>();
-        characterCollider = GetComponent<BoxCollider>();
-        characterSprite = GetComponent<SpriteRenderer>();
-        characterTransform = GetComponent<Transform>();
-
+        characterAnimator = GetComponent<Animator>();
         characterBody = GetComponent<Rigidbody>();
         characterComponents = GetComponents<CharacterComponent>();
+        characterCollider = GetComponent<BoxCollider>();
+        characterSprite = GetComponent<SpriteRenderer>();
+        characterStateMachine = new StateMachine<CharacterState>();
+        characterTransform = GetComponent<Transform>();
 
         LinkCharacterInput();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         foreach(CharacterComponent component in characterComponents)
         {
@@ -46,7 +56,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         foreach (CharacterComponent component in characterComponents)
         {
@@ -59,7 +69,7 @@ public class Character : MonoBehaviour
         }*/
     }
 
-    private void LateUpdate()
+    protected virtual void LateUpdate()
     {
         foreach (CharacterComponent component in characterComponents)
         {
@@ -74,13 +84,13 @@ public class Character : MonoBehaviour
             // We get the corresponding input manager
             if (!string.IsNullOrEmpty(characterID))
             {
-                characterInput = null;
+                CharacterInput = null;
                 InputManager[] foundInputManagers = FindObjectsOfType(typeof(InputManager)) as InputManager[];
                 foreach (InputManager foundInputManager in foundInputManagers)
                 {
                     if (foundInputManager.playerID == characterID)
                     {
-                        characterInput = foundInputManager;
+                        CharacterInput = foundInputManager;
                         return;
                     }
                 }
@@ -89,12 +99,29 @@ public class Character : MonoBehaviour
         else return;
     }
 
-    public void OnTriggerEnter(Collider _collider)
+    protected void ActivateCollider(bool _activate)
+    {
+        characterCollider.enabled = _activate;
+        return;
+    }
+
+    protected void UpdateAnimator()
+    {
+        if(characterAnimator != null)
+        {
+            characterAnimator.SetBool("Idle", (characterStateMachine.CurrentState == CharacterState.Idle));
+            characterAnimator.SetBool("Dead", (characterStateMachine.CurrentState == CharacterState.Dead));
+            characterAnimator.SetBool("Moving", (characterStateMachine.CurrentState == CharacterState.Moving));
+            characterAnimator.SetBool("Action", (characterStateMachine.CurrentState == CharacterState.ExecutingAction));
+        }
+    }
+
+    protected virtual void OnTriggerEnter(Collider _collider)
     {
 
     }
 
-    public void OnTriggerExit(Collider _collider)
+    protected virtual void OnTriggerExit(Collider _collider)
     {
 
     }

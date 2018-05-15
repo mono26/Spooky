@@ -1013,9 +1013,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff54c2151fee0d54b8417fc47d62cb9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyDetectComponent: {fileID: 0}
-  plantPointDetectComponent: {fileID: 0}
-  attackComponent: {fileID: 0}
+  state: 0
+  type: 0
+  characterID: Player1
 --- !u!114 &114172245171184316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1591,6 +1591,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b798c3522be04c4fa2768f4d48802dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  handSprite: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!114 &114449262168289652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2142,6 +2145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896a7990e5658244fb25d980150700d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerID: 
   hideControlsInEditor: 0
   movement: {x: 0, y: 0, z: 0}
 --- !u!114 &114820907631764080

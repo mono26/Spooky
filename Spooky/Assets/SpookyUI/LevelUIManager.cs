@@ -62,7 +62,7 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>
 
     public void Update()
     {
-        enemiesCounter.text = WaveSpawner.Instance.NumberOfEnemiesInCurrentWave.ToString();
+        enemiesCounter.text = WaveSpawner.Instance.CurrentEnemiesLeft.ToString();
     }
 
     protected void UpdateCropUIBar()
@@ -93,9 +93,9 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>
 
     private void UpdateWaveBar()
     {
-        float num = WaveSpawner.Instance.CurrentWave;
+        /*float num = WaveSpawner.Instance.CurrentWave;
         float den = WaveSpawner.Instance.Waves.Length;
-        waveBar.fillAmount = num / den;
+        waveBar.fillAmount = num / den;*/
     }
 
 }
