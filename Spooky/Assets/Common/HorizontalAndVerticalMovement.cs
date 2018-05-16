@@ -47,7 +47,6 @@ public class HorizontalAndVerticalMovement : CharacterComponent
     {
         // For moving the Rigidbody in the desired direction
         Vector3 newPosition = character.CharacterBody.position + character.CharacterTransform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
-        Debug.Log("Enemy: " + this.gameObject + " moving towards " + newPosition);
         character.CharacterBody.MovePosition(newPosition);
         //spooky.AnimationComponent.CheckViewDirection(_direction);
         return;
@@ -70,7 +69,7 @@ public class HorizontalAndVerticalMovement : CharacterComponent
         yield return 0.25f;
     }
 
-    protected virtual void StopMoving()
+    protected virtual void StopMovement()
     {
         movementDirection = Vector3.zero;
         character.CharacterBody.velocity = Vector3.zero;

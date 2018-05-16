@@ -31,7 +31,7 @@ public class Stealer : Enemy
     {
         base.OnEnable();
 
-        ChangeTargetToHousePoint();
+        //ChangeTargetToHousePoint();
     }
 	
 	// Update is called once per frame
@@ -111,17 +111,17 @@ public class Stealer : Enemy
         else return;*/
     }
 
-    protected void ChangeTargetToHousePoint()
+    /*protected void ChangeTargetToHousePoint()
     {
-        ChangeEnemyTarget(LevelManager.Instance.GetRandomHousePoint());
+        CahngeCurrentAction(LevelManager.Instance.GetRandomHousePoint());
         return;
     }
 
     protected void ChangeTargetToRunPoint()
     {
-        ChangeEnemyTarget(LevelManager.Instance.GetRandomRunawayPoint());
+        CahngeCurrentAction(LevelManager.Instance.GetRandomRunawayPoint());
         return;
-    }
+    }*/
 
     public bool HasLoot(bool _hasLoot)
     {

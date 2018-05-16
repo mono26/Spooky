@@ -3,9 +3,14 @@
 public abstract class CharacterAction : CharacterComponent 
 {
     [SerializeField]
-    protected float actionCooldown;
-    protected float lastActionExecute;
-
+    protected Transform target;
+    public Transform Target { get { return target; } }
+    [SerializeField]
+    protected float range;
+    [SerializeField]
+    protected float cooldown;
+    protected float lastExecute;
+    [SerializeField]
     protected AudioClip actionSfx;
 
     protected override void Awake()
@@ -14,7 +19,7 @@ public abstract class CharacterAction : CharacterComponent
 
         // Because if its set to 0 the enemy wont be able to execute the ability
         // Until the timesinceLevelLoad is greatter that the cooldown
-        lastActionExecute = Time.timeSinceLevelLoad - actionCooldown;
+        lastExecute = Time.timeSinceLevelLoad - cooldown;
     }
 
     public virtual void ExecuteAction()
@@ -29,7 +34,17 @@ public abstract class CharacterAction : CharacterComponent
 
     protected void SetLasActionExecuteToActualTimeInLevel()
     {
-        lastActionExecute = Time.timeSinceLevelLoad;
+        lastExecute = Time.timeSinceLevelLoad;
         return;
+    }
+
+    public bool IsTargetInRange()
+    {
+        float distance = Vector3.Distance(character.CharacterTransform.position, target.position);
+        if (distance <= range)
+        {
+            return true;
+        }
+        else return false;
     }
 }

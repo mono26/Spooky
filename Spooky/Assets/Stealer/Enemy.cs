@@ -4,20 +4,19 @@
 [RequireComponent(typeof(EnemyMovement))]
 public class Enemy : Character
 {
-    [SerializeField]
-    private Transform target;
-    public Transform Target { get { return target; } }
     public bool IsExecutingAction { get; protected set; }
 
     private EnemyStats statsComponent;
     public EnemyStats StatsComponent { get { return statsComponent; } }
     private Health healthComponent;
     public Health HealthComponent { get { return healthComponent; } }
+    private EnemyMovement movementComponent;
+    public EnemyMovement MovementComponent { get { return movementComponent; } }
 
     // Assigned by inspector.
     [SerializeField]
-    private CharacterAction basicAbility;
-    public CharacterAction BasicAbility { get { return basicAbility; } }
+    private CharacterAction currentAction;
+    public CharacterAction CurrentAction { get { return currentAction; } }
 
     protected override void Awake()
     {
@@ -31,37 +30,30 @@ public class Enemy : Character
         if (!statsComponent)
             Debug.LogError("No health component found on the enemy gameObject: " + this.gameObject.ToString());
 
-        basicAbility = GetComponent<CharacterAction>();
-        if (!basicAbility)
-            Debug.LogError("No action component found on the enemy gameObject: " + this.gameObject.ToString());
+        movementComponent = GetComponent<EnemyMovement>();
+        if (!statsComponent)
+            Debug.LogError("No movement component found on the enemy gameObject: " + this.gameObject.ToString());
     }
 
     protected void OnEnable()
     {
         IsExecutingAction = false;
         ActivateCollider(true);
-        SetTargetForFirstTime(CharacterID);
     }
 
     protected override void Update()
     {
-        if (IsTargetInRange() && !IsExecutingAction)
+        if (currentAction.IsTargetInRange() && !IsExecutingAction)
         {
-            GetComponent<EnemyMovement>().StopEnemy(true);
-            basicAbility.ExecuteAction();
+            movementComponent.StopEnemy(true);
+            currentAction.ExecuteAction();
+        }
+        else
+        {
+            movementComponent.StopEnemy(false);
         }
 
         base.Update();
-    }
-
-    protected bool IsTargetInRange()
-    {
-        float distance = Vector3.Distance(transform.position, Target.position);
-        if (distance <= statsComponent.BasicRange)
-        {
-            return true;
-        }
-        else return false;
     }
 
     public void ExecuteAction(bool _cast)
@@ -70,27 +62,10 @@ public class Enemy : Character
         return;
     }
 
-    public void ChangeEnemyTarget(Transform _newTarget)
+    public void ChangeCurrentAction(CharacterAction _newAction)
     {
-        target = _newTarget;
+        currentAction = _newAction;
         return;
-    }
-
-    protected void SetTargetForFirstTime(string _enemyID)
-    {
-        switch(_enemyID)
-        {
-            case "Stealer":
-                ChangeEnemyTarget(LevelManager.Instance.GetRandomHousePoint());
-                break;
-
-            case "Attacker":
-                ChangeEnemyTarget(GameObject.Find("Spooky").transform);
-                break;
-
-            default:
-                break;
-        }
     }
 
     protected void OnCollisionEnter(Collision _collision)

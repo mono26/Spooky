@@ -11,6 +11,7 @@ public class EnemyMovement : HorizontalAndVerticalMovement
     protected NavMeshPath pathToTheTarget;
 
     protected bool isEnemyStopped;
+    public bool IsEnemyStopped { get { return isEnemyStopped; } }
 
     protected override void Awake()
     {
@@ -39,7 +40,7 @@ public class EnemyMovement : HorizontalAndVerticalMovement
     {
         if (isEnemyStopped)
         {
-            StopMoving();
+            StopMovement();
         }
         else if (!isEnemyStopped)
         {
@@ -51,15 +52,14 @@ public class EnemyMovement : HorizontalAndVerticalMovement
 
     protected void CalculateDirectionToTarget()
     {
-        if (enemy.Target && navMeshAgent != null)
+        if (enemy.CurrentAction.Target && navMeshAgent != null)
         {
-            navMeshAgent.CalculatePath(enemy.Target.position, pathToTheTarget);
+            navMeshAgent.CalculatePath(enemy.CurrentAction.Target.position, pathToTheTarget);
 
             if (!pathToTheTarget.Equals(null))
             {
                 // TODO calculate dot and cross product for input values moving the rigidBody
                 Vector3 desiredDirection = (pathToTheTarget.corners[1] - character.CharacterTransform.position).normalized;
-                Debug.Log( "Enemy: "+ this.gameObject + " direction: " + desiredDirection.ToString() + "pathCorner[1]: " + pathToTheTarget.corners[1]);
                 desiredDirection.y = 0;
                 movementDirection.x = desiredDirection.x;
                 movementDirection.y = desiredDirection.z;

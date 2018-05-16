@@ -96,7 +96,7 @@ public class LevelManager : SceneSingleton<LevelManager>
         int random = Random.Range(0, houseStealPoints.Length);
         return houseStealPoints[random];
     }
-    public Transform GetRandomRunawayPoint()
+    public Transform GetRandomEscapePoint()
     {
         int random = Random.Range(0, runAwayPoints.Length);
         return runAwayPoints[random];

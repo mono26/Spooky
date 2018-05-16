@@ -9,10 +9,4 @@ public class EnemyStats : MonoBehaviour
     [SerializeField]
     private float movementSpeed;
     public float MovementSpeed { get { return movementSpeed; } }
-    [SerializeField]
-    private float basicCooldown;
-    public float BasicCooldown { get { return basicCooldown; } }
-    [SerializeField]
-    private float basicRange;
-    public float BasicRange { get { return basicRange; } }
 }

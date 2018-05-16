@@ -31,13 +31,14 @@ GameObject:
   - component: {fileID: 114595351302039336}
   - component: {fileID: 114303027106017680}
   - component: {fileID: 114504915973877528}
+  - component: {fileID: 114695920916659050}
   m_Layer: 11
   m_Name: Stealer
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1816369456855592
 GameObject:
   m_ObjectHideFlags: 0
@@ -240,8 +241,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   movementSpeed: 0.5
-  basicCooldown: 10
-  basicRange: 1
 --- !u!114 &114245778483799946
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -255,8 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   characterID: Stealer
-  target: {fileID: 0}
-  basicAbility: {fileID: 0}
+  currentAction: {fileID: 114504915973877528}
 --- !u!114 &114303027106017680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -297,7 +295,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a65c45ca8800e43a4e1e353e08155a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionCooldown: 5
+  target: {fileID: 0}
+  range: 0.3
+  cooldown: 5
+  actionSfx: {fileID: 0}
 --- !u!114 &114530401713927566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -362,6 +363,21 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &114695920916659050
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1082193504202232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7e9aef1f5d52f9438ed8bb796c2a5a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  range: 0.3
+  cooldown: 5
+  actionSfx: {fileID: 0}
 --- !u!195 &195140747816481618
 NavMeshAgent:
   m_ObjectHideFlags: 1

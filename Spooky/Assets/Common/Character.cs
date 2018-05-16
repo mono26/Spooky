@@ -50,10 +50,13 @@ public class Character : MonoBehaviour
 
     protected virtual void Update()
     {
+        Debug.Log(characterStateMachine.currentState.ToString());
         foreach(CharacterComponent component in characterComponents)
         {
             component.EveryFrame();
         }
+
+        UpdateAnimator();
     }
 
     protected virtual void FixedUpdate()
@@ -109,10 +112,18 @@ public class Character : MonoBehaviour
     {
         if(characterAnimator != null)
         {
-            characterAnimator.SetBool("Idle", (characterStateMachine.CurrentState == CharacterState.Idle));
-            characterAnimator.SetBool("Dead", (characterStateMachine.CurrentState == CharacterState.Dead));
-            characterAnimator.SetBool("Moving", (characterStateMachine.CurrentState == CharacterState.Moving));
-            characterAnimator.SetBool("Action", (characterStateMachine.CurrentState == CharacterState.ExecutingAction));
+            characterAnimator.SetBoolWithParameterCheck(
+                "Idle", AnimatorControllerParameterType.Bool, (characterStateMachine.CurrentState == CharacterState.Idle)
+                );
+            characterAnimator.SetBoolWithParameterCheck(
+                "Dead", AnimatorControllerParameterType.Bool, (characterStateMachine.CurrentState == CharacterState.Dead)
+                );
+            characterAnimator.SetBoolWithParameterCheck(
+                "Moving", AnimatorControllerParameterType.Bool, (characterStateMachine.CurrentState == CharacterState.Moving)
+                );
+            characterAnimator.SetBoolWithParameterCheck(
+                "Action", AnimatorControllerParameterType.Bool, (characterStateMachine.CurrentState == CharacterState.ExecutingAction)
+                );
         }
     }
 

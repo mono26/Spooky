@@ -1681,6 +1681,11 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 0.27578738
       objectReference: {fileID: 0}
+    - target: {fileID: 114951207490674992, guid: 4e94e55878801ef41818bb34863e29c7,
+        type: 2}
+      propertyPath: timeBetweenNextWaveSpawn
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4e94e55878801ef41818bb34863e29c7, type: 2}
   m_IsPrefabParent: 0

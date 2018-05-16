@@ -10,12 +10,13 @@ public class StealCorn : CharacterAction
         base.Awake();
 
         enemyCharacter = GetComponent<Enemy>();
+        target = LevelManager.Instance.GetRandomHousePoint();
     }
 
     public override void ExecuteAction()
     {
         Debug.Log("trying to execute steal crop");
-        if (lastActionExecute + actionCooldown < Time.timeSinceLevelLoad)
+        if (lastExecute + cooldown < Time.timeSinceLevelLoad)
         {
             Debug.Log("Executing steal crop");
             StartCoroutine(StealCrop());
@@ -36,18 +37,17 @@ public class StealCorn : CharacterAction
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length
                     );*/
 
+        //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
         SetLasActionExecuteToActualTimeInLevel();
 
         // Stop the action executiong because the animation has already end.
         if (enemyCharacter != null)
         {
             enemyCharacter.ExecuteAction(false);
-            enemyCharacter.ChangeEnemyTarget(LevelManager.Instance.GetRandomRunawayPoint());
+            enemyCharacter.ChangeCurrentAction(GetComponent<EscapeWithCorn>());
             enemyCharacter.GetComponent<EnemyMovement>().StopEnemy(false);
             yield return 0;
         }
-
-        //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
 
         yield break;
     }

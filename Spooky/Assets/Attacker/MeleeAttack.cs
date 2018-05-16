@@ -21,7 +21,7 @@ public class MeleeAttack : CloseRangeAttack
 
     private IEnumerator StealCrop()
     {
-        if (owner.Target != null)        //Si no tiene target no deberia de disparar.
+        /*if (owner.Target != null)        //Si no tiene target no deberia de disparar.
         {
             //Debe de ir el resto del metodo de la planta para el melee
             //DDeberia activar la ejecucion de la aniacion y esperar a que pase pare activar.
@@ -37,15 +37,15 @@ public class MeleeAttack : CloseRangeAttack
             yield return new WaitForSeconds(0.3f);
 
             meleeCollider.gameObject.SetActive(false);
-        }
-        else yield return false;
+        //}
+        //else yield return false;
     }
 
     private void LocateCollider()
     {
-        Vector3 direccion = owner.Target.position - owner.transform.position;
+        /*Vector3 direccion = owner.Target.position - owner.transform.position;
         direccion.y = 0f;
         direccion = direccion.normalized;
-        meleeCollider.transform.position = owner.transform.position + (direccion * owner.StatsComponent.BasicRange);
+        meleeCollider.transform.position = owner.transform.position + (direccion * owner.StatsComponent.BasicRange);*/
     }
 }
