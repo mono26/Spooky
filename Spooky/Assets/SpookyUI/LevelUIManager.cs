@@ -38,14 +38,14 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>
 
     public void OnEnable()
     {
-        //LevelManager.Instance.OnStartLevel += ShowPlayerControls(true);
-        //WaveSpawner.Instance.OnSpawnStart += UpdateWaveBar;
+        WaveSpawner.Instance.OnSpawnStart += UpdateWaveBar;
+        LevelManager.Instance.OnCropSteal += UpdateCropUIBar;
     }
 
     public void OnDisable()
     {
-        //LevelManager.Instance.OnStartLevel -= ShowPlayerControls(true);
-        //WaveSpawner.Instance.OnSpawnStart -= UpdateWaveBar;
+        WaveSpawner.Instance.OnSpawnStart -= UpdateWaveBar;
+        LevelManager.Instance.OnCropSteal -= UpdateCropUIBar;
     }
 
     public void Start ()

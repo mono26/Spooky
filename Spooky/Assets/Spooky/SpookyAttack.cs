@@ -40,6 +40,8 @@ public class SpookyAttack : CharacterComponent
         if (enemyDetector.CurrentEnemyTarget != null)
         {
             aimDirection = enemyDetector.GetCurrentEnemyTargetDirection();
+            aimDirection.y = aimDirection.z;
+            aimDirection.z = 0;
             RotateHand(aimDirection);
             return;
         }

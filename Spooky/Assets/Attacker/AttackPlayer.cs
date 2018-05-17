@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AttackPlayer : CloseRangeAttack
 {
-    protected Attacker owner;
+    //protected Attacker owner;
 
     public void CloseAttack()
     {

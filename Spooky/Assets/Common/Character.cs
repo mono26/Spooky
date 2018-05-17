@@ -6,6 +6,7 @@ public class Character : MonoBehaviour
 {
     public enum CharacterState { Idle, Moving, ExecutingAction, Dead }
     public enum CharacterType { Player, AI}
+    public enum InitialFacingDirection { Right, Left}
 
     [SerializeField]
     private CharacterType type = CharacterType.AI;
@@ -16,6 +17,8 @@ public class Character : MonoBehaviour
     public InputManager CharacterInput { get; protected set; }
     [SerializeField]
     public StateMachine<CharacterState> characterStateMachine;
+    [SerializeField]
+    private InitialFacingDirection initialDirection = InitialFacingDirection.Right;
 
     // Obligatory Components
     private Animator characterAnimator;
@@ -34,6 +37,8 @@ public class Character : MonoBehaviour
     public Rigidbody CharacterBody { get { return characterBody; } }
     protected CharacterComponent[] characterComponents;
 
+    public bool IsFacingRightDirection { get; protected set; }
+
     protected virtual void Awake()
     {
         characterAudioSource = GetComponent<AudioSource>();
@@ -45,18 +50,28 @@ public class Character : MonoBehaviour
         characterStateMachine = new StateMachine<CharacterState>();
         characterTransform = GetComponent<Transform>();
 
+        if (initialDirection == InitialFacingDirection.Left)
+        {
+            IsFacingRightDirection = false;    
+        }
+        else if (initialDirection == InitialFacingDirection.Right)
+        {
+            IsFacingRightDirection = true;
+        }
+
         LinkCharacterInput();
     }
 
     protected virtual void Update()
     {
-        Debug.Log(characterStateMachine.currentState.ToString());
         foreach(CharacterComponent component in characterComponents)
         {
             component.EveryFrame();
         }
 
         UpdateAnimator();
+
+        Debug.Log(this.gameObject + " current state: " + characterStateMachine.currentState);
     }
 
     protected virtual void FixedUpdate()
@@ -65,11 +80,6 @@ public class Character : MonoBehaviour
         {
             component.FixedFrame();
         }
-        /*else
-        {
-            spooky.AnimationComponent.IsMoving(new Vector3(0, 0, 0));
-            return;
-        }*/
     }
 
     protected virtual void LateUpdate()
@@ -84,7 +94,6 @@ public class Character : MonoBehaviour
     {
         if (type == CharacterType.Player)
         {
-            // We get the corresponding input manager
             if (!string.IsNullOrEmpty(characterID))
             {
                 CharacterInput = null;
@@ -127,14 +136,13 @@ public class Character : MonoBehaviour
         }
     }
 
-    protected virtual void OnTriggerEnter(Collider _collider)
+    public void Flip()
     {
-
+        if (characterSprite != null)
+        {
+            characterSprite.flipX = !characterSprite.flipX;
+        }
+        IsFacingRightDirection = !IsFacingRightDirection;
+        return;
     }
-
-    protected virtual void OnTriggerExit(Collider _collider)
-    {
-
-    }
-
 }

@@ -15,17 +15,15 @@ public class StealCorn : CharacterAction
 
     public override void ExecuteAction()
     {
-        Debug.Log("trying to execute steal crop");
         if (lastExecute + cooldown < Time.timeSinceLevelLoad)
         {
-            Debug.Log("Executing steal crop");
-            StartCoroutine(StealCrop());
+            StartCoroutine(Steal());
             return;
         }
         else return;
     }
 
-    private IEnumerator StealCrop()
+    private IEnumerator Steal()
     {
         if (enemyCharacter != null)
         {
@@ -33,9 +31,9 @@ public class StealCorn : CharacterAction
             yield return 0;
         }
 
-        /*yield return new WaitForSecondsRealtime(
-                    character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length
-                    );*/
+        yield return new WaitForSecondsRealtime(
+                    character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + 0.15f
+                    );
 
         //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
         SetLasActionExecuteToActualTimeInLevel();

@@ -35,12 +35,14 @@ public class LevelManager : SceneSingleton<LevelManager>
 
     public delegate void OnStartLevelDelegate();
     public event OnStartLevelDelegate OnStartLevel;
+    public delegate void OnCropStealDelegate();
+    public event OnCropStealDelegate OnCropSteal;
 
     protected override void Awake()
     {
         base.Awake();
 
-        spooky = GameObject.FindGameObjectWithTag("Spooky").transform;
+        spooky = GameObject.FindWithTag("Spooky").transform;
         LookForHousePoints();
         LookForRunAwayPoints();
         LookForSpawnPoints();

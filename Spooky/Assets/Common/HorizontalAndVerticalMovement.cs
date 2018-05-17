@@ -29,6 +29,18 @@ public class HorizontalAndVerticalMovement : CharacterComponent
     {
         if (!movementDirection.Equals(Vector3.zero))
         {
+            if (movementDirection.x > 0.1f)
+            {
+                if (!character.IsFacingRightDirection)
+                    character.Flip();
+            }
+            // If it's negative, then we're facing left
+            else if (movementDirection.x < -0.1f)
+            {
+                if (character.IsFacingRightDirection)
+                    character.Flip();
+            }
+
             Move(movementDirection);
 
             ClampPosition();

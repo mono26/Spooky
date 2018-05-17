@@ -23,7 +23,7 @@ public class PlantLaunchProyectile : RangeAttack
 
     public void RangeAttack()
     {
-        plant.StartCastingAbility(true);
+        //plant.StartCastingAbility(true);
         //plant.CastAbility(plant.StartCoroutine(BasicAtack()));
         return;
     }
@@ -53,7 +53,7 @@ public class PlantLaunchProyectile : RangeAttack
 
         _bullet.Launch(launchForce);
         GameManager.Instance.SoundManager.PlayClip(soundEffect);
-        plant.StartCastingAbility(false); //Private set of the variable; only by method and giving a false to end cast
+        //plant.StartCastingAbility(false); //Private set of the variable; only by method and giving a false to end cast
         return;
     }
 

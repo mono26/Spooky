@@ -20,12 +20,12 @@ public class Tomaton : Tomato
     // Update is called once per frame
     protected new void Update ()
     {
-        enemyDetect.Detect();
+        EnemyDetect.Detect();
 
-        if (IsPlantDead())
+        /*if (IsPlantDead())
         {
             currentState = State.Death;
-        }
+        }*/
 
         if (currentState.Equals(State.Waiting))
         {
@@ -40,21 +40,21 @@ public class Tomaton : Tomato
 
         else if (currentState.Equals(State.Attacking))
         {
-            if (!IsCasting &&
+            /*if (!IsCasting &&
                 Time.timeSinceLevelLoad > lastSpecialShoot + specialCooldown &&
-                enemyDetect.HasAValidTarget()
+                EnemyDetect.HasAValidTarget()
                 )
             {
-                animationComponent.CheckViewDirection(enemyDetect.GetEnemyDirection());
+                animationComponent.CheckViewDirection(EnemyDetect.GetEnemyDirection());
                 specialAttack.RangeAttack();
                 lastSpecialShoot = Time.timeSinceLevelLoad;
             }
             else if (!IsCasting &&
                 Time.timeSinceLevelLoad > lastShoot + settings.AttackSpeed &&
-                enemyDetect.HasAValidTarget()
+                EnemyDetect.HasAValidTarget()
                 )
             {
-                animationComponent.CheckViewDirection(enemyDetect.GetEnemyDirection());
+                animationComponent.CheckViewDirection(EnemyDetect.GetEnemyDirection());
                 basicAttack.RangeAttack();
                 lastShoot = Time.timeSinceLevelLoad;
             }
@@ -62,7 +62,7 @@ public class Tomaton : Tomato
             {
                 currentState = State.Waiting;
                 return;
-            }
+            }*/
         }
 
         else if (currentState.Equals(State.Death))

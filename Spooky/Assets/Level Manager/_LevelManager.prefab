@@ -24,7 +24,7 @@ GameObject:
   m_TagString: Steal Point
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967169
   m_IsActive: 1
 --- !u!1 &1310146475393668
 GameObject:
@@ -39,7 +39,7 @@ GameObject:
   m_TagString: Steal Point
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967169
   m_IsActive: 1
 --- !u!1 &1379208746602546
 GameObject:
@@ -54,7 +54,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967169
   m_IsActive: 1
 --- !u!1 &1382266891624144
 GameObject:
@@ -69,7 +69,7 @@ GameObject:
   m_TagString: Steal Point
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967169
   m_IsActive: 1
 --- !u!1 &1385752690304740
 GameObject:
@@ -86,7 +86,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 1
-  m_StaticEditorFlags: 126
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1451733607427434
 GameObject:
@@ -101,7 +101,7 @@ GameObject:
   m_TagString: Steal Point
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967169
   m_IsActive: 1
 --- !u!1 &1523777628868802
 GameObject:
@@ -116,7 +116,7 @@ GameObject:
   m_TagString: Steal Point
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967169
   m_IsActive: 1
 --- !u!1 &1736335610250038
 GameObject:
@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 212128300472108326}
   - component: {fileID: 65181824216742822}
   - component: {fileID: 114188510794227474}
+  - component: {fileID: 114128303780344796}
   - component: {fileID: 114055343446617678}
   - component: {fileID: 114951207490674992}
   - component: {fileID: 114764681292730518}
@@ -137,7 +138,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 126
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4062856247407446
 Transform:
@@ -179,8 +180,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1385752690304740}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0.116, y: -0.563, z: 0}
-  m_LocalScale: {x: 0.36, y: 1, z: 0.25}
+  m_LocalPosition: {x: 0.17, y: -0.354, z: -0.1}
+  m_LocalScale: {x: 0.37754422, y: 1, z: 0.27578738}
   m_Children: []
   m_Father: {fileID: 4197317631367690}
   m_RootOrder: 0
@@ -264,7 +265,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5c882be025ae5d045806d92c7f0ee7f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -317,6 +318,20 @@ MonoBehaviour:
   buildCanvasUI: {fileID: 0}
   plantCanvasUI: {fileID: 0}
   zOffsetForCanvasLocation: 0.7
+--- !u!114 &114128303780344796
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1736335610250038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a453fbdeb3bdcd4c9c8cff03a75c01e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameOverUI: {fileID: 0}
+  winUI: {fileID: 0}
+  pauseUI: {fileID: 0}
 --- !u!114 &114188510794227474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -367,9 +382,10 @@ MonoBehaviour:
   - {fileID: 114245778483799946, guid: 800fc7b33f2b6b646be89db3fbd15aa5, type: 2}
   enemiesPools:
   - {fileID: 114764681292730518}
-  timeBetweenNextWaveSpawn: 5
+  minSpawnPerEnemy: 05000000
+  timeBetweenNextWaveSpawn: 3
   enemySpawnRate: 4
-  SpawnSound: {fileID: 0}
+  SpawnSound: {fileID: 8300000, guid: 783ce37a3589d68419e688038e12052d, type: 3}
 --- !u!212 &212128300472108326
 SpriteRenderer:
   m_ObjectHideFlags: 1

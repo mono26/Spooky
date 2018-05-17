@@ -31,12 +31,12 @@ public class Tomato : Plant
     // Update is called once per frame
     public void Update()
     {
-        enemyDetect.Detect();
+        EnemyDetect.Detect();
 
-        if (IsPlantDead())
+        /*if (IsPlantDead())
         {
             currentState = State.Death;
-        }
+        }*/
 
         if (currentState.Equals(State.Waiting))
         {
@@ -51,12 +51,12 @@ public class Tomato : Plant
 
         else if (currentState.Equals(State.Attacking))
         {
-            if (!IsCasting &&
+            /*if (!IsCasting &&
                 Time.timeSinceLevelLoad > lastShoot + settings.AttackSpeed &&
-                enemyDetect.HasAValidTarget()
+                EnemyDetect.HasAValidTarget()
                 )
             {
-                animationComponent.CheckViewDirection(enemyDetect.GetEnemyDirection());
+                animationComponent.CheckViewDirection(EnemyDetect.GetEnemyDirection());
                 basicAttack.RangeAttack();
                 lastShoot = Time.timeSinceLevelLoad;
             }
@@ -64,7 +64,7 @@ public class Tomato : Plant
             {
                 currentState = State.Waiting;
                 return;
-            }
+            }*/
         }
 
         else if (currentState.Equals(State.Death))

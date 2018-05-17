@@ -1,22 +1,15 @@
 ﻿using UnityEngine;
 
-public class Plant : MonoBehaviour
+public class Plant : Character
 {
-    [SerializeField]
-    public EnemyDetect enemyDetect;
-    public PlantAnimation animationComponent;
-    [SerializeField]
-    public Settings settings;
-    [SerializeField]
-    protected AudioClip soundEffect;
+    public bool IsExecutingAction { get; protected set; }
 
-    private Coroutine abilityCast;
-    private bool isCasting;
-
-    public float lastShoot;
-    protected int currentHealth;
-
-    protected bool IsCasting { get { return isCasting; } private set { isCasting = value; } }
+    private PlantStats statsComponent;
+    public PlantStats StatsComponent { get { return statsComponent; } }
+    private EnemyDetect enemyDetect;
+    public EnemyDetect EnemyDetect { get { return enemyDetect; } }
+    private Health healthComponent;
+    public Health HealthComponent { get { return healthComponent; } }
 
     protected void Awake()
     {
@@ -33,18 +26,13 @@ public class Plant : MonoBehaviour
 
     protected void Start()
     {
-        currentHealth = settings.maxHealth;
+
     }
 
-    public void StartCastingAbility(bool _cast)
+    public void ExecuteAction(bool _cast)
     {
-        IsCasting = _cast;
-    }
-
-    public void CastAbility(Coroutine _abilityCast)
-    {
-        abilityCast = _abilityCast;
-        StartCastingAbility(true);
+        IsExecutingAction = _cast;
+        return;
     }
 
     /*protected bool IsTargetInRange()
@@ -57,20 +45,6 @@ public class Plant : MonoBehaviour
         else return false;
     }*/
 
-    protected bool IsPlantDead()
-    {
-        if (currentHealth > 0)
-        {
-            return false;
-        }
-        else return true;
-    }
-
-    protected void LoseHealth(int _damage)
-    {
-        currentHealth -= _damage;
-    }
-
     protected void OnTriggerEnter(Collider _collider)
     {
         enemyDetect.OnTriggerEnter(_collider);
@@ -81,10 +55,5 @@ public class Plant : MonoBehaviour
         enemyDetect.OnTriggerExit(_collider);
     }
 
-    [System.Serializable]
-    public class Settings
-    {
-        public float AttackSpeed;
-        public int maxHealth;
-    }
+
 }

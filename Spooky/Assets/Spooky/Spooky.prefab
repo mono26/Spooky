@@ -448,7 +448,7 @@ GameObject:
   - component: {fileID: 114259199308650966}
   - component: {fileID: 114345780458972642}
   m_Layer: 5
-  m_Name: _Canvas
+  m_Name: UICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -640,12 +640,11 @@ GameObject:
   - component: {fileID: 65422766217998902}
   - component: {fileID: 54996514214459900}
   - component: {fileID: 114089981798325646}
-  - component: {fileID: 114991595324434820}
-  - component: {fileID: 114864521599832944}
-  - component: {fileID: 114839637541420426}
-  - component: {fileID: 114391410406523622}
-  - component: {fileID: 114184471080878624}
   - component: {fileID: 114738561422020658}
+  - component: {fileID: 114864521599832944}
+  - component: {fileID: 114991595324434820}
+  - component: {fileID: 114184471080878624}
+  - component: {fileID: 114839637541420426}
   m_Layer: 10
   m_Name: Spooky
   m_TagString: Spooky
@@ -711,7 +710,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1937644174119942}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.529, y: 0, z: -3.21}
+  m_LocalPosition: {x: 1.529, y: -0, z: -3.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4467767140962094}
@@ -1013,9 +1012,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff54c2151fee0d54b8417fc47d62cb9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
   type: 0
   characterID: Player1
+  initialDirection: 0
 --- !u!114 &114172245171184316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1580,20 +1579,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114391410406523622
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1937644174119942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b798c3522be04c4fa2768f4d48802dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  handSprite: {fileID: 0}
-  animator: {fileID: 0}
 --- !u!114 &114449262168289652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2145,7 +2130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896a7990e5658244fb25d980150700d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerID: 
+  playerID: Player1
   hideControlsInEditor: 0
   movement: {x: 0, y: 0, z: 0}
 --- !u!114 &114820907631764080
