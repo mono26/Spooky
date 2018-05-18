@@ -77,4 +77,20 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         isEnemyStopped = _stop;
         return;
     }
+
+    protected override void OnCharacterDeath()
+    {
+        base.OnCharacterDeath();
+
+        StopEnemy(true);
+        return;
+    }
+
+    protected override void OnCharacterRespawn()
+    {
+        base.OnCharacterRespawn();
+
+        StopEnemy(false);
+        return;
+    }
 }

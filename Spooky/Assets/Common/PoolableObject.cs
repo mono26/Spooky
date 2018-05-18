@@ -11,18 +11,28 @@ public class PoolableObject : MonoBehaviour
     public delegate void OnReleaseDelegate();
     public event OnReleaseDelegate OnRelease;
 
-    protected void OnDisable()
+    protected virtual void OnEnable()
+    {
+        OnSpawnComplete += InvokeRelease;
+        return;
+    }
+
+    protected virtual void OnDisable()
     {
         CancelInvoke("Release");
+        return;
     }
 
     public void Release()
     {
+        if (OnRelease != null)
+            OnRelease();
+
         transform.SetParent(parentContainer);
         gameObject.SetActive(false);
     }
 
-    protected void OnSpawnCompleted()
+    public void OnSpawnCompleted()
     {
         if (OnSpawnComplete != null)
             OnSpawnComplete();
@@ -34,7 +44,7 @@ public class PoolableObject : MonoBehaviour
         return;
     }
 
-    public void InvokeRelease()
+    protected void InvokeRelease()
     {
         if (lifeTime > 0)
             Invoke("Release", lifeTime);

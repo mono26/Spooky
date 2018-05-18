@@ -40,10 +40,10 @@ public class TomatoBullet : Bullet
 
     public void ReleaseBullet(Bullet _bullet)
     {
-        Restart(_bullet);
+        /*Restart(_bullet);
         _bullet.gameObject.SetActive(false);
         Pool.Add(_bullet);
-        return;
+        return;*/
     }
 
     protected void OnCollisionEnter(Collision _collision)

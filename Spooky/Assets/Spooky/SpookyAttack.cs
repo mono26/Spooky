@@ -80,10 +80,8 @@ public class SpookyAttack : CharacterComponent
 
     private void CreateCurrentBullet()
     {
-        Debug.Log("Creating current bullet");
         actualBullet = bulletPool.GetObjectFromPool().GetComponent<SpookyBullet>();
         actualBullet.transform.position = shootPoint.position;
-        actualBullet.transform.SetParent(shootPoint);
         actualBullet.gameObject.SetActive(true);
         return;
     }
@@ -104,7 +102,7 @@ public class SpookyAttack : CharacterComponent
         {
             RotateBullettowardsDirection(actualBullet.transform);
             actualBullet.Launch(launchForce);
-            actualBullet.GetComponent<PoolableObject>().InvokeRelease();
+            actualBullet.GetComponent<PoolableObject>().OnSpawnCompleted();
             actualBullet = null;
             lastShoot = Time.timeSinceLevelLoad;
             return;
@@ -116,8 +114,8 @@ public class SpookyAttack : CharacterComponent
     {
         if (actualBullet != null)
         {
-            actualBullet.IncreaseSize(actualBullet);
-            actualBullet.IncreaseDamage(actualBullet);
+            actualBullet.IncreaseSize();
+            actualBullet.IncreaseDamage();
             return;
         }
         else return;

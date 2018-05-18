@@ -1,34 +1,75 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody), typeof(BoxCollider), typeof(DamageOnTouch))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Bullet : PoolableObject
 {
-    protected Rigidbody rigidBody;
-    public Rigidbody RigidBody { get { return rigidBody; } }
+    protected Rigidbody bulletBody;
+    public Rigidbody BulletBody { get { return bulletBody; } }
+    protected BoxCollider bulletCollider;
+    public BoxCollider BulletCollider { get { return bulletCollider; } }
+    protected DamageOnTouch damageComponent;
+    public DamageOnTouch DamageComponent { get { return damageComponent; } }
+
+    protected PoolableObject poolable;
+
     [SerializeField]
-    protected float bulletDamaga;
+    protected float bulletDamage;
     protected float bulletLaunchTime;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
-        rigidBody = GetComponent<Rigidbody>();
+        bulletBody = GetComponent<Rigidbody>();
+        bulletCollider = GetComponent<BoxCollider>();
+        damageComponent = GetComponent<DamageOnTouch>();
+        poolable = GetComponent<PoolableObject>();
+        return;
+    }
+
+    protected virtual void Start()
+    {
+        damageComponent.SetDamageOnTouch(bulletDamage);
+        return;
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        OnRelease += Restart;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        OnRelease -= Restart;
     }
 
     public void Launch(float _speed)
     {
-        rigidBody.AddForce(transform.right * _speed, ForceMode.Impulse);
+        bulletBody.AddForce(transform.right * _speed, ForceMode.Impulse);
         bulletLaunchTime = Time.timeSinceLevelLoad;
+        damageComponent.SetDamageOnTouch(bulletDamage);
         return;
     }
 
-    public float GetBulletDamage()
+    protected virtual void Restart()
     {
-        return bulletDamaga;
+        bulletBody.velocity = Vector3.zero;
+        transform.localScale = Vector3.one;
+        return;
     }
 
-    protected void Restart(Bullet _bullet)
+    protected virtual void OnCollisionEnter(Collision _collision)
     {
-        _bullet.rigidBody.velocity = Vector3.zero;
-        _bullet.transform.localScale = Vector3.one;
-        return;
+        foreach(string tag in damageComponent.DamageTags)
+        {
+            if (_collision.gameObject.CompareTag(tag))
+            {
+                poolable.Release();
+                return;
+            }
+        }
     }
 }

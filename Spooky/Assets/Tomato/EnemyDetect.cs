@@ -35,23 +35,23 @@ public class EnemyDetect : CharacterComponent, IDetect
         // To check if the top of the stack is out of range or dead, or any other condition for clearing it
         if (nearEnemies.Count > 0)
         {
-            if (!HasAValidTarget())
+            if (!IsFirstEnemyInTheListActive())
                 ClearCurrentTarget();
         }
         else return;
     }
 
-    public Enemy GetFirstEnemyInTheList()
+    protected Enemy GetFirstEnemyInTheList()
     {
         if (nearEnemies.Count > 0)
             return nearEnemies[0].GetComponent<Enemy>();
         else return null;
     }
 
-    public Vector3 GetEnemyDirection()
+    public Vector3 GetTheFirstEnemyDirection()
     {
         Vector3 _direction = Vector3.zero;
-        if (nearEnemies.Count > 0 && HasAValidTarget())
+        if (nearEnemies.Count > 0 && IsFirstEnemyInTheListActive())
         {
             _direction = (nearEnemies[0].transform.position - character.CharacterTransform.position).normalized;
             _direction.y = 0;
@@ -60,11 +60,11 @@ public class EnemyDetect : CharacterComponent, IDetect
         else return _direction;
     }
 
-    public bool HasAValidTarget()
+    public bool IsFirstEnemyInTheListActive()
     {
-        if (nearEnemies.Count > 0)
+        if (GetFirstEnemyInTheList() != null)
         {
-            return nearEnemies[0].gameObject.activeInHierarchy;
+            return GetFirstEnemyInTheList().gameObject.activeInHierarchy;
         }
         else return false;
     }

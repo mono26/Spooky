@@ -104,6 +104,18 @@ public class HorizontalAndVerticalMovement : CharacterComponent
         else return;
     }
 
+    protected override void OnCharacterDeath()
+    {
+        StopMovement();
+        return;
+    }
+
+    protected override void OnCharacterRespawn()
+    {
+        currentSpeed = maxSpeed;
+        return;
+    }
+
     private void OnTriggerEnter(Collider _collider)
     {
         if (_collider.CompareTag("CornField"))

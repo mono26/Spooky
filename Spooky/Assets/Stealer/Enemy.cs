@@ -68,13 +68,4 @@ public class Enemy : Character
         return;
     }
 
-    protected void OnCollisionEnter(Collision _collision)
-    {
-        if (_collision.gameObject.CompareTag("Bullet"))
-        {
-            float damage = _collision.gameObject.GetComponent<Bullet>().GetBulletDamage();
-            healthComponent.TakeDamage(damage);
-            //animationComponent.PlayAnimation("Damage");
-        }
-    }
 }

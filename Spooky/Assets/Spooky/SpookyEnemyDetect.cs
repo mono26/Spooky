@@ -74,9 +74,9 @@ public class SpookyEnemyDetect : EnemyDetect
         {
             if(nearEnemies.Count.Equals(0))
             {
+                currentEnemyTarget = null;
                 StopCoroutine(targetClosestEnemy);
             }
-            // TODO stop coroutine display nearest enemy if count = 0
             return;
         }
         else return;

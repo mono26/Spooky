@@ -43,8 +43,8 @@ public class CorrosiveBullet : Bullet
 
     protected void OnEnabled()
     {
-        rigidBody.constraints = RigidbodyConstraints.None;   //Because the rigidBody when it hits the enemy stays in rotation
-        rigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+        bulletBody.constraints = RigidbodyConstraints.None;   //Because the rigidBody when it hits the enemy stays in rotation
+        bulletBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
         GetComponent<SpriteRenderer>().enabled = true;
         GetComponent<Collider>().enabled = true;
         corrosiveField.SetActive(false);
@@ -115,10 +115,10 @@ public class CorrosiveBullet : Bullet
 
     public void ReleaseBullet(Bullet _bullet)
     {
-        Restart(_bullet);
+        /*Restart(_bullet);
         Pool.Add(_bullet);
         _bullet.gameObject.SetActive(false);
-        return;
+        return;*/
     }
 
     protected void OnCollisionEnter(Collision _collision)
@@ -127,9 +127,9 @@ public class CorrosiveBullet : Bullet
         {
             GetComponent<SpriteRenderer>().enabled = false;
             GetComponent<Collider>().enabled = false;   // So the only collidr activated is the trigger for the area damage.
-            rigidBody.velocity = Vector3.zero;
+            bulletBody.velocity = Vector3.zero;
             transform.localRotation = Quaternion.Euler(new Vector3(90,0,0));    // Standar rotation for every object in the game!
-            rigidBody.constraints = RigidbodyConstraints.FreezeRotationZ;   // TODO fin better way to do this.
+            bulletBody.constraints = RigidbodyConstraints.FreezeRotationZ;   // TODO fin better way to do this.
             corrosiveEffect = StartCoroutine(CorrosiveEffect());
             return;
         }

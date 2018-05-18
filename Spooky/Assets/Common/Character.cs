@@ -70,8 +70,6 @@ public class Character : MonoBehaviour
         }
 
         UpdateAnimator();
-
-        Debug.Log(this.gameObject + " current state: " + characterStateMachine.currentState);
     }
 
     protected virtual void FixedUpdate()

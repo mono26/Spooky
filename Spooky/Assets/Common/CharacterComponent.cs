@@ -9,6 +9,30 @@ public abstract class CharacterComponent : MonoBehaviour
         character = GetComponent<Character>();
     }
 
+    protected virtual void OnEnable()
+    {
+        Health hasHealth = GetComponent<Health>();
+        if (hasHealth != null)
+        {
+            hasHealth.OnDeath += OnCharacterDeath;
+            hasHealth.OnRespawn += OnCharacterRespawn;
+            return;
+        }
+        else return;
+    }
+
+    protected virtual void OnDisable()
+    {
+        Health hasHealth = GetComponent<Health>();
+        if (hasHealth != null)
+        {
+            hasHealth.OnDeath -= OnCharacterDeath;
+            hasHealth.OnRespawn -= OnCharacterRespawn;
+            return;
+        }
+        else return;
+    }
+
     public virtual void EveryFrame()
     {
         HandleInput();
@@ -32,6 +56,16 @@ public abstract class CharacterComponent : MonoBehaviour
     }
 
     protected virtual void UpdateState()
+    {
+
+    }
+
+    protected virtual void OnCharacterDeath()
+    {
+
+    }
+
+    protected virtual void OnCharacterRespawn()
     {
 
     }

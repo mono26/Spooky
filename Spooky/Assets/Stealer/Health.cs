@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class Health : CharacterComponent, Damagable
+public class Health : MonoBehaviour, Damagable
 {
     //AIEffectsHandler effects;
     [SerializeField]
@@ -20,15 +20,16 @@ public class Health : CharacterComponent, Damagable
     [SerializeField]
     private float currentHealth;
 
+    private Character character;
+
     public delegate void OnDeathDelegate();
     public event OnDeathDelegate OnDeath;
     public delegate void OnRespawnDelegate();
     public event OnRespawnDelegate OnRespawn;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-
+        character = GetComponent<Character>();
         Enemy enemyCharacter = GetComponent<Enemy>();
         if (enemyCharacter)
             maxHealth = enemyCharacter.StatsComponent.MaxHealth;
@@ -45,12 +46,13 @@ public class Health : CharacterComponent, Damagable
     public void TakeDamage(float _damage)
     {
         // We are laready dead.
+        Debug.Log(this.gameObject + "Taking damage");
         if(currentHealth <=0) { return; }
 
         //var feathersP = Instantiate(controller.feathersParticle, transform.position, Quaternion.Euler(-90, 0, 0));
         StartCoroutine(ToggleHealthBar());
         currentHealth -= _damage;
-        currentHealth = Mathf.Max(0, currentHealth - _damage);
+        currentHealth = Mathf.Max(0, currentHealth);
         healthBar.fillAmount = currentHealth / maxHealth;
 
         if (currentHealth <= 0)
@@ -60,6 +62,8 @@ public class Health : CharacterComponent, Damagable
 
     private IEnumerator ToggleHealthBar()
     {
+        Debug.Log(this.gameObject + "Toggling healthbar");
+
         healthBar.gameObject.SetActive(true);
 
         yield return new WaitForSecondsRealtime(healthBarToggleTime);
@@ -78,6 +82,9 @@ public class Health : CharacterComponent, Damagable
 
     private IEnumerator Kill()
     {
+        if (OnDeath != null)
+            OnDeath();
+
         PoolableObject poolableCharacter = GetComponent<PoolableObject>();
         if (poolableCharacter != null)
         {
@@ -99,11 +106,14 @@ public class Health : CharacterComponent, Damagable
     private IEnumerator CharacterDeath()
     {
         if (character != null)
+        {
             character.characterStateMachine.ChangeState(Character.CharacterState.Dead);
 
-        yield return new WaitForSecondsRealtime(
-        character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length
-        );
+            yield return new WaitForSecondsRealtime(
+            character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + 0.15f
+            );
+        }
+        yield break;
     }
 
 }
