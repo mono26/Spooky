@@ -33,14 +33,19 @@ public class Health : MonoBehaviour, Damagable
         Enemy enemyCharacter = GetComponent<Enemy>();
         if (enemyCharacter)
             maxHealth = enemyCharacter.StatsComponent.MaxHealth;
+        return;
     }
 
     protected void OnEnable()
     {
         currentHealth = maxHealth;
         // Need to cast to float because the result of "/" by two ints gives a int.
-        healthBar.fillAmount = currentHealth / maxHealth;
-        healthBar.gameObject.SetActive(false);
+        if(healthBar != null)
+        {
+            healthBar.fillAmount = currentHealth / maxHealth;
+            healthBar.gameObject.SetActive(false);
+        }
+        return;
     }
 
     public void TakeDamage(float _damage)
@@ -57,19 +62,22 @@ public class Health : MonoBehaviour, Damagable
 
         if (currentHealth <= 0)
             Kill();
-
+        return;
     }
 
     private IEnumerator ToggleHealthBar()
     {
         Debug.Log(this.gameObject + "Toggling healthbar");
 
-        healthBar.gameObject.SetActive(true);
+        if(healthBar != null)
+        {
+            healthBar.gameObject.SetActive(true);
 
-        yield return new WaitForSecondsRealtime(healthBarToggleTime);
+            yield return new WaitForSecondsRealtime(healthBarToggleTime);
 
-        healthBar.gameObject.SetActive(false);
-
+            healthBar.gameObject.SetActive(false);
+        }
+        yield break;
     }
 
     private void PlayHitSfx()
@@ -101,6 +109,7 @@ public class Health : MonoBehaviour, Damagable
 
             gameObject.SetActive(false);
         }
+        yield break;
     }
 
     private IEnumerator CharacterDeath()

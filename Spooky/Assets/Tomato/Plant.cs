@@ -1,27 +1,37 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(EnemyDetect), typeof(Health), typeof(PlantStats))]
 public class Plant : Character
 {
     public bool IsExecutingAction { get; protected set; }
 
-    private PlantStats statsComponent;
-    public PlantStats StatsComponent { get { return statsComponent; } }
     private EnemyDetect enemyDetect;
     public EnemyDetect EnemyDetect { get { return enemyDetect; } }
     private Health healthComponent;
     public Health HealthComponent { get { return healthComponent; } }
+    private PlantStats statsComponent;
+    public PlantStats StatsComponent { get { return statsComponent; } }
 
-    protected void Awake()
+    // Assigned by inspector.
+    [SerializeField]
+    private CharacterAction currentAction;
+    public CharacterAction CurrentAction { get { return currentAction; } }
+
+    protected override void Awake()
     {
-        /*enemyDetect = new EnemyDetect(
-            this,
-            settings.EnemyDetectSettings
-            );
+        base.Awake();
 
-        animationComponent = new PlantAnimation(
-            GetComponent<SpriteRenderer>(),
-            GetComponent<Animator>()
-            );*/
+        enemyDetect = GetComponent<EnemyDetect>();
+        if (!enemyDetect)
+            Debug.LogError("No health component found on the enemy gameObject: " + this.gameObject.ToString());
+
+        healthComponent = GetComponent<Health>();
+        if (!healthComponent)
+            Debug.LogError("No health component found on the enemy gameObject: " + this.gameObject.ToString());
+
+        statsComponent = GetComponent<PlantStats>();
+        if (!statsComponent)
+            Debug.LogError("No stats component found on the enemy gameObject: " + this.gameObject.ToString());
     }
 
     protected void Start()
@@ -29,21 +39,25 @@ public class Plant : Character
 
     }
 
+    protected override void Update()
+    {
+        if (enemyDetect.IsFirstEnemyInTheListActive() && !IsExecutingAction)
+        {
+            currentAction.SetTarget(enemyDetect.GetFirstEnemyInTheList().transform);
+            if(currentAction.IsTargetInRange())
+            {
+                currentAction.ExecuteAction();
+            }
+        }
+
+        base.Update();
+    }
+
     public void ExecuteAction(bool _cast)
     {
         IsExecutingAction = _cast;
         return;
     }
-
-    /*protected bool IsTargetInRange()
-    {
-        float distance = Vector3.Distance(transform.position, enemyDetect.GetFirstEnemyInTheList().transform.position);
-        if (distance <= settings.EnemyDetectSettings.enemyDetectionRange)
-        {
-            return true;
-        }
-        else return false;
-    }*/
 
     protected void OnTriggerEnter(Collider _collider)
     {

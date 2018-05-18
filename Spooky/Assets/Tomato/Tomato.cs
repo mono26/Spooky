@@ -12,8 +12,8 @@ public class Tomato : Plant
     [SerializeField]
     protected float launchForce;
     [SerializeField]
-    protected TomatoBullet bullet;
-    [SerializeField]
+    //protected TomatoBullet bullet;
+    //[SerializeField]
     protected Transform launchPosition;
     protected PlantLaunchProyectile basicAttack;
 

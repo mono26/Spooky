@@ -27,11 +27,11 @@ GameObject:
   - component: {fileID: 82664511168533384}
   - component: {fileID: 114245778483799946}
   - component: {fileID: 114146892295792120}
-  - component: {fileID: 114411158048508160}
   - component: {fileID: 114595351302039336}
   - component: {fileID: 114303027106017680}
   - component: {fileID: 114504915973877528}
   - component: {fileID: 114695920916659050}
+  - component: {fileID: 114411158048508160}
   m_Layer: 11
   m_Name: Stealer
   m_TagString: Enemy
@@ -254,6 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   characterID: Stealer
+  initialDirection: 0
   currentAction: {fileID: 114504915973877528}
 --- !u!114 &114303027106017680
 MonoBehaviour:

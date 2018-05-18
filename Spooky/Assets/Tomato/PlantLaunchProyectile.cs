@@ -1,72 +1,94 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[System.Serializable]
-public class PlantLaunchProyectile : RangeAttack
+
+[RequireComponent(typeof(EnemyDetect),typeof(SingleObjectPool))]
+public class PlantLaunchProyectile : CharacterAction
 {
-    protected Plant plant;
+    protected Plant plantCharacter;
 
-    public GameObject bulletPrefab;
-    public float launchForce = 1;
-    public Transform shootPosition;
-    public AudioClip soundEffect;
+    [SerializeField]
+    private float launchForce = 10f;
+    [SerializeField]
+    private AudioClip soundEffect;
 
-    public PlantLaunchProyectile(Plant _owner, GameObject _bullet, float _launchforce, Transform _shootPosition, AudioClip _soundEffect)
+    private Bullet actualBullet;
+    private SingleObjectPool bulletPool;
+    private Transform shootPoint;
+
+    protected override void Awake()
     {
-        plant = _owner;
-        bulletPrefab = _bullet;
-        launchForce = _launchforce;
-        shootPosition = _shootPosition;
-        soundEffect = _soundEffect;
+        base.Awake();
+
+        plantCharacter = GetComponent<Plant>();
+        shootPoint = transform.Find("ShootPoint").GetComponent<Transform>();
+        bulletPool = GetComponent<SingleObjectPool>();
+    }
+
+    protected void Start()
+    {
+        cooldown = plantCharacter.StatsComponent.AttackSpeed;
+        range = plantCharacter.EnemyDetect.DetectionRange;
         return;
     }
 
-    public void RangeAttack()
+    public override void ExecuteAction()
     {
-        //plant.StartCastingAbility(true);
-        //plant.CastAbility(plant.StartCoroutine(BasicAtack()));
-        return;
+        if (lastExecute + cooldown < Time.timeSinceLevelLoad)
+        {
+            StartCoroutine(BasicAtack());
+            return;
+        }
+        else return;
     }
 
-    /*protected IEnumerator BasicAtack()
+    protected IEnumerator BasicAtack()
     {
-        plant.animationComponent.PlayAnimation("Attack");
+        if (plantCharacter != null)
+        {
+            plantCharacter.ExecuteAction(true);
+            yield return 0;
+        }
 
         yield return new WaitForSecondsRealtime(
-            plant.animationComponent.Animator.GetCurrentAnimatorStateInfo(0).length
-            );
+                    character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
+                    );
 
-        Bullet tempBullet = CreateBullet(bulletPrefab);
-        ThrowBasicAtack(tempBullet, plant.enemyDetect.GetEnemyDirection());
+        actualBullet = bulletPool.GetObjectFromPool().GetComponent<Bullet>();
+        actualBullet.gameObject.SetActive(true);
+        RotateActualBulleTowardsDirection(plantCharacter.EnemyDetect.GetFirstEnemyTargetDirection());
+        actualBullet.Launch(launchForce);
+        actualBullet = null;
 
-        yield return 0;
-    }*/
+        if (plantCharacter != null)
+        {
+            plantCharacter.ExecuteAction(false);
+            yield return 0;
+        }
 
-    /*protected Bullet CreateBullet(ISpawnable<Bullet> _bullet)
-    {
-        return _bullet.Spawn(plant.transform);
-    }*/
-
-    protected void ThrowBasicAtack(Bullet _bullet, Vector3 _direction)
-    {
-        RotateBullettowardsDirection(_bullet.transform, _direction);
-
-        _bullet.Launch(launchForce);
-        GameManager.Instance.SoundManager.PlayClip(soundEffect);
-        //plant.StartCastingAbility(false); //Private set of the variable; only by method and giving a false to end cast
-        return;
+        yield break;
     }
 
-    protected void RotateBullettowardsDirection(Transform _bullet, Vector3 _direction)
+    private void RotateActualBulleTowardsDirection(Vector3 _direction)
     {
-        var angle = Mathf.Atan2(_direction.z, _direction.x) * Mathf.Rad2Deg;
-        var delta = angle - _bullet.localRotation.eulerAngles.z;
-        //TODO check if transform.Rotate
-        _bullet.localRotation = Quaternion.RotateTowards(
-            _bullet.localRotation,
+        float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
+        float delta = angle - actualBullet.transform.eulerAngles.z;
+        actualBullet.transform.rotation = Quaternion.RotateTowards(
+            actualBullet.transform.rotation,
             Quaternion.Euler(new Vector3(90, 0, angle)),
             Mathf.Abs(delta)
             );
+        actualBullet.transform.position = shootPoint.position;
         return;
+    }
+
+    protected override void UpdateState()
+    {
+        if (plantCharacter.IsExecutingAction == true)
+        {
+            character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
+            return;
+        }
+        else return;
     }
 }

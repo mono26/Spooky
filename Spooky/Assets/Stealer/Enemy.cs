@@ -39,13 +39,13 @@ public class Enemy : Character
     {
         IsExecutingAction = false;
         ActivateCollider(true);
+        return;
     }
 
     protected override void Update()
     {
         if (currentAction.IsTargetInRange() && !IsExecutingAction)
         {
-            movementComponent.StopEnemy(true);
             currentAction.ExecuteAction();
         }
         else
@@ -54,6 +54,7 @@ public class Enemy : Character
         }
 
         base.Update();
+        return;
     }
 
     public void ExecuteAction(bool _cast)

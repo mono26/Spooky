@@ -28,11 +28,12 @@ public class StealCorn : CharacterAction
         if (enemyCharacter != null)
         {
             enemyCharacter.ExecuteAction(true);
+            enemyCharacter.MovementComponent.StopEnemy(true);
             yield return 0;
         }
 
         yield return new WaitForSecondsRealtime(
-                    character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + 0.15f
+                    character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
                     );
 
         //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);

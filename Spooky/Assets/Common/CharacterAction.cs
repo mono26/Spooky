@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public abstract class CharacterAction : CharacterComponent 
 {
@@ -9,9 +10,12 @@ public abstract class CharacterAction : CharacterComponent
     protected float range;
     [SerializeField]
     protected float cooldown;
-    protected float lastExecute;
     [SerializeField]
     protected AudioClip actionSfx;
+    [SerializeField]
+    protected float delayAfterAnimationIsFinished = 0.15f;
+
+    protected float lastExecute;
 
     protected override void Awake()
     {
@@ -46,5 +50,11 @@ public abstract class CharacterAction : CharacterComponent
             return true;
         }
         else return false;
+    }
+
+    public void SetTarget(Transform _newTarget)
+    {
+        target = _newTarget;
+        return;
     }
 }

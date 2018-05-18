@@ -34,16 +34,12 @@ public class SpookyAttack : CharacterComponent
     {
         base.EveryFrame();
 
-        if (actualBullet != null)
-            RotateBullettowardsDirection(actualBullet.transform);
-
         if (enemyDetector.CurrentEnemyTarget != null)
         {
             aimDirection = enemyDetector.GetCurrentEnemyTargetDirection();
             aimDirection.y = aimDirection.z;
             aimDirection.z = 0;
             RotateHand(aimDirection);
-            return;
         }
 
         else if (enemyDetector.CurrentEnemyTarget == null)
@@ -53,10 +49,15 @@ public class SpookyAttack : CharacterComponent
             if (!aimDirection.x.Equals(0f) || !aimDirection.y.Equals(0f))
             {
                 RotateHand(aimDirection);
-                return;
             }
-            else return;
         }
+
+        if (actualBullet != null)
+        {
+            RotateActualBulleTowardsDirection(aimDirection);
+            return;
+        }
+        else return;
     }
 
     private void RotateHand(Vector3 _direction)
@@ -71,10 +72,16 @@ public class SpookyAttack : CharacterComponent
         return;
     }
 
-    private void RotateBullettowardsDirection(Transform _bullet)
+    private void RotateActualBulleTowardsDirection(Vector3 _direction)
     {
-        _bullet.right = shootPoint.right;
-        _bullet.position = shootPoint.position;
+        float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
+        float delta = angle - actualBullet.transform.eulerAngles.z;
+        actualBullet.transform.rotation = Quaternion.RotateTowards(
+            actualBullet.transform.rotation,
+            Quaternion.Euler(new Vector3(90, 0, angle)),
+            Mathf.Abs(delta)
+            );
+        actualBullet.transform.position = shootPoint.position;
         return;
     }
 
@@ -86,21 +93,11 @@ public class SpookyAttack : CharacterComponent
         return;
     }
 
-    private void Attack()
-    {
-        if (actualBullet)
-        {
-            LaunchAttack();
-            return;
-        }
-        else return;
-    }
-
     private void LaunchAttack()
     {
         if (actualBullet != null)
         {
-            RotateBullettowardsDirection(actualBullet.transform);
+            RotateActualBulleTowardsDirection(aimDirection);
             actualBullet.Launch(launchForce);
             actualBullet.GetComponent<PoolableObject>().OnSpawnCompleted();
             actualBullet = null;

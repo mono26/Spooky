@@ -5,8 +5,10 @@ public class EnemyDetect : CharacterComponent, IDetect
 {
     // TODO encapsulate Spooky, Enemy and Plant in Character.
     protected SphereCollider detectionTrigger;
-    [Range(3f, 5f)]
-    public float enemyDetectionRange;
+
+    [SerializeField][Range(3f, 5f)]
+    protected float detectionRange;
+    public float DetectionRange { get { return detectionRange; } }
 
     [SerializeField]
     protected List<Enemy> nearEnemies = null;
@@ -22,7 +24,7 @@ public class EnemyDetect : CharacterComponent, IDetect
 
     protected void Start()
     {
-        detectionTrigger.radius = enemyDetectionRange;
+        detectionTrigger.radius = detectionRange;
     }
 
     public override void EveryFrame()
@@ -41,23 +43,11 @@ public class EnemyDetect : CharacterComponent, IDetect
         else return;
     }
 
-    protected Enemy GetFirstEnemyInTheList()
+    public Enemy GetFirstEnemyInTheList()
     {
         if (nearEnemies.Count > 0)
             return nearEnemies[0].GetComponent<Enemy>();
         else return null;
-    }
-
-    public Vector3 GetTheFirstEnemyDirection()
-    {
-        Vector3 _direction = Vector3.zero;
-        if (nearEnemies.Count > 0 && IsFirstEnemyInTheListActive())
-        {
-            _direction = (nearEnemies[0].transform.position - character.CharacterTransform.position).normalized;
-            _direction.y = 0;
-            return _direction;
-        }
-        else return _direction;
     }
 
     public bool IsFirstEnemyInTheListActive()
@@ -67,6 +57,18 @@ public class EnemyDetect : CharacterComponent, IDetect
             return GetFirstEnemyInTheList().gameObject.activeInHierarchy;
         }
         else return false;
+    }
+
+    public Vector3 GetFirstEnemyTargetDirection()
+    {
+        Vector3 _direction = Vector3.zero;
+        if (nearEnemies.Count > 0)
+        {
+            _direction = (nearEnemies[0].transform.position - character.CharacterTransform.position).normalized;
+            _direction.y = 0;
+            return _direction;
+        }
+        else return _direction;
     }
 
     private void ClearCurrentTarget()
