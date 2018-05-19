@@ -41,6 +41,8 @@ public class Plant : Character
 
     protected override void Update()
     {
+        Debug.Log(this.gameObject + "currentState: " + characterStateMachine.currentState);
+
         if (enemyDetect.IsFirstEnemyInTheListActive() && !IsExecutingAction)
         {
             currentAction.SetTarget(enemyDetect.GetFirstEnemyInTheList().transform);

@@ -62,7 +62,6 @@ public class Health : MonoBehaviour, Damagable
         // We are laready dead.
         if(currentHealth == 0) { return; }
 
-        Debug.Log(this.gameObject + "Taking damage");
         //var feathersP = Instantiate(controller.feathersParticle, transform.position, Quaternion.Euler(-90, 0, 0));
         StartCoroutine(ToggleHealthBar());
         currentHealth -= _damage;
@@ -76,8 +75,6 @@ public class Health : MonoBehaviour, Damagable
 
     private IEnumerator ToggleHealthBar()
     {
-        Debug.Log(this.gameObject + "Toggling healthbar");
-
         if(healthBar != null)
         {
             healthBar.gameObject.SetActive(true);
@@ -125,8 +122,6 @@ public class Health : MonoBehaviour, Damagable
     {
         if (character != null)
         {
-            Debug.Log("Killing character: " + this.gameObject);
-
             character.characterStateMachine.ChangeState(Character.CharacterState.Dead);
 
             yield return 0;

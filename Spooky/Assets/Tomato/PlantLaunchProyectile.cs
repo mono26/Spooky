@@ -74,6 +74,8 @@ public class PlantLaunchProyectile : CharacterAction
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
                     );
 
+        SetLasActionExecuteToActualTimeInLevel();
+
         actualBullet = bulletPool.GetObjectFromPool().GetComponent<Bullet>();
         actualBullet.gameObject.SetActive(true);
         RotateActualBulleTowardsDirection(plantCharacter.EnemyDetect.GetFirstEnemyTargetDirection());
@@ -109,6 +111,10 @@ public class PlantLaunchProyectile : CharacterAction
             character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
             return;
         }
-        else return;
+        else
+        {
+            character.characterStateMachine.ChangeState(Character.CharacterState.Idle);
+            return;
+        }
     }
 }

@@ -23,7 +23,13 @@ GameObject:
   - component: {fileID: 54917296067610420}
   - component: {fileID: 65370332100873500}
   - component: {fileID: 95785079802630368}
-  - component: {fileID: 114577813597469274}
+  - component: {fileID: 82749211575072668}
+  - component: {fileID: 114532442404994260}
+  - component: {fileID: 114260312407034146}
+  - component: {fileID: 114141678872713088}
+  - component: {fileID: 114626738942533088}
+  - component: {fileID: 114367486260847284}
+  - component: {fileID: 114042695106525758}
   m_Layer: 14
   m_Name: Tomato
   m_TagString: Plant
@@ -40,7 +46,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4370896873869142}
   m_Layer: 14
-  m_Name: Shoot Position
+  m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,7 +62,7 @@ GameObject:
   - component: {fileID: 4690911390368912}
   - component: {fileID: 135564382731587366}
   m_Layer: 15
-  m_Name: Range
+  m_Name: EnemyDetector
   m_TagString: Plant Range
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +75,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1701149515371834}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.336, y: 0.292, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4412348325244944}
@@ -82,7 +88,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1392868393462202}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 5.1, y: -0, z: 0.593}
+  m_LocalPosition: {x: 4.639, y: -0, z: 1.693}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4690911390368912}
@@ -130,6 +136,86 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5394821, y: 0.61208284, z: 0.5}
   m_Center: {x: 0.07, y: 0.31, z: -0.25}
+--- !u!82 &82749211575072668
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392868393462202}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!95 &95785079802630368
 Animator:
   serializedVersion: 3
@@ -147,7 +233,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114577813597469274
+--- !u!114 &114042695106525758
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -155,23 +241,90 @@ MonoBehaviour:
   m_GameObject: {fileID: 1392868393462202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfa0fd1f69b3d3442a6ea4ae21d56a1f, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e84794f9baf15641a9e8b75a2c912e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyDetect:
-    nearEnemies: []
-  settings:
-    AttackSpeed: 1
-    MaxHealth: 1
-    EnemyDetectSettings:
-      enemyDetectionRange: 3.5
-      detectionTrigger: {fileID: 135564382731587366}
-  soundEffect: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
-  lastShoot: 0
+  combineObjectPools: 1
+  gameObjectToPool: {fileID: 1110879117931572, guid: 71d322d4d54f70f45baaa1d842bc51be,
+    type: 2}
+  startingPoolSize: 5
+  poolCanIncreaseSize: 1
+--- !u!114 &114141678872713088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392868393462202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf90197a44a8cca4a85ac809368caa48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRange: 3.5
+  nearEnemies: []
+--- !u!114 &114260312407034146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392868393462202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813fe3c9d053f8b438a21e191c964397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  attackSpeed: 1.5
+--- !u!114 &114367486260847284
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392868393462202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c574cd7a0526564dbcaf97bb5748c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  range: 0
+  cooldown: 0
+  actionSfx: {fileID: 0}
+  delayAfterAnimationIsFinished: 0.15
   launchForce: 10
-  bullet: {fileID: 114768004279819712, guid: 71d322d4d54f70f45baaa1d842bc51be, type: 2}
-  launchPosition: {fileID: 4370896873869142}
-  currentState: 0
+  soundEffect: {fileID: 0}
+--- !u!114 &114532442404994260
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392868393462202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8816b192a2a59b745be2f7c775dd271a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  type: 1
+  characterID: Tomato
+  initialDirection: 1
+  currentAction: {fileID: 114367486260847284}
+--- !u!114 &114626738942533088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392868393462202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b96a947ad42a3f64683116fb61cb09dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  healthBar: {fileID: 0}
+  healthBarToggleTime: 0
+  damageEffect: {fileID: 0}
+  damageSfx: {fileID: 0}
+  currentHealth: 0
 --- !u!135 &135564382731587366
 SphereCollider:
   m_ObjectHideFlags: 1
