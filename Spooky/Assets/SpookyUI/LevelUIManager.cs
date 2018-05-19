@@ -7,7 +7,7 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>
     private GameObject fireButton;
     private GameObject pauseButton;
     private Image cropUIBar;
-    private Image waveBar;
+    private Image waveProgressBar;
     private Text gameMoneyText;
     private Text enemiesCounter;
 
@@ -30,21 +30,23 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>
         gameOverUI = transform.Find("WinGameUI").gameObject;
         winUI = transform.Find("GameOverUI").gameObject;
         cropUIBar = transform.Find("CropBarFrame").Find("CropBar").GetComponent<Image>();
-        waveBar = transform.Find("WaveBarFrame").Find("WaveBar").GetComponent<Image>();
+        waveProgressBar = transform.Find("WaveBarFrame").Find("WaveProgressBar").GetComponent<Image>();
         gameMoneyText = transform.Find("CropBarFrame").Find("MoneyText").GetComponent<Text>();
-        enemiesCounter = transform.Find("WaveBarFrame").Find("EnemiesCounter").GetComponent<Text>();
+        enemiesCounter = transform.Find("WaveBarFrame").Find("WaveCounter").GetComponent<Text>();
         return;
     }
 
     public void OnEnable()
     {
-        WaveSpawner.Instance.OnSpawnStart += UpdateWaveBar;
+        WaveSpawner.Instance.OnSpawnStart += UpdateWaveSpawnerUI;
+        WaveSpawner.Instance.OnEnemyKilled += UpdateWaveSpawnerUI;
         LevelManager.Instance.OnCropSteal += UpdateCropUIBar;
     }
 
     public void OnDisable()
     {
-        WaveSpawner.Instance.OnSpawnStart -= UpdateWaveBar;
+        WaveSpawner.Instance.OnSpawnStart -= UpdateWaveSpawnerUI;
+        WaveSpawner.Instance.OnEnemyKilled -= UpdateWaveSpawnerUI;
         LevelManager.Instance.OnCropSteal -= UpdateCropUIBar;
     }
 
@@ -54,15 +56,8 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>
         ActivateGameOverUI(false);
         ActivateWinUI(false);
 
-        cropUIBar.fillAmount = LevelManager.Instance.CurrentCrop / LevelManager.Instance.MaxCrop;
-        gameMoneyText.text = "" + LevelManager.Instance.CurrentMoney;
-
-        UpdateWaveBar();
-    }
-
-    public void Update()
-    {
-        enemiesCounter.text = WaveSpawner.Instance.CurrentEnemiesLeft.ToString();
+        UpdateCropUIBar();
+        ChangemoneyDisplay();
     }
 
     protected void UpdateCropUIBar()
@@ -73,9 +68,10 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>
         return;
     }
 
-    public void ChangemoneyDisplay(float reward)
+    public void ChangemoneyDisplay()
     {
         gameMoneyText.text = "$:" + LevelManager.Instance.CurrentMoney;
+        return;
     }
 
     public void ActivatePlayerControls(bool _active)
@@ -91,11 +87,11 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>
 
     public void ActivateWinUI(bool _active) { winUI.SetActive(_active); }
 
-    private void UpdateWaveBar()
+    private void UpdateWaveSpawnerUI(float _currentWave ,float _maxEnemies, float _currentEnemiesKilled)
     {
-        /*float num = WaveSpawner.Instance.CurrentWave;
-        float den = WaveSpawner.Instance.Waves.Length;
-        waveBar.fillAmount = num / den;*/
+        enemiesCounter.text = _currentWave.ToString();
+        waveProgressBar.fillAmount = _currentEnemiesKilled / _maxEnemies;
+        return;
     }
 
 }

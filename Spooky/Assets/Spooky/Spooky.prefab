@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 222312315495364938}
   - component: {fileID: 114239242968103118}
   m_Layer: 5
-  m_Name: WaveBar
+  m_Name: WaveProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 222443925173237262}
   - component: {fileID: 114089607272866308}
   m_Layer: 5
-  m_Name: EnemiesCounter
+  m_Name: WaveCounter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2223,8 +2223,8 @@ MonoBehaviour:
   combineObjectPools: 0
   gameObjectToPool: {fileID: 1612451630686668, guid: 592720f6ac46d8b4882bc1a6a1b49175,
     type: 2}
-  startingPoolSize: 5
-  poolCanIncreaseSize: 0
+  startingPoolSize: 10
+  poolCanIncreaseSize: 1
 --- !u!114 &114864521599832944
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2444,7 +2444,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55db5ec39bc7c1e448b28746c175dab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyDetectionRange: 0
+  detectionRange: 3.5
   nearEnemies: []
   currentEnemyTarget: {fileID: 0}
 --- !u!124 &124415914457586120

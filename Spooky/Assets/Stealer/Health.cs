@@ -30,10 +30,19 @@ public class Health : MonoBehaviour, Damagable
     protected void Awake()
     {
         character = GetComponent<Character>();
+        return;
+    }
+
+    protected void Start()
+    {
         Enemy enemyCharacter = GetComponent<Enemy>();
         if (enemyCharacter)
+        {
             maxHealth = enemyCharacter.StatsComponent.MaxHealth;
-        return;
+            currentHealth = maxHealth;
+            return;
+        }
+        else return;
     }
 
     protected void OnEnable()
@@ -51,17 +60,17 @@ public class Health : MonoBehaviour, Damagable
     public void TakeDamage(float _damage)
     {
         // We are laready dead.
-        Debug.Log(this.gameObject + "Taking damage");
-        if(currentHealth <=0) { return; }
+        if(currentHealth == 0) { return; }
 
+        Debug.Log(this.gameObject + "Taking damage");
         //var feathersP = Instantiate(controller.feathersParticle, transform.position, Quaternion.Euler(-90, 0, 0));
         StartCoroutine(ToggleHealthBar());
         currentHealth -= _damage;
         currentHealth = Mathf.Max(0, currentHealth);
         healthBar.fillAmount = currentHealth / maxHealth;
 
-        if (currentHealth <= 0)
-            Kill();
+        if (currentHealth == 0)
+            StartCoroutine(Kill());
         return;
     }
 
@@ -116,7 +125,11 @@ public class Health : MonoBehaviour, Damagable
     {
         if (character != null)
         {
+            Debug.Log("Killing character: " + this.gameObject);
+
             character.characterStateMachine.ChangeState(Character.CharacterState.Dead);
+
+            yield return 0;
 
             yield return new WaitForSecondsRealtime(
             character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + 0.15f
