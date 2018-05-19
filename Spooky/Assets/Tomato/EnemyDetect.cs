@@ -65,7 +65,8 @@ public class EnemyDetect : CharacterComponent, IDetect
         if (nearEnemies.Count > 0)
         {
             _direction = (nearEnemies[0].transform.position - character.CharacterTransform.position).normalized;
-            _direction.y = 0;
+            _direction.y = _direction.z;
+            _direction.z = 0;
             return _direction;
         }
         else return _direction;

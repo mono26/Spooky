@@ -32,6 +32,26 @@ public class PlantLaunchProyectile : CharacterAction
         return;
     }
 
+    public override void EveryFrame()
+    {
+        if(target != null)
+        {
+            if (target.position.x > character.CharacterTransform.position.x)
+            {
+                if (!character.IsFacingRightDirection)
+                    character.Flip();
+            }
+            // If it's negative, then we're facing left
+            else if (target.position.x < character.CharacterTransform.position.x)
+            {
+                if (character.IsFacingRightDirection)
+                    character.Flip();
+            }
+        }
+
+        base.EveryFrame();
+    }
+
     public override void ExecuteAction()
     {
         if (lastExecute + cooldown < Time.timeSinceLevelLoad)

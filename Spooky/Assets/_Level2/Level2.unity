@@ -1523,7 +1523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   characterID: Tomato
-  initialDirection: 0
+  initialDirection: 1
   currentAction: {fileID: 347059066}
 --- !u!114 &347059063
 MonoBehaviour:
