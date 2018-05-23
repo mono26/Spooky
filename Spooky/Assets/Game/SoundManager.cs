@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[System.Serializable]
-public class SoundManager
+public class SoundManager : PersistenSingleton<SoundManager>
 {
+    [SerializeField]
     private AudioSource efxSource;                   //Drag a reference to the audio source which will play the sound effects.
+    [SerializeField]
     private AudioSource musicSource;                 //Drag a reference to the audio source which will play the music. 
-
-    public SoundManager(AudioSource _efxSource, AudioSource _musicSource)
-    {
-        efxSource = _efxSource;
-        musicSource = _musicSource;
-    }
 
     public void PlayClip(AudioClip _audioClip)
     {
@@ -32,7 +24,7 @@ public class SoundManager
         musicSource.Play();
     }
 
-    internal void StopMusic()
+    public void StopSound()
     {
         musicSource.Stop();
         efxSource.Stop();

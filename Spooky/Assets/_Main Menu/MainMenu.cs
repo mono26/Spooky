@@ -8,17 +8,32 @@ public class MainMenu : MonoBehaviour
 
     public void GoToMainMenu()
     {
-        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(mainMenuScene));
+        if (mainMenuScene != "")
+        {
+            LoadManager.LoadScene(mainMenuScene);
+            return;
+        }
+        else return;
     }
 
     public void PlayGame()
     {
-        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(playLevelScene));
+        if (mainMenuScene != "")
+        {
+            LoadManager.LoadScene(playLevelScene);
+            return;
+        }
+        else return;
     }
 
     public void Credits()
     {
-        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(playLevelScene));
+        if (mainMenuScene != "")
+        {
+            LoadManager.LoadScene(creditsScene);
+            return;
+        }
+        else return;
     }
 
     public void QuitGame()

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public abstract class CharacterComponent : MonoBehaviour
+public abstract class CharacterComponent : MonoBehaviour, EventHandler<CharacterEvent>
 {
     protected Character character;
 
@@ -11,26 +11,14 @@ public abstract class CharacterComponent : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        Health hasHealth = GetComponent<Health>();
-        if (hasHealth != null)
-        {
-            hasHealth.OnDeath += OnCharacterDeath;
-            hasHealth.OnRespawn += OnCharacterRespawn;
-            return;
-        }
-        else return;
+        EventManager.AddListener<CharacterEvent>(this);
+        return;
     }
 
     protected virtual void OnDisable()
     {
-        Health hasHealth = GetComponent<Health>();
-        if (hasHealth != null)
-        {
-            hasHealth.OnDeath -= OnCharacterDeath;
-            hasHealth.OnRespawn -= OnCharacterRespawn;
-            return;
-        }
-        else return;
+        EventManager.RemoveListener<CharacterEvent>(this);
+        return;
     }
 
     public virtual void EveryFrame()
@@ -68,5 +56,17 @@ public abstract class CharacterComponent : MonoBehaviour
     protected virtual void OnCharacterRespawn()
     {
 
+    }
+
+    public virtual void OnEvent(CharacterEvent _characterEvent)
+    {
+        if(_characterEvent.character.Equals(character))
+        {
+            if (_characterEvent.type == CharacterEventType.Death)
+                OnCharacterDeath();
+            else if (_characterEvent.type == CharacterEventType.Respawn)
+                OnCharacterRespawn();
+        }
+        return;
     }
 }

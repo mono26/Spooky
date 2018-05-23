@@ -13,24 +13,16 @@ public class StealCorn : CharacterAction
         target = LevelManager.Instance.GetRandomHousePoint();
     }
 
-    public override void ExecuteAction()
+    protected override void OnEnable()
     {
-        if (lastExecute + cooldown < Time.timeSinceLevelLoad)
-        {
-            StartCoroutine(Steal());
-            return;
-        }
-        else return;
+        base.OnEnable();
+
+        target = LevelManager.Instance.GetRandomHousePoint();
     }
 
-    private IEnumerator Steal()
+    protected override IEnumerator Action()
     {
-        if (enemyCharacter != null)
-        {
-            enemyCharacter.ExecuteAction(true);
-            enemyCharacter.MovementComponent.StopEnemy(true);
-            yield return 0;
-        }
+        EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.ExecuteAction, enemyCharacter));
 
         yield return new WaitForSecondsRealtime(
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
@@ -40,13 +32,7 @@ public class StealCorn : CharacterAction
         SetLasActionExecuteToActualTimeInLevel();
 
         // Stop the action executiong because the animation has already end.
-        if (enemyCharacter != null)
-        {
-            enemyCharacter.ExecuteAction(false);
-            enemyCharacter.ChangeCurrentAction(GetComponent<EscapeWithCorn>());
-            enemyCharacter.GetComponent<EnemyMovement>().StopEnemy(false);
-            yield return 0;
-        }
+        EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.FinishExecute, enemyCharacter));
 
         yield break;
     }

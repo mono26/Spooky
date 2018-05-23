@@ -1,7 +1,21 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class HorizontalAndVerticalMovement : CharacterComponent
+public enum MovementEventType { Stop, Move}
+
+public class MovementEvent : SpookyCrowEvent
+{
+    public MovementEventType type;
+    public Character character;
+
+    public MovementEvent(MovementEventType _type, Character _character)
+    {
+        type = _type;
+        character = _character;
+    }
+}
+
+public class HorizontalAndVerticalMovement : CharacterComponent, EventHandler<MovementEvent>
 {
     protected Vector3 movementDirection;
 
@@ -23,6 +37,24 @@ public class HorizontalAndVerticalMovement : CharacterComponent
     {
         // When the game starts set values
         currentSpeed = maxSpeed;
+    }
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        currentSpeed = maxSpeed;
+
+        EventManager.AddListener<MovementEvent>(this);
+
+        return;
+    }
+
+    protected override void OnDisable()
+    {
+            base.OnDisable();
+
+            EventManager.RemoveListener<MovementEvent>(this);
     }
 
     public override void FixedFrame()
@@ -85,6 +117,7 @@ public class HorizontalAndVerticalMovement : CharacterComponent
     {
         movementDirection = Vector3.zero;
         character.CharacterBody.velocity = Vector3.zero;
+        return;
     }
 
     protected override void UpdateState()
@@ -102,6 +135,13 @@ public class HorizontalAndVerticalMovement : CharacterComponent
 
         }
         else return;
+    }
+
+    public virtual void OnEvent(MovementEvent _movementEvent)
+    {
+        if (_movementEvent.character.Equals(this.character) && _movementEvent.type == MovementEventType.Stop)
+            StopMovement();
+        return;
     }
 
     protected override void OnCharacterDeath()

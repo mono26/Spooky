@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
-  attackSpeed: 1.5
+  attacksPerSecond: 0
 --- !u!114 &114367486260847284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -291,8 +291,11 @@ MonoBehaviour:
   cooldown: 0
   actionSfx: {fileID: 0}
   delayAfterAnimationIsFinished: 0.15
-  launchForce: 10
+  actionStopsMovement: 1
+  needsTargetToExecute: 1
+  launchForce: 5
   soundEffect: {fileID: 0}
+  bulletPool: {fileID: 0}
 --- !u!114 &114532442404994260
 MonoBehaviour:
   m_ObjectHideFlags: 1

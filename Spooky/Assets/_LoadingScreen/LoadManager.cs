@@ -1,51 +1,72 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
-public class LoadManager
+public class LoadManager : MonoBehaviour
 {
     [SerializeField]
-    private float minLoadDuration = 3f;
+    private static string loadingScreenSceneName = "LoadingScreen";
+    private static string sceneToLoad;
+
+    [SerializeField]
+    private Text loadingText;
+    [SerializeField]
+    private Image loadingFill;
+    private const float loadDelay = 1.0f;
+    private const float exitFadeDuration = 1.0f;
     private AsyncOperation loadOperation;
 
-    public IEnumerator LoadLevel(string _sceneName)
+    public static void LoadScene(string _sceneToLoad)
     {
-        var startLoad = Time.unscaledTime;
-
-        yield return SceneManager.LoadSceneAsync("LoadScene");
-
-        GameManager.Instance.SceneFader.FadeInLevel();
-
-        StartLoading(_sceneName);
-
-        while(!IsDoneLoading())
+        sceneToLoad = _sceneToLoad;
+        Application.backgroundLoadingPriority = ThreadPriority.High;
+        if (loadingScreenSceneName != null)
         {
+            SceneManager.LoadScene(loadingScreenSceneName);
+        }
+    }
+
+    private void Awake()
+    {
+        
+    }
+
+    private void Start()
+    {
+        loadingText.text = "Loading...";
+        if (sceneToLoad != "")
+        {
+            StartCoroutine(LoadLevel());
+        }
+    }
+
+    public IEnumerator LoadLevel()
+    {
+        StartLoading();
+
+        while(loadOperation.progress < 0.9f)
+        {
+            loadingFill.fillAmount = loadOperation.progress;
             yield return 0;
         }
 
-        yield return new WaitForSecondsRealtime(minLoadDuration);
+        loadingFill.fillAmount = 1f;
+
+        yield return new WaitForSecondsRealtime(loadDelay);
+
+        EventManager.TriggerEvent(new FadeEvent(FadeEventType.FadeOut));
+        yield return new WaitForSecondsRealtime(exitFadeDuration);
+
+        loadOperation.allowSceneActivation = true;
     }
 
-    private void StartLoading(string _sceneName)
+    private void StartLoading()
     {
-        Time.timeScale = 0f;
         Application.backgroundLoadingPriority = ThreadPriority.High;
-        loadOperation = SceneManager.LoadSceneAsync(_sceneName, LoadSceneMode.Additive);
-    }
-
-    private bool IsDoneLoading()
-    {
-        return (loadOperation.isDone || loadOperation.progress >= 0.9f);
-    }
-
-    public IEnumerator FinishLoading()
-    {
-        Time.timeScale = 1f;
-        GameManager.Instance.SceneFader.FadeOutLevel();
-
-        yield return SceneManager.UnloadSceneAsync("LoadScene");
-
-        GameManager.Instance.SceneFader.FadeInLevel();
+        loadOperation = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Single);
+        loadOperation.allowSceneActivation = false;
+        return;
     }
 }

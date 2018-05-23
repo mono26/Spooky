@@ -2,73 +2,36 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public enum GameEventTypes
 {
-    private static GameManager instance;
-    public static GameManager Instance { get { return instance; } }
+    CropSteal,
+    LevelStart,
+    LevelEnd,
+    LevelCompleted,
+    Pause,
+    UnPause,
+    SpawnStart
+}
 
-    [Header("Sound Settings")]
-    [SerializeField]
-    private AudioSource efxSource;
-    [SerializeField]
-    private AudioSource musicSource;
-    private SoundManager soundManager;
-    public SoundManager SoundManager { get { return soundManager; } }
+public class GameEvent : SpookyCrowEvent
+{
+    public GameEventTypes type;
 
-    [Header("Load Settings")]
-    private LoadManager loadManager;
-    public LoadManager LoadManager { get { return loadManager; } }
-
-    [Header("Fade Settings")]
-    [SerializeField]
-    private AnimationCurve fadeCurve;
-    public AnimationCurve FadeCurve { get { return fadeCurve; } }
-    private Fader sceneFader;
-    public Fader SceneFader { get { return sceneFader; } }
-
-    private bool isPaused;
-    public bool IsPaused { get { return isPaused; } }
-
-    public delegate void OnFinishLoadingLevelDelegate();
-    public event OnFinishLoadingLevelDelegate OnFinishloading;
-
-    private void Awake()
+    public GameEvent(GameEventTypes _type)
     {
-        if (instance)
-        {
-            Destroy(instance);
-            instance = this;
-        }
-        else if(!instance)
-            instance = this;
-
-        sceneFader = new Fader(GameObject.FindGameObjectWithTag("Black Fade").GetComponent<Image>(), FadeCurve);
-        soundManager = new SoundManager(efxSource, musicSource);
-        loadManager = new LoadManager();
-        return;
+        type = _type;
     }
+}
 
-    private void Start()
-    {
-        StartCoroutine(SceneFader.FadeInLevel());
-        return;
-    }
+public class GameManager : PersistenSingleton<GameManager>
+{
+    protected int targetframeRate = 60;
 
-    public IEnumerator LoadLevel(string _sceneName)
-    {
-        yield return StartCoroutine(loadManager.LoadLevel(_sceneName));
-
-        yield return StartCoroutine(loadManager.FinishLoading());
-
-        if (OnFinishloading != null)
-            OnFinishloading();
-
-        yield return 0;
-    }
+    public bool IsPaused { get; protected set; }
 
     public void PauseLevel()
     {
-        isPaused = !isPaused;
+        IsPaused = !IsPaused;
         if (IsPaused)
         {
             //pauseCanvas.SetActive(true);

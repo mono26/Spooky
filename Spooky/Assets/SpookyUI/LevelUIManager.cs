@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelUIManager : SceneSingleton<LevelUIManager>
+public class LevelUIManager : SceneSingleton<LevelUIManager>, EventHandler<CharacterEvent>, EventHandler<GameEvent>
 {
     private GameObject joystick;
     private GameObject fireButton;
@@ -36,21 +36,7 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>
         return;
     }
 
-    public void OnEnable()
-    {
-        WaveSpawner.Instance.OnSpawnStart += UpdateWaveSpawnerUI;
-        WaveSpawner.Instance.OnEnemyKilled += UpdateWaveSpawnerUI;
-        LevelManager.Instance.OnCropSteal += UpdateCropUIBar;
-    }
-
-    public void OnDisable()
-    {
-        WaveSpawner.Instance.OnSpawnStart -= UpdateWaveSpawnerUI;
-        WaveSpawner.Instance.OnEnemyKilled -= UpdateWaveSpawnerUI;
-        LevelManager.Instance.OnCropSteal -= UpdateCropUIBar;
-    }
-
-    public void Start ()
+    protected void Start ()
     {
         ActivatePauseUI(false);
         ActivateGameOverUI(false);
@@ -58,6 +44,20 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>
 
         UpdateCropUIBar();
         ChangemoneyDisplay();
+    }
+
+    protected void OnEnable()
+    {
+        EventManager.AddListener<CharacterEvent>(this);
+        EventManager.AddListener<GameEvent>(this);
+        return;
+    }
+
+    protected void OnDisable()
+    {
+        EventManager.RemoveListener<CharacterEvent>(this);
+        EventManager.RemoveListener<GameEvent>(this);
+        return;
     }
 
     protected void UpdateCropUIBar()
@@ -87,11 +87,29 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>
 
     public void ActivateWinUI(bool _active) { winUI.SetActive(_active); }
 
-    private void UpdateWaveSpawnerUI(float _currentWave ,float _maxEnemies, float _currentEnemiesKilled)
+    private void UpdateWaveSpawnerUI()
     {
-        enemiesCounter.text = _currentWave.ToString();
-        waveProgressBar.fillAmount = _currentEnemiesKilled / _maxEnemies;
+        enemiesCounter.text = WaveSpawner.Instance.CurrentWave.ToString();
+        waveProgressBar.fillAmount = WaveSpawner.Instance.CurrentNumberOfEnemiesKilled / WaveSpawner.Instance.CurrentMaxNumberOfEnemiesLeft;
         return;
     }
 
+    public void OnEvent(CharacterEvent _characterEvent)
+    {
+        if (!_characterEvent.character.CharacterID.Equals("Spooky"))
+        {
+            if (_characterEvent.type == CharacterEventType.Death)
+                UpdateWaveSpawnerUI();
+        }
+        return;
+    }
+
+    public void OnEvent(GameEvent _gameManagerEvent)
+    {
+        if (_gameManagerEvent.type == GameEventTypes.SpawnStart)
+            UpdateWaveSpawnerUI();
+        else if (_gameManagerEvent.type == GameEventTypes.CropSteal)
+            UpdateCropUIBar();
+        return;
+    }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CorrosiveBullet : Bullet
@@ -13,27 +12,10 @@ public class CorrosiveBullet : Bullet
     [SerializeField]    // In seconds
     protected float corrosiveDuration = 5.0f;
     [SerializeField]
-    protected Coroutine corrosiveEffect;
-    [SerializeField]
     protected GameObject corrosiveField;
 
     public delegate void CorrosiveDamage(float _damage);
     public event CorrosiveDamage OnCorrosiveDamage;
-
-    [SerializeField]
-    private static List<Bullet> bulletList = new List<Bullet>();
-    public List<Bullet> Pool { get { return bulletList; } }
-
-    protected void Update()
-    {
-        /*if (IsBulletTimerOver())
-        {
-            StopCoroutine(corrosiveEffect);
-            ReleaseBullet(this);
-            return;
-        }
-        else return;*/
-    }
 
     protected new void Awake()
     {
@@ -41,15 +23,30 @@ public class CorrosiveBullet : Bullet
         return;
     }
 
-    protected void OnEnabled()
+    protected override void OnEnable()
     {
         bulletBody.constraints = RigidbodyConstraints.None;   //Because the rigidBody when it hits the enemy stays in rotation
         bulletBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
-        GetComponent<SpriteRenderer>().enabled = true;
-        GetComponent<Collider>().enabled = true;
+        bulletSprite.enabled = true;
+        bulletCollider.enabled = true;
         corrosiveField.SetActive(false);
+
+        poolable.OnRelease += StopEffect;
+
+        base.OnEnable();
+
         return;
     }
+
+    protected override void OnDisable()
+    {
+        poolable.OnRelease -= StopEffect;
+
+        base.OnDisable();
+
+        return;
+    }
+
     protected IEnumerator CorrosiveEffect()
     {
         corrosiveField.SetActive(true);
@@ -64,64 +61,29 @@ public class CorrosiveBullet : Bullet
             else yield return new WaitForSeconds(1 / corrosiveTickRate);
         }
 
-        ReleaseBullet(this);
+        poolable.Release();
         yield return 0;
     }
 
     private void AddEnemy(Enemy _enemy)
     {
-        //OnCorrosiveDamage += _enemy.HealthComponent.TakeDamage;
+        OnCorrosiveDamage += _enemy.HealthComponent.TakeDamage;
         return;
     }
 
     private void RemoveEnemy(Enemy _enemy)
     {
-        //OnCorrosiveDamage -= _enemy.HealthComponent.TakeDamage;
+        OnCorrosiveDamage -= _enemy.HealthComponent.TakeDamage;
         return;
     }
 
-    public Bullet Spawn(Transform _position)
+    private void StopEffect()
     {
-        if (Pool.Count == 0)
-        {
-            AddToPool();
-        }
-        Bullet bullet = Pool[Pool.Count - 1];
-        Pool.RemoveAt(Pool.Count - 1);
-        bullet.gameObject.SetActive(true);
-        SetBulletPosition(bullet, _position);
-        return bullet;
-    }
-
-    private void AddToPool()
-    {
-        var parentPool = GameObject.Find("Bullets").transform;    //Can't store a transform inside a prefab. Ensure always a tranform Enemies on level.
-        Bullet bullet = Instantiate(
-            gameObject,
-            parentPool.transform.position,
-            Quaternion.Euler(90f, 0f, 0f)
-            ).GetComponent<Bullet>();
-        bullet.transform.SetParent(parentPool);
-        Pool.Add(bullet);
-        bullet.gameObject.SetActive(false);
+        StopCoroutine(CorrosiveEffect());
         return;
     }
 
-    private void SetBulletPosition(Bullet _bullet, Transform target)
-    {
-        _bullet.transform.position = target.position;
-        return;
-    }
-
-    public void ReleaseBullet(Bullet _bullet)
-    {
-        /*Restart(_bullet);
-        Pool.Add(_bullet);
-        _bullet.gameObject.SetActive(false);
-        return;*/
-    }
-
-    protected void OnCollisionEnter(Collision _collision)
+    protected override void OnCollisionEnter(Collision _collision)
     {
         if (_collision.gameObject.CompareTag("Enemy"))
         {
@@ -130,7 +92,7 @@ public class CorrosiveBullet : Bullet
             bulletBody.velocity = Vector3.zero;
             transform.localRotation = Quaternion.Euler(new Vector3(90,0,0));    // Standar rotation for every object in the game!
             bulletBody.constraints = RigidbodyConstraints.FreezeRotationZ;   // TODO fin better way to do this.
-            corrosiveEffect = StartCoroutine(CorrosiveEffect());
+            StartCoroutine(CorrosiveEffect());
             return;
         }
         return;

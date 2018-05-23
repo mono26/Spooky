@@ -1,5 +1,19 @@
 ﻿using UnityEngine;
 
+public enum CharacterEventType { Death, Respawn }
+
+public class CharacterEvent : SpookyCrowEvent
+{
+    public CharacterEventType type;
+    public Character character;
+
+    public CharacterEvent(CharacterEventType _type, Character _character)
+    {
+        type = _type;
+        character = _character;
+    }
+}
+
 [RequireComponent(typeof(Animator), typeof(SpriteRenderer), typeof(BoxCollider))]
 [RequireComponent(typeof(AudioSource))]
 public class Character : MonoBehaviour

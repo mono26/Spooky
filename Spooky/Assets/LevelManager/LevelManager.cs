@@ -31,12 +31,8 @@ public class LevelManager : SceneSingleton<LevelManager>
     //Variables relacionadas con el fin del nivel
     private static bool gameIsOver = false;
 
-    public AudioClip backgroundMusicClip;
-
-    public delegate void OnStartLevelDelegate();
-    public event OnStartLevelDelegate OnStartLevel;
-    public delegate void OnCropStealDelegate();
-    public event OnCropStealDelegate OnCropSteal;
+    [SerializeField]
+    protected AudioClip backgroundMusicClip;
 
     protected override void Awake()
     {
@@ -48,20 +44,12 @@ public class LevelManager : SceneSingleton<LevelManager>
         LookForSpawnPoints();
     }
 
-    private void OnEnable()
-    {
-        GameManager.Instance.OnFinishloading += StartLevel;
-    }
-
-    private void OnDisable()
-    {
-        GameManager.Instance.OnFinishloading -= StartLevel;
-    }
-
     private void Start()
     {
         CurrentCrop = maxCrop;
         CurrentMoney = startingMoney;
+        EventManager.TriggerEvent<FadeEvent>(new FadeEvent(FadeEventType.FadeOut));
+        SoundManager.Instance.PlayMusic(backgroundMusicClip);
     }
 
     // Caching
@@ -121,34 +109,19 @@ public class LevelManager : SceneSingleton<LevelManager>
         //winUI.SetActive(true);
     }
 
-    void PlayBackGroundLevelMusic()
-    {
-        GameManager.Instance.SoundManager.PlayMusic(backgroundMusicClip);
-        return;
-    }
-
     public void QuitLevel()
     {
         Time.timeScale = 1;
-        GameManager.Instance.StartCoroutine(GameManager.Instance.LoadLevel(mainMenuScene));
-        GameManager.Instance.SoundManager.StopMusic();
+        LoadManager.LoadScene(mainMenuScene);
+        //GameManager.Instance.SoundManager.StopMusic();
     }
 
     public void RetryLevel()
     {
-        Time.timeScale = 1;
+        /*Time.timeScale = 1;
         GameManager.Instance.StartCoroutine(
             GameManager.Instance.LoadLevel(SceneManager.GetActiveScene().name)
-            );
-    }
-
-    private void StartLevel()
-    {
-        if (OnStartLevel != null)
-            OnStartLevel();
-
-        PlayBackGroundLevelMusic();
-        return;
+            );*/
     }
 
     public void GiveMoney(int reward)
@@ -166,6 +139,7 @@ public class LevelManager : SceneSingleton<LevelManager>
     public void LoseCrop(int _stole)
     {
         CurrentCrop -= _stole;
+        EventManager.TriggerEvent<GameEvent>(new GameEvent(GameEventTypes.CropSteal));
         if (CurrentCrop <= 0)
         {
             //GameOver Code

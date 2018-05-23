@@ -1,7 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyDetect : CharacterComponent, IDetect
+public enum DetectEventType { TargetAcquired, TargetLost}
+
+public class DetectEvent : SpookyCrowEvent
+{
+    public DetectEventType type;
+    public Transform target;
+    public Character character;
+
+    public DetectEvent(DetectEventType _type, Character _character, Transform _target = null)
+    {
+        type = _type;
+        character = _character;
+        target = _target;
+    }
+}
+
+public class EnemyDetect : CharacterComponent
 {
     // TODO encapsulate Spooky, Enemy and Plant in Character.
     protected SphereCollider detectionTrigger;
@@ -32,7 +48,7 @@ public class EnemyDetect : CharacterComponent, IDetect
         Detect();
     }
 
-    public void Detect()
+    protected virtual void Detect()
     {
         // To check if the top of the stack is out of range or dead, or any other condition for clearing it
         if (nearEnemies.Count > 0)
@@ -40,7 +56,7 @@ public class EnemyDetect : CharacterComponent, IDetect
             if (!IsFirstEnemyInTheListActive())
                 ClearCurrentTarget();
         }
-        else return;
+        return;
     }
 
     public Enemy GetFirstEnemyInTheList()
@@ -76,6 +92,7 @@ public class EnemyDetect : CharacterComponent, IDetect
     {
         // Clear the top of the stack if its destroyes, null, or inactive, out of range
         nearEnemies.RemoveAt(0);
+        return;
     }
 
     private void AddEnemyToTheList(Enemy _enemy)
@@ -98,21 +115,27 @@ public class EnemyDetect : CharacterComponent, IDetect
         else return;
     }
 
-    public void OnTriggerEnter(Collider _collider)
+    public virtual void OnTriggerEnter(Collider _collider)
     {
         if (_collider.CompareTag("Enemy"))
         {
+            if (nearEnemies.Count == 0)
+            {
+                EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetAcquired, character, _collider.transform));
+            }
             AddEnemyToTheList(_collider.GetComponent<Enemy>());
             return;
         }
         else return;
     }
 
-    public void OnTriggerExit(Collider _collider)
+    public virtual void OnTriggerExit(Collider _collider)
     {
         if (_collider.CompareTag("Enemy"))
         {
             RemoveEnemyFromTheList(_collider.GetComponent<Enemy>());
+            if(nearEnemies.Count == 0)
+                EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetLost, character));
             return;
         }
         else return;

@@ -5,13 +5,15 @@ using UnityEngine.UI;
 [System.Serializable]
 public class Health : MonoBehaviour, Damagable
 {
-    //AIEffectsHandler effects;
+    [Header("Health")]
     [SerializeField]
     private float maxHealth;
     [SerializeField]
     private Image healthBar;
     [SerializeField]
     private float healthBarToggleTime;
+
+    [Header("Damage")]
     [SerializeField]
     private GameObject damageEffect;
     [SerializeField]
@@ -19,13 +21,7 @@ public class Health : MonoBehaviour, Damagable
 
     [SerializeField]
     private float currentHealth;
-
     private Character character;
-
-    public delegate void OnDeathDelegate();
-    public event OnDeathDelegate OnDeath;
-    public delegate void OnRespawnDelegate();
-    public event OnRespawnDelegate OnRespawn;
 
     protected void Awake()
     {
@@ -65,6 +61,7 @@ public class Health : MonoBehaviour, Damagable
         //var feathersP = Instantiate(controller.feathersParticle, transform.position, Quaternion.Euler(-90, 0, 0));
         StartCoroutine(ToggleHealthBar());
         currentHealth -= _damage;
+        PlayHitSfx();
         currentHealth = Mathf.Max(0, currentHealth);
         healthBar.fillAmount = currentHealth / maxHealth;
 
@@ -88,16 +85,16 @@ public class Health : MonoBehaviour, Damagable
 
     private void PlayHitSfx()
     {
-        /*if (DamageSfx != null)
+        if (damageSfx != null)
         {
-            SoundManager.Instance.PlaySound(DamageSfx, transform.position);
-        }*/
+            SoundManager.Instance.PlayClip(damageSfx);
+        }
     }
 
     private IEnumerator Kill()
     {
-        if (OnDeath != null)
-            OnDeath();
+        /*if (OnDeath != null)
+            OnDeath();*/
 
         PoolableObject poolableCharacter = GetComponent<PoolableObject>();
         if (poolableCharacter != null)

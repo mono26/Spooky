@@ -1,8 +1,22 @@
 ﻿using UnityEngine;
 
+public enum EnemyEventType { ExecuteAction, FinishExecute}
+
+public class EnemyEvent : SpookyCrowEvent
+{
+    public Enemy enemy;
+    public EnemyEventType type;
+
+    public EnemyEvent(EnemyEventType _type, Enemy _enemy)
+    {
+        enemy = _enemy;
+        type = _type;
+    }
+}
+
 [RequireComponent(typeof(PoolableObject), typeof(EnemyStats), typeof(Health))]
 [RequireComponent(typeof(EnemyMovement))]
-public class Enemy : Character
+public class Enemy : Character, EventHandler<EnemyEvent>
 {
     public bool IsExecutingAction { get; protected set; }
 
@@ -14,9 +28,10 @@ public class Enemy : Character
     public EnemyMovement MovementComponent { get { return movementComponent; } }
 
     // Assigned by inspector.
-    [SerializeField]
     private CharacterAction currentAction;
     public CharacterAction CurrentAction { get { return currentAction; } }
+    [SerializeField]
+    private CharacterAction startingAction;
 
     protected override void Awake()
     {
@@ -24,21 +39,32 @@ public class Enemy : Character
 
         statsComponent = GetComponent<EnemyStats>();
         if (!statsComponent)
-            Debug.LogError("No stats component found on the enemy gameObject: " + this.gameObject.ToString());
+            Debug.LogError(this.gameObject.ToString() + "No stats component found on the enemy gameObject: ");
 
         healthComponent = GetComponent<Health>();
         if (!statsComponent)
-            Debug.LogError("No health component found on the enemy gameObject: " + this.gameObject.ToString());
+            Debug.LogError(this.gameObject.ToString() + "No health component found on the enemy gameObject: ");
 
         movementComponent = GetComponent<EnemyMovement>();
         if (!statsComponent)
-            Debug.LogError("No movement component found on the enemy gameObject: " + this.gameObject.ToString());
+            Debug.LogError(this.gameObject.ToString() + "No movement component found on the enemy gameObject: ");
+
+        if(currentAction == null)
+            Debug.LogError(this.gameObject.ToString() + "No current action assigned on the enemy gameObject: ");
     }
 
     protected void OnEnable()
     {
         IsExecutingAction = false;
         ActivateCollider(true);
+        currentAction = startingAction;
+        EventManager.AddListener<EnemyEvent>(this);
+        return;
+    }
+
+    protected void OnDisable()
+    {
+        EventManager.RemoveListener<EnemyEvent>(this);
         return;
     }
 
@@ -46,20 +72,29 @@ public class Enemy : Character
     {
         if (currentAction.IsTargetInRange() && !IsExecutingAction)
         {
-            currentAction.ExecuteAction();
-        }
-        else
-        {
-            movementComponent.StopEnemy(false);
+            StartCoroutine(currentAction.ExecuteAction());
         }
 
         base.Update();
+
         return;
     }
 
-    public void ExecuteAction(bool _cast)
+    protected void ExecuteAction(bool _cast)
     {
         IsExecutingAction = _cast;
+        return;
+    }
+
+    public void OnEvent(EnemyEvent _enemyEvent)
+    {
+        if(_enemyEvent.enemy.Equals(this))
+        {
+            if (_enemyEvent.type == EnemyEventType.ExecuteAction)
+                ExecuteAction(true);
+            if (_enemyEvent.type == EnemyEventType.FinishExecute)
+                ExecuteAction(false);
+        }
         return;
     }
 

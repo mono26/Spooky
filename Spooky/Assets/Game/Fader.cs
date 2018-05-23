@@ -2,44 +2,40 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Fader
+public enum FadeEventType { FadeOut, FadeIn}
+
+public class FadeEvent : SpookyCrowEvent
 {
-    public Image blackBackGround;
-    public AnimationCurve fadeCurve;
+    public FadeEventType type;
 
-    public Fader(Image _blackBackGround, AnimationCurve _fadeCurve)
+    public FadeEvent(FadeEventType _type)
     {
-        blackBackGround = _blackBackGround;
-        fadeCurve = _fadeCurve;
+        type = _type;
+    }
+}
+
+public class Fader : MonoBehaviour, EventHandler<FadeEvent>
+{
+    private Image blackBackGround;
+    [SerializeField]
+    private AnimationCurve fadeCurve;
+
+    private void Awake()
+    {
+        blackBackGround = GetComponent<Image>();
     }
 
-    public IEnumerator FadeInObject(MaskableGraphic _object)
+    private void OnEnable()
     {
-        float t = 1f;
-
-        while (t > 0f)
-        {
-            t -= Time.unscaledDeltaTime;
-            float a = fadeCurve.Evaluate(t);
-            _object.color = new Color(1f, 1f, 1f, a);
-            yield return 0;
-        }
+        EventManager.AddListener<FadeEvent>(this);
     }
 
-    public IEnumerator FadeOutObject(MaskableGraphic _object)
+    private void OnDisable()
     {
-        float t = 0f;
-
-        while (t < 1f)
-        {
-            t += Time.unscaledDeltaTime;
-            float a = fadeCurve.Evaluate(t);
-            _object.color = new Color(1f, 1f, 1f, a);
-            yield return 0;
-        }
+        EventManager.RemoveListener<FadeEvent>(this);
     }
 
-    public IEnumerator FadeInLevel()
+    private IEnumerator FadeOutLevel()
     {
         blackBackGround.gameObject.SetActive(true);
 
@@ -56,7 +52,7 @@ public class Fader
         blackBackGround.gameObject.SetActive(false);
     }
 
-    public IEnumerator FadeOutLevel()
+    private IEnumerator FadeInLevel()
     {
         blackBackGround.gameObject.SetActive(true);
 
@@ -71,5 +67,14 @@ public class Fader
         }
 
         blackBackGround.gameObject.SetActive(false);
+    }
+
+    public void OnEvent(FadeEvent _fadeEvent)
+    {
+        if(_fadeEvent.type == FadeEventType.FadeOut)
+            StartCoroutine(FadeOutLevel());
+        else if (_fadeEvent.type == FadeEventType.FadeIn)
+            StartCoroutine(FadeInLevel());
+        return;
     }
 }

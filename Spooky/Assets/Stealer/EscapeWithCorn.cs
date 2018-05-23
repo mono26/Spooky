@@ -13,25 +13,22 @@ public class EscapeWithCorn : CharacterAction
         target = LevelManager.Instance.GetRandomEscapePoint();
     }
 
-    public override void ExecuteAction()
+    protected override void OnEnable()
     {
-        if (lastExecute + cooldown < Time.timeSinceLevelLoad)
-        {
-            StartCoroutine(Escape());
-            return;
-        }
-        else return;
+        base.OnEnable();
+
+        target = LevelManager.Instance.GetRandomEscapePoint();
     }
 
-    private IEnumerator Escape()
+    protected override IEnumerator Action()
     {
         SetLasActionExecuteToActualTimeInLevel();
+
+        EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.FinishExecute, enemyCharacter));
 
         // Stop the action executiong because the animation has already end.
         if (enemyCharacter != null)
         {
-            enemyCharacter.ExecuteAction(false);
-            enemyCharacter.GetComponent<EnemyMovement>().StopEnemy(false);
             GetComponent<PoolableObject>().Release();
         }
         else

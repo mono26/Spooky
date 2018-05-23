@@ -13,8 +13,9 @@ public class PlantLaunchProyectile : CharacterAction
     private AudioClip soundEffect;
 
     private Bullet actualBullet;
-    private SingleObjectPool bulletPool;
     private Transform shootPoint;
+    [SerializeField]
+    private SingleObjectPool bulletPool;
 
     protected override void Awake()
     {
@@ -22,13 +23,16 @@ public class PlantLaunchProyectile : CharacterAction
 
         plantCharacter = GetComponent<Plant>();
         shootPoint = transform.Find("ShootPoint").GetComponent<Transform>();
-        bulletPool = GetComponent<SingleObjectPool>();
+        if (bulletPool == null)
+            Debug.Log(this.gameObject + "You need to asign a pool to the ability");
     }
 
     protected void Start()
     {
-        cooldown = plantCharacter.StatsComponent.AttackSpeed;
-        range = plantCharacter.EnemyDetect.DetectionRange;
+        if(cooldown == 0)
+            cooldown = plantCharacter.StatsComponent.AttacksPerSecond;
+        if (range == 0)
+            range = plantCharacter.EnemyDetect.DetectionRange;
         return;
     }
 
@@ -52,23 +56,10 @@ public class PlantLaunchProyectile : CharacterAction
         base.EveryFrame();
     }
 
-    public override void ExecuteAction()
+    protected override IEnumerator Action()
     {
-        if (lastExecute + cooldown < Time.timeSinceLevelLoad)
-        {
-            StartCoroutine(BasicAtack());
-            return;
-        }
-        else return;
-    }
+        EventManager.TriggerEvent(new PlantEvent(PlantEventType.ExecuteAction, plantCharacter));
 
-    protected IEnumerator BasicAtack()
-    {
-        if (plantCharacter != null)
-        {
-            plantCharacter.ExecuteAction(true);
-            yield return 0;
-        }
 
         yield return new WaitForSecondsRealtime(
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
@@ -82,11 +73,7 @@ public class PlantLaunchProyectile : CharacterAction
         actualBullet.Launch(launchForce);
         actualBullet = null;
 
-        if (plantCharacter != null)
-        {
-            plantCharacter.ExecuteAction(false);
-            yield return 0;
-        }
+        EventManager.TriggerEvent(new PlantEvent(PlantEventType.FinishExecute, plantCharacter));
 
         yield break;
     }

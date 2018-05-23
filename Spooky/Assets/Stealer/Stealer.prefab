@@ -170,7 +170,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -194,7 +194,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!95 &95576672161931324
 Animator:
   serializedVersion: 3
@@ -255,7 +255,7 @@ MonoBehaviour:
   type: 1
   characterID: Stealer
   initialDirection: 0
-  currentAction: {fileID: 114504915973877528}
+  startingAction: {fileID: 114504915973877528}
 --- !u!114 &114303027106017680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -271,7 +271,7 @@ MonoBehaviour:
   healthBar: {fileID: 114530401713927566}
   healthBarToggleTime: 3
   damageEffect: {fileID: 0}
-  damageSfx: {fileID: 0}
+  damageSfx: {fileID: 8300000, guid: 7f1848e2854726445b9a9f4f51c774a6, type: 3}
   currentHealth: 0
 --- !u!114 &114411158048508160
 MonoBehaviour:
@@ -300,6 +300,9 @@ MonoBehaviour:
   range: 0.3
   cooldown: 5
   actionSfx: {fileID: 0}
+  delayAfterAnimationIsFinished: 0.15
+  actionStopsMovement: 1
+  needsTargetToExecute: 1
 --- !u!114 &114530401713927566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -379,6 +382,9 @@ MonoBehaviour:
   range: 0.3
   cooldown: 5
   actionSfx: {fileID: 0}
+  delayAfterAnimationIsFinished: 0.15
+  actionStopsMovement: 0
+  needsTargetToExecute: 1
 --- !u!195 &195140747816481618
 NavMeshAgent:
   m_ObjectHideFlags: 1

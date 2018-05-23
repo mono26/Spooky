@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4029549295474286}
   - component: {fileID: 135569130457611010}
   m_Layer: 15
-  m_Name: Range
+  m_Name: EnemyDetector
   m_TagString: Plant Range
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,7 +36,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4260655277493156}
   m_Layer: 14
-  m_Name: Shoot Position
+  m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,7 +54,15 @@ GameObject:
   - component: {fileID: 54057058601023744}
   - component: {fileID: 65774770820588646}
   - component: {fileID: 95267028207046288}
-  - component: {fileID: 114158529005576618}
+  - component: {fileID: 82980012030607036}
+  - component: {fileID: 114209571533218138}
+  - component: {fileID: 114294794264080794}
+  - component: {fileID: 114635352045915674}
+  - component: {fileID: 114227272818819672}
+  - component: {fileID: 114281402800385212}
+  - component: {fileID: 114795536802711372}
+  - component: {fileID: 114498531075047918}
+  - component: {fileID: 114993173942050484}
   m_Layer: 14
   m_Name: Tomaton
   m_TagString: Plant
@@ -130,6 +138,86 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.73, y: 0.73, z: 0.5}
   m_Center: {x: 0, y: 0.36, z: -0.25}
+--- !u!82 &82980012030607036
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824483377860578}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95267028207046288
 Animator:
   serializedVersion: 3
@@ -147,7 +235,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114158529005576618
+--- !u!114 &114209571533218138
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -155,27 +243,133 @@ MonoBehaviour:
   m_GameObject: {fileID: 1824483377860578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd9baa2d2e46fd94186c6a6fcb8458ad, type: 3}
+  m_Script: {fileID: 11500000, guid: ed065e175dc3e5a428fc033c0280e3de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyDetect:
-    nearEnemies: []
-  settings:
-    AttackSpeed: 1
-    MaxHealth: 1
-    EnemyDetectSettings:
-      enemyDetectionRange: 3.5
-      detectionTrigger: {fileID: 135569130457611010}
-  soundEffect: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
-  lastShoot: 0
+  type: 1
+  characterID: Tomaton
+  initialDirection: 1
+  currentAction: {fileID: 114281402800385212}
+  specialAction: {fileID: 114498531075047918}
+--- !u!114 &114227272818819672
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824483377860578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b96a947ad42a3f64683116fb61cb09dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 0
+  healthBar: {fileID: 0}
+  healthBarToggleTime: 0
+  damageEffect: {fileID: 0}
+  damageSfx: {fileID: 0}
+  currentHealth: 0
+--- !u!114 &114281402800385212
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824483377860578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c574cd7a0526564dbcaf97bb5748c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  range: 0
+  cooldown: 0
+  actionSfx: {fileID: 0}
+  delayAfterAnimationIsFinished: 0.15
+  actionStopsMovement: 1
+  needsTargetToExecute: 1
+  nextAction: {fileID: 0}
   launchForce: 10
-  bullet: {fileID: 114768004279819712, guid: 71d322d4d54f70f45baaa1d842bc51be, type: 2}
-  launchPosition: {fileID: 4260655277493156}
-  currentState: 0
-  specialBullet: {fileID: 114577798836249854, guid: 8ee630e99e2deb4409df24feda160038,
+  soundEffect: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
+  bulletPool: {fileID: 114795536802711372}
+--- !u!114 &114294794264080794
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824483377860578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813fe3c9d053f8b438a21e191c964397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  attacksPerSecond: 0
+--- !u!114 &114498531075047918
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824483377860578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c574cd7a0526564dbcaf97bb5748c04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  range: 0
+  cooldown: 10
+  actionSfx: {fileID: 0}
+  delayAfterAnimationIsFinished: 0.15
+  actionStopsMovement: 1
+  needsTargetToExecute: 1
+  nextAction: {fileID: 0}
+  launchForce: 10
+  soundEffect: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
+  bulletPool: {fileID: 114993173942050484}
+--- !u!114 &114635352045915674
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824483377860578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf90197a44a8cca4a85ac809368caa48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectionRange: 4
+  nearEnemies: []
+--- !u!114 &114795536802711372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824483377860578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e84794f9baf15641a9e8b75a2c912e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combineObjectPools: 1
+  gameObjectToPool: {fileID: 1110879117931572, guid: 71d322d4d54f70f45baaa1d842bc51be,
     type: 2}
-  specialCooldown: 15
-  lastSpecialShoot: 0
+  startingPoolSize: 5
+  poolCanIncreaseSize: 1
+--- !u!114 &114993173942050484
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824483377860578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e84794f9baf15641a9e8b75a2c912e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combineObjectPools: 1
+  gameObjectToPool: {fileID: 1315302860701234, guid: 8ee630e99e2deb4409df24feda160038,
+    type: 2}
+  startingPoolSize: 5
+  poolCanIncreaseSize: 1
 --- !u!135 &135569130457611010
 SphereCollider:
   m_ObjectHideFlags: 1

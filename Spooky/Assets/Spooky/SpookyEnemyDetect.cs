@@ -9,6 +9,15 @@ public class SpookyEnemyDetect : EnemyDetect
 
     private Coroutine targetClosestEnemy = null;
 
+    protected override void Detect()
+    {
+        base.Detect();
+
+        if (nearEnemies.Count == 0)
+            currentEnemyTarget = null;
+        return;
+    }
+
     private IEnumerator TargetNearestEnemy()
     {
         if (nearEnemies.Count > 0)
@@ -36,6 +45,7 @@ public class SpookyEnemyDetect : EnemyDetect
     private void ChangeCurrentEnemyTarget(Enemy _enemy)
     {
         currentEnemyTarget = _enemy;
+        return;
     }
 
     public Vector3 GetCurrentEnemyTargetDirection()
@@ -50,23 +60,23 @@ public class SpookyEnemyDetect : EnemyDetect
         else return _direction;
     }
 
-    public new void OnTriggerEnter(Collider _enemyCollider)
+    public override void OnTriggerEnter(Collider _enemyCollider)
     {
-        base.OnTriggerEnter(_enemyCollider);
         // Check if the collider is tagged as enemy
         if (_enemyCollider.CompareTag("Enemy"))
         {
-            if (GetFirstEnemyInTheList() != null)
+            if (nearEnemies.Count == 0)
             {
                 ChangeCurrentEnemyTarget(_enemyCollider.GetComponent<Enemy>());
                 targetClosestEnemy = StartCoroutine(TargetNearestEnemy()); 
             }
+            base.OnTriggerEnter(_enemyCollider);
             return;
         }
         else return;
     }
 
-    public new void OnTriggerExit(Collider _enemyCollider)
+    public override void OnTriggerExit(Collider _enemyCollider)
     {
         base.OnTriggerExit(_enemyCollider);
         // Check if the collider is tagged as enemy

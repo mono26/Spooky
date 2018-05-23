@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SingleObjectPool), typeof(SingleObjectPool))]
-public class WaveSpawner : SceneSingleton<WaveSpawner>
+public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEvent>
 {
     public enum SpawnState
     {
@@ -19,28 +19,27 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>
     
     [SerializeField]
     private int currentMaxNumberOfEnemiesLeft = 0;
+    public int CurrentMaxNumberOfEnemiesLeft { get { return currentMaxNumberOfEnemiesLeft; } }
     [SerializeField]
     private int currentNumberOfEnemiesKilled = 0;
+    public int CurrentNumberOfEnemiesKilled { get { return currentNumberOfEnemiesKilled; } }
     [SerializeField]
     private int currentWave = 0;
+    public int CurrentWave { get { return currentWave; } }
 
     [SerializeField]
     private float timeBetweenNextWaveSpawn = 3.0f;
     // Number of enemies to spawn per second
     [SerializeField]
-    private float enemySpawnRate = 2f;
+    private float enemySpawnRatePerSecond = 2f;
     private float waveCompletedTimer;
 
     [SerializeField]
-    private AudioClip SpawnSound;
+    private AudioClip spawnSound;
 
     //State of the waveSpawn
+    [SerializeField]
     private SpawnState waveSpawnerState;
-
-    public delegate void OnSpawnStartDelegate(float _currentWave,float _numberOfEnemies, float _currentKilled);
-    public event OnSpawnStartDelegate OnSpawnStart;
-    public delegate void OnEnemyKilledDelegate(float _currentWave, float _numberOfEnemies, float _currentKilled);
-    public event OnEnemyKilledDelegate OnEnemyKilled;
 
     protected override void Awake()
     {
@@ -48,20 +47,28 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>
 
         enemiesPools = GetComponents<SingleObjectPool>();
     }
-    private void OnDisable()
-    {
-        LevelManager.Instance.OnStartLevel -= PlayEnemySpawnClip;
-    }
 
     // Use this for initialization
-    private void Start()
+    protected void Start()
     {
-        LevelManager.Instance.OnStartLevel += PlayEnemySpawnClip;
-
         waveSpawnerState = SpawnState.COUNTING;
+        return;
     }
+
+    protected void OnEnable()
+    {
+        EventManager.AddListener<CharacterEvent>(this);
+        return;
+    }
+
+    protected void OnDisable()
+    {
+        EventManager.RemoveListener<CharacterEvent>(this);
+        return;
+    }
+
     // Update is called once per frame
-    private void Update()
+    protected void Update()
     {
         //To see if all waves are finished
         if (currentWave > 100)
@@ -73,7 +80,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>
 
         if (waveSpawnerState == SpawnState.WAITING)
         {
-            if (currentMaxNumberOfEnemiesLeft == 0)
+            if (currentNumberOfEnemiesKilled == currentMaxNumberOfEnemiesLeft)
             {
                 //Begin a new Round
                 WaveCompleted();
@@ -83,7 +90,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>
 
         if (waveSpawnerState == SpawnState.COUNTING)
         {
-            if (Time.timeSinceLevelLoad > timeBetweenNextWaveSpawn + waveCompletedTimer && currentMaxNumberOfEnemiesLeft == 0)
+            if (Time.timeSinceLevelLoad > timeBetweenNextWaveSpawn + waveCompletedTimer)
             {
                 //If the countdown to start spawning the next wave is 0 and is not spawning auotomaticly force it to spawn
                 if (waveSpawnerState != SpawnState.SPAWNING)
@@ -100,17 +107,11 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>
     private IEnumerator SpawnWave()
     {
         waveSpawnerState = SpawnState.SPAWNING;
+        SoundManager.Instance.PlayClip(spawnSound);
 
-        currentMaxNumberOfEnemiesLeft = 0;
-        currentNumberOfEnemiesKilled = 0;
         for(int i = 0; i < enemiesToSpawn.Length; i++)
         {
             currentMaxNumberOfEnemiesLeft += CalculateNumberOfEnemiesToSpawn(enemiesToSpawn[i].CharacterID);
-        }
-
-        if (OnSpawnStart != null)
-        {
-            OnSpawnStart(currentWave, currentMaxNumberOfEnemiesLeft, currentNumberOfEnemiesKilled);
         }
 
         int numberOfSpawns = currentMaxNumberOfEnemiesLeft;
@@ -121,7 +122,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>
             {
                 SpawnEnemy(enemiesToSpawn[i].CharacterID);
                 numberOfSpawns--;
-                yield return new WaitForSeconds(1f / enemySpawnRate);
+                yield return new WaitForSeconds(1f / enemySpawnRatePerSecond);
             }
         }
         waveSpawnerState = SpawnState.WAITING;
@@ -149,9 +150,6 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>
         /*if(currentWave >= 10)
             tempEnemy.StatsComponent.ScaleStatsByFactor();*/
 
-        PoolableObject poolable = tempEnemy.GetComponent<PoolableObject>();
-        if(poolable != null)
-            poolable.OnRelease += EnemyKilled;
         currentMaxNumberOfEnemiesLeft++;
 
         return;
@@ -161,6 +159,8 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>
     {
         waveSpawnerState = SpawnState.COUNTING;
         waveCompletedTimer = Time.timeSinceLevelLoad;
+        currentMaxNumberOfEnemiesLeft = 0;
+        currentNumberOfEnemiesKilled = 0;
         currentWave++;
     }
 
@@ -171,14 +171,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>
         currentNumberOfEnemiesKilled++;
         currentNumberOfEnemiesKilled = (int)Mathf.Clamp(currentNumberOfEnemiesKilled, 0, Mathf.Infinity);
 
-        if (OnEnemyKilled != null)
-            OnEnemyKilled(currentWave ,currentMaxNumberOfEnemiesLeft, currentNumberOfEnemiesKilled);
         return;
-    }
-
-    private void PlayEnemySpawnClip()
-    {
-        GameManager.Instance.SoundManager.PlayClip(SpawnSound);
     }
 
     private int CalculateNumberOfEnemiesToSpawn(string _enemyID)
@@ -199,5 +192,14 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>
                 break;
         }
         return numberOfEnemiesToSpawn;
+    }
+
+    public void OnEvent(CharacterEvent _characterEvent)
+    {
+        if(!_characterEvent.character.CharacterID.Equals("Spooky"))
+        {
+            if (_characterEvent.type == CharacterEventType.Death)
+                EnemyKilled();
+        }
     }
 }

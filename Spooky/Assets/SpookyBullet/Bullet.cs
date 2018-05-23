@@ -4,10 +4,12 @@
 [RequireComponent(typeof(SpriteRenderer))]
 public class Bullet : PoolableObject
 {
-    protected Rigidbody bulletBody;
-    public Rigidbody BulletBody { get { return bulletBody; } }
     protected BoxCollider bulletCollider;
     public BoxCollider BulletCollider { get { return bulletCollider; } }
+    protected Rigidbody bulletBody;
+    public Rigidbody BulletBody { get { return bulletBody; } }
+    protected SpriteRenderer bulletSprite;
+    public SpriteRenderer BulletSprite { get { return bulletSprite; } }
     protected DamageOnTouch damageComponent;
     public DamageOnTouch DamageComponent { get { return damageComponent; } }
 
@@ -15,12 +17,13 @@ public class Bullet : PoolableObject
 
     [SerializeField]
     protected float bulletDamage;
-    protected float bulletLaunchTime;
+    private float bulletLaunchTime;
 
     protected virtual void Awake()
     {
         bulletBody = GetComponent<Rigidbody>();
         bulletCollider = GetComponent<BoxCollider>();
+        bulletSprite = GetComponent<SpriteRenderer>();
         damageComponent = GetComponent<DamageOnTouch>();
         poolable = GetComponent<PoolableObject>();
         return;

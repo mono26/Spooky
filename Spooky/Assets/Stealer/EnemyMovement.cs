@@ -10,8 +10,8 @@ public class EnemyMovement : HorizontalAndVerticalMovement
 
     protected NavMeshPath pathToTheTarget;
 
-    protected bool isEnemyStopped;
-    public bool IsEnemyStopped { get { return isEnemyStopped; } }
+    protected bool isStopped;
+    public bool IsStopped { get { return isStopped; } }
 
     protected override void Awake()
     {
@@ -36,13 +36,27 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         navMeshAgent.updateUpAxis = false;
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+        isStopped = false;
+
+        return;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+    }
+
     public override void FixedFrame()
     {
-        if (isEnemyStopped)
+        if (isStopped)
         {
             StopMovement();
         }
-        else if (!isEnemyStopped)
+        else if (!isStopped)
         {
             CalculateDirectionToTarget();
         }
@@ -56,7 +70,7 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         {
             navMeshAgent.CalculatePath(enemy.CurrentAction.Target.position, pathToTheTarget);
 
-            if (!pathToTheTarget.Equals(null))
+            if (!pathToTheTarget.Equals(null) && pathToTheTarget.corners.Length > 1)
             {
                 // TODO calculate dot and cross product for input values moving the rigidBody
                 Vector3 desiredDirection = (pathToTheTarget.corners[1] - character.CharacterTransform.position).normalized;
@@ -72,9 +86,29 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         else return;
     }
 
-    public void StopEnemy(bool _stop)
+    protected override void StopMovement()
     {
-        isEnemyStopped = _stop;
+        base.StopMovement();
+        return;
+    }
+
+    protected void StopEnemy(bool _stop)
+    {
+        isStopped = _stop;
+        return;
+    }
+
+    public override void OnEvent(MovementEvent _movementEvent)
+    {
+        base.OnEvent(_movementEvent);
+
+        if(_movementEvent.character.Equals(this.character))
+        {
+            if (_movementEvent.type == MovementEventType.Stop)
+                StopEnemy(true);
+            else if (_movementEvent.type == MovementEventType.Move)
+                StopEnemy(false);
+        }
         return;
     }
 

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine;
 
-public abstract class CharacterAction : CharacterComponent 
+public abstract class CharacterAction : CharacterComponent, EventHandler<DetectEvent>
 {
     [SerializeField]
     protected Transform target;
     public Transform Target { get { return target; } }
+
     [SerializeField]
     protected float range;
     [SerializeField]
@@ -14,6 +15,12 @@ public abstract class CharacterAction : CharacterComponent
     protected AudioClip actionSfx;
     [SerializeField]
     protected float delayAfterAnimationIsFinished = 0.15f;
+    [SerializeField]
+    protected bool actionStopsMovement = true;
+    [SerializeField]
+    protected bool needsTargetToExecute = true;
+    [SerializeField]
+    protected CharacterAction nextAction;
 
     protected float lastExecute;
 
@@ -26,9 +33,39 @@ public abstract class CharacterAction : CharacterComponent
         lastExecute = Time.timeSinceLevelLoad - cooldown;
     }
 
-    public virtual void ExecuteAction()
+    protected override void OnEnable()
     {
+        base.OnEnable();
 
+        EventManager.AddListener<DetectEvent>(this);
+
+        return;
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+        EventManager.RemoveListener<DetectEvent>(this);
+    }
+
+    public IEnumerator ExecuteAction()
+    {
+        if (lastExecute + cooldown < Time.timeSinceLevelLoad)
+        {
+            if (actionStopsMovement)
+                EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, character));
+
+            yield return Action();
+
+            EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Move, character));
+        }
+        yield break;
+    }
+
+    protected virtual IEnumerator Action()
+    {
+        yield break;
     }
 
     protected virtual void PlaySfx()
@@ -44,17 +81,38 @@ public abstract class CharacterAction : CharacterComponent
 
     public bool IsTargetInRange()
     {
-        float distance = Vector3.Distance(character.CharacterTransform.position, target.position);
-        if (distance <= range)
+        if (needsTargetToExecute)
         {
-            return true;
+            float distance = Vector3.Distance(character.CharacterTransform.position, target.position);
+            if (distance <= range)
+            {
+                return true;
+            }
+            else return false;
         }
-        else return false;
+        else return true;
     }
 
-    public void SetTarget(Transform _newTarget)
+    protected void SetTarget(Transform _newTarget)
     {
         target = _newTarget;
         return;
+    }
+
+    public void OnEvent(DetectEvent _detectEvent)
+    {
+        if (_detectEvent.character.Equals(character))
+        {
+            if (_detectEvent.type == DetectEventType.TargetAcquired)
+            {
+                SetTarget(_detectEvent.target);
+            }
+            else if (_detectEvent.type == DetectEventType.TargetLost)
+            {
+                SetTarget(null);
+            }
+            return;
+        }
+        else return;
     }
 }

@@ -8,6 +8,6 @@ public class PlantStats : MonoBehaviour
     private float maxHealth;
     public float MaxHealth { get { return maxHealth; } }
     [SerializeField]
-    private float attackSpeed;
-    public float AttackSpeed { get { return attackSpeed; } }
+    private float attacksPerSecond;
+    public float AttacksPerSecond { get { return attacksPerSecond; } }
 }
