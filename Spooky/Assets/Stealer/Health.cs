@@ -32,13 +32,18 @@ public class Health : MonoBehaviour, Damagable
     protected void Start()
     {
         Enemy enemyCharacter = GetComponent<Enemy>();
+        Plant plantCharacter = GetComponent<Plant>();
         if (enemyCharacter)
         {
             maxHealth = enemyCharacter.StatsComponent.MaxHealth;
             currentHealth = maxHealth;
-            return;
         }
-        else return;
+        if (plantCharacter)
+        {
+            maxHealth = plantCharacter.StatsComponent.MaxHealth;
+            currentHealth = maxHealth;
+        }
+        return;
     }
 
     protected void OnEnable()
@@ -87,7 +92,7 @@ public class Health : MonoBehaviour, Damagable
     {
         if (damageSfx != null)
         {
-            SoundManager.Instance.PlayClip(damageSfx);
+            SoundManager.Instance.PlaySfx(character.CharacterAudioSource, damageSfx);
         }
     }
 

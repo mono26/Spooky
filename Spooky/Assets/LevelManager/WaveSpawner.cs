@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(SingleObjectPool), typeof(SingleObjectPool))]
+[RequireComponent(typeof(SingleObjectPool), typeof(SingleObjectPool), typeof(AudioSource))]
 public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEvent>
 {
     public enum SpawnState
@@ -35,7 +35,9 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
     private float waveCompletedTimer;
 
     [SerializeField]
-    private AudioClip spawnSound;
+    private AudioSource waveSoundSource;
+    [SerializeField]
+    private AudioClip spawnSfx;
 
     //State of the waveSpawn
     [SerializeField]
@@ -46,6 +48,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
         base.Awake();
 
         enemiesPools = GetComponents<SingleObjectPool>();
+        waveSoundSource = GetComponent<AudioSource>();
     }
 
     // Use this for initialization
@@ -107,7 +110,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
     private IEnumerator SpawnWave()
     {
         waveSpawnerState = SpawnState.SPAWNING;
-        SoundManager.Instance.PlayClip(spawnSound);
+        SoundManager.Instance.PlaySfx(waveSoundSource, spawnSfx);
 
         for(int i = 0; i < enemiesToSpawn.Length; i++)
         {

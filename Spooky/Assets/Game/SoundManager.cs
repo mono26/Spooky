@@ -1,19 +1,21 @@
 ﻿using UnityEngine;
 
 public class SoundManager : PersistenSingleton<SoundManager>
-{
-    [SerializeField]
-    private AudioSource efxSource;                   //Drag a reference to the audio source which will play the sound effects.
+{                //Drag a reference to the audio source which will play the sound effects.
     [SerializeField]
     private AudioSource musicSource;                 //Drag a reference to the audio source which will play the music. 
 
-    public void PlayClip(AudioClip _audioClip)
+    public void PlaySfx(AudioSource _source , AudioClip _audioClip)
     {
+        // So we dont 
+        if (_source.loop == true)
+            _source.loop = false;
+
         //Set the clip of our efxSource audio source to the clip passed in as a parameter.
-        efxSource.clip = _audioClip;
+        _source.clip = _audioClip;
 
         //Play the clip.
-        efxSource.Play();
+        _source.Play();
         //efxSource.PlayOneShot(_audioClip, 0.2f);
     }
 
@@ -27,6 +29,6 @@ public class SoundManager : PersistenSingleton<SoundManager>
     public void StopSound()
     {
         musicSource.Stop();
-        efxSource.Stop();
+        return;
     }
 }

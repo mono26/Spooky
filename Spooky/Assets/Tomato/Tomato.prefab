@@ -274,7 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
-  attacksPerSecond: 0
+  attacksPerSecond: 1
 --- !u!114 &114367486260847284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -289,13 +289,12 @@ MonoBehaviour:
   target: {fileID: 0}
   range: 0
   cooldown: 0
-  actionSfx: {fileID: 0}
+  actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   delayAfterAnimationIsFinished: 0.15
   actionStopsMovement: 1
   needsTargetToExecute: 1
   launchForce: 5
-  soundEffect: {fileID: 0}
-  bulletPool: {fileID: 0}
+  bulletPool: {fileID: 114042695106525758}
 --- !u!114 &114532442404994260
 MonoBehaviour:
   m_ObjectHideFlags: 1

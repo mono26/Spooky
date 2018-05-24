@@ -19,8 +19,6 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     protected bool actionStopsMovement = true;
     [SerializeField]
     protected bool needsTargetToExecute = true;
-    [SerializeField]
-    protected CharacterAction nextAction;
 
     protected float lastExecute;
 
@@ -47,6 +45,8 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
         base.OnDisable();
 
         EventManager.RemoveListener<DetectEvent>(this);
+
+        return;
     }
 
     public IEnumerator ExecuteAction()
@@ -70,7 +70,8 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
 
     protected virtual void PlaySfx()
     {
-
+        SoundManager.Instance.PlaySfx(character.CharacterAudioSource, actionSfx);
+        return;
     }
 
     protected void SetLasActionExecuteToActualTimeInLevel()

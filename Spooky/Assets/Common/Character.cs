@@ -55,11 +55,11 @@ public class Character : MonoBehaviour
 
     protected virtual void Awake()
     {
-        characterAudioSource = GetComponent<AudioSource>();
         characterAnimator = GetComponent<Animator>();
+        characterAudioSource = GetComponent<AudioSource>();
         characterBody = GetComponent<Rigidbody>();
-        characterComponents = GetComponents<CharacterComponent>();
         characterCollider = GetComponent<BoxCollider>();
+        characterComponents = GetComponents<CharacterComponent>();
         characterSprite = GetComponent<SpriteRenderer>();
         characterStateMachine = new StateMachine<CharacterState>();
         characterTransform = GetComponent<Transform>();

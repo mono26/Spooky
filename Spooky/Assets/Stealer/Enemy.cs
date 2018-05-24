@@ -28,6 +28,7 @@ public class Enemy : Character, EventHandler<EnemyEvent>
     public EnemyMovement MovementComponent { get { return movementComponent; } }
 
     // Assigned by inspector.
+    [SerializeField]
     private CharacterAction currentAction;
     public CharacterAction CurrentAction { get { return currentAction; } }
     [SerializeField]

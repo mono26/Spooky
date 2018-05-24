@@ -34,6 +34,9 @@ public class StealCorn : CharacterAction
         // Stop the action executiong because the animation has already end.
         EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.FinishExecute, enemyCharacter));
 
+        if (enemyCharacter != null)
+            enemyCharacter.ChangeCurrentAction(GetComponent<EscapeWithCorn>());
+
         yield break;
     }
 

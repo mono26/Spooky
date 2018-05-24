@@ -65,13 +65,11 @@ public class Plant : Character, EventHandler<PlantEvent>
 
     protected override void Update()
     {
-        Debug.Log(this.gameObject + "currentState: " + characterStateMachine.currentState);
-
         if (enemyDetect.IsFirstEnemyInTheListActive() && !IsExecutingAction)
         {
             if(currentAction.IsTargetInRange())
             {
-                currentAction.ExecuteAction();
+                StartCoroutine(currentAction.ExecuteAction());
             }
         }
 

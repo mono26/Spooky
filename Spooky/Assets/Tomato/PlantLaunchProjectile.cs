@@ -3,14 +3,12 @@ using UnityEngine;
 
 
 [RequireComponent(typeof(EnemyDetect),typeof(SingleObjectPool))]
-public class PlantLaunchProyectile : CharacterAction
+public class PlantLaunchProjectile : CharacterAction
 {
     protected Plant plantCharacter;
 
     [SerializeField]
     private float launchForce = 10f;
-    [SerializeField]
-    private AudioClip soundEffect;
 
     private Bullet actualBullet;
     private Transform shootPoint;
@@ -58,6 +56,8 @@ public class PlantLaunchProyectile : CharacterAction
 
     protected override IEnumerator Action()
     {
+        Debug.Log("Launching projectile");
+
         EventManager.TriggerEvent(new PlantEvent(PlantEventType.ExecuteAction, plantCharacter));
 
 
@@ -72,6 +72,8 @@ public class PlantLaunchProyectile : CharacterAction
         RotateActualBulleTowardsDirection(plantCharacter.EnemyDetect.GetFirstEnemyTargetDirection());
         actualBullet.Launch(launchForce);
         actualBullet = null;
+
+        PlaySfx();
 
         EventManager.TriggerEvent(new PlantEvent(PlantEventType.FinishExecute, plantCharacter));
 

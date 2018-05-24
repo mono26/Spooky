@@ -282,13 +282,11 @@ MonoBehaviour:
   target: {fileID: 0}
   range: 0
   cooldown: 0
-  actionSfx: {fileID: 0}
+  actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   delayAfterAnimationIsFinished: 0.15
   actionStopsMovement: 1
   needsTargetToExecute: 1
-  nextAction: {fileID: 0}
   launchForce: 10
-  soundEffect: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   bulletPool: {fileID: 114795536802711372}
 --- !u!114 &114294794264080794
 MonoBehaviour:
@@ -302,7 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 3
-  attacksPerSecond: 0
+  attacksPerSecond: 1.5
 --- !u!114 &114498531075047918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -317,13 +315,11 @@ MonoBehaviour:
   target: {fileID: 0}
   range: 0
   cooldown: 10
-  actionSfx: {fileID: 0}
+  actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   delayAfterAnimationIsFinished: 0.15
   actionStopsMovement: 1
   needsTargetToExecute: 1
-  nextAction: {fileID: 0}
   launchForce: 10
-  soundEffect: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   bulletPool: {fileID: 114993173942050484}
 --- !u!114 &114635352045915674
 MonoBehaviour:
