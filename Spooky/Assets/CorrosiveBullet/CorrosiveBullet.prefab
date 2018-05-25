@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 212586296778798466}
   - component: {fileID: 65312532287706988}
   - component: {fileID: 114577798836249854}
+  - component: {fileID: 114314379119872440}
   m_Layer: 9
   m_Name: CorrosiveBullet
   m_TagString: Bullet
@@ -113,6 +114,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.13, y: 0.13, z: 0.5}
   m_Center: {x: 0, y: 0, z: -0.25}
+--- !u!114 &114314379119872440
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1315302860701234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 925a7daa667541b49a3a7641babc6f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTags:
+  - Enemy
+  damageOnTouch: 0
 --- !u!114 &114577798836249854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,7 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4ae0709afabb3341b1da9108482886d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletDamaga: 0
+  lifeTime: 10
+  bulletDamage: 0
   startTime: 0
   corrosiveDamage: 0.5
   corrosiveTickRate: 0.5

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CorrosiveBullet : Bullet
@@ -6,16 +7,16 @@ public class CorrosiveBullet : Bullet
     [SerializeField]
     protected float startTime;
     [SerializeField]
-    protected float corrosiveDamage = 0.5f;
+    protected float corrosiveDamage = 0.1f;
     [SerializeField]    // Per second
-    protected float corrosiveTickRate = 0.5f;
+    protected float tickPerSecond = 10f;
     [SerializeField]    // In seconds
-    protected float corrosiveDuration = 5.0f;
+    protected float corrosiveDuration = 3.0f;
     [SerializeField]
     protected GameObject corrosiveField;
 
-    public delegate void CorrosiveDamage(float _damage);
-    public event CorrosiveDamage OnCorrosiveDamage;
+    [SerializeField]
+    protected List<Enemy> enemiesOnField;
 
     protected new void Awake()
     {
@@ -41,9 +42,20 @@ public class CorrosiveBullet : Bullet
     protected override void OnDisable()
     {
         poolable.OnRelease -= StopEffect;
+        enemiesOnField.Clear();
 
         base.OnDisable();
 
+        return;
+    }
+
+    protected void Update()
+    {
+        for (int i = 0; i < enemiesOnField.Count; i++)
+        {
+            if (!enemiesOnField[i].gameObject.activeInHierarchy)
+                enemiesOnField.Remove(enemiesOnField[i]);
+        }
         return;
     }
 
@@ -53,27 +65,25 @@ public class CorrosiveBullet : Bullet
         startTime = Time.timeSinceLevelLoad;
         while(Time.timeSinceLevelLoad < startTime + corrosiveDuration)
         {
-            if (OnCorrosiveDamage != null)
+            foreach(Enemy enemy in enemiesOnField)
             {
-                OnCorrosiveDamage(corrosiveDamage);
-                yield return new WaitForSeconds(1 / corrosiveTickRate);
+                enemy.HealthComponent.TakeDamage(corrosiveDamage);
             }
-            else yield return new WaitForSeconds(1 / corrosiveTickRate);
+            yield return new WaitForSeconds(1 / tickPerSecond);
         }
-
         poolable.Release();
-        yield return 0;
+        yield break;
     }
 
     private void AddEnemy(Enemy _enemy)
     {
-        OnCorrosiveDamage += _enemy.HealthComponent.TakeDamage;
+        enemiesOnField.Add(_enemy);
         return;
     }
 
     private void RemoveEnemy(Enemy _enemy)
     {
-        OnCorrosiveDamage -= _enemy.HealthComponent.TakeDamage;
+        enemiesOnField.Remove(_enemy);
         return;
     }
 
@@ -100,21 +110,40 @@ public class CorrosiveBullet : Bullet
 
     protected void OnTriggerEnter(Collider _collider)
     {
-        if (_collider.CompareTag("Enemy"))
+        foreach (string tag in damageComponent.DamageTags)
         {
-            AddEnemy(_collider.GetComponent<Enemy>());
-            return;
+            if (_collider.gameObject.CompareTag(tag))
+            {
+                if (!enemiesOnField.Contains(_collider.GetComponent<Enemy>()))
+                    AddEnemy(_collider.GetComponent<Enemy>());
+            }
         }
-        else return;
+        return;
+    }
+
+    protected void OnTriggerStay(Collider _collider)
+    {
+        foreach (string tag in damageComponent.DamageTags)
+        {
+            if (_collider.gameObject.CompareTag(tag))
+            {
+                if(!enemiesOnField.Contains(_collider.GetComponent<Enemy>()))
+                    AddEnemy(_collider.GetComponent<Enemy>());
+            }
+        }
+        return;
     }
 
     protected void OnTriggerExit(Collider _collider)
     {
-        if (_collider.CompareTag("Enemy"))
+        foreach (string tag in damageComponent.DamageTags)
         {
-            RemoveEnemy(_collider.GetComponent<Enemy>());
-            return;
+            if (_collider.gameObject.CompareTag(tag))
+            {
+                RemoveEnemy(_collider.GetComponent<Enemy>());
+
+            }
         }
-        else return;
+        return;
     }
 }

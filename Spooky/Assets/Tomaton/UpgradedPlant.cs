@@ -21,7 +21,7 @@ public class UpgradedPlant : Plant
         {
             if (specialAction.IsTargetInRange())
             {
-                specialAction.ExecuteAction();
+                StartCoroutine(specialAction.ExecuteAction());
             }
         }
 

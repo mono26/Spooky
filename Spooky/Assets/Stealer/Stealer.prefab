@@ -255,6 +255,7 @@ MonoBehaviour:
   type: 1
   characterID: Stealer
   initialDirection: 0
+  currentAction: {fileID: 114504915973877528}
   startingAction: {fileID: 114504915973877528}
 --- !u!114 &114303027106017680
 MonoBehaviour:

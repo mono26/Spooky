@@ -56,8 +56,6 @@ public class PlantLaunchProjectile : CharacterAction
 
     protected override IEnumerator Action()
     {
-        Debug.Log("Launching projectile");
-
         EventManager.TriggerEvent(new PlantEvent(PlantEventType.ExecuteAction, plantCharacter));
 
 

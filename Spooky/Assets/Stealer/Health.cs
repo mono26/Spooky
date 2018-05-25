@@ -60,6 +60,8 @@ public class Health : MonoBehaviour, Damagable
 
     public void TakeDamage(float _damage)
     {
+        Debug.Log("Tanking damage");
+
         // We are laready dead.
         if(currentHealth == 0) { return; }
 
@@ -124,6 +126,8 @@ public class Health : MonoBehaviour, Damagable
     {
         if (character != null)
         {
+            EventManager.TriggerEvent<CharacterEvent>(new CharacterEvent(CharacterEventType.Death, character));
+
             character.characterStateMachine.ChangeState(Character.CharacterState.Dead);
 
             yield return 0;
