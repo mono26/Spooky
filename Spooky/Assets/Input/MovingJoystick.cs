@@ -21,7 +21,7 @@ public class MovingJoystick : StaticJoystick, IPointerDownHandler
 
         newJoystickPositon.y = transform.position.y;
 
-        SetNeutralPosition(newJoystickPositon);
+        //SetNeutralPosition(newJoystickPositon);
     }
 
     public override void OnEndDrag(PointerEventData eventData)

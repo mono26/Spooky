@@ -87,9 +87,12 @@ public class SpookyAttack : CharacterComponent
 
     private void CreateCurrentBullet()
     {
-        actualBullet = bulletPool.GetObjectFromPool().GetComponent<SpookyBullet>();
-        actualBullet.transform.position = shootPoint.position;
-        actualBullet.gameObject.SetActive(true);
+        if(Time.timeSinceLevelLoad > lastShoot + attackRate)
+        {
+            actualBullet = bulletPool.GetObjectFromPool().GetComponent<SpookyBullet>();
+            actualBullet.transform.position = shootPoint.position;
+            actualBullet.gameObject.SetActive(true);
+        }
         return;
     }
 
@@ -120,17 +123,19 @@ public class SpookyAttack : CharacterComponent
 
     protected override void HandleInput()
     {
-        if (InputManager.Instance.FireButton.CurrentState == CustomButton.ButtonStates.Pressed)
+        Debug.Log(InputManager.Instance.FireButton.CurrentState.ToString());
+
+        if (InputManager.Instance.FireButton.CurrentState == InputButton.ButtonStates.Pressed)
         {
             CreateCurrentBullet();
         }
 
-        if (InputManager.Instance.FireButton.CurrentState == CustomButton.ButtonStates.Down)
+        if (InputManager.Instance.FireButton.CurrentState == InputButton.ButtonStates.Down)
         {
             ChargeAttack();
         }
 
-        if (InputManager.Instance.FireButton.CurrentState == CustomButton.ButtonStates.Up)
+        if (InputManager.Instance.FireButton.CurrentState == InputButton.ButtonStates.Up)
         {
             LaunchAttack();
         }

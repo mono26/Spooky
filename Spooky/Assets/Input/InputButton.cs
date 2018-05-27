@@ -1,6 +1,6 @@
-﻿public class CustomButton
+﻿public class InputButton
 {
-    public enum ButtonStates { Off, Down, Pressed, Up, Disabled }
+    public enum ButtonStates { Off, Down, Pressed, Up }
 
     public string ButtonID { get; protected set; }
     public ButtonStates CurrentState { get; protected set; }
@@ -13,10 +13,9 @@
     public PressedMethodDelegate pressedMethod;
     public UpMethodDelegate upMethod;
 
-    public CustomButton(string _buttonID, DownMethodDelegate btnDown, PressedMethodDelegate btnPressed, UpMethodDelegate btnUp)
+    public InputButton(string _buttonID, DownMethodDelegate btnDown, PressedMethodDelegate btnPressed, UpMethodDelegate btnUp)
     {
         ButtonID = _buttonID;
-
         downMethod = btnDown;
         pressedMethod = btnPressed;
         upMethod = btnUp;

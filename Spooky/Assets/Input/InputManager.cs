@@ -4,11 +4,11 @@ public class InputManager : SceneSingleton<InputManager>
 {
     public string playerID;
 
-    public bool AutoDetectMovile { get; protected set; }
     public bool IsOnMobile { get; protected set; }
-    public CustomButton FireButton { get; protected set; }
+    public InputButton FireButton { get; protected set; }
 
     public bool hideControlsInEditor = false;
+    public bool autoDetectMovile = false;
 
     [SerializeField]
     private Vector3 movement = Vector3.zero;
@@ -20,7 +20,7 @@ public class InputManager : SceneSingleton<InputManager>
     {
         DetectTypeOfInput();
 
-        FireButton = new CustomButton("FireButton", FireButtonDown, FireButtonPressed, FireButtonUp);
+        FireButton = new InputButton("FireButton", FireButtonDown, FireButtonPressed, FireButtonUp);
 	}
 	
 	// Update is called once per frame
@@ -40,7 +40,7 @@ public class InputManager : SceneSingleton<InputManager>
             LevelUIManager.Instance.ActivatePlayerControls(false);
             IsOnMobile = false;
             
-            if(AutoDetectMovile)
+            if(autoDetectMovile)
             {
                 #if UNITY_ANDROID || UNITY_IPHONE
 		        LevelUIManager.Instance.ActivatePlayerControls(true);
@@ -92,8 +92,8 @@ public class InputManager : SceneSingleton<InputManager>
         }
     }
 
-    public virtual void FireButtonDown() { FireButton.ChangeButtonState(CustomButton.ButtonStates.Down); }
-    public virtual void FireButtonPressed() { FireButton.ChangeButtonState(CustomButton.ButtonStates.Pressed); }
-    public virtual void FireButtonUp() { FireButton.ChangeButtonState(CustomButton.ButtonStates.Up); }
+    public virtual void FireButtonDown() { FireButton.ChangeButtonState(InputButton.ButtonStates.Down); }
+    public virtual void FireButtonPressed() { FireButton.ChangeButtonState(InputButton.ButtonStates.Pressed); }
+    public virtual void FireButtonUp() { FireButton.ChangeButtonState(InputButton.ButtonStates.Up); }
 
 }

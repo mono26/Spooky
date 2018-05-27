@@ -7,33 +7,36 @@ public class StaticJoystick : MonoBehaviour, IDragHandler, IEndDragHandler
     [System.Serializable]
     public class JoystickEvent : UnityEvent<Vector2> { }
 
-    public float maxRangeOfInput;
+    [Header("Options")]
+    [SerializeField]
+    [Range(0f, 2f)] protected float maxRangeOfInput = 1.0f;
 
-    public JoystickEvent joystickInput;
+    [Header("Components")]
+    [SerializeField]
+    protected RectTransform background;
+    [SerializeField]
+    protected RectTransform handle;
 
-    protected Vector3 knobInitialPosition;
-    protected Vector3 knobTargetPosition;
-    protected Vector3 newKnobPosition;
+    [SerializeField]
+    protected JoystickEvent joystickInput;
 
-    // Constant and it depends on the camera value.
-    protected float joystickYPosition;
+    protected Vector2 knobTargetPosition;
+    protected Vector2 newKnobPosition;
+    protected Vector2 joystickPosition;
 
     [SerializeField]
     protected Vector2 joystickValue;
 
-    // Use this for initialization
-    protected virtual void Start()
+    protected virtual void Awake()
     {
-        Initialize();
+        background = GetComponentInParent<RectTransform>();
+        handle = GetComponent<RectTransform>();
         return;
     }
 
-    public virtual void Initialize()
+    protected virtual void Start()
     {
-        SetNeutralPosition();
-
-        // Is the y component of the position because of the camera rotation.
-        joystickYPosition = transform.position.y;
+        joystickPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, background.position);
         return;
     }
 	
@@ -47,43 +50,28 @@ public class StaticJoystick : MonoBehaviour, IDragHandler, IEndDragHandler
         else return;
     }
 
-    public virtual void SetNeutralPosition()
-    {
-        knobInitialPosition = GetComponent<RectTransform>().transform.position;
-        return;
-    }
-
-    public virtual void SetNeutralPosition(Vector3 newPosition)
-    {
-        knobInitialPosition = newPosition;
-        return;
-    }
-
     public virtual void OnDrag(PointerEventData eventData)
     {
         // Getting the position of the toucj inside the camera plane.
-        knobTargetPosition = Camera.main.ScreenToWorldPoint(eventData.position);
+        knobTargetPosition = eventData.position - joystickPosition;
         // Converting to localposition.
         //knobTargetLocalPosition = GetComponent<RectTransform>().InverseTransformPoint(knobTargetLocalPosition);
 
-        knobTargetPosition = Vector3.ClampMagnitude(knobTargetPosition - knobInitialPosition, maxRangeOfInput);
+        knobTargetPosition = Vector3.ClampMagnitude(knobTargetPosition - joystickPosition, maxRangeOfInput);
 
         joystickValue.x = EvaluateInputValue(knobTargetPosition.x);
-        joystickValue.y = EvaluateInputValue(knobTargetPosition.z);
+        joystickValue.y = EvaluateInputValue(knobTargetPosition.y);
 
-        newKnobPosition = knobInitialPosition + knobTargetPosition;
-        newKnobPosition.y = joystickYPosition;
+        newKnobPosition = (knobTargetPosition * background.sizeDelta.x / 2f) * maxRangeOfInput;
 
-        transform.position = newKnobPosition;
+        handle.anchoredPosition = newKnobPosition;
 
         return;
     }
 
     public virtual void OnEndDrag(PointerEventData eventData)
     {
-        newKnobPosition = knobInitialPosition;
-        newKnobPosition.y = joystickYPosition;
-        transform.position = newKnobPosition;
+        handle.anchoredPosition = Vector2.zero;
         joystickValue.x = 0f;
         joystickValue.y = 0f;
 
