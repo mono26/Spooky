@@ -252,9 +252,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fca8eafaeeef37498e8a52580dc690a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
   characterID: Stealer
   initialDirection: 0
+  type: 1
+  characterAnimator: {fileID: 95576672161931324}
+  characterAudioSource: {fileID: 82664511168533384}
+  characterCollider: {fileID: 65672920112543352}
+  characterSprite: {fileID: 212263740257701518}
+  characterTransform: {fileID: 4736818538870156}
+  characterBody: {fileID: 54661140622613788}
+  healthComponent: {fileID: 114303027106017680}
+  movementComponent: {fileID: 114595351302039336}
+  statsComponent: {fileID: 114146892295792120}
   currentAction: {fileID: 114504915973877528}
   startingAction: {fileID: 114504915973877528}
 --- !u!114 &114303027106017680

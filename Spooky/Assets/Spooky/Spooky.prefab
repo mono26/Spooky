@@ -566,8 +566,8 @@ GameObject:
   m_Component:
   - component: {fileID: 224093774483994460}
   - component: {fileID: 222647564970854044}
-  - component: {fileID: 114367625231126208}
   - component: {fileID: 225972692847351394}
+  - component: {fileID: 114367625231126208}
   m_Layer: 5
   m_Name: Joystick
   m_TagString: Untagged
@@ -584,8 +584,9 @@ GameObject:
   m_Component:
   - component: {fileID: 224987141093657000}
   - component: {fileID: 222304237411301290}
+  - component: {fileID: 225310012737172586}
   - component: {fileID: 114730242703163238}
-  - component: {fileID: 114237498344096378}
+  - component: {fileID: 114206575863044314}
   m_Layer: 5
   m_Name: Knob
   m_TagString: Untagged
@@ -604,7 +605,8 @@ GameObject:
   - component: {fileID: 222212436178867804}
   - component: {fileID: 114085940879578524}
   - component: {fileID: 114459783977170154}
-  - component: {fileID: 114246056242451614}
+  - component: {fileID: 114996094880668732}
+  - component: {fileID: 225407999042557944}
   m_Layer: 5
   m_Name: FireButton
   m_TagString: Untagged
@@ -658,6 +660,7 @@ GameObject:
   - component: {fileID: 95708093824852228}
   - component: {fileID: 65422766217998902}
   - component: {fileID: 54996514214459900}
+  - component: {fileID: 82602552082287352}
   - component: {fileID: 114089981798325646}
   - component: {fileID: 114738561422020658}
   - component: {fileID: 114864521599832944}
@@ -883,6 +886,86 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.8, z: 0.5}
   m_Center: {x: 0, y: -0.31, z: -0.25}
+--- !u!82 &82602552082287352
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1937644174119942}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!95 &95708093824852228
 Animator:
   serializedVersion: 3
@@ -1031,9 +1114,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff54c2151fee0d54b8417fc47d62cb9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
   characterID: Player1
   initialDirection: 0
+  type: 0
+  characterAnimator: {fileID: 95708093824852228}
+  characterAudioSource: {fileID: 82602552082287352}
+  characterCollider: {fileID: 65422766217998902}
+  characterSprite: {fileID: 212835599350365438}
+  characterTransform: {fileID: 4193135421944750}
+  characterBody: {fileID: 54996514214459900}
 --- !u!114 &114172245171184316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1097,7 +1186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db5c25d99a70f14ebb750144ed3b144, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detectionTrigger: {fileID: 0}
+  detectionTrigger: {fileID: 135313261536518600}
   detectRange: 2.5
   currentPlantPoint: {fileID: 0}
   nearPlantPoints: []
@@ -1153,7 +1242,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114237498344096378
+--- !u!114 &114206575863044314
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1161,13 +1250,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1792837723077020}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f5bddab26dbcc043aef94219f801895, type: 3}
+  m_Script: {fileID: 11500000, guid: afae0322b4723e640aac65b86a14cd19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRangeOfInput: 1
-  background: {fileID: 224093774483994460}
-  handle: {fileID: 224987141093657000}
-  joystickInput:
+  TargetCamera: {fileID: 20843655944218978}
+  MaxRange: 1
+  JoystickValue:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114816397037179488}
@@ -1180,10 +1268,11 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 1
-    m_TypeName: StaticJoystick+JoystickEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        m_CallState: 2
+    m_TypeName: JoystickEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  joystickValue: {x: 0, y: 0}
+  joystick: {fileID: 224093774483994460}
+  handle: {fileID: 224987141093657000}
 --- !u!114 &114239242968103118
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1238,70 +1327,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114246056242451614
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1814147276246978}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114816397037179488}
-          m_MethodName: FireButtonDown
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 3
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114816397037179488}
-          m_MethodName: FireButtonUp
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 114816397037179488}
-          m_MethodName: FireButtonPressed
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates: []
 --- !u!114 &114259199308650966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1549,9 +1574,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a453fbdeb3bdcd4c9c8cff03a75c01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cropUIBar: {fileID: 114075584237690016}
+  fireButton: {fileID: 1814147276246978}
+  gameMoneyText: {fileID: 114693467160853710}
+  joystick: {fileID: 1773351361216314}
+  pauseButton: {fileID: 1548479000180194}
+  waveCounter: {fileID: 114089607272866308}
+  waveProgressBar: {fileID: 114239242968103118}
   gameOverUI: {fileID: 1372093334016056}
-  winUI: {fileID: 1680809830578012}
   pauseUI: {fileID: 1691878590690770}
+  winUI: {fileID: 1680809830578012}
 --- !u!114 &114367625231126208
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1683,7 +1715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2191,9 +2223,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7891f6361d6badd4cb4fdebe91f79482, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSpeed: 5
-  maxSpeed: 5
-  slowMotionSpeed: 3
+  currentSpeed: 7
+  maxSpeed: 7
+  slowMotionSpeed: 4
   MaxXValue: 0
   MaxYValue: 0
 --- !u!114 &114816397037179488
@@ -2314,9 +2346,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98dc89994719aa488cf2ab31aa1e04e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyDetector: {fileID: 114991595324434820}
+  hand: {fileID: 4467767140962094}
+  shootPoint: {fileID: 4970978718526566}
   attackRate: 1
   launchForce: 10
   chargeRate: 2
+  bulletPool: {fileID: 114839637541420426}
   actualBullet: {fileID: 0}
 --- !u!114 &114873992022435118
 MonoBehaviour:
@@ -2522,9 +2558,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55db5ec39bc7c1e448b28746c175dab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionTrigger: {fileID: 135549795504933472}
   detectionRange: 3.5
   nearEnemies: []
   currentEnemyTarget: {fileID: 0}
+--- !u!114 &114996094880668732
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1814147276246978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5750364cf4ffb7243a0c8392939cf645, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ButtonPressedFirstTime:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114816397037179488}
+        m_MethodName: FireButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  ButtonPressed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114816397037179488}
+        m_MethodName: FireButtonDown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+  ButtonReleased:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114816397037179488}
+        m_MethodName: FireButtonUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!124 &124415914457586120
 Behaviour:
   m_ObjectHideFlags: 1
@@ -2877,7 +2973,7 @@ RectTransform:
   - {fileID: 224951284949801624}
   - {fileID: 224592692607427316}
   m_Father: {fileID: 224096998772411336}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2936,9 +3032,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 28.00003, y: 33.999878}
+  m_AnchoredPosition: {x: 150, y: 96}
   m_SizeDelta: {x: 150, y: 150}
-  m_Pivot: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224096998772411336
 RectTransform:
   m_ObjectHideFlags: 1
@@ -2952,11 +3048,11 @@ RectTransform:
   - {fileID: 224733229423028670}
   - {fileID: 224234267434348616}
   - {fileID: 224554255386758286}
-  - {fileID: 224970038465693216}
   - {fileID: 224087618302595522}
   - {fileID: 224146542960204156}
   - {fileID: 224163650266958876}
   - {fileID: 224301421690490360}
+  - {fileID: 224970038465693216}
   - {fileID: 224093774483994460}
   m_Father: {fileID: 4713282105341508}
   m_RootOrder: 0
@@ -3018,7 +3114,7 @@ RectTransform:
   - {fileID: 224406897869070470}
   - {fileID: 224715052374585886}
   m_Father: {fileID: 224096998772411336}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3037,7 +3133,7 @@ RectTransform:
   m_Children:
   - {fileID: 224103243517479114}
   m_Father: {fileID: 224096998772411336}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3078,11 +3174,11 @@ RectTransform:
   m_Father: {fileID: 224096998772411336}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 561.22, y: 0}
-  m_SizeDelta: {x: -577.12, y: -693.5701}
-  m_Pivot: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 3, y: -2}
+  m_SizeDelta: {x: 230, y: 140}
+  m_Pivot: {x: 1, y: 1}
 --- !u!224 &224240767613770930
 RectTransform:
   m_ObjectHideFlags: 1
@@ -3148,7 +3244,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224096998772411336}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3338,8 +3434,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.0899963, y: -12.979996}
-  m_SizeDelta: {x: -77.49, y: -77.85}
+  m_AnchoredPosition: {x: -1.4000015, y: -11.949997}
+  m_SizeDelta: {x: -76.11, y: -75.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224733229423028670
 RectTransform:
@@ -3359,8 +3455,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 13, y: 0}
-  m_SizeDelta: {x: 236.3, y: 145.8}
+  m_AnchoredPosition: {x: 1, y: -1}
+  m_SizeDelta: {x: 230, y: 140}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &224753801920702918
 RectTransform:
@@ -3377,8 +3473,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.0900095, y: -12.98002}
-  m_SizeDelta: {x: -77.490005, y: -77.85}
+  m_AnchoredPosition: {x: -1.4000015, y: -11.949997}
+  m_SizeDelta: {x: -76.11, y: -75.78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224757878307119886
 RectTransform:
@@ -3464,13 +3560,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224096998772411336}
-  m_RootOrder: 3
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -89, y: 113}
+  m_AnchoredPosition: {x: -22.400085, y: 46.299942}
   m_SizeDelta: {x: 133.2, y: 133.4}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!224 &224987141093657000
 RectTransform:
   m_ObjectHideFlags: 1
@@ -3489,6 +3585,28 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 75, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &225310012737172586
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1792837723077020}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!225 &225407999042557944
+CanvasGroup:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1814147276246978}
+  m_Enabled: 1
+  m_Alpha: 0.7
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!225 &225624628251115224
 CanvasGroup:
   m_ObjectHideFlags: 1
@@ -3497,8 +3615,8 @@ CanvasGroup:
   m_GameObject: {fileID: 1381971992553340}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!225 &225701452360689798
 CanvasGroup:
@@ -3518,7 +3636,7 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1773351361216314}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0.7
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0

@@ -20,12 +20,15 @@ public class Enemy : Character, EventHandler<EnemyEvent>
 {
     public bool IsExecutingAction { get; protected set; }
 
-    private EnemyStats statsComponent;
-    public EnemyStats StatsComponent { get { return statsComponent; } }
+    [SerializeField]
     private Health healthComponent;
     public Health HealthComponent { get { return healthComponent; } }
+    [SerializeField]
     private EnemyMovement movementComponent;
     public EnemyMovement MovementComponent { get { return movementComponent; } }
+    [SerializeField]
+    private EnemyStats statsComponent;
+    public EnemyStats StatsComponent { get { return statsComponent; } }
 
     // Assigned by inspector.
     [SerializeField]
@@ -38,17 +41,12 @@ public class Enemy : Character, EventHandler<EnemyEvent>
     {
         base.Awake();
 
-        statsComponent = GetComponent<EnemyStats>();
-        if (!statsComponent)
-            Debug.LogError(this.gameObject.ToString() + "No stats component found on the enemy gameObject: ");
-
-        healthComponent = GetComponent<Health>();
-        if (!statsComponent)
-            Debug.LogError(this.gameObject.ToString() + "No health component found on the enemy gameObject: ");
-
-        movementComponent = GetComponent<EnemyMovement>();
-        if (!statsComponent)
-            Debug.LogError(this.gameObject.ToString() + "No movement component found on the enemy gameObject: ");
+        if(statsComponent == null)
+            statsComponent = GetComponent<EnemyStats>();
+        if (healthComponent == null)
+            healthComponent = GetComponent<Health>();
+        if (movementComponent == null)
+            movementComponent = GetComponent<EnemyMovement>();
 
         if(currentAction == null)
             Debug.LogError(this.gameObject.ToString() + "No current action assigned on the enemy gameObject: ");

@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpookyPlantPointDetection : CharacterComponent, IDetect
+public class SpookyPlantPointDetection : CharacterComponent
 {
     //SphereCollider for detecting the collision with the plantPoints
-    public SphereCollider detectionTrigger;
+    [SerializeField]
+    protected SphereCollider detectionTrigger;
+    [SerializeField]
     [Range(1.5f, 2.5f)]
-    public float detectRange = 2.5f;
+    protected float detectRange = 2.5f;
 
     //Value of the current plantPoint. It changes through time by collision detection
     //Also the value can be null if the current plantPoint is out of the collider boundaries
@@ -21,7 +23,8 @@ public class SpookyPlantPointDetection : CharacterComponent, IDetect
     {
         base.Awake();
         
-        detectionTrigger = transform.Find("PlantPointDetector").GetComponent<SphereCollider>();
+        if(detectionTrigger == null)
+            detectionTrigger = transform.Find("PlantPointDetector").GetComponent<SphereCollider>();
 
         nearPlantPoints = new List<Plantpoint>();
     }

@@ -3,36 +3,55 @@ using UnityEngine.UI;
 
 public class LevelUIManager : SceneSingleton<LevelUIManager>, EventHandler<CharacterEvent>, EventHandler<GameEvent>
 {
-    private GameObject joystick;
-    private GameObject fireButton;
-    private GameObject pauseButton;
+    [Header("UI elements")]
+    [SerializeField]
     private Image cropUIBar;
-    private Image waveProgressBar;
+    [SerializeField]
+    private GameObject fireButton;
+    [SerializeField]
     private Text gameMoneyText;
-    private Text enemiesCounter;
+    [SerializeField]
+    private GameObject joystick;
+    [SerializeField]
+    private GameObject pauseButton;
+    [SerializeField]
+    private Text waveCounter;
+    [SerializeField]
+    private Image waveProgressBar;
 
-    [Header("Game state UI's editor binding")]
+    [Header("Game state UI's")]
     [SerializeField]
     private GameObject gameOverUI;
     [SerializeField]
-    private GameObject winUI;
-    [SerializeField]
     private GameObject pauseUI;
+    [SerializeField]
+    private GameObject winUI;
 
     protected override void Awake()
     {
         base.Awake();
 
-        joystick = transform.Find("Joystick").gameObject;
-        fireButton = transform.Find("FireButton").gameObject;
-        pauseButton = transform.Find("PauseButton").gameObject;
-        pauseUI = transform.Find("PauseUI").gameObject;
-        gameOverUI = transform.Find("WinGameUI").gameObject;
-        winUI = transform.Find("GameOverUI").gameObject;
-        cropUIBar = transform.Find("CropBarFrame").Find("CropBar").GetComponent<Image>();
-        waveProgressBar = transform.Find("WaveBarFrame").Find("WaveProgressBar").GetComponent<Image>();
-        gameMoneyText = transform.Find("CropBarFrame").Find("MoneyText").GetComponent<Text>();
-        enemiesCounter = transform.Find("WaveBarFrame").Find("WaveCounter").GetComponent<Text>();
+        if (cropUIBar == null)
+            cropUIBar = transform.Find("CropBarFrame").Find("CropBar").GetComponent<Image>();
+        if (fireButton == null)
+            fireButton = transform.Find("FireButton").gameObject;
+        if (gameMoneyText == null)
+            gameMoneyText = transform.Find("CropBarFrame").Find("MoneyText").GetComponent<Text>();
+        if (gameOverUI == null)
+            gameOverUI = transform.Find("GameOverUI").gameObject;
+        if (joystick == null)
+            joystick = transform.Find("Joystick").gameObject;
+        if (pauseButton == null)
+            pauseButton = transform.Find("PauseButton").gameObject;
+        if (pauseUI == null)
+            pauseUI = transform.Find("PauseUI").gameObject;
+        if (winUI == null)
+            winUI = transform.Find("WinGameUI").gameObject;
+        if (waveCounter == null)
+            waveCounter = transform.Find("WaveBarFrame").Find("WaveCounter").GetComponent<Text>();
+        if (waveProgressBar == null)
+            waveProgressBar = transform.Find("WaveBarFrame").Find("WaveProgressBar").GetComponent<Image>();
+
         return;
     }
 
@@ -89,7 +108,7 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>, EventHandler<Chara
 
     private void UpdateWaveSpawnerUI()
     {
-        enemiesCounter.text = WaveSpawner.Instance.CurrentWave.ToString();
+        waveCounter.text = WaveSpawner.Instance.CurrentWave.ToString();
         waveProgressBar.fillAmount = WaveSpawner.Instance.CurrentNumberOfEnemiesKilled / WaveSpawner.Instance.CurrentMaxNumberOfEnemiesLeft;
         return;
     }

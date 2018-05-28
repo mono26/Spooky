@@ -19,10 +19,11 @@ public class DetectEvent : SpookyCrowEvent
 
 public class EnemyDetect : CharacterComponent
 {
-    // TODO encapsulate Spooky, Enemy and Plant in Character.
+    [SerializeField]
     protected SphereCollider detectionTrigger;
 
-    [SerializeField][Range(3f, 5f)]
+    [SerializeField]
+    [Range(3f, 5f)]
     protected float detectionRange;
     public float DetectionRange { get { return detectionRange; } }
 
@@ -33,7 +34,8 @@ public class EnemyDetect : CharacterComponent
     {
         base.Awake();
 
-        detectionTrigger = transform.Find("EnemyDetector").GetComponent<SphereCollider>();
+        if (detectionTrigger == null)
+            detectionTrigger = transform.Find("EnemyDetector").GetComponent<SphereCollider>();
 
         nearEnemies = new List<Enemy>();
     }

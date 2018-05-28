@@ -23,9 +23,6 @@ public class Character : MonoBehaviour
     public enum InitialFacingDirection { Right, Left}
 
     [SerializeField]
-    private CharacterType type = CharacterType.AI;
-    public CharacterType Type { get { return type; } }
-    [SerializeField]
     private string characterID = "";
     public string CharacterID { get { return characterID; } }
     public InputManager CharacterInput { get; protected set; }
@@ -33,20 +30,29 @@ public class Character : MonoBehaviour
     public StateMachine<CharacterState> characterStateMachine;
     [SerializeField]
     private InitialFacingDirection initialDirection = InitialFacingDirection.Right;
+    [SerializeField]
+    private CharacterType type = CharacterType.AI;
+    public CharacterType Type { get { return type; } }
 
     // Obligatory Components
+    [SerializeField]
     private Animator characterAnimator;
     public Animator CharacterAnimator { get { return characterAnimator; } }
+    [SerializeField]
     private AudioSource characterAudioSource;
     public AudioSource CharacterAudioSource { get { return characterAudioSource; } }
+    [SerializeField]
     private BoxCollider characterCollider;
     public BoxCollider CharacterCollider { get { return characterCollider; } }
+    [SerializeField]
     private SpriteRenderer characterSprite;
     public SpriteRenderer CharacterSprite { get { return characterSprite; } }
+    [SerializeField]
     private Transform characterTransform;
     public Transform CharacterTransform { get { return characterTransform; } }
 
     // Optional components
+    [SerializeField]
     private Rigidbody characterBody;
     public Rigidbody CharacterBody { get { return characterBody; } }
     protected CharacterComponent[] characterComponents;
@@ -55,14 +61,21 @@ public class Character : MonoBehaviour
 
     protected virtual void Awake()
     {
-        characterAnimator = GetComponent<Animator>();
-        characterAudioSource = GetComponent<AudioSource>();
-        characterBody = GetComponent<Rigidbody>();
-        characterCollider = GetComponent<BoxCollider>();
+        if(characterAnimator == null)
+            characterAnimator = GetComponent<Animator>();
+        if (characterAudioSource == null)
+            characterAudioSource = GetComponent<AudioSource>();
+        if (characterBody == null)
+            characterBody = GetComponent<Rigidbody>();
+        if (characterCollider == null)
+            characterCollider = GetComponent<BoxCollider>();
+        if (characterSprite == null)
+            characterSprite = GetComponent<SpriteRenderer>();
+        if (characterTransform == null)
+            characterTransform = GetComponent<Transform>();
+
         characterComponents = GetComponents<CharacterComponent>();
-        characterSprite = GetComponent<SpriteRenderer>();
         characterStateMachine = new StateMachine<CharacterState>();
-        characterTransform = GetComponent<Transform>();
 
         if (initialDirection == InitialFacingDirection.Left)
         {

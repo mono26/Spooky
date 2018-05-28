@@ -260,6 +260,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf90197a44a8cca4a85ac809368caa48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  detectionTrigger: {fileID: 135564382731587366}
   detectionRange: 3.5
   nearEnemies: []
 --- !u!114 &114260312407034146
@@ -287,13 +288,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  range: 0
-  cooldown: 0
+  range: 3.5
+  cooldown: 1
   actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   delayAfterAnimationIsFinished: 0.15
   actionStopsMovement: 1
   needsTargetToExecute: 1
+  plantCharacter: {fileID: 114532442404994260}
   launchForce: 5
+  shootPoint: {fileID: 4370896873869142}
   bulletPool: {fileID: 114042695106525758}
 --- !u!114 &114532442404994260
 MonoBehaviour:
@@ -306,9 +309,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8816b192a2a59b745be2f7c775dd271a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
   characterID: Tomato
   initialDirection: 1
+  type: 1
+  characterAnimator: {fileID: 95785079802630368}
+  characterAudioSource: {fileID: 82749211575072668}
+  characterCollider: {fileID: 65370332100873500}
+  characterSprite: {fileID: 212127656052482734}
+  characterTransform: {fileID: 4412348325244944}
+  characterBody: {fileID: 54917296067610420}
+  enemyDetect: {fileID: 114141678872713088}
+  healthComponent: {fileID: 114626738942533088}
+  statsComponent: {fileID: 114260312407034146}
   currentAction: {fileID: 114367486260847284}
 --- !u!114 &114626738942533088
 MonoBehaviour:

@@ -19,10 +19,13 @@ public class Plant : Character, EventHandler<PlantEvent>
 {
     public bool IsExecutingAction { get; protected set; }
 
+    [SerializeField]
     protected EnemyDetect enemyDetect;
     public EnemyDetect EnemyDetect { get { return enemyDetect; } }
+    [SerializeField]
     protected Health healthComponent;
     public Health HealthComponent { get { return healthComponent; } }
+    [SerializeField]
     protected PlantStats statsComponent;
     public PlantStats StatsComponent { get { return statsComponent; } }
 
@@ -35,17 +38,12 @@ public class Plant : Character, EventHandler<PlantEvent>
     {
         base.Awake();
 
-        enemyDetect = GetComponent<EnemyDetect>();
-        if (!enemyDetect)
-            Debug.LogError(this.gameObject.ToString() + "No health component found on the enemy gameObject: ");
-
-        healthComponent = GetComponent<Health>();
-        if (!healthComponent)
-            Debug.LogError(this.gameObject.ToString() + "No health component found on the enemy gameObject: ");
-
-        statsComponent = GetComponent<PlantStats>();
-        if (!statsComponent)
-            Debug.LogError(this.gameObject.ToString() + "No stats component found on the enemy gameObject: ");
+        if (enemyDetect)
+            enemyDetect = GetComponent<EnemyDetect>();
+        if (healthComponent)
+            healthComponent = GetComponent<Health>();
+        if (statsComponent)
+            statsComponent = GetComponent<PlantStats>();
 
         if (currentAction == null)
             Debug.LogError(this.gameObject.ToString() + "No current action assigned on the enemy gameObject: ");

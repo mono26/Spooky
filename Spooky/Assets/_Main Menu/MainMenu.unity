@@ -1150,7 +1150,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d201c975c9ceee4bb11dd6c9f78af13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  efxSource: {fileID: 1618325540}
   musicSource: {fileID: 1618325539}
 --- !u!1 &1710242662
 GameObject:

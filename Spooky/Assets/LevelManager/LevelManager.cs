@@ -5,17 +5,14 @@ public class LevelManager : SceneSingleton<LevelManager>
 {
     public string mainMenuScene;
 
-    // HouseSteal points used by the Stealer to note setting the target to the middle of the house. (out of navmesh)
     [SerializeField]
     private Transform[] houseStealPoints;
-    // Used by the waveSpawner for spawning the waves.
-    [SerializeField]
-    private Transform[] spawnPoints;
-    // used by the stealers to run when they have the loot.
     [SerializeField]
     private Transform[] runAwayPoints;
-    //TODO add get for spooky
     public Transform spooky;
+    [SerializeField]
+    private Transform[] spawnPoints;
+
 
     [SerializeField]
     private int startingMoney = 400;

@@ -1,33 +1,50 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(SingleObjectPool), typeof(SpookyEnemyDetect))]
 public class SpookyAttack : CharacterComponent
 {
     // Variable for a bullet.
+    [SerializeField]
     private SpookyEnemyDetect enemyDetector;
+    [SerializeField]
     private Transform hand;
+    [SerializeField]
     private Transform shootPoint;
 
-    public float attackRate = 1f;
-    public float launchForce = 10f;
-    public float chargeRate = 2f;
+    [SerializeField]
+    private float attacksPerSecond = 1f;
+    [SerializeField]
+    private float launchForce = 10f;
+    [SerializeField]
+    private float chargeRate = 2f;
 
     private Vector3 aimDirection;
+    [SerializeField]
     private SingleObjectPool bulletPool;
     [SerializeField]
     private SpookyBullet actualBullet;
 
     private float lastShoot;
+    private float cooldown;
 
     protected override void Awake()
     {
         base.Awake();
 
-        enemyDetector = GetComponent<SpookyEnemyDetect>();
-        hand = transform.Find("Hand").GetComponent<Transform>();
-        shootPoint = hand.Find("ShootPoint").GetComponent<Transform>();
-        bulletPool = GetComponent<SingleObjectPool>();
+        if(enemyDetector == null)
+            enemyDetector = GetComponent<SpookyEnemyDetect>();
+        if (hand == null)
+            hand = transform.Find("Hand").GetComponent<Transform>();
+        if (shootPoint == null)
+            shootPoint = hand.Find("ShootPoint").GetComponent<Transform>();
+
+        if (bulletPool == null)
+            bulletPool = GetComponent<SingleObjectPool>();
+    }
+
+    protected virtual void Start()
+    {
+        cooldown = 1 / attacksPerSecond;
     }
 
     public override void EveryFrame()
@@ -87,7 +104,7 @@ public class SpookyAttack : CharacterComponent
 
     private void CreateCurrentBullet()
     {
-        if(Time.timeSinceLevelLoad > lastShoot + attackRate)
+        if(Time.timeSinceLevelLoad > lastShoot + cooldown && actualBullet == null)
         {
             actualBullet = bulletPool.GetObjectFromPool().GetComponent<SpookyBullet>();
             actualBullet.transform.position = shootPoint.position;

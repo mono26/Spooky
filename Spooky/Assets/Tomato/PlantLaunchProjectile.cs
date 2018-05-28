@@ -5,12 +5,14 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyDetect),typeof(SingleObjectPool))]
 public class PlantLaunchProjectile : CharacterAction
 {
+    [SerializeField]
     protected Plant plantCharacter;
 
     [SerializeField]
     private float launchForce = 10f;
 
     private Bullet actualBullet;
+    [SerializeField]
     private Transform shootPoint;
     [SerializeField]
     private SingleObjectPool bulletPool;
@@ -19,8 +21,11 @@ public class PlantLaunchProjectile : CharacterAction
     {
         base.Awake();
 
-        plantCharacter = GetComponent<Plant>();
-        shootPoint = transform.Find("ShootPoint").GetComponent<Transform>();
+        if(plantCharacter == null)
+            plantCharacter = GetComponent<Plant>();
+        if(shootPoint == null)
+            shootPoint = transform.Find("ShootPoint").GetComponent<Transform>();
+
         if (bulletPool == null)
             Debug.Log(this.gameObject + "You need to asign a pool to the ability");
     }
@@ -28,7 +33,7 @@ public class PlantLaunchProjectile : CharacterAction
     protected void Start()
     {
         if(cooldown == 0)
-            cooldown = plantCharacter.StatsComponent.AttacksPerSecond;
+            cooldown = 1 / plantCharacter.StatsComponent.AttacksPerSecond;
         if (range == 0)
             range = plantCharacter.EnemyDetect.DetectionRange;
         return;
