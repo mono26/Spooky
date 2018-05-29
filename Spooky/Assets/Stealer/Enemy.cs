@@ -16,7 +16,7 @@ public class EnemyEvent : SpookyCrowEvent
 
 [RequireComponent(typeof(PoolableObject), typeof(EnemyStats), typeof(Health))]
 [RequireComponent(typeof(EnemyMovement))]
-public class Enemy : Character, EventHandler<EnemyEvent>
+public class Enemy : Character, EventHandler<EnemyEvent>, EventHandler<FightCloudEvent>
 {
     public bool IsExecutingAction { get; protected set; }
 
@@ -85,6 +85,12 @@ public class Enemy : Character, EventHandler<EnemyEvent>
         return;
     }
 
+    public void ChangeCurrentAction(CharacterAction _newAction)
+    {
+        currentAction = _newAction;
+        return;
+    }
+
     public void OnEvent(EnemyEvent _enemyEvent)
     {
         if(_enemyEvent.enemy.Equals(this))
@@ -97,10 +103,18 @@ public class Enemy : Character, EventHandler<EnemyEvent>
         return;
     }
 
-    public void ChangeCurrentAction(CharacterAction _newAction)
+    public void OnEvent(FightCloudEvent _fightCloudEvent)
     {
-        currentAction = _newAction;
+        if(CharacterID == "Attacker")
+        {
+            if (_fightCloudEvent.enemy.Equals(this))
+            {
+                if (_fightCloudEvent.type == FightCloudEventType.StartFight)
+                    EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, this));
+                if (_fightCloudEvent.type == FightCloudEventType.StartFight)
+                    EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, this));
+            }
+        }
         return;
     }
-
 }

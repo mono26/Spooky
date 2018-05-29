@@ -98,7 +98,7 @@ public class Health : MonoBehaviour, Damagable
         }
     }
 
-    private IEnumerator Kill()
+    public IEnumerator Kill()
     {
         /*if (OnDeath != null)
             OnDeath();*/

@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 65770155528111222}
   m_Layer: 11
   m_Name: MeleeCollider
-  m_TagString: MeleeCollider
+  m_TagString: EnemyMeleeCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -75,7 +75,13 @@ GameObject:
   - component: {fileID: 195569544062278668}
   - component: {fileID: 212499245088290674}
   - component: {fileID: 95806726417820678}
-  - component: {fileID: 114534652539622646}
+  - component: {fileID: 82896014623796488}
+  - component: {fileID: 114543526740350408}
+  - component: {fileID: 114464812435125654}
+  - component: {fileID: 114223092959506972}
+  - component: {fileID: 114885465088569812}
+  - component: {fileID: 114773735051167938}
+  - component: {fileID: 114078526699899162}
   m_Layer: 11
   m_Name: Attacker
   m_TagString: Enemy
@@ -90,7 +96,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1963016645295434}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -4.614, y: -0, z: -0.55}
+  m_LocalPosition: {x: 2.7173378, y: 0.19999912, z: 1.9547338}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224146271582406504}
@@ -150,6 +156,86 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: -0.25}
+--- !u!82 &82896014623796488
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963016645295434}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95806726417820678
 Animator:
   serializedVersion: 3
@@ -167,6 +253,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114078526699899162
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963016645295434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd33b8afd1ebaa248b20831dcf929246, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeTime: 10
 --- !u!114 &114171548478037278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -194,7 +292,7 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114534652539622646
+--- !u!114 &114223092959506972
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -202,21 +300,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 1963016645295434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5076d94cd27a0b043b07dac9b9393658, type: 3}
+  m_Script: {fileID: 11500000, guid: d900341560420b943bc74298ceb191e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthComponent:
-    currentHealth: 0
-  settings:
-    MovementSettings:
-      LevelBoundsInX: 0
-      LevelBoundsInY: 0
-    HealthSettings:
-      HealthBar: {fileID: 114171548478037278}
-      HealthBarToggleTime: 2
-  target: {fileID: 0}
-  lastAttackExecution: 0
-  currentState: 0
+  currentSpeed: 1
+  maxSpeed: 1
+  slowMotionSpeed: 0.5
+  MaxXValue: 0
+  MaxYValue: 0
+--- !u!114 &114464812435125654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963016645295434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 913ac143d25700144beeb3d6909abf35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  movementSpeed: 1
+--- !u!114 &114543526740350408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963016645295434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fca8eafaeeef37498e8a52580dc690a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterID: Attacker
+  initialDirection: 0
+  type: 1
+  characterAnimator: {fileID: 95806726417820678}
+  characterAudioSource: {fileID: 82896014623796488}
+  characterCollider: {fileID: 65213049345834584}
+  characterSprite: {fileID: 212499245088290674}
+  characterTransform: {fileID: 4130179145791594}
+  characterBody: {fileID: 54612795838928992}
+  healthComponent: {fileID: 114773735051167938}
+  movementComponent: {fileID: 114223092959506972}
+  statsComponent: {fileID: 114464812435125654}
+  currentAction: {fileID: 114885465088569812}
+  startingAction: {fileID: 114885465088569812}
 --- !u!114 &114684583226181220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -233,6 +362,43 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &114773735051167938
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963016645295434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b96a947ad42a3f64683116fb61cb09dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  healthBar: {fileID: 114171548478037278}
+  healthBarToggleTime: 3
+  damageEffect: {fileID: 0}
+  damageSfx: {fileID: 8300000, guid: 7f1848e2854726445b9a9f4f51c774a6, type: 3}
+  currentHealth: 3
+--- !u!114 &114885465088569812
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963016645295434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1318d783c58efda428633516ec60cf5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  range: 0.5
+  cooldown: 3
+  actionSfx: {fileID: 0}
+  delayAfterAnimationIsFinished: 0.25
+  actionStopsMovement: 1
+  needsTargetToExecute: 1
+  enemyCharacter: {fileID: 114543526740350408}
+  meleeCollider: {fileID: 65770155528111222}
 --- !u!114 &114951604829026382
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -170,4 +170,16 @@ public class Character : MonoBehaviour
         IsFacingRightDirection = !IsFacingRightDirection;
         return;
     }
+
+    protected void OnTriggerEnter(Collider other)
+    {
+        if(characterID == "Spooky")
+        {
+            if(other.CompareTag("EnemyMeleeCollider"))
+            {
+                FightCloud.Instance.PrepareFight(this, other.GetComponentInParent<Enemy>());
+            }
+        }
+        return;
+    }
 }

@@ -102,7 +102,7 @@ public class EnemyMovement : HorizontalAndVerticalMovement
     {
         base.OnEvent(_movementEvent);
 
-        if(_movementEvent.character.Equals(this.character))
+        if(_movementEvent.character.Equals(character))
         {
             if (_movementEvent.type == MovementEventType.Stop)
                 StopEnemy(true);

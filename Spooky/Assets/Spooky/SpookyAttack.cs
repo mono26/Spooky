@@ -61,8 +61,11 @@ public class SpookyAttack : CharacterComponent
 
         else if (enemyDetector.CurrentEnemyTarget == null)
         {
-            aimDirection.x = character.CharacterInput.Movement.x;
-            aimDirection.y = character.CharacterInput.Movement.y;
+            if(!character.CharacterInput.Movement.Equals(Vector3.zero))
+            {
+                aimDirection.x = character.CharacterInput.Movement.x;
+                aimDirection.y = character.CharacterInput.Movement.y;
+            }
             if (!aimDirection.x.Equals(0f) || !aimDirection.y.Equals(0f))
             {
                 RotateHand(aimDirection);

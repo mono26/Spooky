@@ -125,8 +125,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -182,7 +182,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -307,12 +307,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  range: 0.3
+  range: 0.5
   cooldown: 5
   actionSfx: {fileID: 0}
-  delayAfterAnimationIsFinished: 0.15
+  delayAfterAnimationIsFinished: 0.25
   actionStopsMovement: 1
   needsTargetToExecute: 1
+  enemyCharacter: {fileID: 114245778483799946}
 --- !u!114 &114530401713927566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -351,9 +352,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d900341560420b943bc74298ceb191e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentSpeed: 0
-  maxSpeed: 0
-  slowMotionSpeed: 0
+  currentSpeed: 0.5
+  maxSpeed: 0.5
+  slowMotionSpeed: 0.25
   MaxXValue: 0
   MaxYValue: 0
 --- !u!114 &114676515062064592

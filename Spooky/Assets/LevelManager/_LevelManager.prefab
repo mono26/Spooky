@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4720306489840732}
   m_Layer: 0
   m_Name: Steal Point
-  m_TagString: Steal Point
+  m_TagString: StealPoint
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967169
@@ -36,7 +36,7 @@ GameObject:
   - component: {fileID: 4812133297743562}
   m_Layer: 0
   m_Name: Steal Point
-  m_TagString: Steal Point
+  m_TagString: StealPoint
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967169
@@ -66,7 +66,7 @@ GameObject:
   - component: {fileID: 4844633673935982}
   m_Layer: 0
   m_Name: Steal Point
-  m_TagString: Steal Point
+  m_TagString: StealPoint
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967169
@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 4337967905685170}
   m_Layer: 0
   m_Name: Steal Point
-  m_TagString: Steal Point
+  m_TagString: StealPoint
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967169
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 4433918151241354}
   m_Layer: 0
   m_Name: Steal Point
-  m_TagString: Steal Point
+  m_TagString: StealPoint
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967169
@@ -128,11 +128,12 @@ GameObject:
   - component: {fileID: 4197317631367690}
   - component: {fileID: 212128300472108326}
   - component: {fileID: 65181824216742822}
+  - component: {fileID: 82958880919145318}
   - component: {fileID: 114188510794227474}
-  - component: {fileID: 114128303780344796}
   - component: {fileID: 114055343446617678}
   - component: {fileID: 114951207490674992}
   - component: {fileID: 114764681292730518}
+  - component: {fileID: 114140125711422362}
   m_Layer: 20
   m_Name: _LevelManager
   m_TagString: Untagged
@@ -304,6 +305,86 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.26268, y: 2.58102, z: 0.5}
   m_Center: {x: 0.22, y: -0.71, z: -0.25}
+--- !u!82 &82958880919145318
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1736335610250038}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 2
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &114055343446617678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -318,7 +399,7 @@ MonoBehaviour:
   buildCanvasUI: {fileID: 0}
   plantCanvasUI: {fileID: 0}
   zOffsetForCanvasLocation: 0.7
---- !u!114 &114128303780344796
+--- !u!114 &114140125711422362
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -326,12 +407,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1736335610250038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a453fbdeb3bdcd4c9c8cff03a75c01e, type: 3}
+  m_Script: {fileID: 11500000, guid: 8e84794f9baf15641a9e8b75a2c912e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameOverUI: {fileID: 0}
-  winUI: {fileID: 0}
-  pauseUI: {fileID: 0}
+  combineObjectPools: 0
+  gameObjectToPool: {fileID: 1963016645295434, guid: e71f06d12bbd1e54daf27d9832e403ee,
+    type: 2}
+  startingPoolSize: 10
+  poolCanIncreaseSize: 1
 --- !u!114 &114188510794227474
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -345,12 +428,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuScene: 
   houseStealPoints: []
-  spawnPoints: []
   runAwayPoints: []
   spooky: {fileID: 0}
+  spawnPoints: []
   startingMoney: 400
   maxCrop: 800
-  backgroundMusicClip: {fileID: 0}
+  backgroundMusicClip: {fileID: 8300000, guid: 040257887a5c04446b0b84b51e4b7d26, type: 3}
 --- !u!114 &114764681292730518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -380,12 +463,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemiesToSpawn:
   - {fileID: 114245778483799946, guid: 800fc7b33f2b6b646be89db3fbd15aa5, type: 2}
+  - {fileID: 114543526740350408, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
   enemiesPools:
   - {fileID: 114764681292730518}
-  minSpawnPerEnemy: 05000000
+  - {fileID: 114140125711422362}
+  minSpawnPerEnemy: 0500000003000000
   timeBetweenNextWaveSpawn: 3
-  enemySpawnRate: 4
-  SpawnSound: {fileID: 8300000, guid: 783ce37a3589d68419e688038e12052d, type: 3}
+  enemySpawnRatePerSecond: 2
+  currentMaxNumberOfEnemiesLeft: 0
+  currentNumberOfEnemiesKilled: 0
+  currentWave: 0
+  waveSoundSource: {fileID: 82958880919145318}
+  spawnSfx: {fileID: 0}
+  waveSpawnerState: 0
 --- !u!212 &212128300472108326
 SpriteRenderer:
   m_ObjectHideFlags: 1

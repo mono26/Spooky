@@ -3,14 +3,15 @@ using UnityEngine;
 
 public class StealCorn : CharacterAction
 {
+    [SerializeField]
     protected Enemy enemyCharacter;
 
     protected override void Awake()
     {
         base.Awake();
 
-        enemyCharacter = GetComponent<Enemy>();
-        target = LevelManager.Instance.GetRandomHousePoint();
+        if(enemyCharacter == null)
+            enemyCharacter = GetComponent<Enemy>();
     }
 
     protected override void OnEnable()
@@ -23,6 +24,7 @@ public class StealCorn : CharacterAction
     protected override IEnumerator Action()
     {
         EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.ExecuteAction, enemyCharacter));
+        yield return 0;
 
         yield return new WaitForSecondsRealtime(
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
@@ -33,6 +35,7 @@ public class StealCorn : CharacterAction
 
         // Stop the action executiong because the animation has already end.
         EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.FinishExecute, enemyCharacter));
+        yield return 0;
 
         if (enemyCharacter != null)
             enemyCharacter.ChangeCurrentAction(GetComponent<EscapeWithCorn>());

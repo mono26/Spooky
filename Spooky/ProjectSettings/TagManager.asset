@@ -10,16 +10,7 @@ TagManager:
   - Runaway Point
   - Steal Point
   - Enemy
-  - Plant Range
   - Plant
-  - WinGameUI
-  - GameOverUI
-  - Pause Button
-  - Black Fade
-  - Black Background
-  - PauseUI
-  - EnemyDetector
-  - PlantpointDetector
   - SpookyHand
   - SpookyHandSprite
   - SpookyShootPoint
@@ -27,8 +18,16 @@ TagManager:
   - PlantCanvas
   - CornField
   - Plantpoint
-  - VariableJoystick
-  - MeleeCollider
+  - EnemyMeleeCollider
+  - StealPoint
+  - RunawayPoint
+  - SpawnPoint
+  - PlantpointDetector
+  - EnemyDetector
+  - GameOverUI
+  - Pause Button
+  - WinGameUI
+  - PauseUI
   layers:
   - Default
   - TransparentFX

@@ -1,51 +1,63 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeAttack : CloseRangeAttack
+public class MeleeAttack : CharacterAction
 {
-    protected Enemy owner;
-    protected Collider meleeCollider;
+    [SerializeField]
+    protected Enemy enemyCharacter;
+    [SerializeField]
+    protected BoxCollider meleeCollider;
 
-    public MeleeAttack(Enemy _owner, Collider _meleeCollider)
+    protected override void Awake()
     {
-        owner = _owner;
-        meleeCollider = _meleeCollider;
+        base.Awake();
+
+        if (enemyCharacter == null)
+            enemyCharacter = GetComponent<Enemy>();
+
+        target = LevelManager.Instance.Spooky;
     }
 
-    public void CloseAttack()
+    protected override void OnEnable()
     {
-        //owner.CastAbility(owner.StartCoroutine(StealCrop()));
-        return;
+        base.OnEnable();
+
+        meleeCollider.gameObject.SetActive(false);
     }
 
-    private IEnumerator StealCrop()
+    protected override IEnumerator Action()
     {
-        /*if (owner.Target != null)        //Si no tiene target no deberia de disparar.
+        EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.ExecuteAction, enemyCharacter));
+        yield return 0;
+
+        // We want to enable the collider before the animation ends
+        yield return new WaitForSecondsRealtime(
+                    character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length - delayAfterAnimationIsFinished
+                    );
+
+        Vector3 directionToTarget = target.position - character.CharacterTransform.position;
+        directionToTarget = directionToTarget.normalized;
+        meleeCollider.transform.position = character.CharacterTransform.position + directionToTarget * range;
+        meleeCollider.gameObject.SetActive(true);
+
+        yield return new WaitForSecondsRealtime(delayAfterAnimationIsFinished);
+
+        //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
+        SetLasActionExecuteToActualTimeInLevel();
+
+        // Stop the action executiong because the animation has already end.
+        EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.FinishExecute, enemyCharacter));
+        meleeCollider.gameObject.SetActive(false);
+        yield break;
+    }
+
+    protected override void UpdateState()
+    {
+        if (enemyCharacter.IsExecutingAction == true)
         {
-            //Debe de ir el resto del metodo de la planta para el melee
-            //DDeberia activar la ejecucion de la aniacion y esperar a que pase pare activar.
-            //owner.AnimationComponent.PlayAnimation("MeleeAttack");
-            LocateCollider();
-
-            /*yield return new WaitForSecondsRealtime(
-                owner.AnimationComponent.Animator.GetCurrentAnimatorStateInfo(0).length);*/
-
-            meleeCollider.gameObject.SetActive(true);
-
-            /// This is a magic number to make sue the collider stays active enough time so the player can collide with it.
-            yield return new WaitForSeconds(0.3f);
-
-            meleeCollider.gameObject.SetActive(false);
-        //}
-        //else yield return false;
-    }
-
-    private void LocateCollider()
-    {
-        /*Vector3 direccion = owner.Target.position - owner.transform.position;
-        direccion.y = 0f;
-        direccion = direccion.normalized;
-        meleeCollider.transform.position = owner.transform.position + (direccion * owner.StatsComponent.BasicRange);*/
+            character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
+            return;
+        }
+        else return;
     }
 }

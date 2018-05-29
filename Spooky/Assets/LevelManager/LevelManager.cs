@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LevelManager : SceneSingleton<LevelManager>
 {
@@ -9,7 +8,9 @@ public class LevelManager : SceneSingleton<LevelManager>
     private Transform[] houseStealPoints;
     [SerializeField]
     private Transform[] runAwayPoints;
-    public Transform spooky;
+    [SerializeField]
+    private Transform spooky;
+    public Transform Spooky { get { return spooky; } }
     [SerializeField]
     private Transform[] spawnPoints;
 
@@ -35,10 +36,14 @@ public class LevelManager : SceneSingleton<LevelManager>
     {
         base.Awake();
 
-        spooky = GameObject.FindWithTag("Spooky").transform;
+        if(spooky == null)
+            spooky = GameObject.FindWithTag("Spooky").transform;
+
         LookForHousePoints();
         LookForRunAwayPoints();
         LookForSpawnPoints();
+
+        return;
     }
 
     private void Start()
@@ -47,35 +52,39 @@ public class LevelManager : SceneSingleton<LevelManager>
         CurrentMoney = startingMoney;
         EventManager.TriggerEvent<FadeEvent>(new FadeEvent(FadeEventType.FadeOut));
         SoundManager.Instance.PlayMusic(backgroundMusicClip);
+        return;
     }
 
     // Caching
     private void LookForSpawnPoints()
     {
-        var sp = GameObject.FindGameObjectsWithTag("Spawn Point");
+        var sp = GameObject.FindGameObjectsWithTag("SpawnPoint");
         spawnPoints = new Transform[sp.Length];
         for (int i = 0; i < sp.Length; i++)
         {
             spawnPoints[i] = sp[i].GetComponent<Transform>();
         }
+        return;
     }
     private void LookForRunAwayPoints()
     {
-        var rp = GameObject.FindGameObjectsWithTag("Runaway Point");
+        var rp = GameObject.FindGameObjectsWithTag("RunawayPoint");
         runAwayPoints = new Transform[rp.Length];
         for (int i = 0; i < rp.Length; i++)
         {
             runAwayPoints[i] = rp[i].GetComponent<Transform>();
         }
+        return;
     }
     private void LookForHousePoints()
     {
-        var hPoints = GameObject.FindGameObjectsWithTag("Steal Point");
+        var hPoints = GameObject.FindGameObjectsWithTag("StealPoint");
         houseStealPoints = new Transform[hPoints.Length];
         for (int i = 0; i < hPoints.Length; i++)
         {
             houseStealPoints[i] = hPoints[i].GetComponent<Transform>();
         }
+        return;
     }
 
     public Transform GetRandomHousePoint()
@@ -90,7 +99,7 @@ public class LevelManager : SceneSingleton<LevelManager>
     }
     public Transform GetRandomSpawnPoint()
     {
-        int random = Random.Range(0, runAwayPoints.Length);
+        int random = Random.Range(0, spawnPoints.Length);
         return spawnPoints[random];
     }
 
@@ -99,11 +108,13 @@ public class LevelManager : SceneSingleton<LevelManager>
         gameIsOver = true;
         // SoundHandler.Instance.PlayClip(gameSounds[0]);
         //loseUI.SetActive(true);
+        return;
     }
     public void WinLevel()
     {
         gameIsOver = true;
         //winUI.SetActive(true);
+        return;
     }
 
     public void QuitLevel()
@@ -111,6 +122,7 @@ public class LevelManager : SceneSingleton<LevelManager>
         Time.timeScale = 1;
         LoadManager.LoadScene(mainMenuScene);
         //GameManager.Instance.SoundManager.StopMusic();
+        return;
     }
 
     public void RetryLevel()
@@ -119,6 +131,7 @@ public class LevelManager : SceneSingleton<LevelManager>
         GameManager.Instance.StartCoroutine(
             GameManager.Instance.LoadLevel(SceneManager.GetActiveScene().name)
             );*/
+        return;
     }
 
     public void GiveMoney(int reward)
@@ -142,5 +155,6 @@ public class LevelManager : SceneSingleton<LevelManager>
             //GameOver Code
             LevelManager.Instance.GameOver();
         }
+        return;
     }
 }
