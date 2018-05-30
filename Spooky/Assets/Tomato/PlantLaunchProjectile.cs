@@ -98,15 +98,18 @@ public class PlantLaunchProjectile : CharacterAction
 
     protected override void UpdateState()
     {
-        if (plantCharacter.IsExecutingAction == true)
+        if (character.characterStateMachine != null)
         {
-            character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
-            return;
-        }
-        else
-        {
-            character.characterStateMachine.ChangeState(Character.CharacterState.Idle);
-            return;
+            if (plantCharacter.IsExecutingAction == true)
+            {
+                character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
+                return;
+            }
+            else
+            {
+                character.characterStateMachine.ChangeState(Character.CharacterState.Idle);
+                return;
+            }
         }
     }
 }

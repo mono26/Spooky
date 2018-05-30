@@ -132,7 +132,6 @@ public class HorizontalAndVerticalMovement : CharacterComponent, EventHandler<Mo
             {
                 character.characterStateMachine.ChangeState(Character.CharacterState.Moving);
             }
-
         }
         else return;
     }

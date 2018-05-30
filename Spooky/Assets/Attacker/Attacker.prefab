@@ -36,6 +36,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4454632341200102}
+  - component: {fileID: 54280617128686752}
   - component: {fileID: 65770155528111222}
   m_Layer: 11
   m_Name: MeleeCollider
@@ -117,6 +118,21 @@ Transform:
   m_Father: {fileID: 4130179145791594}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &54280617128686752
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1092414507366476}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!54 &54612795838928992
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -131,7 +147,7 @@ Rigidbody:
   m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 116
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &65213049345834584
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -440,7 +456,7 @@ NavMeshAgent:
   m_Height: 0.5
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 0
+  m_ObstacleAvoidanceType: 1
 --- !u!212 &212499245088290674
 SpriteRenderer:
   m_ObjectHideFlags: 1

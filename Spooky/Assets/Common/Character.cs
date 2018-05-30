@@ -171,13 +171,13 @@ public class Character : MonoBehaviour
         return;
     }
 
-    protected void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter(Collider _collider)
     {
-        if(characterID == "Spooky")
+        if(characterID.Equals("Spooky"))
         {
-            if(other.CompareTag("EnemyMeleeCollider"))
+            if(_collider.CompareTag("EnemyMeleeCollider"))
             {
-                FightCloud.Instance.PrepareFight(this, other.GetComponentInParent<Enemy>());
+                FightCloud.Instance.PrepareFight(this, _collider.GetComponentInParent<Enemy>());
             }
         }
         return;

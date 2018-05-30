@@ -32,7 +32,7 @@ public class MeleeAttack : CharacterAction
 
         // We want to enable the collider before the animation ends
         yield return new WaitForSecondsRealtime(
-                    character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length - delayAfterAnimationIsFinished
+                    character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length / 2
                     );
 
         Vector3 directionToTarget = target.position - character.CharacterTransform.position;
@@ -40,7 +40,9 @@ public class MeleeAttack : CharacterAction
         meleeCollider.transform.position = character.CharacterTransform.position + directionToTarget * range;
         meleeCollider.gameObject.SetActive(true);
 
-        yield return new WaitForSecondsRealtime(delayAfterAnimationIsFinished);
+        yield return new WaitForSecondsRealtime(
+            character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length / 2 + delayAfterAnimationIsFinished
+            );
 
         //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
         SetLasActionExecuteToActualTimeInLevel();

@@ -81,9 +81,8 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>, EventHandler<Chara
 
     protected void UpdateCropUIBar()
     {
-        float num = LevelManager.Instance.CurrentCrop;
-        float den = LevelManager.Instance.CurrentCrop;
-        cropUIBar.fillAmount = num / den;
+        if(LevelManager.Instance.MaxCrop > 0)
+            cropUIBar.fillAmount = (float)LevelManager.Instance.CurrentCrop / (float)LevelManager.Instance.MaxCrop;
         return;
     }
 
@@ -109,7 +108,8 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>, EventHandler<Chara
     private void UpdateWaveSpawnerUI()
     {
         waveCounter.text = WaveSpawner.Instance.CurrentWave.ToString();
-        waveProgressBar.fillAmount = WaveSpawner.Instance.CurrentNumberOfEnemiesKilled / WaveSpawner.Instance.CurrentMaxNumberOfEnemiesLeft;
+        if(WaveSpawner.Instance.CurrentMaxNumberOfEnemiesLeft > 0)
+            waveProgressBar.fillAmount = (float)WaveSpawner.Instance.CurrentNumberOfEnemiesKilled / (float)WaveSpawner.Instance.CurrentMaxNumberOfEnemiesLeft;
         return;
     }
 

@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 224146542960204156}
   m_Layer: 5
   m_Name: GameOverUI
-  m_TagString: GameOverUI
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -292,7 +292,7 @@ GameObject:
   - component: {fileID: 135313261536518600}
   m_Layer: 16
   m_Name: PlantPointDetector
-  m_TagString: PlantpointDetector
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -345,7 +345,7 @@ GameObject:
   - component: {fileID: 114564385349874346}
   m_Layer: 5
   m_Name: PauseButton
-  m_TagString: Pause Button
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 135549795504933472}
   m_Layer: 12
   m_Name: EnemyDetector
-  m_TagString: EnemyDetector
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -517,7 +517,7 @@ GameObject:
   - component: {fileID: 224087618302595522}
   m_Layer: 5
   m_Name: WinGameUI
-  m_TagString: WinGameUI
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -658,8 +658,8 @@ GameObject:
   - component: {fileID: 4193135421944750}
   - component: {fileID: 212835599350365438}
   - component: {fileID: 95708093824852228}
-  - component: {fileID: 65422766217998902}
   - component: {fileID: 54996514214459900}
+  - component: {fileID: 65422766217998902}
   - component: {fileID: 82602552082287352}
   - component: {fileID: 114089981798325646}
   - component: {fileID: 114738561422020658}
@@ -732,7 +732,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1937644174119942}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.529, y: -0, z: -3.65}
+  m_LocalPosition: {x: 2.74, y: -0, z: 0.19}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4467767140962094}
@@ -873,7 +873,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 116
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!65 &65422766217998902
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -1114,7 +1114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff54c2151fee0d54b8417fc47d62cb9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterID: Player1
+  characterID: Spooky
   initialDirection: 0
   type: 0
   characterAnimator: {fileID: 95708093824852228}
@@ -2240,7 +2240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerID: Player1
-  hideControlsInEditor: 0
+  hideControlsInEditor: 1
   autoDetectMovile: 1
   movement: {x: 0, y: 0, z: 0}
 --- !u!114 &114820907631764080
@@ -2349,7 +2349,7 @@ MonoBehaviour:
   enemyDetector: {fileID: 114991595324434820}
   hand: {fileID: 4467767140962094}
   shootPoint: {fileID: 4970978718526566}
-  attackRate: 1
+  attacksPerSecond: 1
   launchForce: 10
   chargeRate: 2
   bulletPool: {fileID: 114839637541420426}

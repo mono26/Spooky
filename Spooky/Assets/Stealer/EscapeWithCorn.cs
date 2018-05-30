@@ -10,18 +10,22 @@ public class EscapeWithCorn : CharacterAction
         base.Awake();
 
         enemyCharacter = GetComponent<Enemy>();
-        target = LevelManager.Instance.GetRandomEscapePoint();
+
+        return;
     }
 
-    protected override void OnEnable()
+    protected virtual void Start()
     {
-        base.OnEnable();
-
         target = LevelManager.Instance.GetRandomEscapePoint();
+
+        return;
     }
 
     protected override IEnumerator Action()
     {
+        EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.ExecuteAction, enemyCharacter));
+        yield return 0;
+
         SetLasActionExecuteToActualTimeInLevel();
 
         EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.FinishExecute, enemyCharacter));

@@ -123,9 +123,9 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
             currentMaxNumberOfEnemiesLeft += CalculateNumberOfEnemiesToSpawn(enemiesToSpawn[i].CharacterID);
         }
 
-        EventManager.TriggerEvent<GameEvent>(new GameEvent(GameEventTypes.SpawnStart));
         int numberOfSpawns = currentMaxNumberOfEnemiesLeft;
-   
+        EventManager.TriggerEvent<GameEvent>(new GameEvent(GameEventTypes.SpawnStart));
+
         while (numberOfSpawns > 0)
         {
             for (int i = 0; i < enemiesToSpawn.Length; i++)
@@ -197,7 +197,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
 
             case "Attacker":
                 if(currentWave > minWaveRequiredToSpawnEnemy2)
-                numberOfEnemiesToSpawn = minSpawnPerEnemy[1] * currentWave;
+                    numberOfEnemiesToSpawn = minSpawnPerEnemy[1] * currentWave;
                 break;
 
             default:

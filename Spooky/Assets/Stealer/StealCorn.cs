@@ -14,11 +14,11 @@ public class StealCorn : CharacterAction
             enemyCharacter = GetComponent<Enemy>();
     }
 
-    protected override void OnEnable()
+    protected virtual void Start()
     {
-        base.OnEnable();
-
         target = LevelManager.Instance.GetRandomHousePoint();
+
+        return;
     }
 
     protected override IEnumerator Action()
