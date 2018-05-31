@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(Enemy), typeof(NavMeshAgent))]
+[RequireComponent(typeof(Character), typeof(NavMeshAgent))]
 public class EnemyMovement : HorizontalAndVerticalMovement
 {
-    protected Enemy enemy;
     protected NavMeshAgent navMeshAgent;
     public NavMeshAgent NavMeshAgent { get { return navMeshAgent; } }
 
@@ -17,7 +16,6 @@ public class EnemyMovement : HorizontalAndVerticalMovement
     {
         base.Awake();
 
-        enemy = GetComponent<Enemy>();
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         pathToTheTarget = new NavMeshPath();
@@ -25,7 +23,10 @@ public class EnemyMovement : HorizontalAndVerticalMovement
 
     protected override void Start()
     {
-        maxSpeed = enemy.StatsComponent.MovementSpeed;
+        if (character.GetComponent<StatsComponent>())
+        {
+            maxSpeed = character.GetComponent<StatsComponent>().MovementSpeed;
+        }
         slowMotionSpeed = maxSpeed * 0.5f;
 
         base.Start();
@@ -66,9 +67,9 @@ public class EnemyMovement : HorizontalAndVerticalMovement
 
     protected void CalculateDirectionToTarget()
     {
-        if (enemy.CurrentAction.Target && navMeshAgent != null)
+        if (character.CurrentAction.Target && navMeshAgent != null)
         {
-            navMeshAgent.CalculatePath(enemy.CurrentAction.Target.position, pathToTheTarget);
+            navMeshAgent.CalculatePath(character.CurrentAction.Target.position, pathToTheTarget);
 
             if (!pathToTheTarget.Equals(null) && pathToTheTarget.corners.Length > 1)
             {

@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 212499245088290674}
   - component: {fileID: 95806726417820678}
   - component: {fileID: 82896014623796488}
-  - component: {fileID: 114543526740350408}
+  - component: {fileID: 114254842511176204}
   - component: {fileID: 114464812435125654}
   - component: {fileID: 114223092959506972}
   - component: {fileID: 114885465088569812}
@@ -324,6 +324,27 @@ MonoBehaviour:
   slowMotionSpeed: 0.5
   MaxXValue: 0
   MaxYValue: 0
+--- !u!114 &114254842511176204
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963016645295434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff54c2151fee0d54b8417fc47d62cb9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterID: Attacker
+  initialDirection: 0
+  type: 1
+  characterAnimator: {fileID: 95806726417820678}
+  characterAudioSource: {fileID: 82896014623796488}
+  characterCollider: {fileID: 65213049345834584}
+  characterSprite: {fileID: 212499245088290674}
+  characterTransform: {fileID: 4130179145791594}
+  characterBody: {fileID: 54612795838928992}
+  currentAction: {fileID: 114885465088569812}
 --- !u!114 &114464812435125654
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -337,31 +358,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   movementSpeed: 1
---- !u!114 &114543526740350408
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1963016645295434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fca8eafaeeef37498e8a52580dc690a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterID: Attacker
-  initialDirection: 0
-  type: 1
-  characterAnimator: {fileID: 95806726417820678}
-  characterAudioSource: {fileID: 82896014623796488}
-  characterCollider: {fileID: 65213049345834584}
-  characterSprite: {fileID: 212499245088290674}
-  characterTransform: {fileID: 4130179145791594}
-  characterBody: {fileID: 54612795838928992}
-  healthComponent: {fileID: 114773735051167938}
-  movementComponent: {fileID: 114223092959506972}
-  statsComponent: {fileID: 114464812435125654}
-  currentAction: {fileID: 114885465088569812}
-  startingAction: {fileID: 114885465088569812}
 --- !u!114 &114684583226181220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -413,7 +409,7 @@ MonoBehaviour:
   delayAfterAnimationIsFinished: 0.25
   actionStopsMovement: 1
   needsTargetToExecute: 1
-  enemyCharacter: {fileID: 114543526740350408}
+  nextAction: {fileID: 114885465088569812}
   meleeCollider: {fileID: 65770155528111222}
 --- !u!114 &114951604829026382
 MonoBehaviour:

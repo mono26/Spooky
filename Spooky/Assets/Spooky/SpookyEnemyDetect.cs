@@ -4,8 +4,8 @@ using UnityEngine;
 public class SpookyEnemyDetect : EnemyDetect
 {
     [SerializeField]
-    private Enemy currentEnemyTarget;
-    public Enemy CurrentEnemyTarget { get { return currentEnemyTarget; } }
+    private Character currentEnemyTarget;
+    public Character CurrentEnemyTarget { get { return currentEnemyTarget; } }
 
     private Coroutine targetClosestEnemy = null;
 
@@ -23,7 +23,7 @@ public class SpookyEnemyDetect : EnemyDetect
         if (nearEnemies.Count > 0)
         {
             float distanceToTheFirstEnemy = Vector3.SqrMagnitude(character.CharacterTransform.position - nearEnemies[0].transform.position);
-            Enemy temporalCurrentEnemy = nearEnemies[0];
+            Character temporalCurrentEnemy = nearEnemies[0];
             for (int plantPoint = 0; plantPoint < nearEnemies.Count; plantPoint++)
             {
                 float distanceToTheNextEnemy = Vector3.SqrMagnitude(character.CharacterTransform.position - nearEnemies[plantPoint].transform.position);
@@ -42,7 +42,7 @@ public class SpookyEnemyDetect : EnemyDetect
         targetClosestEnemy = StartCoroutine(TargetNearestEnemy());
     }
 
-    private void ChangeCurrentEnemyTarget(Enemy _enemy)
+    private void ChangeCurrentEnemyTarget(Character _enemy)
     {
         currentEnemyTarget = _enemy;
         return;
@@ -67,7 +67,7 @@ public class SpookyEnemyDetect : EnemyDetect
         {
             if (nearEnemies.Count == 0)
             {
-                ChangeCurrentEnemyTarget(_enemyCollider.GetComponent<Enemy>());
+                ChangeCurrentEnemyTarget(_enemyCollider.GetComponent<Character>());
                 targetClosestEnemy = StartCoroutine(TargetNearestEnemy()); 
             }
             base.OnTriggerEnter(_enemyCollider);

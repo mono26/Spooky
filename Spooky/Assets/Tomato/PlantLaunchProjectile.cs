@@ -6,9 +6,6 @@ using UnityEngine;
 public class PlantLaunchProjectile : CharacterAction
 {
     [SerializeField]
-    protected Plant plantCharacter;
-
-    [SerializeField]
     private float launchForce = 10f;
 
     private Bullet actualBullet;
@@ -21,22 +18,11 @@ public class PlantLaunchProjectile : CharacterAction
     {
         base.Awake();
 
-        if(plantCharacter == null)
-            plantCharacter = GetComponent<Plant>();
         if(shootPoint == null)
             shootPoint = transform.Find("ShootPoint").GetComponent<Transform>();
 
         if (bulletPool == null)
             Debug.Log(this.gameObject + "You need to asign a pool to the ability");
-    }
-
-    protected void Start()
-    {
-        if(cooldown == 0)
-            cooldown = 1 / plantCharacter.StatsComponent.AttacksPerSecond;
-        if (range == 0)
-            range = plantCharacter.EnemyDetect.DetectionRange;
-        return;
     }
 
     public override void EveryFrame()
@@ -61,7 +47,7 @@ public class PlantLaunchProjectile : CharacterAction
 
     protected override IEnumerator Action()
     {
-        EventManager.TriggerEvent(new PlantEvent(PlantEventType.ExecuteAction, plantCharacter));
+        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.ExecuteAction, character));
         yield return 0;
 
         yield return new WaitForSecondsRealtime(
@@ -70,14 +56,14 @@ public class PlantLaunchProjectile : CharacterAction
 
         actualBullet = bulletPool.GetObjectFromPool().GetComponent<Bullet>();
         actualBullet.gameObject.SetActive(true);
-        RotateActualBulleTowardsDirection(plantCharacter.EnemyDetect.GetFirstEnemyTargetDirection());
+        RotateActualBulleTowardsDirection(GetTargetDirection());
         actualBullet.Launch(launchForce);
         actualBullet = null;
 
         SetLasActionExecuteToActualTimeInLevel();
         PlaySfx();
 
-        EventManager.TriggerEvent(new PlantEvent(PlantEventType.FinishExecute, plantCharacter));
+        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.FinishExecute, character));
         yield return 0;
 
         yield break;
@@ -100,16 +86,24 @@ public class PlantLaunchProjectile : CharacterAction
     {
         if (character.characterStateMachine != null)
         {
-            if (plantCharacter.IsExecutingAction == true)
-            {
+            if (character.IsExecutingAction == true)
                 character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
-                return;
-            }
             else
-            {
                 character.characterStateMachine.ChangeState(Character.CharacterState.Idle);
-                return;
-            }
         }
+        return;
+    }
+
+    protected Vector3 GetTargetDirection()
+    {
+        Vector3 _direction = Vector3.zero;
+        if (target != null)
+        {
+            _direction = (target.position - character.CharacterTransform.position).normalized;
+            _direction.y = _direction.z;
+            _direction.z = 0;
+            return _direction;
+        }
+        else return _direction;
     }
 }

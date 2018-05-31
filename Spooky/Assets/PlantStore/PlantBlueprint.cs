@@ -6,6 +6,6 @@ public class PlantBlueprint : ScriptableObject
 {
     public int price;
     public int upgradePrice;
-    public Plant plant;
-    public Plant upgradePlant;
+    public Character plant;
+    public Character upgradePlant;
 }

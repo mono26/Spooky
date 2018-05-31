@@ -5,10 +5,10 @@ public enum FightCloudEventType { StartFight, EndFight }
 public class FightCloudEvent : SpookyCrowEvent
 {
     public Character player;
-    public Enemy enemy;
+    public Character enemy;
     public FightCloudEventType type;
 
-    public FightCloudEvent(Character _player, Enemy _enemy, FightCloudEventType _type)
+    public FightCloudEvent(Character _player, Character _enemy, FightCloudEventType _type)
     {
         player = _player;
         enemy = _enemy;
@@ -21,7 +21,7 @@ public class FightCloud : SceneSingleton<FightCloud>
     [SerializeField]
     private Character player;
     [SerializeField]
-    private Enemy enemy;
+    private Character enemy;
 
     private void Start()
     {
@@ -35,7 +35,7 @@ public class FightCloud : SceneSingleton<FightCloud>
         return;
     }
 
-    public void PrepareFight(Character _player, Enemy _enemy)
+    public void PrepareFight(Character _player, Character _enemy)
     {
         player = _player;
         enemy = _enemy;
@@ -64,10 +64,13 @@ public class FightCloud : SceneSingleton<FightCloud>
         gameObject.SetActive(true);
 
         player.gameObject.SetActive(true);
-        StartCoroutine(enemy.HealthComponent.Kill());
+        if(enemy.GetComponent<Health>())
+            StartCoroutine(enemy.GetComponent<Health>().Kill());
 
         player = null;
         enemy = null;
+
+        gameObject.SetActive(false);
         return;
     }
 }

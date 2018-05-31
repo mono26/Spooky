@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 212263740257701518}
   - component: {fileID: 95576672161931324}
   - component: {fileID: 82664511168533384}
-  - component: {fileID: 114245778483799946}
+  - component: {fileID: 114285424339049276}
   - component: {fileID: 114146892295792120}
   - component: {fileID: 114595351302039336}
   - component: {fileID: 114303027106017680}
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   movementSpeed: 0.5
---- !u!114 &114245778483799946
+--- !u!114 &114285424339049276
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1082193504202232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fca8eafaeeef37498e8a52580dc690a, type: 3}
+  m_Script: {fileID: 11500000, guid: ff54c2151fee0d54b8417fc47d62cb9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterID: Stealer
@@ -261,11 +261,7 @@ MonoBehaviour:
   characterSprite: {fileID: 212263740257701518}
   characterTransform: {fileID: 4736818538870156}
   characterBody: {fileID: 54661140622613788}
-  healthComponent: {fileID: 114303027106017680}
-  movementComponent: {fileID: 114595351302039336}
-  statsComponent: {fileID: 114146892295792120}
   currentAction: {fileID: 114504915973877528}
-  startingAction: {fileID: 114504915973877528}
 --- !u!114 &114303027106017680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -313,7 +309,7 @@ MonoBehaviour:
   delayAfterAnimationIsFinished: 0.25
   actionStopsMovement: 1
   needsTargetToExecute: 1
-  enemyCharacter: {fileID: 114245778483799946}
+  nextAction: {fileID: 114695920916659050}
 --- !u!114 &114530401713927566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -396,6 +392,7 @@ MonoBehaviour:
   delayAfterAnimationIsFinished: 0.15
   actionStopsMovement: 0
   needsTargetToExecute: 1
+  nextAction: {fileID: 114504915973877528}
 --- !u!195 &195140747816481618
 NavMeshAgent:
   m_ObjectHideFlags: 1

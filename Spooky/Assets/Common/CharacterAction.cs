@@ -19,6 +19,8 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     protected bool actionStopsMovement = true;
     [SerializeField]
     protected bool needsTargetToExecute = true;
+    [SerializeField]
+    protected CharacterAction nextAction;
 
     protected float lastExecute;
 
@@ -29,6 +31,18 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
         // Because if its set to 0 the enemy wont be able to execute the ability
         // Until the timesinceLevelLoad is greatter that the cooldown
         lastExecute = Time.timeSinceLevelLoad - cooldown;
+    }
+
+    protected virtual void Start()
+    {
+        if(character.GetComponent<StatsComponent>())
+        {
+            cooldown = character.GetComponent<StatsComponent>().AttacksPerSecond;
+        }
+        if (character.GetComponent<EnemyDetect>())
+        {
+            cooldown = character.GetComponent<EnemyDetect>().DetectionRange;
+        }
     }
 
     protected override void OnEnable()
@@ -51,12 +65,14 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
 
     public IEnumerator ExecuteAction()
     {
-        if (lastExecute + cooldown < Time.timeSinceLevelLoad)
+        if (!IsInCooldown())
         {
             if (actionStopsMovement)
                 EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, character));
 
             yield return Action();
+
+            SetNextActionInCharacter();
 
             EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Move, character));
         }
@@ -98,6 +114,23 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     {
         target = _newTarget;
         return;
+    }
+
+    private void SetNextActionInCharacter()
+    {
+        if (nextAction != null)
+            character.ChangeCurrentAction(nextAction);
+        else
+            character.ChangeCurrentAction(null);
+
+        return;
+    }
+
+    public bool IsInCooldown()
+    {
+        if (lastExecute + cooldown < Time.timeSinceLevelLoad)
+            return false;
+        else return true;
     }
 
     public void OnEvent(DetectEvent _detectEvent)

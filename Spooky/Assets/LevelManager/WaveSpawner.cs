@@ -144,15 +144,15 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
     private void SpawnEnemy(string _enemyID)
     {
         //Random between all the spawnpoints
-        Enemy tempEnemy = null;
+        Character tempEnemy = null;
         switch (_enemyID)
         {
             case "Stealer":
-                tempEnemy = enemiesPools[0].GetObjectFromPool().GetComponent<Enemy>();
+                tempEnemy = enemiesPools[0].GetObjectFromPool().GetComponent<Character>();
                 break;
 
             case "Attacker":
-                tempEnemy = enemiesPools[1].GetObjectFromPool().GetComponent<Enemy>();
+                tempEnemy = enemiesPools[1].GetObjectFromPool().GetComponent<Character>();
                 break;
 
             default:

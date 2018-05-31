@@ -31,16 +31,9 @@ public class Health : MonoBehaviour, Damagable
 
     protected void Start()
     {
-        Enemy enemyCharacter = GetComponent<Enemy>();
-        Plant plantCharacter = GetComponent<Plant>();
-        if (enemyCharacter)
+        if (character.GetComponent<StatsComponent>())
         {
-            maxHealth = enemyCharacter.StatsComponent.MaxHealth;
-            currentHealth = maxHealth;
-        }
-        if (plantCharacter)
-        {
-            maxHealth = plantCharacter.StatsComponent.MaxHealth;
+            maxHealth = character.GetComponent<StatsComponent>().MaxHealth;
             currentHealth = maxHealth;
         }
         return;

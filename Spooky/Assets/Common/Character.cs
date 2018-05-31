@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum CharacterEventType { Death, Respawn }
+public enum CharacterEventType { ExecuteAction, FinishExecute, Death, Respawn }
 
 public class CharacterEvent : SpookyCrowEvent
 {
@@ -16,7 +16,7 @@ public class CharacterEvent : SpookyCrowEvent
 
 [RequireComponent(typeof(Animator), typeof(SpriteRenderer), typeof(BoxCollider))]
 [RequireComponent(typeof(AudioSource))]
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour, EventHandler<CharacterEvent>, EventHandler<FightCloudEvent>
 {
     public enum CharacterState { Idle, Moving, ExecutingAction, Dead }
     public enum CharacterType { Player, AI}
@@ -30,6 +30,7 @@ public class Character : MonoBehaviour
     public StateMachine<CharacterState> characterStateMachine;
     [SerializeField]
     private InitialFacingDirection initialDirection = InitialFacingDirection.Right;
+    public bool IsExecutingAction { get; protected set; }
     [SerializeField]
     private CharacterType type = CharacterType.AI;
     public CharacterType Type { get { return type; } }
@@ -50,12 +51,15 @@ public class Character : MonoBehaviour
     [SerializeField]
     private Transform characterTransform;
     public Transform CharacterTransform { get { return characterTransform; } }
-
-    // Optional components
     [SerializeField]
     private Rigidbody characterBody;
     public Rigidbody CharacterBody { get { return characterBody; } }
+
     protected CharacterComponent[] characterComponents;
+    [SerializeField]
+    private CharacterAction currentAction;
+    public CharacterAction CurrentAction { get { return currentAction; } }
+    protected CharacterAction[] characterActions;
 
     public bool IsFacingRightDirection { get; protected set; }
 
@@ -91,9 +95,29 @@ public class Character : MonoBehaviour
 
     protected virtual void Update()
     {
-        foreach(CharacterComponent component in characterComponents)
+        if(characterComponents != null)
         {
-            component.EveryFrame();
+            foreach (CharacterComponent component in characterComponents)
+            {
+                component.EveryFrame();
+            }
+        }
+
+        if(currentAction != null)
+        {
+            if (currentAction.IsTargetInRange() && !IsExecutingAction)
+                StartCoroutine(currentAction.ExecuteAction());
+        }
+        else if(currentAction == null && characterActions != null)
+        {
+            foreach (CharacterAction action in characterComponents)
+            {
+                if (!action.IsInCooldown())
+                {
+                    ChangeCurrentAction(action);
+                    break;
+                }
+            }
         }
 
         UpdateAnimator();
@@ -171,13 +195,52 @@ public class Character : MonoBehaviour
         return;
     }
 
+    protected void ExecuteAction(bool _cast)
+    {
+        IsExecutingAction = _cast;
+        return;
+    }
+
+    public void ChangeCurrentAction(CharacterAction _newAction)
+    {
+        currentAction = _newAction;
+        return;
+    }
+
     protected void OnTriggerEnter(Collider _collider)
     {
         if(characterID.Equals("Spooky"))
         {
             if(_collider.CompareTag("EnemyMeleeCollider"))
             {
-                FightCloud.Instance.PrepareFight(this, _collider.GetComponentInParent<Enemy>());
+                FightCloud.Instance.PrepareFight(this, _collider.GetComponentInParent<Character>());
+            }
+        }
+        return;
+    }
+
+    public void OnEvent(CharacterEvent _enemyEvent)
+    {
+        if (_enemyEvent.character.Equals(this))
+        {
+            if (_enemyEvent.type == CharacterEventType.ExecuteAction)
+                ExecuteAction(true);
+            if (_enemyEvent.type == CharacterEventType.FinishExecute)
+                ExecuteAction(false);
+        }
+        return;
+    }
+
+    public void OnEvent(FightCloudEvent _fightCloudEvent)
+    {
+        if (CharacterID == "Attacker")
+        {
+            if (_fightCloudEvent.enemy.Equals(this))
+            {
+                if (_fightCloudEvent.type == FightCloudEventType.StartFight)
+                    EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, this));
+                if (_fightCloudEvent.type == FightCloudEventType.StartFight)
+                    EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, this));
             }
         }
         return;

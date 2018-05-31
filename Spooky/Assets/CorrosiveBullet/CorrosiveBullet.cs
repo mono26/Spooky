@@ -16,7 +16,7 @@ public class CorrosiveBullet : Bullet
     protected GameObject corrosiveField;
 
     [SerializeField]
-    protected List<Enemy> enemiesOnField;
+    protected List<Character> enemiesOnField;
 
     protected new void Awake()
     {
@@ -65,9 +65,10 @@ public class CorrosiveBullet : Bullet
         startTime = Time.timeSinceLevelLoad;
         while(Time.timeSinceLevelLoad < startTime + corrosiveDuration)
         {
-            foreach(Enemy enemy in enemiesOnField)
+            foreach(Character enemy in enemiesOnField)
             {
-                enemy.HealthComponent.TakeDamage(corrosiveDamage);
+                if(enemy.GetComponent<Health>())
+                    enemy.GetComponent<Health>().TakeDamage(corrosiveDamage);
             }
             yield return new WaitForSeconds(1 / tickPerSecond);
         }
@@ -75,13 +76,13 @@ public class CorrosiveBullet : Bullet
         yield break;
     }
 
-    private void AddEnemy(Enemy _enemy)
+    private void AddEnemy(Character _enemy)
     {
         enemiesOnField.Add(_enemy);
         return;
     }
 
-    private void RemoveEnemy(Enemy _enemy)
+    private void RemoveEnemy(Character _enemy)
     {
         enemiesOnField.Remove(_enemy);
         return;
@@ -114,8 +115,8 @@ public class CorrosiveBullet : Bullet
         {
             if (_collider.gameObject.CompareTag(tag))
             {
-                if (!enemiesOnField.Contains(_collider.GetComponent<Enemy>()))
-                    AddEnemy(_collider.GetComponent<Enemy>());
+                if (!enemiesOnField.Contains(_collider.GetComponent<Character>()))
+                    AddEnemy(_collider.GetComponent<Character>());
             }
         }
         return;
@@ -127,8 +128,8 @@ public class CorrosiveBullet : Bullet
         {
             if (_collider.gameObject.CompareTag(tag))
             {
-                if(!enemiesOnField.Contains(_collider.GetComponent<Enemy>()))
-                    AddEnemy(_collider.GetComponent<Enemy>());
+                if(!enemiesOnField.Contains(_collider.GetComponent<Character>()))
+                    AddEnemy(_collider.GetComponent<Character>());
             }
         }
         return;
@@ -140,7 +141,7 @@ public class CorrosiveBullet : Bullet
         {
             if (_collider.gameObject.CompareTag(tag))
             {
-                RemoveEnemy(_collider.GetComponent<Enemy>());
+                RemoveEnemy(_collider.GetComponent<Character>());
 
             }
         }

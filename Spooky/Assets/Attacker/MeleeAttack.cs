@@ -4,18 +4,16 @@ using UnityEngine;
 public class MeleeAttack : CharacterAction
 {
     [SerializeField]
-    protected Enemy enemyCharacter;
-    [SerializeField]
     protected BoxCollider meleeCollider;
 
-    protected override void Awake()
+    protected override void Start()
     {
-        base.Awake();
+        base.Start();
 
-        if (enemyCharacter == null)
-            enemyCharacter = GetComponent<Enemy>();
+        if(character.CharacterID == "Attacker")
+            target = LevelManager.Instance.Spooky;
 
-        target = LevelManager.Instance.Spooky;
+        return;
     }
 
     protected override void OnEnable()
@@ -27,7 +25,7 @@ public class MeleeAttack : CharacterAction
 
     protected override IEnumerator Action()
     {
-        EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.ExecuteAction, enemyCharacter));
+        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.ExecuteAction, character));
         yield return 0;
 
         // We want to enable the collider before the animation ends
@@ -48,18 +46,18 @@ public class MeleeAttack : CharacterAction
         SetLasActionExecuteToActualTimeInLevel();
 
         // Stop the action executiong because the animation has already end.
-        EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.FinishExecute, enemyCharacter));
+        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.FinishExecute, character));
         meleeCollider.gameObject.SetActive(false);
         yield break;
     }
 
     protected override void UpdateState()
     {
-        if (enemyCharacter.IsExecutingAction == true)
+        if (character.characterStateMachine != null)
         {
-            character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
-            return;
+            if (character.IsExecutingAction == true)
+                character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
         }
-        else return;
+        return;
     }
 }

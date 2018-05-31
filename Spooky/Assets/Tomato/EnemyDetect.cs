@@ -28,7 +28,7 @@ public class EnemyDetect : CharacterComponent
     public float DetectionRange { get { return detectionRange; } }
 
     [SerializeField]
-    protected List<Enemy> nearEnemies = null;
+    protected List<Character> nearEnemies = null;
 
     protected override void Awake()
     {
@@ -37,7 +37,7 @@ public class EnemyDetect : CharacterComponent
         if (detectionTrigger == null)
             detectionTrigger = transform.Find("EnemyDetector").GetComponent<SphereCollider>();
 
-        nearEnemies = new List<Enemy>();
+        nearEnemies = new List<Character>();
     }
 
     protected void Start()
@@ -61,10 +61,10 @@ public class EnemyDetect : CharacterComponent
         return;
     }
 
-    public Enemy GetFirstEnemyInTheList()
+    public Character GetFirstEnemyInTheList()
     {
         if (nearEnemies.Count > 0)
-            return nearEnemies[0].GetComponent<Enemy>();
+            return nearEnemies[0].GetComponent<Character>();
         else return null;
     }
 
@@ -77,19 +77,6 @@ public class EnemyDetect : CharacterComponent
         else return false;
     }
 
-    public Vector3 GetFirstEnemyTargetDirection()
-    {
-        Vector3 _direction = Vector3.zero;
-        if (nearEnemies.Count > 0)
-        {
-            _direction = (nearEnemies[0].transform.position - character.CharacterTransform.position).normalized;
-            _direction.y = _direction.z;
-            _direction.z = 0;
-            return _direction;
-        }
-        else return _direction;
-    }
-
     private void ClearCurrentTarget()
     {
         // Clear the top of the stack if its destroyes, null, or inactive, out of range
@@ -97,7 +84,7 @@ public class EnemyDetect : CharacterComponent
         return;
     }
 
-    private void AddEnemyToTheList(Enemy _enemy)
+    private void AddEnemyToTheList(Character _enemy)
     {
         if (nearEnemies.Count == 0 || !nearEnemies.Contains(_enemy))
         {
@@ -107,7 +94,7 @@ public class EnemyDetect : CharacterComponent
         else return;
     }
 
-    private void RemoveEnemyFromTheList(Enemy _enemy)
+    private void RemoveEnemyFromTheList(Character _enemy)
     {
         if (nearEnemies.Count > 0 || nearEnemies.Contains(_enemy))
         {
@@ -125,7 +112,7 @@ public class EnemyDetect : CharacterComponent
             {
                 EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetAcquired, character, _collider.transform));
             }
-            AddEnemyToTheList(_collider.GetComponent<Enemy>());
+            AddEnemyToTheList(_collider.GetComponent<Character>());
             return;
         }
         else return;
@@ -135,7 +122,7 @@ public class EnemyDetect : CharacterComponent
     {
         if (_collider.CompareTag("Enemy"))
         {
-            RemoveEnemyFromTheList(_collider.GetComponent<Enemy>());
+            RemoveEnemyFromTheList(_collider.GetComponent<Character>());
             if(nearEnemies.Count == 0)
                 EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetLost, character));
             return;

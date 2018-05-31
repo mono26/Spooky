@@ -3,19 +3,10 @@ using UnityEngine;
 
 public class StealCorn : CharacterAction
 {
-    [SerializeField]
-    protected Enemy enemyCharacter;
-
-    protected override void Awake()
+    protected override void Start()
     {
-        base.Awake();
+        base.Start();
 
-        if(enemyCharacter == null)
-            enemyCharacter = GetComponent<Enemy>();
-    }
-
-    protected virtual void Start()
-    {
         target = LevelManager.Instance.GetRandomHousePoint();
 
         return;
@@ -23,7 +14,7 @@ public class StealCorn : CharacterAction
 
     protected override IEnumerator Action()
     {
-        EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.ExecuteAction, enemyCharacter));
+        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.ExecuteAction, character));
         yield return 0;
 
         yield return new WaitForSecondsRealtime(
@@ -34,22 +25,22 @@ public class StealCorn : CharacterAction
         SetLasActionExecuteToActualTimeInLevel();
 
         // Stop the action executiong because the animation has already end.
-        EventManager.TriggerEvent(new EnemyEvent(EnemyEventType.FinishExecute, enemyCharacter));
+        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.FinishExecute, character));
         yield return 0;
-
-        if (enemyCharacter != null)
-            enemyCharacter.ChangeCurrentAction(GetComponent<EscapeWithCorn>());
 
         yield break;
     }
 
     protected override void UpdateState()
     {
-        if (enemyCharacter.IsExecutingAction == true)
+        if (character.characterStateMachine != null)
         {
-            character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
-            return;
-        }         
-        else return;
+            if (character.IsExecutingAction == true)
+            {
+                character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
+
+            }
+        }
+        return;
     }
 }
