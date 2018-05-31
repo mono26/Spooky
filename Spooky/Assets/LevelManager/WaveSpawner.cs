@@ -10,7 +10,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
     }
 
     [SerializeField]
-    private const int minWaveRequiredToSpawnEnemy2 = 1;
+    private const int minWaveRequiredToSpawnEnemy2 = 3;
 
     [Header("Waves settings")]
     [SerializeField]
