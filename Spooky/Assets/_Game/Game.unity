@@ -9634,6 +9634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterID: Spooky
+  isExecutingAction: 0
   initialDirection: 0
   type: 0
   characterAnimator: {fileID: 1815899088}
@@ -9642,7 +9643,6 @@ MonoBehaviour:
   characterSprite: {fileID: 1815899085}
   characterTransform: {fileID: 287073767}
   characterBody: {fileID: 1815899084}
-  currentAction: {fileID: 0}
 --- !u!54 &1815899084
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -24,8 +24,8 @@ GameObject:
   - component: {fileID: 65370332100873500}
   - component: {fileID: 95785079802630368}
   - component: {fileID: 82749211575072668}
-  - component: {fileID: 114532442404994260}
-  - component: {fileID: 114260312407034146}
+  - component: {fileID: 114394025943669368}
+  - component: {fileID: 114435877549105584}
   - component: {fileID: 114141678872713088}
   - component: {fileID: 114626738942533088}
   - component: {fileID: 114367486260847284}
@@ -263,19 +263,6 @@ MonoBehaviour:
   detectionTrigger: {fileID: 135564382731587366}
   detectionRange: 3.5
   nearEnemies: []
---- !u!114 &114260312407034146
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1392868393462202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 813fe3c9d053f8b438a21e191c964397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 3
-  attacksPerSecond: 1
 --- !u!114 &114367486260847284
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -287,18 +274,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c574cd7a0526564dbcaf97bb5748c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  range: 3.5
-  cooldown: 1
   actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
-  delayAfterAnimationIsFinished: 0.15
   actionStopsMovement: 1
+  actionVfx: {fileID: 0}
+  cooldown: 1
+  delayAfterAnimationIsFinished: 0.15
   needsTargetToExecute: 1
-  plantCharacter: {fileID: 114532442404994260}
+  nextAction: {fileID: 114367486260847284}
+  range: 3.5
+  target: {fileID: 0}
   launchForce: 5
   shootPoint: {fileID: 4370896873869142}
   bulletPool: {fileID: 114042695106525758}
---- !u!114 &114532442404994260
+--- !u!114 &114394025943669368
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -306,10 +294,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1392868393462202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8816b192a2a59b745be2f7c775dd271a, type: 3}
+  m_Script: {fileID: 11500000, guid: 0bc7810f706d20a4bad638c26096a905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterID: Tomato
+  isExecutingAction: 0
   initialDirection: 1
   type: 1
   characterAnimator: {fileID: 95785079802630368}
@@ -318,10 +307,21 @@ MonoBehaviour:
   characterSprite: {fileID: 212127656052482734}
   characterTransform: {fileID: 4412348325244944}
   characterBody: {fileID: 54917296067610420}
-  enemyDetect: {fileID: 114141678872713088}
-  healthComponent: {fileID: 114626738942533088}
-  statsComponent: {fileID: 114260312407034146}
   currentAction: {fileID: 114367486260847284}
+--- !u!114 &114435877549105584
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392868393462202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3537fb6d1f4db17429f46007cd008d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attacksPerSecond: 1
+  maxHealth: 3
+  movementSpeed: 0
 --- !u!114 &114626738942533088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -336,7 +336,7 @@ MonoBehaviour:
   maxHealth: 0
   healthBar: {fileID: 0}
   healthBarToggleTime: 0
-  damageEffect: {fileID: 0}
+  damageVfx: {fileID: 0}
   damageSfx: {fileID: 0}
   currentHealth: 0
 --- !u!135 &135564382731587366

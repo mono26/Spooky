@@ -4,32 +4,34 @@ using UnityEngine;
 public abstract class CharacterAction : CharacterComponent, EventHandler<DetectEvent>
 {
     [SerializeField]
-    protected Transform target;
-    public Transform Target { get { return target; } }
-
-    [SerializeField]
-    protected float range;
-    [SerializeField]
-    protected float cooldown;
-    [SerializeField]
     protected AudioClip actionSfx;
+    [SerializeField]
+    protected bool actionStopsMovement = true;
     [SerializeField]
     protected GameObject actionVfx;
     [SerializeField]
-    protected float delayAfterAnimationIsFinished = 0.15f;
+    protected float cooldown;
     [SerializeField]
-    protected bool actionStopsMovement = true;
+    protected float delayAfterAnimationIsFinished = 0.15f;
     [SerializeField]
     protected bool needsTargetToExecute = true;
     [SerializeField]
     protected CharacterAction nextAction;
+    [SerializeField]
+    protected float range;
 
+    // Serialized just for debugging
+    [SerializeField]
+    protected Transform target;
+    public Transform Target { get { return target; } }
+    protected AICharacter aICharacter;
     protected float lastExecute;
 
     protected override void Awake()
     {
         base.Awake();
 
+        aICharacter = character as AICharacter;
         // Because if its set to 0 the enemy wont be able to execute the ability
         // Until the timesinceLevelLoad is greatter that the cooldown
         lastExecute = Time.timeSinceLevelLoad - cooldown;
@@ -132,10 +134,13 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
 
     private void SetNextActionInCharacter()
     {
-        if (nextAction != null)
-            character.ChangeCurrentAction(nextAction);
-        else
-            character.ChangeCurrentAction(null);
+        if(aICharacter != null)
+        {
+            if (nextAction != null)
+                aICharacter.ChangeCurrentAction(nextAction);
+            else
+                aICharacter.ChangeCurrentAction(null);
+        }
 
         return;
     }

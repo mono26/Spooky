@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(Character), typeof(NavMeshAgent))]
+[RequireComponent(typeof(AICharacter), typeof(NavMeshAgent))]
 public class EnemyMovement : HorizontalAndVerticalMovement
 {
+    protected AICharacter aICharacter;
     protected NavMeshAgent navMeshAgent;
-    public NavMeshAgent NavMeshAgent { get { return navMeshAgent; } }
-
     protected NavMeshPath pathToTheTarget;
 
+    [Header("For Debugging in editor")]
     protected bool isStopped;
     public bool IsStopped { get { return isStopped; } }
 
@@ -16,6 +16,7 @@ public class EnemyMovement : HorizontalAndVerticalMovement
     {
         base.Awake();
 
+        aICharacter = character as AICharacter;
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         pathToTheTarget = new NavMeshPath();
@@ -67,9 +68,9 @@ public class EnemyMovement : HorizontalAndVerticalMovement
 
     protected void CalculateDirectionToTarget()
     {
-        if (character.CurrentAction.Target && navMeshAgent != null)
+        if (aICharacter.CurrentAction.Target && navMeshAgent != null)
         {
-            navMeshAgent.CalculatePath(character.CurrentAction.Target.position, pathToTheTarget);
+            navMeshAgent.CalculatePath(aICharacter.CurrentAction.Target.position, pathToTheTarget);
 
             if (!pathToTheTarget.Equals(null) && pathToTheTarget.corners.Length > 1)
             {

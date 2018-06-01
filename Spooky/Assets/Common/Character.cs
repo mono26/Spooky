@@ -16,12 +16,13 @@ public class CharacterEvent : SpookyCrowEvent
 
 [RequireComponent(typeof(Animator), typeof(SpriteRenderer), typeof(BoxCollider))]
 [RequireComponent(typeof(AudioSource))]
-public class Character : MonoBehaviour, EventHandler<CharacterEvent>, EventHandler<FightCloudEvent>
+public class Character : MonoBehaviour, EventHandler<CharacterEvent>
 {
     public enum CharacterState { Idle, Moving, ExecutingAction, Dead }
     public enum CharacterType { Player, AI}
     public enum InitialFacingDirection { Right, Left}
 
+    [Header("Settings")]
     [SerializeField]
     private string characterID = "";
     public string CharacterID { get { return characterID; } }
@@ -29,13 +30,15 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>, EventHandl
     [SerializeField]
     public StateMachine<CharacterState> characterStateMachine;
     [SerializeField]
+    private bool isExecutingAction;
+    public bool IsExecutingAction { get { return isExecutingAction; } }
+    [SerializeField]
     private InitialFacingDirection initialDirection = InitialFacingDirection.Right;
-    public bool IsExecutingAction { get; protected set; }
     [SerializeField]
     private CharacterType type = CharacterType.AI;
     public CharacterType Type { get { return type; } }
 
-    // Obligatory Components
+    [Header("Components (Set in editor)")]
     [SerializeField]
     private Animator characterAnimator;
     public Animator CharacterAnimator { get { return characterAnimator; } }
@@ -56,10 +59,6 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>, EventHandl
     public Rigidbody CharacterBody { get { return characterBody; } }
 
     protected CharacterComponent[] characterComponents;
-    [SerializeField]
-    private CharacterAction currentAction;
-    public CharacterAction CurrentAction { get { return currentAction; } }
-    protected CharacterAction[] characterActions;
 
     public bool IsFacingRightDirection { get; protected set; }
 
@@ -93,6 +92,20 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>, EventHandl
         LinkCharacterInput();
     }
 
+    protected virtual void OnEnable()
+    {
+        EventManager.AddListener<CharacterEvent>(this);
+
+        return;
+    }
+
+    protected virtual void OnDisable()
+    {
+        EventManager.RemoveListener<CharacterEvent>(this);
+
+        return;
+    }
+
     protected virtual void Update()
     {
         if(characterComponents != null)
@@ -103,24 +116,9 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>, EventHandl
             }
         }
 
-        if(currentAction != null)
-        {
-            if (currentAction.IsTargetInRange() && !IsExecutingAction)
-                StartCoroutine(currentAction.ExecuteAction());
-        }
-        else if(currentAction == null && characterActions != null)
-        {
-            foreach (CharacterAction action in characterComponents)
-            {
-                if (!action.IsInCooldown())
-                {
-                    ChangeCurrentAction(action);
-                    break;
-                }
-            }
-        }
-
         UpdateAnimator();
+
+        return;
     }
 
     protected virtual void FixedUpdate()
@@ -137,6 +135,8 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>, EventHandl
         {
             component.LateFrame();
         }
+
+        return;
     }
 
     private void LinkCharacterInput()
@@ -197,13 +197,7 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>, EventHandl
 
     protected void ExecuteAction(bool _cast)
     {
-        IsExecutingAction = _cast;
-        return;
-    }
-
-    public void ChangeCurrentAction(CharacterAction _newAction)
-    {
-        currentAction = _newAction;
+        isExecutingAction = _cast;
         return;
     }
 
@@ -219,29 +213,14 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>, EventHandl
         return;
     }
 
-    public void OnEvent(CharacterEvent _enemyEvent)
+    public void OnEvent(CharacterEvent _characterEvent)
     {
-        if (_enemyEvent.character.Equals(this))
+        if (_characterEvent.character.Equals(this))
         {
-            if (_enemyEvent.type == CharacterEventType.ExecuteAction)
+            if (_characterEvent.type == CharacterEventType.ExecuteAction)
                 ExecuteAction(true);
-            if (_enemyEvent.type == CharacterEventType.FinishExecute)
+            if (_characterEvent.type == CharacterEventType.FinishExecute)
                 ExecuteAction(false);
-        }
-        return;
-    }
-
-    public void OnEvent(FightCloudEvent _fightCloudEvent)
-    {
-        if (CharacterID == "Attacker")
-        {
-            if (_fightCloudEvent.enemy.Equals(this))
-            {
-                if (_fightCloudEvent.type == FightCloudEventType.StartFight)
-                    EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, this));
-                if (_fightCloudEvent.type == FightCloudEventType.StartFight)
-                    EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, this));
-            }
         }
         return;
     }

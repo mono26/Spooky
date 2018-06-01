@@ -17,11 +17,12 @@ public class StealCorn : CharacterAction
         EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.ExecuteAction, character));
         yield return 0;
 
+        PlayActionVfxEffect();
+
         yield return new WaitForSecondsRealtime(
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
                     );
 
-        PlayActionVfxEffect();
         //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
         SetLasActionExecuteToActualTimeInLevel();
 

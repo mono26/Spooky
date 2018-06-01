@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 212499245088290674}
   - component: {fileID: 95806726417820678}
   - component: {fileID: 82896014623796488}
-  - component: {fileID: 114254842511176204}
+  - component: {fileID: 114479542025913182}
   - component: {fileID: 114122564974805956}
   - component: {fileID: 114223092959506972}
   - component: {fileID: 114885465088569812}
@@ -338,7 +338,7 @@ MonoBehaviour:
   slowMotionSpeed: 0.5
   MaxXValue: 0
   MaxYValue: 0
---- !u!114 &114254842511176204
+--- !u!114 &114479542025913182
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -346,10 +346,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1963016645295434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff54c2151fee0d54b8417fc47d62cb9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 0bc7810f706d20a4bad638c26096a905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterID: Attacker
+  isExecutingAction: 0
   initialDirection: 0
   type: 1
   characterAnimator: {fileID: 95806726417820678}
@@ -403,15 +404,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1318d783c58efda428633516ec60cf5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  range: 0.5
-  cooldown: 3
   actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
-  actionVfx: {fileID: 0}
-  delayAfterAnimationIsFinished: 0.25
   actionStopsMovement: 1
+  actionVfx: {fileID: 0}
+  cooldown: 3
+  delayAfterAnimationIsFinished: 0.25
   needsTargetToExecute: 1
   nextAction: {fileID: 114885465088569812}
+  range: 0.5
+  target: {fileID: 0}
   meleeCollider: {fileID: 65770155528111222}
 --- !u!114 &114951604829026382
 MonoBehaviour:

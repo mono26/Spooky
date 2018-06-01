@@ -462,8 +462,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies:
-  - {fileID: 114285424339049276, guid: 800fc7b33f2b6b646be89db3fbd15aa5, type: 2}
-  - {fileID: 114254842511176204, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
+  - {fileID: 114214889396143110, guid: 800fc7b33f2b6b646be89db3fbd15aa5, type: 2}
+  - {fileID: 114479542025913182, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
   enemiesPools:
   - {fileID: 114764681292730518}
   - {fileID: 114140125711422362}

@@ -55,8 +55,8 @@ GameObject:
   - component: {fileID: 65774770820588646}
   - component: {fileID: 95267028207046288}
   - component: {fileID: 82980012030607036}
-  - component: {fileID: 114209571533218138}
-  - component: {fileID: 114294794264080794}
+  - component: {fileID: 114881810167000716}
+  - component: {fileID: 114611728119790660}
   - component: {fileID: 114635352045915674}
   - component: {fileID: 114227272818819672}
   - component: {fileID: 114281402800385212}
@@ -235,31 +235,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114209571533218138
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824483377860578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed065e175dc3e5a428fc033c0280e3de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterID: Tomaton
-  initialDirection: 1
-  type: 1
-  characterAnimator: {fileID: 95267028207046288}
-  characterAudioSource: {fileID: 82980012030607036}
-  characterCollider: {fileID: 65774770820588646}
-  characterSprite: {fileID: 212936167064955156}
-  characterTransform: {fileID: 4162636382463042}
-  characterBody: {fileID: 54057058601023744}
-  enemyDetect: {fileID: 114635352045915674}
-  healthComponent: {fileID: 114227272818819672}
-  statsComponent: {fileID: 114294794264080794}
-  currentAction: {fileID: 114281402800385212}
-  specialAction: {fileID: 114498531075047918}
 --- !u!114 &114227272818819672
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -274,7 +249,7 @@ MonoBehaviour:
   maxHealth: 0
   healthBar: {fileID: 0}
   healthBarToggleTime: 0
-  damageEffect: {fileID: 0}
+  damageVfx: {fileID: 0}
   damageSfx: {fileID: 0}
   currentHealth: 0
 --- !u!114 &114281402800385212
@@ -288,30 +263,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c574cd7a0526564dbcaf97bb5748c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  range: 0
-  cooldown: 0
   actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
-  delayAfterAnimationIsFinished: 0.15
   actionStopsMovement: 1
+  actionVfx: {fileID: 0}
+  cooldown: 0
+  delayAfterAnimationIsFinished: 0.15
   needsTargetToExecute: 1
-  plantCharacter: {fileID: 114209571533218138}
+  nextAction: {fileID: 114498531075047918}
+  range: 0
+  target: {fileID: 0}
   launchForce: 10
   shootPoint: {fileID: 4260655277493156}
   bulletPool: {fileID: 114795536802711372}
---- !u!114 &114294794264080794
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1824483377860578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 813fe3c9d053f8b438a21e191c964397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 3
-  attacksPerSecond: 1.5
 --- !u!114 &114498531075047918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -323,17 +286,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c574cd7a0526564dbcaf97bb5748c04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  range: 0
-  cooldown: 10
   actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
-  delayAfterAnimationIsFinished: 0.15
   actionStopsMovement: 1
+  actionVfx: {fileID: 0}
+  cooldown: 10
+  delayAfterAnimationIsFinished: 0.15
   needsTargetToExecute: 1
-  plantCharacter: {fileID: 114209571533218138}
+  nextAction: {fileID: 114281402800385212}
+  range: 0
+  target: {fileID: 0}
   launchForce: 10
   shootPoint: {fileID: 4260655277493156}
   bulletPool: {fileID: 114993173942050484}
+--- !u!114 &114611728119790660
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824483377860578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3537fb6d1f4db17429f46007cd008d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attacksPerSecond: 1.5
+  maxHealth: 3
+  movementSpeed: 0
 --- !u!114 &114635352045915674
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -364,6 +342,28 @@ MonoBehaviour:
     type: 2}
   startingPoolSize: 5
   poolCanIncreaseSize: 1
+--- !u!114 &114881810167000716
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1824483377860578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc7810f706d20a4bad638c26096a905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterID: Tomaton
+  isExecutingAction: 0
+  initialDirection: 1
+  type: 1
+  characterAnimator: {fileID: 95267028207046288}
+  characterAudioSource: {fileID: 82980012030607036}
+  characterCollider: {fileID: 65774770820588646}
+  characterSprite: {fileID: 212936167064955156}
+  characterTransform: {fileID: 4162636382463042}
+  characterBody: {fileID: 54057058601023744}
+  currentAction: {fileID: 114281402800385212}
 --- !u!114 &114993173942050484
 MonoBehaviour:
   m_ObjectHideFlags: 1

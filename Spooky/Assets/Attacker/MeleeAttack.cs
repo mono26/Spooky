@@ -55,7 +55,7 @@ public class MeleeAttack : CharacterAction
     {
         if (character.characterStateMachine != null)
         {
-            if (character.IsExecutingAction == true)
+            if (character != null && character.IsExecutingAction == true)
                 character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
         }
         return;

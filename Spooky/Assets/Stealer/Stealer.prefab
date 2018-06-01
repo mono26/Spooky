@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 212263740257701518}
   - component: {fileID: 95576672161931324}
   - component: {fileID: 82664511168533384}
-  - component: {fileID: 114285424339049276}
+  - component: {fileID: 114214889396143110}
   - component: {fileID: 114880945779512232}
   - component: {fileID: 114595351302039336}
   - component: {fileID: 114303027106017680}
@@ -228,7 +228,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114285424339049276
+--- !u!114 &114214889396143110
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -236,10 +236,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1082193504202232}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff54c2151fee0d54b8417fc47d62cb9b, type: 3}
+  m_Script: {fileID: 11500000, guid: 0bc7810f706d20a4bad638c26096a905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   characterID: Stealer
+  isExecutingAction: 0
   initialDirection: 0
   type: 1
   characterAnimator: {fileID: 95576672161931324}
@@ -289,15 +290,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a65c45ca8800e43a4e1e353e08155a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  range: 0.5
-  cooldown: 5
   actionSfx: {fileID: 0}
-  actionVfx: {fileID: 1355397124809902, guid: 3ed7ae2af4a2cde44925c5d08150c8ae, type: 2}
-  delayAfterAnimationIsFinished: 0.25
   actionStopsMovement: 1
+  actionVfx: {fileID: 1355397124809902, guid: 3ed7ae2af4a2cde44925c5d08150c8ae, type: 2}
+  cooldown: 5
+  delayAfterAnimationIsFinished: 0.25
   needsTargetToExecute: 1
   nextAction: {fileID: 114695920916659050}
+  range: 0.5
+  target: {fileID: 0}
 --- !u!114 &114530401713927566
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -373,15 +374,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7e9aef1f5d52f9438ed8bb796c2a5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  range: 0.3
-  cooldown: 5
   actionSfx: {fileID: 0}
-  actionVfx: {fileID: 1355397124809902, guid: 3ed7ae2af4a2cde44925c5d08150c8ae, type: 2}
-  delayAfterAnimationIsFinished: 0.15
   actionStopsMovement: 0
+  actionVfx: {fileID: 1355397124809902, guid: 3ed7ae2af4a2cde44925c5d08150c8ae, type: 2}
+  cooldown: 5
+  delayAfterAnimationIsFinished: 0.15
   needsTargetToExecute: 1
   nextAction: {fileID: 114504915973877528}
+  range: 0.3
+  target: {fileID: 0}
 --- !u!114 &114880945779512232
 MonoBehaviour:
   m_ObjectHideFlags: 1
