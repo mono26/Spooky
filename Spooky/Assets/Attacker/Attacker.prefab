@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 95806726417820678}
   - component: {fileID: 82896014623796488}
   - component: {fileID: 114254842511176204}
-  - component: {fileID: 114464812435125654}
+  - component: {fileID: 114122564974805956}
   - component: {fileID: 114223092959506972}
   - component: {fileID: 114885465088569812}
   - component: {fileID: 114773735051167938}
@@ -281,6 +281,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 10
+--- !u!114 &114122564974805956
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963016645295434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3537fb6d1f4db17429f46007cd008d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attacksPerSecond: 0.5
+  maxHealth: 3
+  movementSpeed: 1
 --- !u!114 &114171548478037278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -345,19 +359,6 @@ MonoBehaviour:
   characterTransform: {fileID: 4130179145791594}
   characterBody: {fileID: 54612795838928992}
   currentAction: {fileID: 114885465088569812}
---- !u!114 &114464812435125654
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1963016645295434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 913ac143d25700144beeb3d6909abf35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 3
-  movementSpeed: 1
 --- !u!114 &114684583226181220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -388,7 +389,7 @@ MonoBehaviour:
   maxHealth: 3
   healthBar: {fileID: 114171548478037278}
   healthBarToggleTime: 3
-  damageEffect: {fileID: 0}
+  damageVfx: {fileID: 1320086511984004, guid: b7cfccd1143dc4169a4c65fa9d55e6db, type: 2}
   damageSfx: {fileID: 8300000, guid: 7f1848e2854726445b9a9f4f51c774a6, type: 3}
   currentHealth: 3
 --- !u!114 &114885465088569812
@@ -405,7 +406,8 @@ MonoBehaviour:
   target: {fileID: 0}
   range: 0.5
   cooldown: 3
-  actionSfx: {fileID: 0}
+  actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
+  actionVfx: {fileID: 0}
   delayAfterAnimationIsFinished: 0.25
   actionStopsMovement: 1
   needsTargetToExecute: 1

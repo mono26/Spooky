@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4243805580968150}
   - component: {fileID: 212972416683419878}
   - component: {fileID: 95551874538643816}
+  - component: {fileID: 114731038234916786}
   m_Layer: 0
   m_Name: SmokeExplosion
   m_TagString: Untagged
@@ -58,6 +59,21 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114731038234916786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1173178007429090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f7f34bbc71d1fa4e981dc7412c4b1a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyDelay: 5
+  isTheParticleAAnimation: 1
+  particle: {fileID: 0}
+  animationParticle: {fileID: 95551874538643816}
 --- !u!212 &212972416683419878
 SpriteRenderer:
   m_ObjectHideFlags: 1

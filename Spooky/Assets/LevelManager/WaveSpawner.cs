@@ -14,7 +14,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
 
     [Header("Waves settings")]
     [SerializeField]
-    private Character[] enemiesToSpawn;
+    private Character[] enemies;
     [SerializeField]
     private SingleObjectPool[] enemiesPools;
     [SerializeField]
@@ -23,6 +23,12 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
     private float timeBetweenNextWaveSpawn = 3.0f;
     [SerializeField]
     private float enemySpawnRatePerSecond = 2f;
+
+    [Header("Wave Spawner sounds")]
+    [SerializeField]
+    private AudioSource waveSoundSource;
+    [SerializeField]
+    private AudioClip spawnSfx;
 
     [Header("Game Info (Only for debugging.)")]
     [SerializeField]
@@ -35,17 +41,12 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
     private int currentWave = 1;
     public int CurrentWave { get { return currentWave; } }
 
+    [SerializeField]
+    private int[] enemiesToSpawn;
     private float waveCompletedTimer;
-
-    [Header("Wave Spawner sounds")]
-    [SerializeField]
-    private AudioSource waveSoundSource;
-    [SerializeField]
-    private AudioClip spawnSfx;
-
-    //State of the waveSpawn
     [SerializeField]
     private SpawnState waveSpawnerState;
+
 
     protected override void Awake()
     {
@@ -61,6 +62,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
     protected void Start()
     {
         waveSpawnerState = SpawnState.COUNTING;
+        enemiesToSpawn = new int[enemies.Length];
         return;
     }
 
@@ -120,7 +122,8 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
 
         for(int i = 0; i < enemiesToSpawn.Length; i++)
         {
-            currentMaxNumberOfEnemiesLeft += CalculateNumberOfEnemiesToSpawn(enemiesToSpawn[i].CharacterID);
+            enemiesToSpawn[i] = CalculateNumberOfEnemiesToSpawn(enemies[i].CharacterID);
+            currentMaxNumberOfEnemiesLeft += CalculateNumberOfEnemiesToSpawn(enemies[i].CharacterID);
         }
 
         int numberOfSpawns = currentMaxNumberOfEnemiesLeft;
@@ -130,8 +133,12 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
         {
             for (int i = 0; i < enemiesToSpawn.Length; i++)
             {
-                SpawnEnemy(enemiesToSpawn[i].CharacterID);
-                numberOfSpawns--;
+                if(enemiesToSpawn[i] > 0)
+                {
+                    SpawnEnemy(enemies[i].CharacterID, enemiesToSpawn[i]);
+                    enemiesToSpawn[i]--;
+                    numberOfSpawns--;
+                }
                 yield return new WaitForSeconds(1f / enemySpawnRatePerSecond);
             }
         }
@@ -141,9 +148,8 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
         yield break;
     }
 
-    private void SpawnEnemy(string _enemyID)
+    private void SpawnEnemy(string _enemyID, int _enemiesLeft)
     {
-        //Random between all the spawnpoints
         Character tempEnemy = null;
         switch (_enemyID)
         {
@@ -159,10 +165,6 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
                 break;
         }
         tempEnemy.CharacterTransform.position = LevelManager.Instance.GetRandomSpawnPoint().position;
-        /*if(currentWave >= 10)
-            tempEnemy.StatsComponent.ScaleStatsByFactor();*/
-
-        currentMaxNumberOfEnemiesLeft++;
 
         return;
     }

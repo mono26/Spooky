@@ -11310,16 +11310,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114951207490674992, guid: 4e94e55878801ef41818bb34863e29c7,
-        type: 2}
-      propertyPath: enemiesPools.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114951207490674992, guid: 4e94e55878801ef41818bb34863e29c7,
-        type: 2}
-      propertyPath: enemiesToSpawn.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4197317631367690, guid: 4e94e55878801ef41818bb34863e29c7, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -11371,32 +11361,9 @@ Prefab:
       propertyPath: plantCanvasUI
       value: 
       objectReference: {fileID: 186414952}
-    - target: {fileID: 114951207490674992, guid: 4e94e55878801ef41818bb34863e29c7,
-        type: 2}
-      propertyPath: enemiesPools.Array.data[1]
-      value: 
-      objectReference: {fileID: 1978072432}
-    - target: {fileID: 114951207490674992, guid: 4e94e55878801ef41818bb34863e29c7,
-        type: 2}
-      propertyPath: enemiesToSpawn.Array.data[1]
-      value: 
-      objectReference: {fileID: 114254842511176204, guid: e71f06d12bbd1e54daf27d9832e403ee,
-        type: 2}
-    - target: {fileID: 114951207490674992, guid: 4e94e55878801ef41818bb34863e29c7,
-        type: 2}
-      propertyPath: enemiesToSpawn.Array.data[0]
-      value: 
-      objectReference: {fileID: 114285424339049276, guid: 800fc7b33f2b6b646be89db3fbd15aa5,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4e94e55878801ef41818bb34863e29c7, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1978072432 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114140125711422362, guid: 4e94e55878801ef41818bb34863e29c7,
-    type: 2}
-  m_PrefabInternal: {fileID: 1978072431}
-  m_Script: {fileID: 11500000, guid: 8e84794f9baf15641a9e8b75a2c912e0, type: 3}
 --- !u!1 &1981918787
 GameObject:
   m_ObjectHideFlags: 0

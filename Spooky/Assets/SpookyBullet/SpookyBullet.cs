@@ -19,7 +19,6 @@ public class SpookyBullet : Bullet
 
     public void IncreaseDamage()
     {
-        Debug.Log("Increasing bullet damage");
         bulletDamage += damageIncreasePerSeconds * Time.deltaTime;
         bulletDamage = Mathf.Clamp(bulletDamage, 1, 3);
         return;

@@ -15,7 +15,7 @@ public class Health : MonoBehaviour, Damagable
 
     [Header("Damage")]
     [SerializeField]
-    private GameObject damageEffect;
+    private GameObject damageVfx;
     [SerializeField]
     private AudioClip damageSfx;
 
@@ -53,15 +53,16 @@ public class Health : MonoBehaviour, Damagable
 
     public void TakeDamage(float _damage)
     {
-        Debug.Log("Tanking damage");
-
         // We are laready dead.
         if(currentHealth == 0) { return; }
 
         //var feathersP = Instantiate(controller.feathersParticle, transform.position, Quaternion.Euler(-90, 0, 0));
         StartCoroutine(ToggleHealthBar());
         currentHealth -= _damage;
+
+        PlayDamageEffect();
         PlayHitSfx();
+
         currentHealth = Mathf.Max(0, currentHealth);
         healthBar.fillAmount = currentHealth / maxHealth;
 
@@ -89,13 +90,20 @@ public class Health : MonoBehaviour, Damagable
         {
             SoundManager.Instance.PlaySfx(character.CharacterAudioSource, damageSfx);
         }
+        return;
+    }
+
+    private void PlayDamageEffect()
+    {
+        if(damageVfx != null)
+        {
+            Instantiate(damageVfx, transform.position, transform.rotation);
+        }
+        return;
     }
 
     public IEnumerator Kill()
     {
-        /*if (OnDeath != null)
-            OnDeath();*/
-
         PoolableObject poolableCharacter = GetComponent<PoolableObject>();
         if (poolableCharacter != null)
         {

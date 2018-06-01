@@ -21,6 +21,7 @@ public class StealCorn : CharacterAction
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
                     );
 
+        PlayActionVfxEffect();
         //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
         SetLasActionExecuteToActualTimeInLevel();
 

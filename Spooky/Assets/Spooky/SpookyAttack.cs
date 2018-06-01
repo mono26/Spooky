@@ -143,8 +143,6 @@ public class SpookyAttack : CharacterComponent
 
     protected override void HandleInput()
     {
-        Debug.Log(InputManager.Instance.FireButton.CurrentState.ToString());
-
         if (InputManager.Instance.FireButton.CurrentState == InputButton.ButtonStates.Pressed)
         {
             CreateCurrentBullet();

@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 95576672161931324}
   - component: {fileID: 82664511168533384}
   - component: {fileID: 114285424339049276}
-  - component: {fileID: 114146892295792120}
+  - component: {fileID: 114880945779512232}
   - component: {fileID: 114595351302039336}
   - component: {fileID: 114303027106017680}
   - component: {fileID: 114504915973877528}
@@ -228,19 +228,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114146892295792120
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1082193504202232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 913ac143d25700144beeb3d6909abf35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 3
-  movementSpeed: 0.5
 --- !u!114 &114285424339049276
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -276,7 +263,7 @@ MonoBehaviour:
   maxHealth: 0
   healthBar: {fileID: 114530401713927566}
   healthBarToggleTime: 3
-  damageEffect: {fileID: 0}
+  damageVfx: {fileID: 1320086511984004, guid: b7cfccd1143dc4169a4c65fa9d55e6db, type: 2}
   damageSfx: {fileID: 8300000, guid: 7f1848e2854726445b9a9f4f51c774a6, type: 3}
   currentHealth: 0
 --- !u!114 &114411158048508160
@@ -306,6 +293,7 @@ MonoBehaviour:
   range: 0.5
   cooldown: 5
   actionSfx: {fileID: 0}
+  actionVfx: {fileID: 1355397124809902, guid: 3ed7ae2af4a2cde44925c5d08150c8ae, type: 2}
   delayAfterAnimationIsFinished: 0.25
   actionStopsMovement: 1
   needsTargetToExecute: 1
@@ -389,10 +377,25 @@ MonoBehaviour:
   range: 0.3
   cooldown: 5
   actionSfx: {fileID: 0}
+  actionVfx: {fileID: 1355397124809902, guid: 3ed7ae2af4a2cde44925c5d08150c8ae, type: 2}
   delayAfterAnimationIsFinished: 0.15
   actionStopsMovement: 0
   needsTargetToExecute: 1
   nextAction: {fileID: 114504915973877528}
+--- !u!114 &114880945779512232
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1082193504202232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3537fb6d1f4db17429f46007cd008d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attacksPerSecond: 0.2
+  maxHealth: 3
+  movementSpeed: 0.5
 --- !u!195 &195140747816481618
 NavMeshAgent:
   m_ObjectHideFlags: 1

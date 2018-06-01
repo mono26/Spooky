@@ -461,20 +461,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd0da2f12f2955488d030f24c74bf51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemiesToSpawn:
-  - {fileID: 114245778483799946, guid: 800fc7b33f2b6b646be89db3fbd15aa5, type: 2}
-  - {fileID: 114543526740350408, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
+  enemies:
+  - {fileID: 114285424339049276, guid: 800fc7b33f2b6b646be89db3fbd15aa5, type: 2}
+  - {fileID: 114254842511176204, guid: e71f06d12bbd1e54daf27d9832e403ee, type: 2}
   enemiesPools:
   - {fileID: 114764681292730518}
   - {fileID: 114140125711422362}
   minSpawnPerEnemy: 0500000003000000
   timeBetweenNextWaveSpawn: 3
   enemySpawnRatePerSecond: 2
+  waveSoundSource: {fileID: 82958880919145318}
+  spawnSfx: {fileID: 0}
   currentMaxNumberOfEnemiesLeft: 0
   currentNumberOfEnemiesKilled: 0
   currentWave: 0
-  waveSoundSource: {fileID: 82958880919145318}
-  spawnSfx: {fileID: 0}
+  enemiesToSpawn: 0000000000000000
   waveSpawnerState: 0
 --- !u!212 &212128300472108326
 SpriteRenderer:

@@ -14,6 +14,8 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     [SerializeField]
     protected AudioClip actionSfx;
     [SerializeField]
+    protected GameObject actionVfx;
+    [SerializeField]
     protected float delayAfterAnimationIsFinished = 0.15f;
     [SerializeField]
     protected bool actionStopsMovement = true;
@@ -37,11 +39,11 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     {
         if(character.GetComponent<StatsComponent>())
         {
-            cooldown = character.GetComponent<StatsComponent>().AttacksPerSecond;
+            cooldown = 1 / character.GetComponent<StatsComponent>().AttacksPerSecond;
         }
         if (character.GetComponent<EnemyDetect>())
         {
-            cooldown = character.GetComponent<EnemyDetect>().DetectionRange;
+            range = character.GetComponent<EnemyDetect>().DetectionRange;
         }
     }
 
@@ -65,8 +67,10 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
 
     public IEnumerator ExecuteAction()
     {
-        if (!IsInCooldown())
+        if (IsInCooldown() == false)
         {
+            Debug.Log("Executing Action");
+
             if (actionStopsMovement)
                 EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, character));
 
@@ -87,6 +91,16 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     protected virtual void PlaySfx()
     {
         SoundManager.Instance.PlaySfx(character.CharacterAudioSource, actionSfx);
+        return;
+    }
+
+    protected virtual void PlayActionVfxEffect()
+    {
+        if (actionVfx != null)
+        {
+            Debug.Log("Instantiating Particle");
+            Instantiate(actionVfx, transform.position, transform.rotation);
+        }
         return;
     }
 
