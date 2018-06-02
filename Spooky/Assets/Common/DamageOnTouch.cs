@@ -9,6 +9,18 @@ public class DamageOnTouch : MonoBehaviour
     [SerializeField]
     protected float damageOnTouch;
 
+    protected virtual void CollidingWithDamagable(Health _damagable)
+    {
+        _damagable.TakeDamage(damageOnTouch);
+        return;
+    }
+
+    public void SetDamageOnTouch(float _newDamage)
+    {
+        damageOnTouch = _newDamage;
+        return;
+    }
+
     protected virtual void OnCollisionEnter(Collision _collision)
     {
         foreach(string tag in damageTags)
@@ -20,20 +32,24 @@ public class DamageOnTouch : MonoBehaviour
                 {
                     CollidingWithDamagable(damagaleComponent);
                 }
-                else return;
             }
         }
-    }
-
-    protected virtual void CollidingWithDamagable(Health _damagable)
-    {
-        _damagable.TakeDamage(damageOnTouch);
         return;
     }
 
-    public void SetDamageOnTouch(float _newDamage)
+    protected virtual void OnTriggerEnter(Collider _collider)
     {
-        damageOnTouch = _newDamage;
+        foreach (string tag in damageTags)
+        {
+            if (_collider.gameObject.CompareTag(tag))
+            {
+                Health damagaleComponent = _collider.gameObject.GetComponent<Health>();
+                if (damagaleComponent != null)
+                {
+                    CollidingWithDamagable(damagaleComponent);
+                }
+            }
+        }
         return;
     }
 }

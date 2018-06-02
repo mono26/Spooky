@@ -4,27 +4,27 @@ using UnityEngine;
 public abstract class CharacterAction : CharacterComponent, EventHandler<DetectEvent>
 {
     [SerializeField]
-    protected AudioClip actionSfx;
+    protected AudioClip actionSfx = null;
     [SerializeField]
     protected bool actionStopsMovement = true;
     [SerializeField]
-    protected GameObject actionVfx;
+    protected GameObject actionVfx = null;
     [SerializeField]
-    protected float cooldown;
+    protected float cooldown = 0;
     [SerializeField]
     protected float delayAfterAnimationIsFinished = 0.15f;
     [SerializeField]
     protected bool needsTargetToExecute = true;
     [SerializeField]
-    protected CharacterAction nextAction;
+    protected CharacterAction nextAction = null;
     [SerializeField]
-    protected float range;
+    protected float range = 0;
 
     // Serialized just for debugging
     [SerializeField]
-    protected Transform target;
+    protected Transform target = null;
     public Transform Target { get { return target; } }
-    protected AICharacter aICharacter;
+    protected AICharacter aICharacter = null;
     protected float lastExecute;
 
     protected override void Awake()
@@ -39,11 +39,11 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
 
     protected virtual void Start()
     {
-        if(character.GetComponent<StatsComponent>())
+        if(cooldown.Equals(0) == true && character.GetComponent<StatsComponent>())
         {
             cooldown = 1 / character.GetComponent<StatsComponent>().AttacksPerSecond;
         }
-        if (character.GetComponent<EnemyDetect>())
+        if (range.Equals(0) == true && character.GetComponent<EnemyDetect>())
         {
             range = character.GetComponent<EnemyDetect>().DetectionRange;
         }
@@ -71,8 +71,6 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     {
         if (IsInCooldown() == false)
         {
-            Debug.Log("Executing Action");
-
             if (actionStopsMovement)
                 EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, character));
 
@@ -100,7 +98,6 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     {
         if (actionVfx != null)
         {
-            Debug.Log("Instantiating Particle");
             Instantiate(actionVfx, transform.position, transform.rotation);
         }
         return;
@@ -114,12 +111,16 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
 
     public bool IsTargetInRange()
     {
-        if (needsTargetToExecute)
+        if (needsTargetToExecute == true)
         {
-            float distance = Vector3.Distance(character.CharacterTransform.position, target.position);
-            if (distance <= range)
+            if (target != null)
             {
-                return true;
+                float distance = Vector3.Distance(character.CharacterTransform.position, target.position);
+                if (distance <= range)
+                {
+                    return true;
+                }
+                else return false;
             }
             else return false;
         }

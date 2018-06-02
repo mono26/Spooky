@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4408542622765070}
   - component: {fileID: 54509663095285330}
   - component: {fileID: 65779217421079530}
-  m_Layer: 11
+  - component: {fileID: 114716300293419924}
+  m_Layer: 14
   m_Name: MeleeCollider
-  m_TagString: EnemyMeleeCollider
+  m_TagString: PlantMeleeCollider
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -72,12 +73,12 @@ GameObject:
   - component: {fileID: 82229242146550408}
   - component: {fileID: 65813893808418904}
   - component: {fileID: 54209554323802896}
-  - component: {fileID: 114708171015247884}
-  - component: {fileID: 114676727925664234}
+  - component: {fileID: 114209972384654282}
+  - component: {fileID: 114724370592547052}
   - component: {fileID: 114432489485747222}
   - component: {fileID: 114365403290720492}
-  - component: {fileID: 114784419132323888}
-  m_Layer: 0
+  - component: {fileID: 114706493057916398}
+  m_Layer: 14
   m_Name: Cactus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +105,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1781781740419936}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 2.29, y: 0, z: -4.14}
+  m_LocalPosition: {x: 2.29, y: 0, z: -6.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4328563738860466}
@@ -176,10 +177,10 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1074551980171614}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5, z: 0.5}
+  m_Size: {x: 0.7, y: 0.7, z: 0.5}
   m_Center: {x: 0, y: 0, z: -0.25}
 --- !u!65 &65813893808418904
 BoxCollider:
@@ -191,8 +192,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.048, y: 2.0480006, z: 0.20000005}
-  m_Center: {x: -0.4608358, y: 0.838664, z: 0}
+  m_Size: {x: 0.55477226, y: 1.1171042, z: 0.5}
+  m_Center: {x: -0.035618246, y: 0.56812924, z: -0.25}
 --- !u!82 &82229242146550408
 AudioSource:
   m_ObjectHideFlags: 1
@@ -290,6 +291,28 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114209972384654282
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1781781740419936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bc7810f706d20a4bad638c26096a905, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterID: Cactus
+  isExecutingAction: 0
+  initialDirection: 1
+  type: 1
+  characterAnimator: {fileID: 95028710909036972}
+  characterAudioSource: {fileID: 82229242146550408}
+  characterCollider: {fileID: 65813893808418904}
+  characterSprite: {fileID: 212872023094099212}
+  characterTransform: {fileID: 4277741192820502}
+  characterBody: {fileID: 54209554323802896}
+  currentAction: {fileID: 0}
 --- !u!114 &114365403290720492
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -304,7 +327,7 @@ MonoBehaviour:
   maxHealth: 0
   healthBar: {fileID: 0}
   healthBarToggleTime: 0
-  damageEffect: {fileID: 0}
+  damageVfx: {fileID: 0}
   damageSfx: {fileID: 0}
   currentHealth: 0
 --- !u!114 &114432489485747222
@@ -319,9 +342,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionTrigger: {fileID: 135128538669506858}
-  detectionRange: 3.5
+  detectionRange: 0.7
   nearEnemies: []
---- !u!114 &114676727925664234
+--- !u!114 &114706493057916398
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -329,55 +352,47 @@ MonoBehaviour:
   m_GameObject: {fileID: 1781781740419936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 813fe3c9d053f8b438a21e191c964397, type: 3}
+  m_Script: {fileID: 11500000, guid: f33314d6528a5a14ea053e8c5c571023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 5
-  attacksPerSecond: 1
---- !u!114 &114708171015247884
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1781781740419936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8816b192a2a59b745be2f7c775dd271a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterID: Cactus
-  initialDirection: 1
-  type: 1
-  characterAnimator: {fileID: 95028710909036972}
-  characterAudioSource: {fileID: 82229242146550408}
-  characterCollider: {fileID: 65813893808418904}
-  characterSprite: {fileID: 212872023094099212}
-  characterTransform: {fileID: 4277741192820502}
-  characterBody: {fileID: 54209554323802896}
-  enemyDetect: {fileID: 114432489485747222}
-  healthComponent: {fileID: 114365403290720492}
-  statsComponent: {fileID: 114676727925664234}
-  currentAction: {fileID: 114784419132323888}
---- !u!114 &114784419132323888
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1781781740419936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1318d783c58efda428633516ec60cf5e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  range: 0.5
-  cooldown: 0
   actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
-  delayAfterAnimationIsFinished: 0.15
   actionStopsMovement: 1
+  actionVfx: {fileID: 0}
+  cooldown: 1
+  delayAfterAnimationIsFinished: 0.15
   needsTargetToExecute: 1
-  enemyCharacter: {fileID: 0}
+  nextAction: {fileID: 114706493057916398}
+  range: 0.7
+  target: {fileID: 0}
   meleeCollider: {fileID: 65779217421079530}
+--- !u!114 &114716300293419924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1074551980171614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 925a7daa667541b49a3a7641babc6f13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageTags:
+  - Enemy
+  damageOnTouch: 1
+--- !u!114 &114724370592547052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1781781740419936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3537fb6d1f4db17429f46007cd008d2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attacksPerSecond: 1
+  maxHealth: 3
+  movementSpeed: 0
 --- !u!135 &135128538669506858
 SphereCollider:
   m_ObjectHideFlags: 1

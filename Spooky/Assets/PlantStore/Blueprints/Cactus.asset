@@ -9,10 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12b4e89d0617124409614f22326b1a0a, type: 3}
-  m_Name: Tomato
+  m_Name: Cactus
   m_EditorClassIdentifier: 
-  price: 50
-  upgradePrice: 100
-  plant: {fileID: 114394025943669368, guid: 5a40f30d84a068e4fb0f743a237459b2, type: 2}
-  upgradePlant: {fileID: 114881810167000716, guid: 2c154f34ab9d0a34196f9e194b1da1c1,
-    type: 2}
+  price: 75
+  upgradePrice: 125
+  plant: {fileID: 114209972384654282, guid: 086ce91234c21ff418bcac4710d20584, type: 2}
+  upgradePlant: {fileID: 0}

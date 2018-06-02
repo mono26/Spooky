@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class StealCorn : CharacterAction
 {
+    [Header("Especific action values.")]
+    [SerializeField]
+    protected float stealValue = 30;
+    [SerializeField]
+    protected float minStealValue = 13;
+
     protected override void Start()
     {
         base.Start();
@@ -23,7 +29,7 @@ public class StealCorn : CharacterAction
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
                     );
 
-        //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
+        LevelManager.Instance.LoseCrop((int)Mathf.Abs(Random.Range(minStealValue, stealValue)));
         SetLasActionExecuteToActualTimeInLevel();
 
         // Stop the action executiong because the animation has already end.

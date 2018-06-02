@@ -23,8 +23,30 @@ public class MeleeAttack : CharacterAction
         meleeCollider.gameObject.SetActive(false);
     }
 
+    public override void EveryFrame()
+    {
+        if (target != null)
+        {
+            if (target.position.x > character.CharacterTransform.position.x)
+            {
+                if (!character.IsFacingRightDirection)
+                    character.Flip();
+            }
+            // If it's negative, then we're facing left
+            else if (target.position.x < character.CharacterTransform.position.x)
+            {
+                if (character.IsFacingRightDirection)
+                    character.Flip();
+            }
+        }
+
+        base.EveryFrame();
+    }
+
     protected override IEnumerator Action()
     {
+        Debug.Log("Executing melee attack");
+
         EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.ExecuteAction, character));
         yield return 0;
 

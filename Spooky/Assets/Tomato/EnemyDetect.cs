@@ -23,7 +23,7 @@ public class EnemyDetect : CharacterComponent
     protected SphereCollider detectionTrigger;
 
     [SerializeField]
-    [Range(3f, 5f)]
+    [Range(0.7f, 5f)]
     protected float detectionRange;
     public float DetectionRange { get { return detectionRange; } }
 

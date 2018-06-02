@@ -6,9 +6,6 @@ TagManager:
   tags:
   - Bullet
   - Spooky
-  - Spawn Point
-  - Runaway Point
-  - Steal Point
   - Enemy
   - Plant
   - SpookyHand
@@ -28,6 +25,7 @@ TagManager:
   - Pause Button
   - WinGameUI
   - PauseUI
+  - PlantMeleeCollider
   layers:
   - Default
   - TransparentFX
