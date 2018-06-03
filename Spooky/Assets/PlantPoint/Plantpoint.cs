@@ -1,20 +1,46 @@
 ﻿using UnityEngine;
 
+[RequireComponent(typeof(AudioSource))]
 public class Plantpoint : MonoBehaviour
 {
-    public PlantBlueprint currentBlueprint;
-    public Character currentPlant;
+    [Header("Sounds")]
+    [SerializeField]
+    protected AudioClip buySound;
+    [SerializeField]
+    protected AudioClip sellSound;
+    [SerializeField]
+    protected AudioClip upgradeSound;
+
+    [Header("Plantpoint info (For debugging only")]
+    [SerializeField]
+    protected PlantBlueprint currentBlueprint;
+    public PlantBlueprint CurrentBlueprint { get { return currentBlueprint; } }
+    [SerializeField]
+    protected Character currentPlant;
+    public Character CurrentPlant { get { return currentPlant; } }
+
+    protected AudioSource soundSource;
 
     private bool isUpgraded;
 
-    //public AudioClip[] plantPointSounds;
+    protected void Awake()
+    {
+        soundSource = GetComponent<AudioSource>();
+
+        return;
+    }
 
     public void BuildPlant(PlantBlueprint blueprint)       //Luego de que se tenga una planta seleccionada cuando se escoja un nodo se construira ahi
     {
         LevelManager.Instance.TakeMoney(blueprint.price);
+        LevelUIManager.Instance.UpdateMoneyDisplay();
+
+        if (buySound != null)
+            SoundManager.Instance.PlaySfx(soundSource, buySound);
+
         currentPlant = Instantiate(blueprint.plant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
         currentBlueprint = blueprint;
-        //SoundHandler.Instance.PlayClip(plantPointSounds[0]);
+
         return;
     }
 
@@ -34,19 +60,26 @@ public class Plantpoint : MonoBehaviour
             ClearPlantPoint();
             PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
         }
-        //SoundHandler.Instance.PlayClip(plantPointSounds[1]);
+
+        if (sellSound != null)
+            SoundManager.Instance.PlaySfx(soundSource, sellSound);
+
         return;
     }
 
     public void UpgradePlant()
     {
-        //LevelManager.Instance.UiManager.TakeMoney(currentBlueprint.upgradePrice);
+        LevelManager.Instance.TakeMoney(currentBlueprint.upgradePrice);
         Destroy(currentPlant.gameObject);
+
+        if (upgradeSound != null)
+            SoundManager.Instance.PlaySfx(soundSource, upgradeSound);
+
         currentPlant = Instantiate(currentBlueprint.upgradePlant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
         isUpgraded = true;
         currentPlant.transform.position = transform.position;
         PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
-        //SoundHandler.Instance.PlayClip(plantPointSounds[2]);
+
         return;
     }
 

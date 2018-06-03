@@ -43,6 +43,10 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
         {
             cooldown = 1 / character.GetComponent<StatsComponent>().AttacksPerSecond;
         }
+        else if (cooldown.Equals(0) == false)
+        {
+            cooldown = 1 / cooldown;
+        }
         if (range.Equals(0) == true && character.GetComponent<EnemyDetect>())
         {
             range = character.GetComponent<EnemyDetect>().DetectionRange;
@@ -74,7 +78,14 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
             if (actionStopsMovement)
                 EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, character));
 
+            EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.ExecuteAction, character));
+            SetLasActionExecuteToActualTimeInLevel();
+            yield return 0;
+
             yield return Action();
+
+            EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.FinishExecute, character));
+            yield return 0;
 
             SetNextActionInCharacter();
 

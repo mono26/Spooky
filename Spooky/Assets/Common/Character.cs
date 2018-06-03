@@ -213,7 +213,7 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
         return;
     }
 
-    public void OnEvent(CharacterEvent _characterEvent)
+    public virtual void OnEvent(CharacterEvent _characterEvent)
     {
         if (_characterEvent.character.Equals(this))
         {

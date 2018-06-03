@@ -7,6 +7,9 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
     private CharacterAction currentAction;
     public CharacterAction CurrentAction { get { return currentAction; } }
     protected CharacterAction[] characterActions;
+    [SerializeField]
+    protected int reward;
+    public int Reward { get { return reward; } }
 
     protected override void OnEnable()
     {
@@ -63,7 +66,7 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
         return;
     }
 
-    public void OnEvent(FightCloudEvent _fightCloudEvent)
+    public virtual void OnEvent(FightCloudEvent _fightCloudEvent)
     {
         if (CharacterID == "Attacker")
         {
@@ -74,6 +77,16 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
                 if (_fightCloudEvent.type == FightCloudEventType.EndFight)
                     EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Move, this));
             }
+        }
+        return;
+    }
+
+    public override void OnEvent(CharacterEvent _characterEvent)
+    {
+        if (_characterEvent.character.Equals(this))
+        {
+            if (_characterEvent.type == CharacterEventType.Death)
+                LevelManager.Instance.GiveMoney(reward);
         }
         return;
     }

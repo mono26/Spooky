@@ -20,9 +20,6 @@ public class StealCorn : CharacterAction
 
     protected override IEnumerator Action()
     {
-        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.ExecuteAction, character));
-        yield return 0;
-
         PlayActionVfxEffect();
 
         yield return new WaitForSecondsRealtime(
@@ -30,11 +27,6 @@ public class StealCorn : CharacterAction
                     );
 
         LevelManager.Instance.LoseCrop((int)Mathf.Abs(Random.Range(minStealValue, stealValue)));
-        SetLasActionExecuteToActualTimeInLevel();
-
-        // Stop the action executiong because the animation has already end.
-        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.FinishExecute, character));
-        yield return 0;
 
         yield break;
     }

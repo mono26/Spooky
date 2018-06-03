@@ -47,8 +47,7 @@ public class PlantLaunchProjectile : CharacterAction
 
     protected override IEnumerator Action()
     {
-        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.ExecuteAction, character));
-        yield return 0;
+        Debug.Log("Throwing bullet");
 
         yield return new WaitForSecondsRealtime(
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
@@ -60,11 +59,7 @@ public class PlantLaunchProjectile : CharacterAction
         actualBullet.Launch(launchForce);
         actualBullet = null;
 
-        SetLasActionExecuteToActualTimeInLevel();
         PlaySfx();
-
-        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.FinishExecute, character));
-        yield return 0;
 
         yield break;
     }

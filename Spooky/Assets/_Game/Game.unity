@@ -112,7 +112,7 @@ NavMeshSettings:
     accuratePlacement: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: 666884c48e955a54aaed6a6bef572dd1, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: f564da14bfc7aa74586f9bc8f9a9e941, type: 2}
 --- !u!1 &266035
 GameObject:
   m_ObjectHideFlags: 0
@@ -11916,6 +11916,16 @@ Prefab:
       propertyPath: plantCanvasUI
       value: 
       objectReference: {fileID: 186414952}
+    - target: {fileID: 82958880919145318, guid: 4e94e55878801ef41818bb34863e29c7,
+        type: 2}
+      propertyPath: panLevelCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82958880919145318, guid: 4e94e55878801ef41818bb34863e29c7,
+        type: 2}
+      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4e94e55878801ef41818bb34863e29c7, type: 2}
   m_IsPrefabParent: 0

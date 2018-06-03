@@ -418,7 +418,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -442,7 +442,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!114 &114055343446617678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -529,10 +529,10 @@ MonoBehaviour:
   timeBetweenNextWaveSpawn: 3
   enemySpawnRatePerSecond: 2
   waveSoundSource: {fileID: 82958880919145318}
-  spawnSfx: {fileID: 0}
+  spawnSfx: {fileID: 8300000, guid: 783ce37a3589d68419e688038e12052d, type: 3}
   currentMaxNumberOfEnemiesLeft: 0
   currentNumberOfEnemiesKilled: 0
-  currentWave: 0
+  currentWave: 1
   enemiesToSpawn: 0000000000000000
   waveSpawnerState: 0
 --- !u!212 &212128300472108326

@@ -26,6 +26,7 @@ public class Bullet : PoolableObject
         bulletSprite = GetComponent<SpriteRenderer>();
         damageComponent = GetComponent<DamageOnTouch>();
         poolable = GetComponent<PoolableObject>();
+
         return;
     }
 

@@ -62,7 +62,7 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>, EventHandler<Chara
         ActivateWinUI(false);
 
         UpdateCropUIBar();
-        ChangemoneyDisplay();
+        UpdateMoneyDisplay();
     }
 
     protected void OnEnable()
@@ -86,7 +86,7 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>, EventHandler<Chara
         return;
     }
 
-    public void ChangemoneyDisplay()
+    public void UpdateMoneyDisplay()
     {
         gameMoneyText.text = "$:" + LevelManager.Instance.CurrentMoney;
         return;
@@ -118,7 +118,11 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>, EventHandler<Chara
         if (!_characterEvent.character.CharacterID.Equals("Spooky"))
         {
             if (_characterEvent.type == CharacterEventType.Death)
+            {
+                UpdateMoneyDisplay();
                 UpdateWaveSpawnerUI();
+            }
+
         }
         return;
     }

@@ -106,7 +106,7 @@ public class PlantStore : MonoBehaviour
     }
     public void UpgradeCurrentActivePlantInPlantpoint()
     {
-        if (LevelManager.Instance.CurrentMoney > currentActivePlantPoint.currentBlueprint.upgradePrice)
+        if (LevelManager.Instance.CurrentMoney > currentActivePlantPoint.CurrentBlueprint.upgradePrice)
         {
             currentActivePlantPoint.UpgradePlant();
             //SoundHandler.Instance.PlayClip(uiSounds[0]);

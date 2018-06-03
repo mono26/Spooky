@@ -45,11 +45,6 @@ public class MeleeAttack : CharacterAction
 
     protected override IEnumerator Action()
     {
-        Debug.Log("Executing melee attack");
-
-        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.ExecuteAction, character));
-        yield return 0;
-
         // We want to enable the collider before the animation ends
         yield return new WaitForSecondsRealtime(
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length / 2
@@ -64,12 +59,8 @@ public class MeleeAttack : CharacterAction
             character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length / 2 + delayAfterAnimationIsFinished
             );
 
-        //LevelManager.Instance.UiManager.LoseCrop(owner.stoleValue);
-        SetLasActionExecuteToActualTimeInLevel();
-
-        // Stop the action executiong because the animation has already end.
-        EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.FinishExecute, character));
         meleeCollider.gameObject.SetActive(false);
+
         yield break;
     }
 

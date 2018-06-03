@@ -204,8 +204,8 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
+  m_PlayOnAwake: 0
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -313,6 +313,7 @@ MonoBehaviour:
   characterTransform: {fileID: 4277741192820502}
   characterBody: {fileID: 54209554323802896}
   currentAction: {fileID: 0}
+  reward: 0
 --- !u!114 &114365403290720492
 MonoBehaviour:
   m_ObjectHideFlags: 1

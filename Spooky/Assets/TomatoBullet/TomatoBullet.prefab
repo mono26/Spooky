@@ -84,7 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageTags:
   - Enemy
-  damageOnTouch: 0
+  damageOnTouch: 1
 --- !u!114 &114626672782561736
 MonoBehaviour:
   m_ObjectHideFlags: 1

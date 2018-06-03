@@ -81,6 +81,7 @@ public class EnemyDetect : CharacterComponent
     {
         // Clear the top of the stack if its destroyes, null, or inactive, out of range
         nearEnemies.RemoveAt(0);
+        EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetLost, character));
         return;
     }
 

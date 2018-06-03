@@ -118,12 +118,14 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
     private IEnumerator SpawnWave()
     {
         waveSpawnerState = SpawnState.SPAWNING;
+        currentMaxNumberOfEnemiesLeft = 0;
+        currentNumberOfEnemiesKilled = 0;
         SoundManager.Instance.PlaySfx(waveSoundSource, spawnSfx);
 
         for(int i = 0; i < enemiesToSpawn.Length; i++)
         {
             enemiesToSpawn[i] = CalculateNumberOfEnemiesToSpawn(enemies[i].CharacterID);
-            currentMaxNumberOfEnemiesLeft += CalculateNumberOfEnemiesToSpawn(enemies[i].CharacterID);
+            currentMaxNumberOfEnemiesLeft += enemiesToSpawn[i];
         }
 
         int numberOfSpawns = currentMaxNumberOfEnemiesLeft;
@@ -173,15 +175,11 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
     {
         waveSpawnerState = SpawnState.COUNTING;
         waveCompletedTimer = Time.timeSinceLevelLoad;
-        currentMaxNumberOfEnemiesLeft = 0;
-        currentNumberOfEnemiesKilled = 0;
         currentWave++;
     }
 
     private void EnemyKilled()
     {
-        currentMaxNumberOfEnemiesLeft--;
-        currentMaxNumberOfEnemiesLeft = (int)Mathf.Clamp(currentMaxNumberOfEnemiesLeft, 0, Mathf.Infinity);    // So the number of enemies never goes below 0
         currentNumberOfEnemiesKilled++;
         currentNumberOfEnemiesKilled = (int)Mathf.Clamp(currentNumberOfEnemiesKilled, 0, Mathf.Infinity);
 
@@ -213,7 +211,10 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
         if(!_characterEvent.character.CharacterID.Equals("Spooky"))
         {
             if (_characterEvent.type == CharacterEventType.Death)
+            {
                 EnemyKilled();
+            }
         }
+        return;
     }
 }

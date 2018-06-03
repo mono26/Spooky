@@ -149,7 +149,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -364,6 +364,7 @@ MonoBehaviour:
   characterTransform: {fileID: 4162636382463042}
   characterBody: {fileID: 54057058601023744}
   currentAction: {fileID: 114281402800385212}
+  reward: 0
 --- !u!114 &114993173942050484
 MonoBehaviour:
   m_ObjectHideFlags: 1

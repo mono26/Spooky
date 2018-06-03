@@ -81,11 +81,11 @@ public class SpookyPlantPointDetection : CharacterComponent
     //depending on the value it tell the UIManager wich canvas to deactivate
     private void ClearCurrentPlantPoint()
     {
-        if (currentPlantPoint)
+        if (currentPlantPoint == true)
         {
-            if (currentPlantPoint.currentPlant)
+            if (currentPlantPoint.CurrentPlant == true)
                 PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
-            else if (!currentPlantPoint.currentPlant)
+            else if (currentPlantPoint.CurrentPlant == false)
                 PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
 
             currentPlantPoint = null;
@@ -97,11 +97,11 @@ public class SpookyPlantPointDetection : CharacterComponent
     private void SelectNewPlantpoint(Plantpoint _plantPoint)
     {
         // To prevent flickering of the UI
-        if (!currentPlantPoint)
+        if (currentPlantPoint == false)
         {
             ChangeCurrentPlantPointAndDisplay(_plantPoint);
         }
-        else if (currentPlantPoint && !currentPlantPoint.Equals(_plantPoint))
+        else if (currentPlantPoint && currentPlantPoint.Equals(_plantPoint) == false)
         {
             ClearCurrentPlantPoint();
             ChangeCurrentPlantPointAndDisplay(_plantPoint);
@@ -112,12 +112,12 @@ public class SpookyPlantPointDetection : CharacterComponent
     private void ChangeCurrentPlantPointAndDisplay(Plantpoint _plantPoint)
     {
         currentPlantPoint = _plantPoint;
-        if (currentPlantPoint.currentPlant)
+        if (currentPlantPoint.CurrentPlant == true)
         {
             PlantStore.Instance.ActivatePlantUI(currentPlantPoint);
             return;
         }
-        else if (!currentPlantPoint.currentPlant)
+        else if (currentPlantPoint.CurrentPlant == false)
         {
             PlantStore.Instance.ActivateBuildUI(currentPlantPoint);
             return;
