@@ -266,7 +266,7 @@ MonoBehaviour:
   actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   actionStopsMovement: 1
   actionVfx: {fileID: 0}
-  cooldown: 0
+  cooldown: 1.5
   delayAfterAnimationIsFinished: 0.15
   needsTargetToExecute: 1
   nextAction: {fileID: 114498531075047918}
@@ -289,7 +289,7 @@ MonoBehaviour:
   actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   actionStopsMovement: 1
   actionVfx: {fileID: 0}
-  cooldown: 10
+  cooldown: 0.1
   delayAfterAnimationIsFinished: 0.15
   needsTargetToExecute: 1
   nextAction: {fileID: 114281402800385212}
@@ -363,7 +363,7 @@ MonoBehaviour:
   characterSprite: {fileID: 212936167064955156}
   characterTransform: {fileID: 4162636382463042}
   characterBody: {fileID: 54057058601023744}
-  currentAction: {fileID: 114281402800385212}
+  currentAction: {fileID: 114498531075047918}
   reward: 0
 --- !u!114 &114993173942050484
 MonoBehaviour:
