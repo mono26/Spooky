@@ -21,16 +21,15 @@ GameObject:
   - component: {fileID: 4736818538870156}
   - component: {fileID: 54661140622613788}
   - component: {fileID: 65672920112543352}
-  - component: {fileID: 195140747816481618}
   - component: {fileID: 212263740257701518}
   - component: {fileID: 95576672161931324}
   - component: {fileID: 82664511168533384}
   - component: {fileID: 114214889396143110}
   - component: {fileID: 114880945779512232}
   - component: {fileID: 114595351302039336}
-  - component: {fileID: 114303027106017680}
   - component: {fileID: 114504915973877528}
   - component: {fileID: 114695920916659050}
+  - component: {fileID: 114303027106017680}
   - component: {fileID: 114411158048508160}
   m_Layer: 11
   m_Name: Stealer
@@ -267,6 +266,7 @@ MonoBehaviour:
   healthBarToggleTime: 3
   damageVfx: {fileID: 1320086511984004, guid: b7cfccd1143dc4169a4c65fa9d55e6db, type: 2}
   damageSfx: {fileID: 8300000, guid: 7f1848e2854726445b9a9f4f51c774a6, type: 3}
+  deathVfx: {fileID: 1173178007429090, guid: ecef2f77ba96e2a4588c2d1b074785bd, type: 2}
   currentHealth: 0
 --- !u!114 &114411158048508160
 MonoBehaviour:
@@ -345,6 +345,7 @@ MonoBehaviour:
   slowMotionSpeed: 0.25
   MaxXValue: 0
   MaxYValue: 0
+  pathUpdateRatePerSeconds: 1
 --- !u!114 &114676515062064592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -400,27 +401,6 @@ MonoBehaviour:
   attacksPerSecond: 0.2
   maxHealth: 3
   movementSpeed: 0.5
---- !u!195 &195140747816481618
-NavMeshAgent:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1082193504202232}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.35
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.5
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 0
 --- !u!212 &212263740257701518
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -18,6 +18,9 @@ public class Health : MonoBehaviour, Damagable
     private GameObject damageVfx;
     [SerializeField]
     private AudioClip damageSfx;
+    [SerializeField]
+    private GameObject deathVfx;
+
 
     [SerializeField]
     private float currentHealth;
@@ -60,7 +63,7 @@ public class Health : MonoBehaviour, Damagable
         StartCoroutine(ToggleHealthBar());
         currentHealth -= _damage;
 
-        PlayDamageEffect();
+        CreateVisualEffect(damageVfx);
         PlayHitSfx();
 
         currentHealth = Mathf.Max(0, currentHealth);
@@ -93,17 +96,18 @@ public class Health : MonoBehaviour, Damagable
         return;
     }
 
-    private void PlayDamageEffect()
+    private void CreateVisualEffect(GameObject _efect)
     {
-        if(damageVfx != null)
+        if(_efect != null)
         {
-            Instantiate(damageVfx, transform.position, transform.rotation);
+            Instantiate(_efect, transform.position, transform.rotation);
         }
         return;
     }
 
     public IEnumerator Kill()
     {
+        CreateVisualEffect(deathVfx);
         PoolableObject poolableCharacter = GetComponent<PoolableObject>();
         if (poolableCharacter != null)
         {

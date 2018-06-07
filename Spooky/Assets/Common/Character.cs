@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum CharacterEventType { ExecuteAction, FinishExecute, Death, Respawn }
+public enum CharacterEventType { ExecuteAction, FinishExecute, Death, Respawn, Release }
 
 public class CharacterEvent : SpookyCrowEvent
 {

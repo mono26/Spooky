@@ -122,6 +122,8 @@ public class LevelUIManager : SceneSingleton<LevelUIManager>, EventHandler<Chara
                 UpdateMoneyDisplay();
                 UpdateWaveSpawnerUI();
             }
+            if (_characterEvent.type == CharacterEventType.Release)
+                UpdateWaveSpawnerUI();
 
         }
         return;

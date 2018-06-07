@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212026599018360356}
   - component: {fileID: 199842231198603310}
   - component: {fileID: 198358873723500598}
+  - component: {fileID: 114842620932264274}
   m_Layer: 9
   m_Name: BulletExplosion
   m_TagString: Bullet
@@ -42,6 +43,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &114842620932264274
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1241239452018446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f7f34bbc71d1fa4e981dc7412c4b1a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyDelay: 5
+  isTheParticleAAnimation: 0
+  particle: {fileID: 198358873723500598}
+  animationParticle: {fileID: 0}
 --- !u!198 &198358873723500598
 ParticleSystem:
   m_ObjectHideFlags: 1

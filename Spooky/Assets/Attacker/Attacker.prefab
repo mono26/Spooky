@@ -73,7 +73,6 @@ GameObject:
   - component: {fileID: 4130179145791594}
   - component: {fileID: 54612795838928992}
   - component: {fileID: 65213049345834584}
-  - component: {fileID: 195569544062278668}
   - component: {fileID: 212499245088290674}
   - component: {fileID: 95806726417820678}
   - component: {fileID: 82896014623796488}
@@ -338,6 +337,7 @@ MonoBehaviour:
   slowMotionSpeed: 0.5
   MaxXValue: 0
   MaxYValue: 0
+  pathUpdateRatePerSeconds: 0
 --- !u!114 &114479542025913182
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -393,6 +393,7 @@ MonoBehaviour:
   healthBarToggleTime: 3
   damageVfx: {fileID: 1320086511984004, guid: b7cfccd1143dc4169a4c65fa9d55e6db, type: 2}
   damageSfx: {fileID: 8300000, guid: 7f1848e2854726445b9a9f4f51c774a6, type: 3}
+  deathVfx: {fileID: 1173178007429090, guid: ecef2f77ba96e2a4588c2d1b074785bd, type: 2}
   currentHealth: 3
 --- !u!114 &114885465088569812
 MonoBehaviour:
@@ -436,27 +437,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!195 &195569544062278668
-NavMeshAgent:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1963016645295434}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.3
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.5
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 1
 --- !u!212 &212499245088290674
 SpriteRenderer:
   m_ObjectHideFlags: 1

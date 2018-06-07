@@ -214,6 +214,10 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
             {
                 EnemyKilled();
             }
+            if (_characterEvent.type == CharacterEventType.Release)
+            {
+                EnemyKilled();
+            }
         }
         return;
     }

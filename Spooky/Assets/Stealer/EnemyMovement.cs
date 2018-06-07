@@ -1,15 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(AICharacter), typeof(NavMeshAgent))]
+[RequireComponent(typeof(AICharacter))]
 public class EnemyMovement : HorizontalAndVerticalMovement
 {
     protected AICharacter aICharacter;
-    protected NavMeshAgent navMeshAgent;
     protected NavMeshPath pathToTheTarget;
+    [SerializeField]
+    protected float pathUpdateRatePerSeconds;
 
     [Header("For Debugging in editor")]
-    protected bool isStopped;
+    protected bool isStopped = false;
     public bool IsStopped { get { return isStopped; } }
 
     protected override void Awake()
@@ -17,7 +19,6 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         base.Awake();
 
         aICharacter = character as AICharacter;
-        navMeshAgent = GetComponent<NavMeshAgent>();
 
         pathToTheTarget = new NavMeshPath();
     }
@@ -28,20 +29,17 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         {
             maxSpeed = character.GetComponent<StatsComponent>().MovementSpeed;
         }
+
         slowMotionSpeed = maxSpeed * 0.5f;
 
         base.Start();
-
-        // When the game starts set values
-        //navMesh.updatePosition = false;
-        navMeshAgent.updateRotation = false;
-        navMeshAgent.updateUpAxis = false;
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
+        StartCoroutine(ReCalculatePath());
         isStopped = false;
 
         return;
@@ -50,42 +48,55 @@ public class EnemyMovement : HorizontalAndVerticalMovement
     protected override void OnDisable()
     {
         base.OnDisable();
+
+        StopCoroutine(ReCalculatePath());
+
+        return;
     }
 
     public override void FixedFrame()
     {
-        if (isStopped)
+        if (isStopped == true)
         {
             StopMovement();
         }
-        else if (!isStopped)
+        else if (isStopped == false)
         {
-            CalculateDirectionToTarget();
+            Vector3 direction = CalculateDirectionToTarget();
+            movementDirection.x = direction.x;
+            movementDirection.y = direction.z;
+            /*movementDirection.x = Vector3.Dot(GetComponent<Rigidbody>().transform.right, desiredDirection);
+            movementDirection.z = -Vector3.Cross(GetComponent<Rigidbody>().transform.right, desiredDirection).y;*/
         }
 
         base.FixedFrame();
     }
 
-    protected void CalculateDirectionToTarget()
+    protected IEnumerator ReCalculatePath()
     {
-        if (aICharacter.CurrentAction.Target && navMeshAgent != null)
+        if (aICharacter.CurrentAction.Target != null)
         {
-            navMeshAgent.CalculatePath(aICharacter.CurrentAction.Target.position, pathToTheTarget);
-
-            if (!pathToTheTarget.Equals(null) && pathToTheTarget.corners.Length > 1)
-            {
-                // TODO calculate dot and cross product for input values moving the rigidBody
-                Vector3 desiredDirection = (pathToTheTarget.corners[1] - character.CharacterTransform.position).normalized;
-                desiredDirection.y = 0;
-                movementDirection.x = desiredDirection.x;
-                movementDirection.y = desiredDirection.z;
-                /*movementDirection.x = Vector3.Dot(GetComponent<Rigidbody>().transform.right, desiredDirection);
-                movementDirection.z = -Vector3.Cross(GetComponent<Rigidbody>().transform.right, desiredDirection).y;*/
-                return;
-            }
-            else return;
+            NavMesh.CalculatePath(
+            character.CharacterTransform.position, aICharacter.CurrentAction.Target.position, NavMesh.AllAreas, pathToTheTarget
+            );
         }
-        else return;
+        yield return new WaitForSeconds(1 / pathUpdateRatePerSeconds);
+
+        StartCoroutine(ReCalculatePath());
+    }
+
+    protected Vector3 CalculateDirectionToTarget()
+    {
+        if (pathToTheTarget.Equals(null) == false && pathToTheTarget.corners.Length > 0)
+        {
+            Vector3 desiredDirection = (pathToTheTarget.corners[1] - character.CharacterTransform.position).normalized;
+            desiredDirection.y = 0;
+            return desiredDirection;
+        }
+        else
+            pathToTheTarget.ClearCorners();
+
+        return Vector3.zero;
     }
 
     protected override void StopMovement()
