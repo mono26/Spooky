@@ -45,7 +45,7 @@ public class VFX_Killer : MonoBehaviour
 
         if(isTheParticleAAnimation == true && animationParticle != null)
         {
-            if (animationParticle.GetCurrentAnimatorStateInfo(0).length > startTime)
+            if (animationParticle.GetCurrentAnimatorStateInfo(0).length + startTime > Time.timeSinceLevelLoad)
             {
                 return;
             }

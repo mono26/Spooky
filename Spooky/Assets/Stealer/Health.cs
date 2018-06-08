@@ -96,11 +96,12 @@ public class Health : MonoBehaviour, Damagable
         return;
     }
 
-    private void CreateVisualEffect(GameObject _efect)
+    private void CreateVisualEffect(GameObject _effect)
     {
-        if(_efect != null)
+        if(_effect != null)
         {
-            Instantiate(_efect, transform.position, transform.rotation);
+            Debug.Log("Instantiating effect." + _effect.gameObject);
+            Instantiate(_effect, transform.position, transform.rotation);
         }
         return;
     }
