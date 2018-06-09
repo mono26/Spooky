@@ -59,25 +59,31 @@ public class HorizontalAndVerticalMovement : CharacterComponent, EventHandler<Mo
 
     public override void FixedFrame()
     {
-        if (!movementDirection.Equals(Vector3.zero))
+        if (movementDirection.Equals(Vector3.zero) == false)
         {
-            if (movementDirection.x > 0.1f)
-            {
-                if (!character.IsFacingRightDirection)
-                    character.Flip();
-            }
-            // If it's negative, then we're facing left
-            else if (movementDirection.x < -0.1f)
-            {
-                if (character.IsFacingRightDirection)
-                    character.Flip();
-            }
+            FlipSpriteAccordingToMovement();
 
             Move(movementDirection);
 
             ClampPosition();
         }
-        else return;
+
+        return;
+    }
+
+    protected void FlipSpriteAccordingToMovement()
+    {
+        if (movementDirection.x > 0.1f)
+        {
+            if (!character.IsFacingRightDirection)
+                character.Flip();
+        }
+        // If it's negative, then we're facing left
+        else if (movementDirection.x < -0.1f)
+        {
+            if (character.IsFacingRightDirection)
+                character.Flip();
+        }
     }
 
     protected override void HandleInput()
@@ -92,11 +98,10 @@ public class HorizontalAndVerticalMovement : CharacterComponent, EventHandler<Mo
         // For moving the Rigidbody in the desired direction
         Vector3 newPosition = character.CharacterBody.position + character.CharacterTransform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
         character.CharacterBody.MovePosition(newPosition);
-        //spooky.AnimationComponent.CheckViewDirection(_direction);
         return;
     }
 
-    private void ClampPosition()
+    protected void ClampPosition()
     {
         // For clamping Spooky position inside the max and min value
     }

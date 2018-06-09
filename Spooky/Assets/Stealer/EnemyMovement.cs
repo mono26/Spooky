@@ -2,13 +2,16 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(AICharacter))]
+[RequireComponent(typeof(AICharacter), typeof(NavMeshAgent))]
 public class EnemyMovement : HorizontalAndVerticalMovement
 {
-    protected AICharacter aICharacter;
-    protected NavMeshPath pathToTheTarget;
+    [Header("AI movement settings")]
     [SerializeField]
-    protected float pathUpdateRatePerSeconds;
+    protected AICharacter aICharacter;
+    [SerializeField]
+    protected NavMeshAgent movementAgent;
+    [SerializeField]
+    protected float pathUpdateRatePerSeconds = 1;
 
     [Header("For Debugging in editor")]
     protected bool isStopped = false;
@@ -18,9 +21,15 @@ public class EnemyMovement : HorizontalAndVerticalMovement
     {
         base.Awake();
 
-        aICharacter = character as AICharacter;
+        if (aICharacter == null)
+            aICharacter = character as AICharacter;
+        if(movementAgent == null)
+            movementAgent = GetComponent<NavMeshAgent>();
 
-        pathToTheTarget = new NavMeshPath();
+        movementAgent.updateRotation = false;
+        movementAgent.updateUpAxis = false;
+
+        return;
     }
 
     protected override void Start()
@@ -31,6 +40,7 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         }
 
         slowMotionSpeed = maxSpeed * 0.5f;
+        movementAgent.speed = maxSpeed;
 
         base.Start();
     }
@@ -38,6 +48,8 @@ public class EnemyMovement : HorizontalAndVerticalMovement
     protected override void OnEnable()
     {
         base.OnEnable();
+
+        Start();
 
         StartCoroutine(ReCalculatePath());
         isStopped = false;
@@ -62,39 +74,46 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         }
         else if (isStopped == false)
         {
-            Vector3 direction = CalculateDirectionToTarget();
+            Vector3 direction = GetMovementDirection();
+            Debug.Log(this.gameObject + "movement direction: " + direction.ToString());
             movementDirection.x = direction.x;
             movementDirection.y = direction.z;
             /*movementDirection.x = Vector3.Dot(GetComponent<Rigidbody>().transform.right, desiredDirection);
             movementDirection.z = -Vector3.Cross(GetComponent<Rigidbody>().transform.right, desiredDirection).y;*/
         }
 
-        base.FixedFrame();
+        FlipSpriteAccordingToMovement();
+
+        ClampPosition();
+
+        return;
     }
 
     protected IEnumerator ReCalculatePath()
     {
         if (aICharacter.CurrentAction.Target != null)
         {
-            NavMesh.CalculatePath(
+            movementAgent.SetDestination(aICharacter.CurrentAction.Target.position);
+            /*NavMesh.CalculatePath(
             character.CharacterTransform.position, aICharacter.CurrentAction.Target.position, NavMesh.AllAreas, pathToTheTarget
-            );
+            );*/
         }
         yield return new WaitForSeconds(1 / pathUpdateRatePerSeconds);
 
         StartCoroutine(ReCalculatePath());
     }
 
-    protected Vector3 CalculateDirectionToTarget()
+    protected Vector3 GetMovementDirection()
     {
-        if (pathToTheTarget.Equals(null) == false && pathToTheTarget.corners.Length > 0)
+        if (movementAgent.path.status == NavMeshPathStatus.PathComplete && movementAgent.path.corners.Length > 0)
         {
-            Vector3 desiredDirection = (pathToTheTarget.corners[1] - character.CharacterTransform.position).normalized;
+            Debug.Log(this.gameObject + "movement corners: " + movementAgent.path.corners.Length.ToString());
+            Vector3 desiredDirection = movementAgent.desiredVelocity;
             desiredDirection.y = 0;
             return desiredDirection;
         }
         else
-            pathToTheTarget.ClearCorners();
+            movementAgent.path.ClearCorners();
 
         return Vector3.zero;
     }
