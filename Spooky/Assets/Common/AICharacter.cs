@@ -88,6 +88,9 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
             if (_characterEvent.type == CharacterEventType.Death)
                 LevelManager.Instance.GiveMoney(reward);
         }
+
+        base.OnEvent(_characterEvent);
+
         return;
     }
 }

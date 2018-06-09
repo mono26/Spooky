@@ -108,6 +108,8 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
 
     protected virtual void Update()
     {
+        Debug.Log(this.gameObject + "Current state: " + characterStateMachine.currentState.ToString());
+
         if(characterComponents != null)
         {
             foreach (CharacterComponent component in characterComponents)
@@ -215,7 +217,7 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
 
     public virtual void OnEvent(CharacterEvent _characterEvent)
     {
-        if (_characterEvent.character.Equals(this))
+        if (_characterEvent.character.Equals(this) == true)
         {
             if (_characterEvent.type == CharacterEventType.ExecuteAction)
                 ExecuteAction(true);

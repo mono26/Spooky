@@ -312,7 +312,7 @@ MonoBehaviour:
   characterSprite: {fileID: 212872023094099212}
   characterTransform: {fileID: 4277741192820502}
   characterBody: {fileID: 54209554323802896}
-  currentAction: {fileID: 0}
+  currentAction: {fileID: 114706493057916398}
   reward: 0
 --- !u!114 &114365403290720492
 MonoBehaviour:
@@ -330,6 +330,7 @@ MonoBehaviour:
   healthBarToggleTime: 0
   damageVfx: {fileID: 0}
   damageSfx: {fileID: 0}
+  deathVfx: {fileID: 0}
   currentHealth: 0
 --- !u!114 &114432489485747222
 MonoBehaviour:

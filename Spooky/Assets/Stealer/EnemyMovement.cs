@@ -75,7 +75,6 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         else if (isStopped == false)
         {
             Vector3 direction = GetMovementDirection();
-            Debug.Log(this.gameObject + "movement direction: " + direction.ToString());
             movementDirection.x = direction.x;
             movementDirection.y = direction.z;
             /*movementDirection.x = Vector3.Dot(GetComponent<Rigidbody>().transform.right, desiredDirection);
@@ -94,9 +93,6 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         if (aICharacter.CurrentAction.Target != null)
         {
             movementAgent.SetDestination(aICharacter.CurrentAction.Target.position);
-            /*NavMesh.CalculatePath(
-            character.CharacterTransform.position, aICharacter.CurrentAction.Target.position, NavMesh.AllAreas, pathToTheTarget
-            );*/
         }
         yield return new WaitForSeconds(1 / pathUpdateRatePerSeconds);
 
@@ -107,7 +103,6 @@ public class EnemyMovement : HorizontalAndVerticalMovement
     {
         if (movementAgent.path.status == NavMeshPathStatus.PathComplete && movementAgent.path.corners.Length > 0)
         {
-            Debug.Log(this.gameObject + "movement corners: " + movementAgent.path.corners.Length.ToString());
             Vector3 desiredDirection = movementAgent.desiredVelocity;
             desiredDirection.y = 0;
             return desiredDirection;

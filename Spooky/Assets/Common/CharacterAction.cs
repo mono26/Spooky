@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class CharacterAction : CharacterComponent, EventHandler<DetectEvent>
 {
+    [Header("ActionSettings")]
     [SerializeField]
     protected AudioClip actionSfx = null;
     [SerializeField]
@@ -20,10 +21,11 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     [SerializeField]
     protected float range = 0;
 
-    // Serialized just for debugging
+    [Header("ActionEditorDebugging")]
     [SerializeField]
     protected Transform target = null;
     public Transform Target { get { return target; } }
+    [SerializeField]
     protected AICharacter aICharacter = null;
     protected float lastExecute;
 
@@ -31,7 +33,8 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     {
         base.Awake();
 
-        aICharacter = character as AICharacter;
+        if(aICharacter == null)
+            aICharacter = character as AICharacter;
         // Because if its set to 0 the enemy wont be able to execute the ability
         // Until the timesinceLevelLoad is greatter that the cooldown
         lastExecute = Time.timeSinceLevelLoad - cooldown;
