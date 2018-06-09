@@ -78,8 +78,10 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
         return;
     }
 
+    // Update is called once per frame
     protected void Update()
     {
+        //To see if all waves are finished
         if (currentWave > 100)
         {
             LevelManager.Instance.WinLevel();
@@ -91,6 +93,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
         {
             if (currentNumberOfEnemiesKilled == currentMaxNumberOfEnemiesLeft)
             {
+                //Begin a new Round
                 WaveCompleted();
                 return;
             }
@@ -98,9 +101,9 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
 
         if (waveSpawnerState == SpawnState.COUNTING)
         {
-            // TODO check this statement. Not waiting the required time.
             if (Time.timeSinceLevelLoad > timeBetweenNextWaveSpawn + waveCompletedTimer)
             {
+                //If the countdown to start spawning the next wave is 0 and is not spawning auotomaticly force it to spawn
                 if (waveSpawnerState != SpawnState.SPAWNING)
                 {
                     StartCoroutine(SpawnWave());
