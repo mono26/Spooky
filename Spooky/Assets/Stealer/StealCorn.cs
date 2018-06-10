@@ -31,7 +31,7 @@ public class StealCorn : CharacterAction
         yield break;
     }
 
-    protected override void UpdateState()
+    /*protected override void UpdateState()
     {
         if (character.characterStateMachine != null)
         {
@@ -42,5 +42,5 @@ public class StealCorn : CharacterAction
             }
         }
         return;
-    }
+    }*/
 }

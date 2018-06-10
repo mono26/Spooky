@@ -82,12 +82,12 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
                 EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, character));
 
             EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.ExecuteAction, character));
-            SetLasActionExecuteToActualTimeInLevel();
             yield return 0;
 
             yield return Action();
 
             EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.FinishExecute, character));
+            SetLasActionExecuteToActualTimeInLevel();
             yield return 0;
 
             SetNextActionInCharacter();

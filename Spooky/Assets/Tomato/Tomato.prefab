@@ -30,6 +30,7 @@ GameObject:
   - component: {fileID: 114626738942533088}
   - component: {fileID: 114367486260847284}
   - component: {fileID: 114042695106525758}
+  - component: {fileID: 114459228929426350}
   m_Layer: 14
   m_Name: Tomato
   m_TagString: Plant
@@ -283,6 +284,7 @@ MonoBehaviour:
   nextAction: {fileID: 114367486260847284}
   range: 3.5
   target: {fileID: 0}
+  aICharacter: {fileID: 0}
   launchForce: 5
   shootPoint: {fileID: 4370896873869142}
   bulletPool: {fileID: 114042695106525758}
@@ -323,6 +325,19 @@ MonoBehaviour:
   attacksPerSecond: 1
   maxHealth: 3
   movementSpeed: 0
+--- !u!114 &114459228929426350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1392868393462202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0c56e2de9003041856c2e1e4d83ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 212127656052482734}
+  updatesPerSecond: 0
 --- !u!114 &114626738942533088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -339,6 +354,7 @@ MonoBehaviour:
   healthBarToggleTime: 0
   damageVfx: {fileID: 0}
   damageSfx: {fileID: 0}
+  deathVfx: {fileID: 0}
   currentHealth: 0
 --- !u!135 &135564382731587366
 SphereCollider:
@@ -384,7 +400,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1855537497
-  m_SortingLayer: 5
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 006fe8c2c818b2b418a7eedce1b657b9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

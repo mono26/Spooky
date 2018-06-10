@@ -78,6 +78,7 @@ GameObject:
   - component: {fileID: 114432489485747222}
   - component: {fileID: 114365403290720492}
   - component: {fileID: 114706493057916398}
+  - component: {fileID: 114138654046699236}
   m_Layer: 14
   m_Name: Cactus
   m_TagString: Untagged
@@ -291,6 +292,19 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114138654046699236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1781781740419936}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0c56e2de9003041856c2e1e4d83ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 212872023094099212}
+  updatesPerSecond: 0
 --- !u!114 &114209972384654282
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -344,7 +358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   detectionTrigger: {fileID: 135128538669506858}
-  detectionRange: 0.7
+  detectionRange: 1.2
   nearEnemies: []
 --- !u!114 &114706493057916398
 MonoBehaviour:
@@ -366,6 +380,7 @@ MonoBehaviour:
   nextAction: {fileID: 114706493057916398}
   range: 0.7
   target: {fileID: 0}
+  aICharacter: {fileID: 0}
   meleeCollider: {fileID: 65779217421079530}
 --- !u!114 &114716300293419924
 MonoBehaviour:
@@ -405,7 +420,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 1.2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &212872023094099212
 SpriteRenderer:
@@ -439,7 +454,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 400645025
-  m_SortingLayer: 4
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7d87d7e99e91b7e43b6c6273934c4baf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

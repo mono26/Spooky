@@ -42,6 +42,8 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
         }
 
         base.Update();
+
+        return;
     }
 
     public void ChangeCurrentAction(CharacterAction _newAction)

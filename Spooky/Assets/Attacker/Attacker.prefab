@@ -83,6 +83,7 @@ GameObject:
   - component: {fileID: 114885465088569812}
   - component: {fileID: 114773735051167938}
   - component: {fileID: 114078526699899162}
+  - component: {fileID: 114102189241596230}
   m_Layer: 11
   m_Name: Attacker
   m_TagString: Enemy
@@ -159,7 +160,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.6, y: 0.6, z: 0.5}
-  m_Center: {x: 0, y: 0, z: -0.25}
+  m_Center: {x: 0, y: 0.3, z: -0.25}
 --- !u!65 &65770155528111222
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -281,6 +282,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeTime: 10
+--- !u!114 &114102189241596230
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1963016645295434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0c56e2de9003041856c2e1e4d83ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 212499245088290674}
+  updatesPerSecond: 1
 --- !u!114 &114122564974805956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -418,6 +432,7 @@ MonoBehaviour:
   nextAction: {fileID: 114885465088569812}
   range: 0.5
   target: {fileID: 0}
+  aICharacter: {fileID: 0}
   meleeCollider: {fileID: 65770155528111222}
 --- !u!114 &114951604829026382
 MonoBehaviour:
@@ -458,7 +473,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 0.5
-  m_BaseOffset: 0
+  m_BaseOffset: -0.3
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
 --- !u!212 &212499245088290674
@@ -492,8 +507,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 400645025
-  m_SortingLayer: 4
+  m_SortingLayerID: -1921781519
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 53383c673faddb64fa42a0ac593f8c67, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -547,7 +562,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.7}
+  m_AnchoredPosition: {x: 0, y: 0.853}
   m_SizeDelta: {x: 1, y: 0.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224286368012832316

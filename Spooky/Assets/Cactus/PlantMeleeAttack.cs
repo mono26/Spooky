@@ -1,6 +1,6 @@
 ﻿public class PlantMeleeAttack : MeleeAttack
 {
-    protected override void UpdateState()
+    /*protected override void UpdateState()
     {
         if (character.characterStateMachine != null)
         {
@@ -10,5 +10,5 @@
                 character.characterStateMachine.ChangeState(Character.CharacterState.Idle);
         }
         return;
-    }
+    }*/
 }

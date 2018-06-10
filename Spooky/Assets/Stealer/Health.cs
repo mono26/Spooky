@@ -45,7 +45,6 @@ public class Health : MonoBehaviour, Damagable
     protected void OnEnable()
     {
         currentHealth = maxHealth;
-        // Need to cast to float because the result of "/" by two ints gives a int.
         if(healthBar != null)
         {
             healthBar.fillAmount = currentHealth / maxHealth;
@@ -59,7 +58,6 @@ public class Health : MonoBehaviour, Damagable
         // We are laready dead.
         if(currentHealth == 0) { return; }
 
-        //var feathersP = Instantiate(controller.feathersParticle, transform.position, Quaternion.Euler(-90, 0, 0));
         StartCoroutine(ToggleHealthBar());
         currentHealth -= _damage;
 
@@ -100,7 +98,6 @@ public class Health : MonoBehaviour, Damagable
     {
         if(_effect != null)
         {
-            Debug.Log("Instantiating effect." + _effect.gameObject);
             Instantiate(_effect, transform.position, transform.rotation);
         }
         return;
@@ -120,10 +117,9 @@ public class Health : MonoBehaviour, Damagable
         }
         else if (poolableCharacter == null)
         {
-            // Destroy object.
             yield return CharacterDeath();
 
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
         yield break;
     }

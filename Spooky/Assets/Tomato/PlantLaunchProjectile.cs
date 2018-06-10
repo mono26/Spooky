@@ -47,8 +47,6 @@ public class PlantLaunchProjectile : CharacterAction
 
     protected override IEnumerator Action()
     {
-        Debug.Log("Throwing bullet");
-
         yield return new WaitForSecondsRealtime(
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
                     );
@@ -77,7 +75,7 @@ public class PlantLaunchProjectile : CharacterAction
         return;
     }
 
-    protected override void UpdateState()
+    /*protected override void UpdateState()
     {
         if (character.characterStateMachine != null)
         {
@@ -87,7 +85,7 @@ public class PlantLaunchProjectile : CharacterAction
                 character.characterStateMachine.ChangeState(Character.CharacterState.Idle);
         }
         return;
-    }
+    }*/
 
     protected Vector3 GetTargetDirection()
     {

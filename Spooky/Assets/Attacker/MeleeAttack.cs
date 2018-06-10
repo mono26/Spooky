@@ -64,7 +64,7 @@ public class MeleeAttack : CharacterAction
         yield break;
     }
 
-    protected override void UpdateState()
+    /*protected override void UpdateState()
     {
         if (character.characterStateMachine != null)
         {
@@ -72,5 +72,5 @@ public class MeleeAttack : CharacterAction
                 character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
         }
         return;
-    }
+    }*/
 }

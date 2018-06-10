@@ -108,7 +108,7 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
 
     protected virtual void Update()
     {
-        Debug.Log(this.gameObject + "Current state: " + characterStateMachine.currentState.ToString());
+        //Debug.Log(this.gameObject + "Current state: " + characterStateMachine.currentState.ToString());
 
         if(characterComponents != null)
         {
@@ -200,6 +200,10 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
     protected void ExecuteAction(bool _cast)
     {
         isExecutingAction = _cast;
+        if (_cast == true)
+            characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
+        else if (_cast == false)
+            characterStateMachine.ChangeState(Character.CharacterState.Idle);
         return;
     }
 
@@ -220,9 +224,15 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
         if (_characterEvent.character.Equals(this) == true)
         {
             if (_characterEvent.type == CharacterEventType.ExecuteAction)
+            {
                 ExecuteAction(true);
+                Debug.Log(this.gameObject + "Starts executing action");
+            }
             if (_characterEvent.type == CharacterEventType.FinishExecute)
+            {
                 ExecuteAction(false);
+                Debug.Log(this.gameObject + "Finishes executing action");
+            }
         }
         return;
     }
