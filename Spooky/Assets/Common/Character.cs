@@ -14,8 +14,8 @@ public class CharacterEvent : SpookyCrowEvent
     }
 }
 
-[RequireComponent(typeof(Animator), typeof(SpriteRenderer), typeof(BoxCollider))]
-[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(AudioSource), typeof(BoxCollider))]
+[RequireComponent(typeof(SpriteRenderer), typeof(Animator))]
 public class Character : MonoBehaviour, EventHandler<CharacterEvent>
 {
     public enum CharacterState { Idle, Moving, ExecutingAction, Dead }

@@ -337,6 +337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 212127656052482734}
+  pivot: {fileID: 4412348325244944}
   updatesPerSecond: 0
 --- !u!114 &114626738942533088
 MonoBehaviour:

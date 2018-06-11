@@ -4,9 +4,12 @@ using UnityEngine;
 [RequireComponent(typeof(SpriteRenderer))]
 public class AutoOrderInLayer : MonoBehaviour
 {
+    protected const string autoOderLayer = "AutoOrderLayer";
+
     [SerializeField]
     protected SpriteRenderer sprite;
-    protected const string autoOderLayer = "AutoOrderLayer";
+    [SerializeField]
+    protected Transform pivot;
     [SerializeField]
     protected float updatesPerSecond = 0;
 
@@ -40,7 +43,7 @@ public class AutoOrderInLayer : MonoBehaviour
     protected void AutoAssignOrderInLayer()
     {
         // We need to invert the value to get proper rendering
-        sprite.sortingOrder = Mathf.RoundToInt(transform.position.z) * -1;
+        sprite.sortingOrder = Mathf.RoundToInt(pivot.position.z) * -1;
         return;
     }
 }
