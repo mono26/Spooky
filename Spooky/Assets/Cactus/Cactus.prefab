@@ -76,8 +76,8 @@ GameObject:
   - component: {fileID: 114209972384654282}
   - component: {fileID: 114724370592547052}
   - component: {fileID: 114432489485747222}
+  - component: {fileID: 114485010099286156}
   - component: {fileID: 114365403290720492}
-  - component: {fileID: 114706493057916398}
   - component: {fileID: 114138654046699236}
   m_Layer: 14
   m_Name: Cactus
@@ -327,7 +327,7 @@ MonoBehaviour:
   characterSprite: {fileID: 212872023094099212}
   characterTransform: {fileID: 4277741192820502}
   characterBody: {fileID: 54209554323802896}
-  currentAction: {fileID: 114706493057916398}
+  currentAction: {fileID: 0}
   reward: 0
 --- !u!114 &114365403290720492
 MonoBehaviour:
@@ -361,7 +361,7 @@ MonoBehaviour:
   detectionTrigger: {fileID: 135128538669506858}
   detectionRange: 1.2
   nearEnemies: []
---- !u!114 &114706493057916398
+--- !u!114 &114485010099286156
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -369,19 +369,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1781781740419936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f33314d6528a5a14ea053e8c5c571023, type: 3}
+  m_Script: {fileID: 11500000, guid: 1318d783c58efda428633516ec60cf5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   actionSfx: {fileID: 8300000, guid: d0a15bd1c5b47724987e65ad29fa88c7, type: 3}
   actionStopsMovement: 1
   actionVfx: {fileID: 0}
-  cooldown: 1
+  cooldown: 0
   delayAfterAnimationIsFinished: 0.15
   needsTargetToExecute: 1
-  nextAction: {fileID: 114706493057916398}
-  range: 0.7
+  nextAction: {fileID: 114485010099286156}
+  range: 0
   target: {fileID: 0}
-  aICharacter: {fileID: 0}
+  aICharacter: {fileID: 114209972384654282}
   meleeCollider: {fileID: 65779217421079530}
 --- !u!114 &114716300293419924
 MonoBehaviour:

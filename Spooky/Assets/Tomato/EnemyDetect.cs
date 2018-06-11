@@ -61,14 +61,14 @@ public class EnemyDetect : CharacterComponent
         return;
     }
 
-    public Character GetFirstEnemyInTheList()
+    protected Character GetFirstEnemyInTheList()
     {
         if (nearEnemies.Count > 0)
             return nearEnemies[0].GetComponent<Character>();
         else return null;
     }
 
-    public bool IsFirstEnemyInTheListActive()
+    protected bool IsFirstEnemyInTheListActive()
     {
         if (GetFirstEnemyInTheList() != null)
         {
@@ -82,6 +82,9 @@ public class EnemyDetect : CharacterComponent
         // Clear the top of the stack if its destroyes, null, or inactive, out of range
         nearEnemies.RemoveAt(0);
         EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetLost, character));
+        if(nearEnemies.Count > 0)
+            EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetAcquired, character, nearEnemies[0].CharacterTransform));
+
         return;
     }
 
