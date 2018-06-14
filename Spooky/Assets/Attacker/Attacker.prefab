@@ -404,10 +404,10 @@ MonoBehaviour:
   characterAudioSource: {fileID: 82896014623796488}
   characterCollider: {fileID: 65213049345834584}
   characterSprite: {fileID: 212606893738521652}
-  characterTransform: {fileID: 4130179145791594}
   characterBody: {fileID: 54612795838928992}
-  currentAction: {fileID: 114885465088569812}
+  startingAction: {fileID: 114885465088569812}
   reward: 7
+  currentAction: {fileID: 114885465088569812}
 --- !u!114 &114684583226181220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -462,7 +462,7 @@ MonoBehaviour:
   nextAction: {fileID: 114885465088569812}
   range: 0.5
   target: {fileID: 0}
-  aICharacter: {fileID: 0}
+  aICharacter: {fileID: 114479542025913182}
   meleeCollider: {fileID: 65770155528111222}
 --- !u!114 &114951604829026382
 MonoBehaviour:

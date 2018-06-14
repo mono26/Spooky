@@ -96,7 +96,7 @@ public class HorizontalAndVerticalMovement : CharacterComponent, EventHandler<Mo
     protected void Move(Vector3 _direction)
     {
         // For moving the Rigidbody in the desired direction
-        Vector3 newPosition = character.CharacterBody.position + character.CharacterTransform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
+        Vector3 newPosition = character.CharacterBody.position + character.transform.TransformDirection(_direction) * currentSpeed * Time.fixedDeltaTime;
         character.CharacterBody.MovePosition(newPosition);
         return;
     }

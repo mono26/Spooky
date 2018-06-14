@@ -163,7 +163,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
             default:
                 break;
         }
-        tempEnemy.CharacterTransform.position = LevelManager.Instance.GetRandomSpawnPoint().position;
+        tempEnemy.transform.position = LevelManager.Instance.GetRandomSpawnPoint().position;
 
         return;
     }

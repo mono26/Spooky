@@ -57,6 +57,17 @@ public class EnemyDetect : CharacterComponent
         {
             if (!IsFirstEnemyInTheListActive())
                 ClearCurrentTarget();
+            SearchForInactiveEnemiesAndClearIt();
+        }
+        return;
+    }
+
+    private void SearchForInactiveEnemiesAndClearIt()
+    {
+        for (int i = 1; i < nearEnemies.Count; i++)
+        {
+            if (nearEnemies[i].gameObject.activeInHierarchy == false)
+                nearEnemies.Remove(nearEnemies[i]);
         }
         return;
     }
@@ -83,7 +94,7 @@ public class EnemyDetect : CharacterComponent
         nearEnemies.RemoveAt(0);
         EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetLost, character));
         if(nearEnemies.Count > 0)
-            EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetAcquired, character, nearEnemies[0].CharacterTransform));
+            EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetAcquired, character, nearEnemies[0].transform));
 
         return;
     }

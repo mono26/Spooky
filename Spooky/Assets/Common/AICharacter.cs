@@ -2,20 +2,26 @@
 
 public class AICharacter : Character, EventHandler<FightCloudEvent>
 {
-    [Header("AI Starting action (Set in editor")]
+    [Header("AI settings")]
     [SerializeField]
-    private CharacterAction currentAction;
-    public CharacterAction CurrentAction { get { return currentAction; } }
+    private CharacterAction startingAction;
     protected CharacterAction[] characterActions;
     [SerializeField]
     protected int reward;
     public int Reward { get { return reward; } }
+
+    [Header("For debugging in editor")]
+    [SerializeField]
+    private CharacterAction currentAction;
+    public CharacterAction CurrentAction { get { return startingAction; } }
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
         EventManager.AddListener<FightCloudEvent>(this);
+
+        currentAction = startingAction;
 
         return;
     }
@@ -31,12 +37,12 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
 
     protected override void Update()
     {
-        if (currentAction != null && currentAction.IsInCooldown() == false)
+        if (startingAction != null && startingAction.IsInCooldown() == false)
         {
-            if (currentAction.IsTargetInRange() && IsExecutingAction == false)
-                StartCoroutine(currentAction.ExecuteAction());
+            if (startingAction.IsTargetInRange() && IsExecutingAction == false)
+                StartCoroutine(startingAction.ExecuteAction());
         }
-        else if (currentAction == null || currentAction.IsInCooldown() == true)
+        else if (startingAction == null || startingAction.IsInCooldown() == true)
         {
             ChangeNonExecutableCurrentAction();
         }
@@ -48,7 +54,7 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
 
     public void ChangeCurrentAction(CharacterAction _newAction)
     {
-        currentAction = _newAction;
+        startingAction = _newAction;
         return;
     }
 

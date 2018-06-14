@@ -29,13 +29,13 @@ public class PlantLaunchProjectile : CharacterAction
     {
         if(target != null)
         {
-            if (target.position.x > character.CharacterTransform.position.x)
+            if (target.position.x > character.transform.position.x)
             {
                 if (!character.IsFacingRightDirection)
                     character.Flip();
             }
             // If it's negative, then we're facing left
-            else if (target.position.x < character.CharacterTransform.position.x)
+            else if (target.position.x < character.transform.position.x)
             {
                 if (character.IsFacingRightDirection)
                     character.Flip();
@@ -92,7 +92,7 @@ public class PlantLaunchProjectile : CharacterAction
         Vector3 _direction = Vector3.zero;
         if (target != null)
         {
-            _direction = (target.position - character.CharacterTransform.position).normalized;
+            _direction = (target.position - character.transform.position).normalized;
             _direction.y = _direction.z;
             _direction.z = 0;
             return _direction;

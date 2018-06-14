@@ -27,13 +27,13 @@ public class MeleeAttack : CharacterAction
     {
         if (target != null)
         {
-            if (target.position.x > character.CharacterTransform.position.x)
+            if (target.position.x > character.transform.position.x)
             {
                 if (!character.IsFacingRightDirection)
                     character.Flip();
             }
             // If it's negative, then we're facing left
-            else if (target.position.x < character.CharacterTransform.position.x)
+            else if (target.position.x < character.transform.position.x)
             {
                 if (character.IsFacingRightDirection)
                     character.Flip();
@@ -50,9 +50,9 @@ public class MeleeAttack : CharacterAction
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length / 2
                     );
 
-        Vector3 directionToTarget = target.position - character.CharacterTransform.position;
+        Vector3 directionToTarget = target.position - character.transform.position;
         directionToTarget = directionToTarget.normalized;
-        meleeCollider.transform.position = character.CharacterTransform.position + directionToTarget * range;
+        meleeCollider.transform.position = character.transform.position + directionToTarget * range;
         meleeCollider.gameObject.SetActive(true);
 
         yield return new WaitForSecondsRealtime(

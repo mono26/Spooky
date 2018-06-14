@@ -325,10 +325,10 @@ MonoBehaviour:
   characterAudioSource: {fileID: 82229242146550408}
   characterCollider: {fileID: 65813893808418904}
   characterSprite: {fileID: 212872023094099212}
-  characterTransform: {fileID: 4277741192820502}
   characterBody: {fileID: 54209554323802896}
-  currentAction: {fileID: 0}
+  startingAction: {fileID: 114485010099286156}
   reward: 0
+  currentAction: {fileID: 114485010099286156}
 --- !u!114 &114365403290720492
 MonoBehaviour:
   m_ObjectHideFlags: 1

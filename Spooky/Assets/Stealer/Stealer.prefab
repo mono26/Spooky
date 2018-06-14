@@ -291,10 +291,10 @@ MonoBehaviour:
   characterAudioSource: {fileID: 82664511168533384}
   characterCollider: {fileID: 65672920112543352}
   characterSprite: {fileID: 212754403025892358}
-  characterTransform: {fileID: 4736818538870156}
   characterBody: {fileID: 54661140622613788}
-  currentAction: {fileID: 114504915973877528}
+  startingAction: {fileID: 114504915973877528}
   reward: 4
+  currentAction: {fileID: 114504915973877528}
 --- !u!114 &114303027106017680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -345,7 +345,7 @@ MonoBehaviour:
   nextAction: {fileID: 114695920916659050}
   range: 0.5
   target: {fileID: 0}
-  aICharacter: {fileID: 0}
+  aICharacter: {fileID: 114214889396143110}
   stealValue: 30
   minStealValue: 13
 --- !u!114 &114530401713927566
@@ -435,7 +435,7 @@ MonoBehaviour:
   nextAction: {fileID: 114504915973877528}
   range: 0.5
   target: {fileID: 0}
-  aICharacter: {fileID: 0}
+  aICharacter: {fileID: 114214889396143110}
 --- !u!114 &114880945779512232
 MonoBehaviour:
   m_ObjectHideFlags: 1

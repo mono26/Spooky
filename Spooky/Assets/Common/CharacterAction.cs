@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class CharacterAction : CharacterComponent, EventHandler<DetectEvent>
 {
-    [Header("ActionSettings")]
+    [Header("Action settings")]
     [SerializeField]
     protected AudioClip actionSfx = null;
     [SerializeField]
@@ -21,7 +21,7 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     [SerializeField]
     protected float range = 0;
 
-    [Header("ActionEditorDebugging")]
+    [Header("Action editor debugging")]
     [SerializeField]
     protected Transform target = null;
     public Transform Target { get { return target; } }
@@ -129,7 +129,7 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
         {
             if (target != null)
             {
-                float distance = Vector3.Distance(character.CharacterTransform.position, target.position);
+                float distance = Vector3.Distance(character.transform.position, target.position);
                 if (distance <= range)
                 {
                     return true;

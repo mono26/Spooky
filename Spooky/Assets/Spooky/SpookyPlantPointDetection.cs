@@ -56,11 +56,11 @@ public class SpookyPlantPointDetection : CharacterComponent
     {
         if (nearPlantPoints.Count > 0)
         {
-            var distance1 = Vector3.SqrMagnitude(character.CharacterTransform.position - nearPlantPoints[0].transform.position);
+            var distance1 = Vector3.SqrMagnitude(character.transform.position - nearPlantPoints[0].transform.position);
             var tempPlantPoint = nearPlantPoints[0];
             for (int plantPoint = 0; plantPoint < nearPlantPoints.Count; plantPoint++)
             {
-                var distance2 = Vector3.SqrMagnitude(character.CharacterTransform.position - nearPlantPoints[plantPoint].transform.position);
+                var distance2 = Vector3.SqrMagnitude(character.transform.position - nearPlantPoints[plantPoint].transform.position);
                 if (distance2 < distance1)
                 {
                     distance1 = distance2;

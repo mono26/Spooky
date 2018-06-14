@@ -52,9 +52,6 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
     private SpriteRenderer characterSprite;
     public SpriteRenderer CharacterSprite { get { return characterSprite; } }
     [SerializeField]
-    private Transform characterTransform;
-    public Transform CharacterTransform { get { return characterTransform; } }
-    [SerializeField]
     private Rigidbody characterBody;
     public Rigidbody CharacterBody { get { return characterBody; } }
 
@@ -74,8 +71,6 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
             characterCollider = GetComponent<BoxCollider>();
         if (characterSprite == null)
             characterSprite = GetComponent<SpriteRenderer>();
-        if (characterTransform == null)
-            characterTransform = GetComponent<Transform>();
 
         characterComponents = GetComponents<CharacterComponent>();
         characterStateMachine = new StateMachine<CharacterState>();
@@ -95,6 +90,8 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
     protected virtual void OnEnable()
     {
         EventManager.AddListener<CharacterEvent>(this);
+
+        isExecutingAction = false;
 
         return;
     }
@@ -189,8 +186,7 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
 
     public void Flip()
     {
-        if (characterSprite != null)
-        {
+        if (characterSprite != null) {
             characterSprite.flipX = !characterSprite.flipX;
         }
         IsFacingRightDirection = !IsFacingRightDirection;
@@ -211,8 +207,7 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
     {
         if(characterID.Equals("Spooky"))
         {
-            if(_collider.CompareTag("EnemyMeleeCollider"))
-            {
+            if(_collider.CompareTag("EnemyMeleeCollider")) {
                 FightCloud.Instance.PrepareFight(this, _collider.GetComponentInParent<Character>());
             }
         }
@@ -223,15 +218,11 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
     {
         if (_characterEvent.character.Equals(this) == true)
         {
-            if (_characterEvent.type == CharacterEventType.ExecuteAction)
-            {
+            if (_characterEvent.type == CharacterEventType.ExecuteAction) {
                 ExecuteAction(true);
-                Debug.Log(this.gameObject + "Starts executing action");
             }
-            if (_characterEvent.type == CharacterEventType.FinishExecute)
-            {
+            if (_characterEvent.type == CharacterEventType.FinishExecute) {
                 ExecuteAction(false);
-                Debug.Log(this.gameObject + "Finishes executing action");
             }
         }
         return;

@@ -284,7 +284,7 @@ MonoBehaviour:
   nextAction: {fileID: 114367486260847284}
   range: 3.5
   target: {fileID: 0}
-  aICharacter: {fileID: 0}
+  aICharacter: {fileID: 114394025943669368}
   launchForce: 5
   shootPoint: {fileID: 4370896873869142}
   bulletPool: {fileID: 114042695106525758}
@@ -307,10 +307,10 @@ MonoBehaviour:
   characterAudioSource: {fileID: 82749211575072668}
   characterCollider: {fileID: 65370332100873500}
   characterSprite: {fileID: 212127656052482734}
-  characterTransform: {fileID: 4412348325244944}
   characterBody: {fileID: 54917296067610420}
-  currentAction: {fileID: 114367486260847284}
+  startingAction: {fileID: 114367486260847284}
   reward: 0
+  currentAction: {fileID: 114367486260847284}
 --- !u!114 &114435877549105584
 MonoBehaviour:
   m_ObjectHideFlags: 1
