@@ -384,7 +384,7 @@ MonoBehaviour:
   MaxYValue: 0
   aICharacter: {fileID: 114479542025913182}
   movementAgent: {fileID: 195831668745865074}
-  pathUpdateRatePerSeconds: 0
+  pathUpdateRatePerSeconds: 1
 --- !u!114 &114479542025913182
 MonoBehaviour:
   m_ObjectHideFlags: 1

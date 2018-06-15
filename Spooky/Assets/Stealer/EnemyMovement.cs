@@ -34,24 +34,26 @@ public class EnemyMovement : HorizontalAndVerticalMovement
 
     protected override void Start()
     {
-        if (character.GetComponent<StatsComponent>())
-        {
-            maxSpeed = character.GetComponent<StatsComponent>().MovementSpeed;
-        }
+        if (character.GetComponent<StatsComponent>()) {
+            maxSpeed = character.GetComponent<StatsComponent>().MovementSpeed; }
 
         slowMotionSpeed = maxSpeed * 0.5f;
         movementAgent.speed = maxSpeed;
 
         base.Start();
+
+        return;
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
 
-        Start();
+        EventManager.AddListener<MovementEvent>(this);
 
         StartCoroutine(ReCalculatePath());
+        movementAgent.speed = maxSpeed;
+        movementAgent.enabled = true;
         isStopped = false;
 
         return;
@@ -61,6 +63,8 @@ public class EnemyMovement : HorizontalAndVerticalMovement
     {
         base.OnDisable();
 
+        EventManager.RemoveListener<MovementEvent>(this);
+
         StopCoroutine(ReCalculatePath());
 
         return;
@@ -68,10 +72,9 @@ public class EnemyMovement : HorizontalAndVerticalMovement
 
     public override void FixedFrame()
     {
-        if (isStopped == true)
-        {
-            StopMovement();
-        }
+        if (isStopped == true) {
+            StopMovement(); }
+
         else if (isStopped == false)
         {
             Vector3 direction = GetMovementDirection();
@@ -90,10 +93,12 @@ public class EnemyMovement : HorizontalAndVerticalMovement
 
     protected IEnumerator ReCalculatePath()
     {
-        if (aICharacter.CurrentAction.Target != null)
+        if(movementAgent.enabled == true)
         {
-            movementAgent.SetDestination(aICharacter.CurrentAction.Target.position);
+            if (aICharacter.CurrentAction.Target != null) {
+                movementAgent.SetDestination(aICharacter.CurrentAction.Target.position); }
         }
+
         yield return new WaitForSeconds(1 / pathUpdateRatePerSeconds);
 
         StartCoroutine(ReCalculatePath());
@@ -113,15 +118,11 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         return Vector3.zero;
     }
 
-    protected override void StopMovement()
-    {
-        base.StopMovement();
-        return;
-    }
-
     protected void StopEnemy(bool _stop)
     {
         isStopped = _stop;
+        movementAgent.enabled = !_stop;
+        movementAgent.velocity = Vector3.zero;
         return;
     }
 

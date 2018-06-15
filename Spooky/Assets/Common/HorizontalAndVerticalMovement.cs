@@ -143,7 +143,7 @@ public class HorizontalAndVerticalMovement : CharacterComponent, EventHandler<Mo
 
     public virtual void OnEvent(MovementEvent _movementEvent)
     {
-        if (_movementEvent.character.Equals(this.character) && _movementEvent.type == MovementEventType.Stop)
+        if (_movementEvent.character.Equals(character) && _movementEvent.type == MovementEventType.Stop)
             StopMovement();
         return;
     }

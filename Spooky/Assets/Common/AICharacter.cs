@@ -54,7 +54,7 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
 
     public void ChangeCurrentAction(CharacterAction _newAction)
     {
-        startingAction = _newAction;
+        currentAction = _newAction;
         return;
     }
 
@@ -76,15 +76,12 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
 
     public virtual void OnEvent(FightCloudEvent _fightCloudEvent)
     {
-        if (CharacterID == "Attacker")
+        if (CharacterID.Equals("Attacker") == true && _fightCloudEvent.enemy.Equals(this) == true)
         {
-            if (_fightCloudEvent.enemy.Equals(this))
-            {
-                if (_fightCloudEvent.type == FightCloudEventType.StartFight)
-                    EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, this));
-                if (_fightCloudEvent.type == FightCloudEventType.EndFight)
-                    EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Move, this));
-            }
+            if (_fightCloudEvent.type == FightCloudEventType.StartFight)
+                EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, this));
+            if (_fightCloudEvent.type == FightCloudEventType.EndFight)
+                EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Move, this));
         }
         return;
     }

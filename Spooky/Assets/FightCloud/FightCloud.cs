@@ -31,6 +31,7 @@ public class FightCloud : SceneSingleton<FightCloud>
 
     private void OnMouseDown()
     {
+        Debug.Log("Pressing FightCloud");
         EndFight();
         return;
     }
@@ -61,11 +62,11 @@ public class FightCloud : SceneSingleton<FightCloud>
     private void EndFight()
     {
         EventManager.TriggerEvent<FightCloudEvent>(new FightCloudEvent(player, enemy, FightCloudEventType.EndFight));
-        gameObject.SetActive(true);
 
         player.gameObject.SetActive(true);
-        if(enemy.GetComponent<Health>())
-            StartCoroutine(enemy.GetComponent<Health>().Kill());
+        Health hasHealthComponent = enemy.GetComponent<Health>();
+        if (hasHealthComponent != null)
+            hasHealthComponent.StartCoroutine(hasHealthComponent.Kill());
 
         player = null;
         enemy = null;
