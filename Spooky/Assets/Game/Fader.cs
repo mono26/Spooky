@@ -46,7 +46,7 @@ public class Fader : MonoBehaviour, EventHandler<FadeEvent>
             t -= Time.unscaledDeltaTime;
             float a = fadeCurve.Evaluate(t);
             blackBackGround.color = new Color(0f, 0f, 0f, a);
-            yield return 0;
+            yield return null;
         }
 
         blackBackGround.gameObject.SetActive(false);
@@ -63,7 +63,7 @@ public class Fader : MonoBehaviour, EventHandler<FadeEvent>
             t += Time.unscaledDeltaTime;
             float a = fadeCurve.Evaluate(t);
             blackBackGround.color = new Color(0f, 0f, 0f, a);
-            yield return 0;
+            yield return null;
         }
 
         blackBackGround.gameObject.SetActive(false);

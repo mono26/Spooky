@@ -132,7 +132,7 @@ public class Health : MonoBehaviour, Damagable
 
             character.characterStateMachine.ChangeState(Character.CharacterState.Dead);
 
-            yield return 0;
+            yield return null;
 
             yield return new WaitForSecondsRealtime(
             character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + 0.15f

@@ -13,7 +13,7 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
     [Header("For debugging in editor")]
     [SerializeField]
     private CharacterAction currentAction;
-    public CharacterAction CurrentAction { get { return startingAction; } }
+    public CharacterAction CurrentAction { get { return currentAction; } }
 
     protected override void OnEnable()
     {
@@ -37,12 +37,12 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
 
     protected override void Update()
     {
-        if (startingAction != null && startingAction.IsInCooldown() == false)
+        if (currentAction != null && currentAction.IsInCooldown() == false)
         {
-            if (startingAction.IsTargetInRange() && IsExecutingAction == false)
-                StartCoroutine(startingAction.ExecuteAction());
+            if (currentAction.IsTargetInRange() && IsExecutingAction == false)
+                StartCoroutine(currentAction.ExecuteAction());
         }
-        else if (startingAction == null || startingAction.IsInCooldown() == true)
+        else if (currentAction == null || currentAction.IsInCooldown() == true)
         {
             ChangeNonExecutableCurrentAction();
         }
@@ -76,7 +76,7 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
 
     public virtual void OnEvent(FightCloudEvent _fightCloudEvent)
     {
-        if (CharacterID.Equals("Attacker") == true && _fightCloudEvent.enemy.Equals(this) == true)
+        if (CharacterID.Equals("Attacker") == true)
         {
             if (_fightCloudEvent.type == FightCloudEventType.StartFight)
                 EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, this));

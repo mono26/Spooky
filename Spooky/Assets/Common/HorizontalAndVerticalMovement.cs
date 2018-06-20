@@ -111,7 +111,7 @@ public class HorizontalAndVerticalMovement : CharacterComponent, EventHandler<Mo
         while (onSloweffect)
         {
             currentSpeed = slowMotionSpeed;
-            yield return 0;
+            yield return null;
         }
 
         currentSpeed = maxSpeed;

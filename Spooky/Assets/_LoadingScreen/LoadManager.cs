@@ -49,7 +49,7 @@ public class LoadManager : MonoBehaviour
         while(loadOperation.progress < 0.9f)
         {
             loadingFill.fillAmount = loadOperation.progress;
-            yield return 0;
+            yield return null;
         }
 
         loadingFill.fillAmount = 1f;

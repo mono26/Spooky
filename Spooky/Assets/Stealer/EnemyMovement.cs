@@ -80,8 +80,6 @@ public class EnemyMovement : HorizontalAndVerticalMovement
             Vector3 direction = GetMovementDirection();
             movementDirection.x = direction.x;
             movementDirection.y = direction.z;
-            /*movementDirection.x = Vector3.Dot(GetComponent<Rigidbody>().transform.right, desiredDirection);
-            movementDirection.z = -Vector3.Cross(GetComponent<Rigidbody>().transform.right, desiredDirection).y;*/
         }
 
         FlipSpriteAccordingToMovement();
@@ -93,10 +91,12 @@ public class EnemyMovement : HorizontalAndVerticalMovement
 
     protected IEnumerator ReCalculatePath()
     {
-        if(movementAgent.enabled == true)
+        if(movementAgent.isStopped == false)
         {
-            if (aICharacter.CurrentAction.Target != null) {
-                movementAgent.SetDestination(aICharacter.CurrentAction.Target.position); }
+            if (aICharacter.CurrentAction.Target != null)
+            {
+                movementAgent.SetDestination(aICharacter.CurrentAction.Target.position);
+            }
         }
 
         yield return new WaitForSeconds(1 / pathUpdateRatePerSeconds);
@@ -121,8 +121,7 @@ public class EnemyMovement : HorizontalAndVerticalMovement
     protected void StopEnemy(bool _stop)
     {
         isStopped = _stop;
-        movementAgent.enabled = !_stop;
-        movementAgent.velocity = Vector3.zero;
+        movementAgent.isStopped = _stop;
         return;
     }
 
@@ -133,9 +132,13 @@ public class EnemyMovement : HorizontalAndVerticalMovement
         if(_movementEvent.character.Equals(character))
         {
             if (_movementEvent.type == MovementEventType.Stop)
+            {
                 StopEnemy(true);
+            }
             else if (_movementEvent.type == MovementEventType.Move)
+            {
                 StopEnemy(false);
+            }
         }
         return;
     }

@@ -34,11 +34,11 @@ public static class EventManager
 
         if (!events.ContainsKey(eventType))
         {
-                    #if EVENTROUTER_THROWEXCEPTIONS
-					throw new ArgumentException( string.Format( "Removing listener \"{0}\", but the event type \"{1}\" isn't registered.", listener, eventType.ToString() ) );
-                    #else
-                        return;
-                    #endif
+            #if EVENTROUTER_THROWEXCEPTIONS
+			throw new ArgumentException( string.Format( "Removing listener \"{0}\", but the event type \"{1}\" isn't registered.", listener, eventType.ToString() ) );
+            #else
+                return;
+            #endif
         }
 
         List<EventHandlerBase> subscriberList = events[typeof(T)];
@@ -64,12 +64,12 @@ public static class EventManager
             }
         }
 
-                #if EVENTROUTER_THROWEXCEPTIONS
-		        if( !listenerFound )
-		        {
-					throw new ArgumentException( string.Format( "Removing listener, but the supplied receiver isn't subscribed to event type \"{0}\".", eventType.ToString() ) );
-		        }
-                #endif
+        #if EVENTROUTER_THROWEXCEPTIONS
+		    if( !listenerFound )
+		    {
+			    throw new ArgumentException( string.Format( "Removing listener, but the supplied receiver isn't subscribed to event type \"{0}\".", eventType.ToString() ) );
+		    }
+        #endif
     }
 
     private static bool SubscriptionExists<T>(Type type, EventHandler<T> receiver) where T : SpookyCrowEvent
@@ -96,11 +96,13 @@ public static class EventManager
     {
         List<EventHandlerBase> list;
         if (!events.TryGetValue(typeof(T), out list))
-        #if EVENTROUTER_REQUIRELISTENER
-			            throw new ArgumentException( string.Format( "Attempting to send event of type \"{0}\", but no listener for this type has been found. Make sure this.Subscribe<{0}>(EventRouter) has been called, or that all listeners to this event haven't been unsubscribed.", typeof( MMEvent ).ToString() ) );
-        #else
-        return;
-        #endif
+        {
+            #if EVENTROUTER_REQUIRELISTENER
+	                    throw new ArgumentException( string.Format( "Attempting to send event of type \"{0}\", but no listener for this type has been found. Make sure this.Subscribe<{0}>(EventRouter) has been called, or that all listeners to this event haven't been unsubscribed.", typeof( MMEvent ).ToString() ) );
+            #else
+                        return;
+            #endif
+        }
 
         for (int i = 0; i < list.Count; i++)
         {

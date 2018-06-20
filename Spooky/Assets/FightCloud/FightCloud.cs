@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public enum FightCloudEventType { StartFight, EndFight }
 
@@ -32,7 +33,7 @@ public class FightCloud : SceneSingleton<FightCloud>
     private void OnMouseDown()
     {
         Debug.Log("Pressing FightCloud");
-        EndFight();
+        StartCoroutine(EndFight());
         return;
     }
 
@@ -59,19 +60,24 @@ public class FightCloud : SceneSingleton<FightCloud>
         return;
     }
 
-    private void EndFight()
+    private IEnumerator EndFight()
     {
         EventManager.TriggerEvent<FightCloudEvent>(new FightCloudEvent(player, enemy, FightCloudEventType.EndFight));
 
         player.gameObject.SetActive(true);
+        enemy.gameObject.SetActive(true);
+        yield return null;
+
         Health hasHealthComponent = enemy.GetComponent<Health>();
         if (hasHealthComponent != null)
+        {
             hasHealthComponent.StartCoroutine(hasHealthComponent.Kill());
+        }
 
         player = null;
         enemy = null;
 
         gameObject.SetActive(false);
-        return;
+        yield break;
     }
 }

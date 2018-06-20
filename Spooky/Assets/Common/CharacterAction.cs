@@ -82,13 +82,13 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
                 EventManager.TriggerEvent<MovementEvent>(new MovementEvent(MovementEventType.Stop, character));
 
             EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.ExecuteAction, character));
-            yield return 0;
+            yield return null;
 
             yield return Action();
 
             EventManager.TriggerEvent(new CharacterEvent(CharacterEventType.FinishExecute, character));
             SetLasActionExecuteToActualTimeInLevel();
-            yield return 0;
+            yield return null;
 
             SetNextActionInCharacter();
 
@@ -156,7 +156,6 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
             else
                 aICharacter.ChangeCurrentAction(null);
         }
-
         return;
     }
 
