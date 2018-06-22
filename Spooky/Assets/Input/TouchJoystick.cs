@@ -75,6 +75,7 @@ public class TouchJoystick : MonoBehaviour, IDragHandler, IEndDragHandler
             newTargetPosition = eventData.position;
         }
 
+        newTargetPosition.y = initialYPosition;
         newTargetPosition = Vector3.ClampMagnitude(newTargetPosition - joystick.position, MaxRange);
 
         joystickValue.x = EvaluateInputValue(newTargetPosition.x);

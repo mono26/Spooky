@@ -131,7 +131,6 @@ public class Health : MonoBehaviour, Damagable
             EventManager.TriggerEvent<CharacterEvent>(new CharacterEvent(CharacterEventType.Death, character));
 
             character.characterStateMachine.ChangeState(Character.CharacterState.Dead);
-
             yield return null;
 
             yield return new WaitForSecondsRealtime(

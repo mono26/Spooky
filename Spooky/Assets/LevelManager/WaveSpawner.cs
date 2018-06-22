@@ -128,6 +128,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
         int numberOfSpawns = currentMaxNumberOfEnemiesLeft;
         EventManager.TriggerEvent<GameEvent>(new GameEvent(GameEventTypes.SpawnStart));
 
+        //TODO spawn per enemy number, not total.
         while (numberOfSpawns > 0)
         {
             for (int i = 0; i < enemiesToSpawn.Length; i++)

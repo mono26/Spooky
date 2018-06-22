@@ -37,17 +37,20 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
 
     protected override void Update()
     {
-        if (currentAction != null && currentAction.IsInCooldown() == false)
+        if(characterStateMachine.CurrentState != CharacterState.Dead)
         {
-            if (currentAction.IsTargetInRange() && IsExecutingAction == false)
-                StartCoroutine(currentAction.ExecuteAction());
-        }
-        else if (currentAction == null || currentAction.IsInCooldown() == true)
-        {
-            ChangeNonExecutableCurrentAction();
-        }
+            if (currentAction != null && currentAction.IsInCooldown() == false)
+            {
+                if (currentAction.IsTargetInRange() && IsExecutingAction == false)
+                    StartCoroutine(currentAction.ExecuteAction());
+            }
+            else if (currentAction == null || currentAction.IsInCooldown() == true)
+            {
+                ChangeNonExecutableCurrentAction();
+            }
 
-        base.Update();
+            base.Update();
+        }
 
         return;
     }

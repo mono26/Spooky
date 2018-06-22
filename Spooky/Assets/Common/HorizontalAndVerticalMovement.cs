@@ -127,7 +127,7 @@ public class HorizontalAndVerticalMovement : CharacterComponent, EventHandler<Mo
 
     protected override void UpdateState()
     {
-        if (character.characterStateMachine != null)
+        if(character.IsExecutingAction == false && character.characterStateMachine != null)
         {
             if (movementDirection.Equals(Vector3.zero))
             {
@@ -138,7 +138,8 @@ public class HorizontalAndVerticalMovement : CharacterComponent, EventHandler<Mo
                 character.characterStateMachine.ChangeState(Character.CharacterState.Moving);
             }
         }
-        else return;
+
+        return;
     }
 
     public virtual void OnEvent(MovementEvent _movementEvent)

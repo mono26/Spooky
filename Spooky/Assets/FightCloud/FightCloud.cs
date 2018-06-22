@@ -66,7 +66,7 @@ public class FightCloud : SceneSingleton<FightCloud>
 
         player.gameObject.SetActive(true);
         enemy.gameObject.SetActive(true);
-        yield return null;
+        //yield return null;
 
         Health hasHealthComponent = enemy.GetComponent<Health>();
         if (hasHealthComponent != null)

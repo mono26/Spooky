@@ -92,6 +92,17 @@ public class SpookyAttack : CharacterComponent
         return;
     }
 
+    private void CreateCurrentBullet()
+    {
+        if (Time.timeSinceLevelLoad > lastShoot + cooldown && actualBullet == null)
+        {
+            actualBullet = bulletPool.GetObjectFromPool().GetComponent<SpookyBullet>();
+            actualBullet.transform.position = shootPoint.position;
+            actualBullet.gameObject.SetActive(true);
+        }
+        return;
+    }
+
     private void RotateActualBulleTowardsDirection(Vector3 _direction)
     {
         float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
@@ -102,17 +113,6 @@ public class SpookyAttack : CharacterComponent
             Mathf.Abs(delta)
             );
         actualBullet.transform.position = shootPoint.position;
-        return;
-    }
-
-    private void CreateCurrentBullet()
-    {
-        if(Time.timeSinceLevelLoad > lastShoot + cooldown && actualBullet == null)
-        {
-            actualBullet = bulletPool.GetObjectFromPool().GetComponent<SpookyBullet>();
-            actualBullet.transform.position = shootPoint.position;
-            actualBullet.gameObject.SetActive(true);
-        }
         return;
     }
 

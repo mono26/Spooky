@@ -91,6 +91,7 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
     {
         EventManager.AddListener<CharacterEvent>(this);
 
+        characterStateMachine.ChangeState(CharacterState.Idle);
         isExecutingAction = false;
 
         return;
