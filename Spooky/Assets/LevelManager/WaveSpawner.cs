@@ -135,7 +135,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
             {
                 if(enemiesToSpawn[i] > 0)
                 {
-                    SpawnEnemy(enemies[i].CharacterID, enemiesToSpawn[i]);
+                    SpawnEnemy(enemies[i].CharacterID);
                     enemiesToSpawn[i]--;
                     numberOfSpawns--;
                 }
@@ -148,7 +148,7 @@ public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEv
         yield break;
     }
 
-    private void SpawnEnemy(string _enemyID, int _enemiesLeft)
+    private void SpawnEnemy(string _enemyID)
     {
         Character tempEnemy = null;
         switch (_enemyID)
