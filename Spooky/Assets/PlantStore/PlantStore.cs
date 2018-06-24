@@ -36,15 +36,15 @@ public class PlantStore : MonoBehaviour
     }
 
     //Metodos para el manejo de los plantpoints y la UI
-    public void ActivatePlantUI(Plantpoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
+    public void ActivatePlantUI(Plantpoint plantPoint)
     {
-        DeselectCurrentActivePlantpointWithPlant();
+        DeselectCurrentActiveEmptyPlantpoint();
         currentActivePlantPoint = plantPoint;
         SetCurrentActivePlantPoint(currentActivePlantPoint);
         return;
     }
 
-    public void ActivateBuildUI(Plantpoint plantPoint)     //Metodo que se llamara cada vez que el jugador haga click sobre un plant point.
+    public void ActivateBuildUI(Plantpoint plantPoint)
     {
         DeselectCurrentActivePlantpointWithPlant();
         currentActivePlantPoint = plantPoint;
@@ -97,26 +97,22 @@ public class PlantStore : MonoBehaviour
         if (LevelManager.Instance.CurrentMoney >= bluePrint.price)
         {
             currentActivePlantPoint.BuildPlant(bluePrint);
-            //SoundHandler.Instance.PlayClip(uiSounds[0]);
-            //SoundHandler.Instance.PlayClip(uiSounds[1]);
             HideBuildUI();
             SetCurrentActivePlantPoint(currentActivePlantPoint);
         }
-        else return;
+        return;
     }
     public void UpgradeCurrentActivePlantInPlantpoint()
     {
         if (LevelManager.Instance.CurrentMoney > currentActivePlantPoint.CurrentBlueprint.upgradePrice)
         {
             currentActivePlantPoint.UpgradePlant();
-            //SoundHandler.Instance.PlayClip(uiSounds[0]);
         }
-        else return;
+        return;
     }
     public void SellPlantInCurrentActivePlantpoint()
     {
         currentActivePlantPoint.SellPlant();
-        //SoundHandler.Instance.PlayClip(uiSounds[0]);
-        DeselectCurrentActivePlantpointWithPlant();
+        return;
     }
 }

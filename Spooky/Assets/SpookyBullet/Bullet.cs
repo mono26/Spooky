@@ -4,6 +4,7 @@
 [RequireComponent(typeof(SpriteRenderer))]
 public class Bullet : PoolableObject
 {
+    [Header("Settings")]
     [SerializeField]
     protected float bulletDamage;
     [SerializeField]
@@ -68,22 +69,13 @@ public class Bullet : PoolableObject
         return;
     }
 
-    private void CreateVisualEffect(GameObject _effect)
-    {
-        if (_effect != null)
-        {
-            Instantiate(_effect, transform.position, transform.rotation);
-        }
-        return;
-    }
-
     protected virtual void OnCollisionEnter(Collision _collision)
     {
         foreach(string tag in damageComponent.DamageTags)
         {
             if (_collision.gameObject.CompareTag(tag))
             {
-                CreateVisualEffect(hitVfx);
+                VisualEffects.CreateVisualEffect(hitVfx, transform);
                 poolable.Release();
                 return;
             }

@@ -3,6 +3,12 @@
 [RequireComponent(typeof(AudioSource))]
 public class Plantpoint : MonoBehaviour
 {
+    [Header("Visual Effects")]
+    [SerializeField]
+    protected GameObject buyVfx;
+    [SerializeField]
+    protected GameObject upgradeVfx;
+
     [Header("Sounds")]
     [SerializeField]
     protected AudioClip buySound;
@@ -11,7 +17,7 @@ public class Plantpoint : MonoBehaviour
     [SerializeField]
     protected AudioClip upgradeSound;
 
-    [Header("Plantpoint info (For debugging only")]
+    [Header("Editor debugging")]
     [SerializeField]
     protected PlantBlueprint currentBlueprint;
     public PlantBlueprint CurrentBlueprint { get { return currentBlueprint; } }
@@ -30,7 +36,7 @@ public class Plantpoint : MonoBehaviour
         return;
     }
 
-    public void BuildPlant(PlantBlueprint blueprint)       //Luego de que se tenga una planta seleccionada cuando se escoja un nodo se construira ahi
+    public void BuildPlant(PlantBlueprint blueprint)
     {
         LevelManager.Instance.TakeMoney(blueprint.price);
         LevelUIManager.Instance.UpdateMoneyDisplay();
@@ -40,6 +46,9 @@ public class Plantpoint : MonoBehaviour
 
         currentPlant = Instantiate(blueprint.plant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
         currentBlueprint = blueprint;
+        //PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
+
+        VisualEffects.CreateVisualEffect(buyVfx, transform);
 
         return;
     }
@@ -77,8 +86,9 @@ public class Plantpoint : MonoBehaviour
 
         currentPlant = Instantiate(currentBlueprint.upgradePlant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
         isUpgraded = true;
-        currentPlant.transform.position = transform.position;
         PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
+
+        VisualEffects.CreateVisualEffect(upgradeVfx, transform);
 
         return;
     }

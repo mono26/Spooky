@@ -110,15 +110,6 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
         return;
     }
 
-    protected virtual void PlayActionVfxEffect()
-    {
-        if (actionVfx != null)
-        {
-            Instantiate(actionVfx, transform.position, transform.rotation);
-        }
-        return;
-    }
-
     protected void SetLasActionExecuteToActualTimeInLevel()
     {
         lastExecute = Time.timeSinceLevelLoad;

@@ -218,6 +218,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32a972191d7a58b4396cc23c33c5bf0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buyVfx: {fileID: 1910999814393544, guid: ba01715cbcf4d4040919c9cea1f25df2, type: 2}
+  upgradeVfx: {fileID: 1910999814393544, guid: ba01715cbcf4d4040919c9cea1f25df2, type: 2}
   buySound: {fileID: 8300000, guid: 53782620ab11db14a88cc1c82b523730, type: 3}
   sellSound: {fileID: 8300000, guid: 40a283e1ed0692440b4b0558ff6ff1c4, type: 3}
   upgradeSound: {fileID: 8300000, guid: 08d8097620c66b2448b3486a1d0b7550, type: 3}

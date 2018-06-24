@@ -20,7 +20,7 @@ public class StealCorn : CharacterAction
 
     protected override IEnumerator Action()
     {
-        PlayActionVfxEffect();
+        VisualEffects.CreateVisualEffect(actionVfx, character.transform);
 
         yield return new WaitForSecondsRealtime(
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
@@ -30,17 +30,4 @@ public class StealCorn : CharacterAction
 
         yield break;
     }
-
-    /*protected override void UpdateState()
-    {
-        if (character.characterStateMachine != null)
-        {
-            if (character.IsExecutingAction == true)
-            {
-                character.characterStateMachine.ChangeState(Character.CharacterState.ExecutingAction);
-
-            }
-        }
-        return;
-    }*/
 }

@@ -61,7 +61,7 @@ public class Health : MonoBehaviour, Damagable
         StartCoroutine(ToggleHealthBar());
         currentHealth -= _damage;
 
-        CreateVisualEffect(damageVfx);
+        VisualEffects.CreateVisualEffect(damageVfx, transform);
         PlayHitSfx();
 
         currentHealth = Mathf.Max(0, currentHealth);
@@ -94,18 +94,9 @@ public class Health : MonoBehaviour, Damagable
         return;
     }
 
-    private void CreateVisualEffect(GameObject _effect)
-    {
-        if(_effect != null)
-        {
-            Instantiate(_effect, transform.position, transform.rotation);
-        }
-        return;
-    }
-
     public IEnumerator Kill()
     {
-        CreateVisualEffect(deathVfx);
+        VisualEffects.CreateVisualEffect(deathVfx, transform);
         PoolableObject poolableCharacter = GetComponent<PoolableObject>();
         if (poolableCharacter != null)
         {
