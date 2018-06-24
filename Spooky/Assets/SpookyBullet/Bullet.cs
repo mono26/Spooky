@@ -4,6 +4,11 @@
 [RequireComponent(typeof(SpriteRenderer))]
 public class Bullet : PoolableObject
 {
+    [SerializeField]
+    protected float bulletDamage;
+    [SerializeField]
+    protected GameObject hitVfx;
+
     protected BoxCollider bulletCollider;
     public BoxCollider BulletCollider { get { return bulletCollider; } }
     protected Rigidbody bulletBody;
@@ -15,8 +20,6 @@ public class Bullet : PoolableObject
 
     protected PoolableObject poolable;
 
-    [SerializeField]
-    protected float bulletDamage;
     private float bulletLaunchTime;
 
     protected virtual void Awake()
@@ -65,12 +68,22 @@ public class Bullet : PoolableObject
         return;
     }
 
+    private void CreateVisualEffect(GameObject _effect)
+    {
+        if (_effect != null)
+        {
+            Instantiate(_effect, transform.position, transform.rotation);
+        }
+        return;
+    }
+
     protected virtual void OnCollisionEnter(Collision _collision)
     {
         foreach(string tag in damageComponent.DamageTags)
         {
             if (_collision.gameObject.CompareTag(tag))
             {
+                CreateVisualEffect(hitVfx);
                 poolable.Release();
                 return;
             }

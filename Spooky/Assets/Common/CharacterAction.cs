@@ -21,13 +21,15 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
     [SerializeField]
     protected float range = 0;
 
-    [Header("Action editor debugging")]
-    [SerializeField]
-    protected Transform target = null;
-    public Transform Target { get { return target; } }
+    [Header("Editor debugging")]
     [SerializeField]
     protected AICharacter aICharacter = null;
     protected float lastExecute;
+    [SerializeField]
+    protected Vector3 lastTargetPosition;
+    [SerializeField]
+    protected Transform target = null;
+    public Transform Target { get { return target; } }
 
     protected override void Awake()
     {
@@ -166,6 +168,38 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
         else return true;
     }
 
+    private void SetLastPositionOfTarget(Vector3 _position)
+    {
+        lastTargetPosition = _position;
+        return;
+    }
+
+    protected Vector3 GetTargetDirection()
+    {
+        Vector3 _direction = Vector3.zero;
+        if (target != null)
+        {
+            _direction = (target.position - character.transform.position).normalized;
+            _direction.y = _direction.z;
+            _direction.z = 0;
+        }
+
+        return _direction;
+    }
+
+    protected Vector3 GetTargetDirection(Vector3 _position)
+    {
+        Vector3 _direction = Vector3.zero;
+        if (target != null)
+        {
+            _direction = (_position - character.transform.position).normalized;
+            _direction.y = _direction.z;
+            _direction.z = 0;
+        }
+
+        return _direction;
+    }
+
     public void OnEvent(DetectEvent _detectEvent)
     {
         if (_detectEvent.character.Equals(character))
@@ -177,6 +211,7 @@ public abstract class CharacterAction : CharacterComponent, EventHandler<DetectE
             else if (_detectEvent.type == DetectEventType.TargetLost)
             {
                 SetTarget(null);
+                SetLastPositionOfTarget(_detectEvent.target.position);
             }
             return;
         }

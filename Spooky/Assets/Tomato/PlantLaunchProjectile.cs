@@ -53,7 +53,12 @@ public class PlantLaunchProjectile : CharacterAction
 
         actualBullet = bulletPool.GetObjectFromPool().GetComponent<Bullet>();
         actualBullet.gameObject.SetActive(true);
-        RotateActualBulleTowardsDirection(GetTargetDirection());
+
+        if (target != null)
+            RotateActualBulleTowardsDirection(GetTargetDirection());
+        else
+            RotateActualBulleTowardsDirection(GetTargetDirection(lastTargetPosition));
+
         actualBullet.Launch(launchForce);
         actualBullet = null;
 
@@ -86,17 +91,4 @@ public class PlantLaunchProjectile : CharacterAction
         }
         return;
     }*/
-
-    protected Vector3 GetTargetDirection()
-    {
-        Vector3 _direction = Vector3.zero;
-        if (target != null)
-        {
-            _direction = (target.position - character.transform.position).normalized;
-            _direction.y = _direction.z;
-            _direction.z = 0;
-            return _direction;
-        }
-        else return _direction;
-    }
 }

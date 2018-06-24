@@ -50,8 +50,12 @@ public class MeleeAttack : CharacterAction
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length / 2
                     );
 
-        Vector3 directionToTarget = target.position - character.transform.position;
-        directionToTarget = directionToTarget.normalized;
+        Vector3 directionToTarget;
+        if (target != null)
+            directionToTarget = GetTargetDirection();
+        else
+            directionToTarget = GetTargetDirection(lastTargetPosition);
+
         meleeCollider.transform.position = character.transform.position + directionToTarget * range;
         meleeCollider.gameObject.SetActive(true);
 

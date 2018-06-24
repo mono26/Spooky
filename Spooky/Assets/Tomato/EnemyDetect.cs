@@ -19,14 +19,15 @@ public class DetectEvent : SpookyCrowEvent
 
 public class EnemyDetect : CharacterComponent
 {
+    [Header("Settings")]
     [SerializeField]
     protected SphereCollider detectionTrigger;
-
     [SerializeField]
     [Range(0.7f, 5f)]
     protected float detectionRange;
     public float DetectionRange { get { return detectionRange; } }
 
+    [Header("Editor debugging.")]
     [SerializeField]
     protected List<Character> nearEnemies = null;
 
@@ -91,8 +92,8 @@ public class EnemyDetect : CharacterComponent
     private void ClearCurrentTarget()
     {
         // Clear the top of the stack if its destroyes, null, or inactive, out of range
+        EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetLost, character, nearEnemies[0].transform));
         nearEnemies.RemoveAt(0);
-        EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetLost, character));
         if(nearEnemies.Count > 0)
             EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetAcquired, character, nearEnemies[0].transform));
 
@@ -139,7 +140,9 @@ public class EnemyDetect : CharacterComponent
         {
             RemoveEnemyFromTheList(_collider.GetComponent<Character>());
             if(nearEnemies.Count == 0)
-                EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetLost, character));
+            {
+                EventManager.TriggerEvent<DetectEvent>(new DetectEvent(DetectEventType.TargetLost, character, _collider.transform));
+            }
             return;
         }
         else return;
