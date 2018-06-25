@@ -21,6 +21,9 @@ public class Health : MonoBehaviour, Damagable
     [SerializeField]
     private GameObject deathVfx;
 
+    [Header("Possible drop")]
+    [SerializeField]
+    private GameObject drop;
 
     [SerializeField]
     private float currentHealth;
@@ -128,6 +131,12 @@ public class Health : MonoBehaviour, Damagable
             character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + 0.15f
             );
         }
+
+        if(drop != null)
+        {
+            Instantiate(drop, transform.position, transform.rotation);
+        }
+
         yield break;
     }
 

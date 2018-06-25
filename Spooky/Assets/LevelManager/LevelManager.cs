@@ -157,4 +157,11 @@ public class LevelManager : SceneSingleton<LevelManager>
         }
         return;
     }
+
+    public void GiveCrop(int _gain)
+    {
+        CurrentCrop += _gain;
+        EventManager.TriggerEvent<GameEvent>(new GameEvent(GameEventTypes.CropSteal));
+        return;
+    }
 }

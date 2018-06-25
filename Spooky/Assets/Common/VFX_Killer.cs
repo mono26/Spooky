@@ -38,9 +38,9 @@ public class VFX_Killer : MonoBehaviour
 
     protected virtual void Update()
     {
-        if ((destroyDelay != 0) && (Time.timeSinceLevelLoad - startTime > destroyDelay))
+        if ((destroyDelay != 0) && (Time.timeSinceLevelLoad - startTime < destroyDelay))
         {
-            DestroyParticleSystem();
+            return;
         }
 
         if(isTheParticleAAnimation == true && animationParticle != null)
@@ -56,7 +56,6 @@ public class VFX_Killer : MonoBehaviour
             {
                 return;
             }
-
         }
 
         DestroyParticleSystem();
