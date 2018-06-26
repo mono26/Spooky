@@ -17,6 +17,8 @@ public class CornBag : MonoBehaviour
             Instantiate(pickVfx, transform.position, transform.rotation);
         }
 
+        Destroy(gameObject, 0.5f);
+
         return;
     }
 
@@ -32,5 +34,6 @@ public class CornBag : MonoBehaviour
         {
             Pick(_collider.gameObject);
         }
+        return;
     }
 }
