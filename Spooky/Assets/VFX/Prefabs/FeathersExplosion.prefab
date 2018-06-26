@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7f34bbc71d1fa4e981dc7412c4b1a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyDelay: 5
+  destroyDelay: 0.42
   isTheParticleAAnimation: 0
   particle: {fileID: 198820272336147268}
   animationParticle: {fileID: 0}
@@ -124,7 +124,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.4
+      scalar: 0.42
       minScalar: 5
       maxCurve:
         serializedVersion: 2

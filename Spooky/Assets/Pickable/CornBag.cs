@@ -28,7 +28,7 @@ public class CornBag : MonoBehaviour
 
     protected void OnTriggerEnter(Collider _collider)
     {
-        if(_collider.CompareTag("Spooky"))
+        if(_collider.CompareTag("Spooky") == true)
         {
             Pick(_collider.gameObject);
         }

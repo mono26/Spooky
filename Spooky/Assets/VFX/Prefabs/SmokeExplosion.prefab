@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f7f34bbc71d1fa4e981dc7412c4b1a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyDelay: 5
+  destroyDelay: 0.55
   isTheParticleAAnimation: 1
   particle: {fileID: 0}
   animationParticle: {fileID: 95551874538643816}
