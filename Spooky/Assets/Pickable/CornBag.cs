@@ -30,6 +30,7 @@ public class CornBag : MonoBehaviour
     {
         if(_collider.CompareTag("Spooky") == true)
         {
+            Debug.Log("Here i am");
             Pick(_collider.gameObject);
         }
     }
