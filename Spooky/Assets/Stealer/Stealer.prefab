@@ -312,6 +312,7 @@ MonoBehaviour:
   damageVfx: {fileID: 1320086511984004, guid: b7cfccd1143dc4169a4c65fa9d55e6db, type: 2}
   damageSfx: {fileID: 8300000, guid: 7f1848e2854726445b9a9f4f51c774a6, type: 3}
   deathVfx: {fileID: 1173178007429090, guid: ecef2f77ba96e2a4588c2d1b074785bd, type: 2}
+  drop: {fileID: 114955802031997224, guid: 4851064e081f6b14bbb5a6c7d0be20d9, type: 2}
   currentHealth: 0
 --- !u!114 &114411158048508160
 MonoBehaviour:
@@ -344,8 +345,9 @@ MonoBehaviour:
   needsTargetToExecute: 1
   nextAction: {fileID: 114695920916659050}
   range: 0.5
-  target: {fileID: 0}
   aICharacter: {fileID: 114214889396143110}
+  lastTargetPosition: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
   stealValue: 30
   minStealValue: 13
 --- !u!114 &114530401713927566
@@ -434,8 +436,9 @@ MonoBehaviour:
   needsTargetToExecute: 1
   nextAction: {fileID: 114504915973877528}
   range: 0.5
-  target: {fileID: 0}
   aICharacter: {fileID: 114214889396143110}
+  lastTargetPosition: {x: 0, y: 0, z: 0}
+  target: {fileID: 0}
 --- !u!114 &114880945779512232
 MonoBehaviour:
   m_ObjectHideFlags: 1

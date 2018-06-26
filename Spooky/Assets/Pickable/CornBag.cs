@@ -20,6 +20,12 @@ public class CornBag : MonoBehaviour
         return;
     }
 
+    public void InitializePicakble(int _cornValue)
+    {
+        _cornGain = _cornValue;
+        return;
+    }
+
     protected void OnTriggerEnter(Collider _collider)
     {
         if(_collider.CompareTag("Spooky"))

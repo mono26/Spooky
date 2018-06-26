@@ -97,6 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2661c2bd58620b49a4f4d12f671f40d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cornGain: 0
+  pickVfx: {fileID: 0}
 --- !u!212 &212329982687177552
 SpriteRenderer:
   m_ObjectHideFlags: 1

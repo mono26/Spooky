@@ -23,7 +23,7 @@ public class Health : MonoBehaviour, Damagable
 
     [Header("Possible drop")]
     [SerializeField]
-    private GameObject drop;
+    private CornBag drop;
 
     [SerializeField]
     private float currentHealth;
@@ -103,7 +103,6 @@ public class Health : MonoBehaviour, Damagable
         PoolableObject poolableCharacter = GetComponent<PoolableObject>();
         if (poolableCharacter != null)
         {
-            // Start poolable death.
             yield return CharacterDeath();
 
             poolableCharacter.Release();
@@ -130,11 +129,14 @@ public class Health : MonoBehaviour, Damagable
             yield return new WaitForSecondsRealtime(
             character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + 0.15f
             );
-        }
 
-        if(drop != null)
-        {
-            Instantiate(drop, transform.position, transform.rotation);
+            if (drop != null)
+            {
+                AICharacter isAICharacter = character as AICharacter;
+                if (isAICharacter != null)
+                    drop.InitializePicakble(isAICharacter.Reward);
+                Instantiate(drop, transform.position, transform.rotation);
+            }
         }
 
         yield break;
