@@ -39,7 +39,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1816369456855592
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,8 +143,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.7, y: 0.7, z: 0.5}
-  m_Center: {x: 0, y: 0, z: -0.25}
+  m_Size: {x: 0.64340234, y: 0.8, z: 0.5}
+  m_Center: {x: 0.07829881, y: 8.4703295e-22, z: -0.25}
 --- !u!82 &82664511168533384
 AudioSource:
   m_ObjectHideFlags: 1
@@ -348,7 +348,8 @@ MonoBehaviour:
   aICharacter: {fileID: 114214889396143110}
   lastTargetPosition: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
-  stealValue: 30
+  drop: {fileID: 114441045924770308, guid: c9302eb667bc99b4d9638da44061b95d, type: 2}
+  maxStealValue: 30
   minStealValue: 13
 --- !u!114 &114530401713927566
 MonoBehaviour:

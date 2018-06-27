@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 65660780011538774}
   - component: {fileID: 114441045924770308}
   - component: {fileID: 114238018752194036}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: CornBag
   m_TagString: Untagged
   m_Icon: {fileID: 0}

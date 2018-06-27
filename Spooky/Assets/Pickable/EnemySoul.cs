@@ -1,14 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class CornBag : Pickable
+public class EnemySoul : Pickable
 {
     [Header("CornBag Settings")]
     [SerializeField]
-    protected int _cornGain;
+    protected int _moneyGain;
 
     protected override void Pick(GameObject _whoPicks)
     {
-        LevelManager.Instance.GiveCrop(_cornGain);
+        LevelManager.Instance.GiveCrop(_moneyGain);
 
         base.Pick(_whoPicks);
 
@@ -17,7 +19,7 @@ public class CornBag : Pickable
 
     public override void InitializePickableValue(int _value)
     {
-        _cornGain = _value;
+        _moneyGain = _value;
 
         return;
     }

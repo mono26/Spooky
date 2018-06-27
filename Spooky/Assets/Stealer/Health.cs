@@ -134,8 +134,10 @@ public class Health : MonoBehaviour, Damagable
             {
                 AICharacter isAICharacter = character as AICharacter;
                 if (isAICharacter != null)
-                    drop.InitializePicakble(isAICharacter.Reward);
-                Instantiate(drop, transform.position, transform.rotation);
+                {
+                    Pickable _drop = Instantiate(drop, transform.position, transform.rotation);
+                    _drop.InitializePickableValue(isAICharacter.Reward);
+                }
             }
         }
 

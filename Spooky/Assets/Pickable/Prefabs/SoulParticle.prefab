@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 198765149770495952}
   - component: {fileID: 114955802031997224}
   - component: {fileID: 114114236602314868}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: SoulParticle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

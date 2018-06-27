@@ -7,15 +7,15 @@ public static class ExtensionMethods
         if (_animator.HasParameterOfType(_parameter, _type))
         {
             _animator.SetBool(_parameter, _value);
-            return;
         }
-        else return;
+
+        return;
     }
 
-    public static bool HasParameterOfType(this Animator self, string name, AnimatorControllerParameterType type)
+    public static bool HasParameterOfType(this Animator _animator, string name, AnimatorControllerParameterType type)
     {
         if (name == null || name == "") { return false; }
-        AnimatorControllerParameter[] parameters = self.parameters;
+        AnimatorControllerParameter[] parameters = _animator.parameters;
         foreach (AnimatorControllerParameter currParam in parameters)
         {
             if (currParam.type == type && currParam.name == name)
