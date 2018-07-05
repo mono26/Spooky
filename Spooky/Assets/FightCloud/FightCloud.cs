@@ -17,7 +17,7 @@ public class FightCloudEvent : SpookyCrowEvent
     }
 }
 
-public class FightCloud : SceneSingleton<FightCloud>
+public class FightCloud : Singleton<FightCloud>
 {
     [SerializeField]
     private Character player;

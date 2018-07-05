@@ -480,18 +480,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 37972706}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 337457956}
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &37972706
@@ -771,6 +760,7 @@ GameObject:
   - component: {fileID: 88914828}
   - component: {fileID: 88914827}
   - component: {fileID: 88914826}
+  - component: {fileID: 88914829}
   m_Layer: 5
   m_Name: Play
   m_TagString: Untagged
@@ -793,8 +783,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 216.69998, y: -59.65}
-  m_SizeDelta: {x: 144.46666, y: 119.3}
+  m_AnchoredPosition: {x: 355.95, y: -109.65}
+  m_SizeDelta: {x: 237.3, y: 219.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &88914826
 MonoBehaviour:
@@ -835,9 +825,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 337457955}
-        m_MethodName: PauseLevel
-        m_Mode: 1
+      - m_Target: {fileID: 88914829}
+        m_MethodName: PauseButtonAction
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -881,6 +871,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 88914824}
+--- !u!114 &88914829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 88914824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f39eca49cb6f8e418124e9bc89b88fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &98876256
 GameObject:
   m_ObjectHideFlags: 0
@@ -1741,7 +1742,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1311179709}
-  - {fileID: 1702058146}
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 180, y: -180, z: 180}
@@ -2453,11 +2453,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1151435159}
   m_Script: {fileID: 11500000, guid: fc64ca53909f5f64794826ca8499ae3d, type: 3}
---- !u!1 &337457956 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1736335610250038, guid: 4e94e55878801ef41818bb34863e29c7,
-    type: 2}
-  m_PrefabInternal: {fileID: 1151435159}
 --- !u!1001 &370286827
 Prefab:
   m_ObjectHideFlags: 0
@@ -3913,6 +3908,7 @@ GameObject:
   - component: {fileID: 646623232}
   - component: {fileID: 646623231}
   - component: {fileID: 646623230}
+  - component: {fileID: 646623233}
   m_Layer: 5
   m_Name: PauseButton
   m_TagString: Untagged
@@ -3977,16 +3973,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 337457955}
-        m_MethodName: PauseLevel
-        m_Mode: 1
+      - m_Target: {fileID: 646623233}
+        m_MethodName: PauseButtonAction
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
-          m_BoolArgument: 0
+          m_BoolArgument: 1
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
@@ -4023,6 +4019,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 646623228}
+--- !u!114 &646623233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 646623228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f39eca49cb6f8e418124e9bc89b88fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &659233710 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4944783743448640, guid: 1a44b4270684e244d9494fe15d8a9450,
@@ -9388,34 +9395,6 @@ Transform:
   m_Father: {fileID: 173628985}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1702058145
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1702058146}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1702058146
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1702058145}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.1, y: -2.19, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 238331129}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1704194144
 GameObject:
   m_ObjectHideFlags: 0
@@ -9548,8 +9527,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 361.16666, y: -59.65}
-  m_SizeDelta: {x: 144.46666, y: 119.3}
+  m_AnchoredPosition: {x: 593.25, y: -109.65}
+  m_SizeDelta: {x: 237.3, y: 219.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1763933710
 MonoBehaviour:
@@ -10904,8 +10883,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 3.5, y: -30.4}
-  m_SizeDelta: {x: 433.4, y: 119.3}
+  m_AnchoredPosition: {x: 7.1000004, y: -44.647118}
+  m_SizeDelta: {x: 711.9, y: 219.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1943439811
 MonoBehaviour:
@@ -10962,8 +10941,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 72.23333, y: -59.65}
-  m_SizeDelta: {x: 144.46666, y: 119.3}
+  m_AnchoredPosition: {x: 118.65, y: -109.65}
+  m_SizeDelta: {x: 237.3, y: 219.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1945595650
 MonoBehaviour:

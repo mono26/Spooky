@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class InputManager : SceneSingleton<InputManager>
+public class InputManager : Singleton<InputManager>
 {
     public string playerID;
 

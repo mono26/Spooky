@@ -1,9 +1,25 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class LevelManager : SceneSingleton<LevelManager>
+public class LevelManager : Singleton<LevelManager>
 {
-    public string mainMenuScene;
+    [Header("Level Manager settings")]
+    [SerializeField]
+    protected AudioClip backgroundMusicClip;
+    [SerializeField]
+    protected AudioClip winSfx;
+    [SerializeField]
+    protected AudioClip loseSfx;
+    [SerializeField]
+    protected string mainMenuScene;
+    [SerializeField]
+    private int maxCrop = 800;
+    public int MaxCrop { get { return maxCrop; } }
+    [SerializeField]
+    private int startingMoney = 400;
+    public int StartingMoney { get { return startingMoney; } }
 
+    [Header("Components")]
     [SerializeField]
     private Transform[] houseStealPoints;
     [SerializeField]
@@ -14,23 +30,15 @@ public class LevelManager : SceneSingleton<LevelManager>
     [SerializeField]
     private Transform[] spawnPoints;
 
-
+    [Header("Editor debugging")]
     [SerializeField]
-    private int startingMoney = 400;
-    public int StartingMoney { get { return startingMoney; } }
-    public int CurrentMoney { get; protected set;}
-
+    public int currentCrop;
+    public int CurrentCrop { get { return currentCrop; } }
     [SerializeField]
-    private int maxCrop = 800;
-    public int MaxCrop { get { return maxCrop; } }
-    public int CurrentCrop { get; protected set; }
-
-    // TODO set up automatic set in script, not in editor.
-    //Variables relacionadas con el fin del nivel
+    public int currentMoney;
+    public int CurrentMoney { get { return currentMoney; } }
+    [SerializeField]
     private static bool gameIsOver = false;
-
-    [SerializeField]
-    protected AudioClip backgroundMusicClip;
 
     protected override void Awake()
     {
@@ -48,8 +56,8 @@ public class LevelManager : SceneSingleton<LevelManager>
 
     private void Start()
     {
-        CurrentCrop = maxCrop;
-        CurrentMoney = startingMoney;
+        currentCrop = maxCrop;
+        currentMoney = startingMoney;
         EventManager.TriggerEvent<FadeEvent>(new FadeEvent(FadeEventType.FadeOut));
         SoundManager.Instance.PlayMusic(backgroundMusicClip);
         return;
@@ -106,14 +114,25 @@ public class LevelManager : SceneSingleton<LevelManager>
     public void GameOver()
     {
         gameIsOver = true;
-        // SoundHandler.Instance.PlayClip(gameSounds[0]);
-        //loseUI.SetActive(true);
+
+        if(loseSfx != null)
+        {
+            SoundManager.Instance.PlaySfx(GetComponent<AudioSource>(), loseSfx);
+        }
+
+        LevelUIManager.Instance.ActivateGameOverUI(true);
         return;
     }
     public void WinLevel()
     {
         gameIsOver = true;
-        //winUI.SetActive(true);
+
+        if(winSfx != null)
+        {
+            SoundManager.Instance.PlaySfx(GetComponent<AudioSource>(), winSfx);
+        }
+
+        LevelUIManager.Instance.ActivateWinUI(true);
         return;
     }
 
@@ -121,34 +140,32 @@ public class LevelManager : SceneSingleton<LevelManager>
     {
         Time.timeScale = 1;
         LoadManager.LoadScene(mainMenuScene);
-        //GameManager.Instance.SoundManager.StopMusic();
+        SoundManager.Instance.StopSound();
         return;
     }
 
     public void RetryLevel()
     {
-        /*Time.timeScale = 1;
-        GameManager.Instance.StartCoroutine(
-            GameManager.Instance.LoadLevel(SceneManager.GetActiveScene().name)
-            );*/
+        EventManager.TriggerEvent(new GameEvent(GameEventTypes.UnPause));
+        LoadManager.LoadScene(SceneManager.GetActiveScene().name);
         return;
     }
 
     public void GiveMoney(int reward)
     {
-        CurrentMoney += reward;
+        currentMoney += reward;
         return;
     }
 
     public void TakeMoney(int money)
     {
-        CurrentMoney -= money;
+        currentMoney -= money;
         return;
     }
 
     public void LoseCrop(int _stole)
     {
-        CurrentCrop -= _stole;
+        currentCrop -= _stole;
         EventManager.TriggerEvent<GameEvent>(new GameEvent(GameEventTypes.CropSteal));
         if (CurrentCrop <= 0)
         {
@@ -160,7 +177,7 @@ public class LevelManager : SceneSingleton<LevelManager>
 
     public void GiveCrop(int _gain)
     {
-        CurrentCrop += _gain;
+        currentCrop += _gain;
         EventManager.TriggerEvent<GameEvent>(new GameEvent(GameEventTypes.CropSteal));
         return;
     }

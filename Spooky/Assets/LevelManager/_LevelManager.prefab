@@ -514,14 +514,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc64ca53909f5f64794826ca8499ae3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuScene: 
+  backgroundMusicClip: {fileID: 8300000, guid: 040257887a5c04446b0b84b51e4b7d26, type: 3}
+  mainMenuScene: MainMenu
+  maxCrop: 800
+  startingMoney: 400
   houseStealPoints: []
   runAwayPoints: []
   spooky: {fileID: 0}
   spawnPoints: []
-  startingMoney: 400
-  maxCrop: 800
-  backgroundMusicClip: {fileID: 8300000, guid: 040257887a5c04446b0b84b51e4b7d26, type: 3}
+  currentCrop: 0
+  currentMoney: 0
 --- !u!114 &114286212269806308
 MonoBehaviour:
   m_ObjectHideFlags: 1

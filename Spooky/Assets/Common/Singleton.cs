@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PersistenSingleton<T> : MonoBehaviour where T : Component
+public class Singleton<T> : MonoBehaviour where T : Component
 {
     protected static T _instance;
     protected bool _enabled;
@@ -27,7 +27,6 @@ public class PersistenSingleton<T> : MonoBehaviour where T : Component
         if (_instance == null)
         {
             _instance = this as T;
-            DontDestroyOnLoad(transform.gameObject);
             _enabled = true;
         }
         else

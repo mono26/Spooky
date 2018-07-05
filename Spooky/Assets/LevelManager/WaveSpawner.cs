@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SingleObjectPool), typeof(SingleObjectPool), typeof(AudioSource))]
-public class WaveSpawner : SceneSingleton<WaveSpawner>, EventHandler<CharacterEvent>
+public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>
 {
     public enum SpawnState
     {

@@ -88,17 +88,4 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
         }
         return;
     }
-
-    public override void OnEvent(CharacterEvent _characterEvent)
-    {
-        if (_characterEvent.character.Equals(this))
-        {
-            if (_characterEvent.type == CharacterEventType.Death)
-                LevelManager.Instance.GiveMoney(reward);
-        }
-
-        base.OnEvent(_characterEvent);
-
-        return;
-    }
 }

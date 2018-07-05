@@ -21,26 +21,50 @@ public class GameEvent : SpookyCrowEvent
     }
 }
 
-public class GameManager : PersistenSingleton<GameManager>
+public class GameManager : Singleton<GameManager>, EventHandler<GameEvent>
 {
-    protected int targetframeRate = 60;
-
     public bool IsPaused { get; protected set; }
 
-    public void PauseLevel()
+    protected void OnEnable()
+    {
+        EventManager.AddListener<GameEvent>(this);
+        return;
+    }
+
+    protected void OnDisable()
+    {
+        EventManager.RemoveListener<GameEvent>(this);
+        return;
+    }
+
+    protected void TriggerPause()
     {
         IsPaused = !IsPaused;
         if (IsPaused)
         {
-            //pauseCanvas.SetActive(true);
+            LevelUIManager.Instance.ActivatePauseUI(true);
             Time.timeScale = 0;
             return;
         }
         else if (!IsPaused)
         {
-            //pauseCanvas.SetActive(false);
+            LevelUIManager.Instance.ActivatePauseUI(false);
             Time.timeScale = 1;
             return;
         }
+    }
+
+    public void OnEvent(GameEvent _gameEvent)
+    {
+        if (_gameEvent.type == GameEventTypes.Pause)
+        {
+            TriggerPause();
+        }
+        if (_gameEvent.type == GameEventTypes.UnPause)
+        {
+            TriggerPause();
+        }
+
+        return;
     }
 }

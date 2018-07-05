@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class LevelUIManager : SceneSingleton<LevelUIManager>, EventHandler<CharacterEvent>, EventHandler<GameEvent>
+public class LevelUIManager : Singleton<LevelUIManager>, EventHandler<CharacterEvent>, EventHandler<GameEvent>
 {
     [Header("UI elements")]
     [SerializeField]

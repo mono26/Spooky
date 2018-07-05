@@ -6,7 +6,10 @@ public abstract class CharacterComponent : MonoBehaviour, EventHandler<Character
 
     protected virtual void Awake()
     {
-        character = GetComponent<Character>();
+        if (character == null)
+            character = GetComponent<Character>();
+
+        return;
     }
 
     protected virtual void OnEnable()
