@@ -9,6 +9,7 @@ public class CornBag : Pickable
     protected override void Pick(GameObject _whoPicks)
     {
         LevelManager.Instance.GiveCrop(_cornGain);
+        LevelUIManager.Instance.UpdateCropUIBar();
 
         base.Pick(_whoPicks);
 

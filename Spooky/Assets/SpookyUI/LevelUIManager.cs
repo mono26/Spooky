@@ -79,7 +79,7 @@ public class LevelUIManager : Singleton<LevelUIManager>, EventHandler<CharacterE
         return;
     }
 
-    protected void UpdateCropUIBar()
+    public void UpdateCropUIBar()
     {
         if(LevelManager.Instance.MaxCrop > 0)
             cropUIBar.fillAmount = (float)LevelManager.Instance.CurrentCrop / (float)LevelManager.Instance.MaxCrop;
@@ -119,7 +119,6 @@ public class LevelUIManager : Singleton<LevelUIManager>, EventHandler<CharacterE
         {
             if (_characterEvent.type == CharacterEventType.Death)
             {
-                UpdateMoneyDisplay();
                 UpdateWaveSpawnerUI();
             }
             if (_characterEvent.type == CharacterEventType.Release)

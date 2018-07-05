@@ -23,7 +23,7 @@ public class Health : MonoBehaviour, Damagable
 
     [Header("Possible drop")]
     [SerializeField]
-    private CornBag drop;
+    private Pickable drop;
 
     [SerializeField]
     private float currentHealth;

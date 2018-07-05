@@ -10,7 +10,8 @@ public class EnemySoul : Pickable
 
     protected override void Pick(GameObject _whoPicks)
     {
-        LevelManager.Instance.GiveCrop(_moneyGain);
+        LevelManager.Instance.GiveMoney(_moneyGain);
+        LevelUIManager.Instance.UpdateMoneyDisplay();
 
         base.Pick(_whoPicks);
 

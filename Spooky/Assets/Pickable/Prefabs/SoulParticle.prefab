@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 199606606632805254}
   - component: {fileID: 65038457072462408}
   - component: {fileID: 198765149770495952}
-  - component: {fileID: 114955802031997224}
+  - component: {fileID: 114954360308138034}
   - component: {fileID: 114114236602314868}
   m_Layer: 21
   m_Name: SoulParticle
@@ -117,7 +117,7 @@ MonoBehaviour:
   isTheParticleAAnimation: 0
   particle: {fileID: 198765149770495952}
   animationParticle: {fileID: 0}
---- !u!114 &114955802031997224
+--- !u!114 &114954360308138034
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -125,11 +125,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1177737526767936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2661c2bd58620b49a4f4d12f671f40d, type: 3}
+  m_Script: {fileID: 11500000, guid: caf9e52a4e062ae41b4ac98a295fcd57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cornGain: 4
   pickVfx: {fileID: 0}
+  _moneyGain: 0
 --- !u!198 &198765149770495952
 ParticleSystem:
   m_ObjectHideFlags: 1
