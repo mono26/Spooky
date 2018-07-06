@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;   
 
 [RequireComponent(typeof(SingleObjectPool), typeof(SingleObjectPool), typeof(AudioSource))]
-public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>
+public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>, EventHandler<GameEvent>
 {
     public enum SpawnState
     {
@@ -12,7 +13,7 @@ public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>
     [SerializeField]
     private const int minWaveRequiredToSpawnEnemy2 = 3;
 
-    [Header("Waves settings")]
+    [Header("Waves Spawner settings")]
     [SerializeField]
     private Character[] enemies;
     [SerializeField]
@@ -23,6 +24,10 @@ public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>
     private float timeBetweenNextWaveSpawn = 3.0f;
     [SerializeField]
     private float enemySpawnRatePerSecond = 2f;
+    [SerializeField]
+    private Text waveCounter;
+    [SerializeField]
+    private ProgressBar waveProgress;
 
     [Header("Wave Spawner sounds")]
     [SerializeField]
@@ -33,13 +38,10 @@ public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>
     [Header("Game Info (Only for debugging.)")]
     [SerializeField]
     private int currentMaxNumberOfEnemiesLeft = 0;
-    public int CurrentMaxNumberOfEnemiesLeft { get { return currentMaxNumberOfEnemiesLeft; } }
     [SerializeField]
     private int currentNumberOfEnemiesKilled = 0;
-    public int CurrentNumberOfEnemiesKilled { get { return currentNumberOfEnemiesKilled; } }
     [SerializeField]
     private int currentWave = 1;
-    public int CurrentWave { get { return currentWave; } }
 
     [SerializeField]
     private int[] enemiesToSpawn;
@@ -56,6 +58,12 @@ public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>
             enemiesPools = GetComponents<SingleObjectPool>();
         if(waveSoundSource == null)
             waveSoundSource = GetComponent<AudioSource>();
+        if (waveCounter == null)
+            waveCounter = transform.Find("WaveBarFrame").Find("WaveCounter").GetComponent<Text>();
+        if (waveProgress == null)
+            waveProgress = transform.Find("WaveBarFrame").Find("WaveProgressBar").GetComponent<ProgressBar>();
+
+        return;
     }
 
     // Use this for initialization
@@ -69,12 +77,14 @@ public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>
     protected void OnEnable()
     {
         EventManager.AddListener<CharacterEvent>(this);
+        EventManager.AddListener<GameEvent>(this);
         return;
     }
 
     protected void OnDisable()
     {
         EventManager.RemoveListener<CharacterEvent>(this);
+        EventManager.RemoveListener<GameEvent>(this);
         return;
     }
 
@@ -204,6 +214,16 @@ public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>
         return numberOfEnemiesToSpawn;
     }
 
+    private void UpdateWaveSpawnerUI()
+    {
+        waveCounter.text = currentWave.ToString();
+
+        if (currentMaxNumberOfEnemiesLeft > 0)
+            waveProgress.UpdateBar(currentNumberOfEnemiesKilled, currentMaxNumberOfEnemiesLeft);
+
+        return;
+    }
+
     public void OnEvent(CharacterEvent _characterEvent)
     {
         if(!_characterEvent.character.CharacterID.Equals("Spooky"))
@@ -211,12 +231,22 @@ public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>
             if (_characterEvent.type == CharacterEventType.Death)
             {
                 EnemyKilled();
+                UpdateWaveSpawnerUI();
             }
             if (_characterEvent.type == CharacterEventType.Release)
             {
                 EnemyKilled();
+                UpdateWaveSpawnerUI();
             }
         }
+        return;
+    }
+
+    public void OnEvent(GameEvent _gameManagerEvent)
+    {
+        if (_gameManagerEvent.type == GameEventTypes.SpawnStart)
+            UpdateWaveSpawnerUI();
+
         return;
     }
 }

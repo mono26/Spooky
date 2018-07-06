@@ -6,21 +6,20 @@ public class EnemySoul : Pickable
 {
     [Header("CornBag Settings")]
     [SerializeField]
-    protected int _moneyGain;
+    protected int moneyGain;
 
-    protected override void Pick(GameObject _whoPicks)
+    public override void InitializePickableValue(int _value)
     {
-        LevelManager.Instance.GiveMoney(_moneyGain);
-        LevelUIManager.Instance.UpdateMoneyDisplay();
-
-        base.Pick(_whoPicks);
+        moneyGain = _value;
 
         return;
     }
 
-    public override void InitializePickableValue(int _value)
+    protected override void Pick(Character _whoPicks)
     {
-        _moneyGain = _value;
+        EventManager.TriggerEvent<PickEvent>(new PickEvent(PickEventType.EnemySoul, _whoPicks, moneyGain));
+
+        base.Pick(_whoPicks);
 
         return;
     }

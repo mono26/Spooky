@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class LevelManager : Singleton<LevelManager>
+public class LevelManager : Singleton<LevelManager>, EventHandler<GameEvent>, EventHandler<PickEvent>
 {
     [Header("Level Manager settings")]
     [SerializeField]
     protected AudioClip backgroundMusicClip;
     [SerializeField]
-    protected AudioClip winSfx;
+    private ProgressBar cropLeft;
+    [SerializeField]
+    private Text gameMoneyText;
     [SerializeField]
     protected AudioClip loseSfx;
     [SerializeField]
     protected string mainMenuScene;
     [SerializeField]
     private int maxCrop = 800;
-    public int MaxCrop { get { return maxCrop; } }
     [SerializeField]
     private int startingMoney = 400;
-    public int StartingMoney { get { return startingMoney; } }
+    [SerializeField]
+    protected AudioClip winSfx;
 
     [Header("Components")]
     [SerializeField]
@@ -44,7 +47,11 @@ public class LevelManager : Singleton<LevelManager>
     {
         base.Awake();
 
-        if(spooky == null)
+        if (cropLeft == null)
+            cropLeft = transform.Find("CropBarFrame").Find("CropBar").GetComponent<ProgressBar>();
+        if (gameMoneyText == null)
+            gameMoneyText = transform.Find("CropBarFrame").Find("MoneyText").GetComponent<Text>();
+        if (spooky == null)
             spooky = GameObject.FindWithTag("Spooky").transform;
 
         LookForHousePoints();
@@ -54,44 +61,28 @@ public class LevelManager : Singleton<LevelManager>
         return;
     }
 
-    private void Start()
+    protected void Start()
     {
         currentCrop = maxCrop;
         currentMoney = startingMoney;
         EventManager.TriggerEvent<FadeEvent>(new FadeEvent(FadeEventType.FadeOut));
         SoundManager.Instance.PlayMusic(backgroundMusicClip);
+
+        UpdateCropUIBar();
+        UpdateMoneyDisplay();
+
         return;
     }
 
-    // Caching
-    private void LookForSpawnPoints()
+    protected void OnEnable()
     {
-        var sp = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        spawnPoints = new Transform[sp.Length];
-        for (int i = 0; i < sp.Length; i++)
-        {
-            spawnPoints[i] = sp[i].GetComponent<Transform>();
-        }
+        EventManager.AddListener<GameEvent>(this);
         return;
     }
-    private void LookForRunAwayPoints()
+
+    protected void OnDisable()
     {
-        var rp = GameObject.FindGameObjectsWithTag("RunawayPoint");
-        runAwayPoints = new Transform[rp.Length];
-        for (int i = 0; i < rp.Length; i++)
-        {
-            runAwayPoints[i] = rp[i].GetComponent<Transform>();
-        }
-        return;
-    }
-    private void LookForHousePoints()
-    {
-        var hPoints = GameObject.FindGameObjectsWithTag("StealPoint");
-        houseStealPoints = new Transform[hPoints.Length];
-        for (int i = 0; i < hPoints.Length; i++)
-        {
-            houseStealPoints[i] = hPoints[i].GetComponent<Transform>();
-        }
+        EventManager.RemoveListener<GameEvent>(this);
         return;
     }
 
@@ -175,10 +166,81 @@ public class LevelManager : Singleton<LevelManager>
         return;
     }
 
-    public void GiveCrop(int _gain)
+    public void UpdateMoneyDisplay()
+    {
+        gameMoneyText.text = "$:" + currentMoney;
+        return;
+    }
+
+    protected void GiveCrop(int _gain)
     {
         currentCrop += _gain;
         EventManager.TriggerEvent<GameEvent>(new GameEvent(GameEventTypes.CropSteal));
+        return;
+    }
+
+    protected void UpdateCropUIBar()
+    {
+        if (maxCrop > 0)
+            cropLeft.UpdateBar(currentCrop, maxCrop);
+        return;
+    }
+
+    protected void LookForSpawnPoints()
+    {
+        var sp = GameObject.FindGameObjectsWithTag("SpawnPoint");
+        spawnPoints = new Transform[sp.Length];
+        for (int i = 0; i < sp.Length; i++)
+        {
+            spawnPoints[i] = sp[i].GetComponent<Transform>();
+        }
+        return;
+    }
+    protected void LookForRunAwayPoints()
+    {
+        var rp = GameObject.FindGameObjectsWithTag("RunawayPoint");
+        runAwayPoints = new Transform[rp.Length];
+        for (int i = 0; i < rp.Length; i++)
+        {
+            runAwayPoints[i] = rp[i].GetComponent<Transform>();
+        }
+        return;
+    }
+    protected void LookForHousePoints()
+    {
+        var hPoints = GameObject.FindGameObjectsWithTag("StealPoint");
+        houseStealPoints = new Transform[hPoints.Length];
+        for (int i = 0; i < hPoints.Length; i++)
+        {
+            houseStealPoints[i] = hPoints[i].GetComponent<Transform>();
+        }
+        return;
+    }
+
+    public void OnEvent(GameEvent _gameManagerEvent)
+    {
+        if (_gameManagerEvent.type == GameEventTypes.CropSteal)
+            UpdateCropUIBar();
+
+        return;
+    }
+
+    public void OnEvent(PickEvent _pickEvent)
+    {
+        if(_pickEvent.whoPicks.CharacterID.Equals("Spooky") == true)
+        {
+            if (_pickEvent.type == PickEventType.CornBag)
+            {
+                GiveCrop(_pickEvent.pickValue);
+                UpdateCropUIBar();
+            }
+            else if (_pickEvent.type == PickEventType.EnemySoul)
+            {
+                GiveMoney(_pickEvent.pickValue);
+                UpdateMoneyDisplay();
+            }
+        }
+
         return;
     }
 }

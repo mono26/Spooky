@@ -39,7 +39,7 @@ public class Plantpoint : MonoBehaviour
     public void BuildPlant(PlantBlueprint blueprint)
     {
         LevelManager.Instance.TakeMoney(blueprint.price);
-        LevelUIManager.Instance.UpdateMoneyDisplay();
+        LevelManager.Instance.UpdateMoneyDisplay();
 
         if (buySound != null)
             SoundManager.Instance.PlaySfx(soundSource, buySound);
