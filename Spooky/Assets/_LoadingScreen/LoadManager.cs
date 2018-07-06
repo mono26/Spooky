@@ -3,20 +3,24 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-[System.Serializable]
 public class LoadManager : MonoBehaviour
 {
+    [Header("Load Manager settings")]
+    [SerializeField]
+    private const float exitFadeDuration = 1.0f;
+    [SerializeField]
+    private const float loadDelay = 1.0f;
     [SerializeField]
     private static string loadingScreenSceneName = "LoadingScreen";
-    private static string sceneToLoad;
 
+    [Header("Components")]
     [SerializeField]
     private Text loadingText;
     [SerializeField]
     private Image loadingFill;
-    private const float loadDelay = 1.0f;
-    private const float exitFadeDuration = 1.0f;
+
     private AsyncOperation loadOperation;
+    private static string sceneToLoad;
 
     public static void LoadScene(string _sceneToLoad)
     {
@@ -26,11 +30,18 @@ public class LoadManager : MonoBehaviour
         {
             SceneManager.LoadScene(loadingScreenSceneName);
         }
+
+        return;
     }
 
     private void Awake()
     {
-        
+        if (loadingText == null)
+            loadingText = GameObject.Find("LoadText").GetComponent<Text>();
+        if (loadingFill == null)
+            loadingFill = GameObject.Find("LoadBar").GetComponentInChildren<Image>();
+
+        return;
     }
 
     private void Start()
@@ -40,6 +51,8 @@ public class LoadManager : MonoBehaviour
         {
             StartCoroutine(LoadLevel());
         }
+
+        return;
     }
 
     public IEnumerator LoadLevel()
@@ -60,6 +73,8 @@ public class LoadManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(exitFadeDuration);
 
         loadOperation.allowSceneActivation = true;
+
+        yield break;
     }
 
     private void StartLoading()
@@ -67,6 +82,7 @@ public class LoadManager : MonoBehaviour
         Application.backgroundLoadingPriority = ThreadPriority.High;
         loadOperation = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Single);
         loadOperation.allowSceneActivation = false;
+
         return;
     }
 }

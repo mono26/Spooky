@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PauseButton : MonoBehaviour
+public class PauseGame : MonoBehaviour
 {
     /// Puts the game on pause
-    public virtual void PauseButtonAction(bool _pause)
+    public virtual void PauseAction(bool _pause)
     {
         if(_pause == true)
         {
