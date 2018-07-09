@@ -515,9 +515,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundMusicClip: {fileID: 8300000, guid: 040257887a5c04446b0b84b51e4b7d26, type: 3}
+  cropLeft: {fileID: 0}
+  gameMoneyText: {fileID: 0}
+  loseSfx: {fileID: 0}
   mainMenuScene: MainMenu
   maxCrop: 800
   startingMoney: 400
+  winSfx: {fileID: 0}
   houseStealPoints: []
   runAwayPoints: []
   spooky: {fileID: 0}
@@ -574,6 +578,8 @@ MonoBehaviour:
   minSpawnPerEnemy: 0500000003000000
   timeBetweenNextWaveSpawn: 3
   enemySpawnRatePerSecond: 2
+  waveCounter: {fileID: 0}
+  waveProgress: {fileID: 0}
   waveSoundSource: {fileID: 82958880919145318}
   spawnSfx: {fileID: 8300000, guid: 783ce37a3589d68419e688038e12052d, type: 3}
   currentMaxNumberOfEnemiesLeft: 0

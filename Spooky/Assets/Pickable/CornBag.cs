@@ -12,4 +12,13 @@ public class CornBag : Pickable
 
         return;
     }
+
+    protected override void Pick(Character _whoPicks)
+    {
+        EventManager.TriggerEvent<PickEvent>(new PickEvent(PickEventType.CornBag, _whoPicks, _cornGain));
+
+        base.Pick(_whoPicks);
+
+        return;
+    }
 }

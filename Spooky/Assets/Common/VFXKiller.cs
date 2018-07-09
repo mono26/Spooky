@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class VFX_Killer : MonoBehaviour
+public class VFXKiller : MonoBehaviour
 {
     [Header("Particle settings")]
     [SerializeField]

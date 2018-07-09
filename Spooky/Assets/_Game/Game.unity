@@ -6820,15 +6820,25 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1736335610250038, guid: 4e94e55878801ef41818bb34863e29c7, type: 2}
+      propertyPath: m_Name
+      value: House
+      objectReference: {fileID: 0}
+    - target: {fileID: 114188510794227474, guid: 4e94e55878801ef41818bb34863e29c7,
+        type: 2}
+      propertyPath: cropLeft
+      value: 
+      objectReference: {fileID: 1704194148}
+    - target: {fileID: 114188510794227474, guid: 4e94e55878801ef41818bb34863e29c7,
+        type: 2}
+      propertyPath: gameMoneyText
+      value: 
+      objectReference: {fileID: 2046097377}
     - target: {fileID: 114188510794227474, guid: 4e94e55878801ef41818bb34863e29c7,
         type: 2}
       propertyPath: spooky
       value: 
       objectReference: {fileID: 287073767}
-    - target: {fileID: 1736335610250038, guid: 4e94e55878801ef41818bb34863e29c7, type: 2}
-      propertyPath: m_Name
-      value: House
-      objectReference: {fileID: 0}
     - target: {fileID: 114055343446617678, guid: 4e94e55878801ef41818bb34863e29c7,
         type: 2}
       propertyPath: buildCanvasUI
@@ -6839,6 +6849,16 @@ Prefab:
       propertyPath: plantCanvasUI
       value: 
       objectReference: {fileID: 186414952}
+    - target: {fileID: 114951207490674992, guid: 4e94e55878801ef41818bb34863e29c7,
+        type: 2}
+      propertyPath: waveCounter
+      value: 
+      objectReference: {fileID: 978125329}
+    - target: {fileID: 114951207490674992, guid: 4e94e55878801ef41818bb34863e29c7,
+        type: 2}
+      propertyPath: waveProgress
+      value: 
+      objectReference: {fileID: 1484612717}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4e94e55878801ef41818bb34863e29c7, type: 2}
   m_IsPrefabParent: 0
@@ -7484,13 +7504,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a453fbdeb3bdcd4c9c8cff03a75c01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cropUIBar: {fileID: 1704194146}
   fireButton: {fileID: 1879099816}
-  gameMoneyText: {fileID: 2046097377}
   joystick: {fileID: 203166699}
   pauseButton: {fileID: 646623228}
-  waveCounter: {fileID: 978125329}
-  waveProgressBar: {fileID: 1484612715}
   gameOverUI: {fileID: 1356123007}
   pauseUI: {fileID: 1627857396}
   winUI: {fileID: 1057374033}
@@ -8480,6 +8496,7 @@ GameObject:
   - component: {fileID: 1484612714}
   - component: {fileID: 1484612716}
   - component: {fileID: 1484612715}
+  - component: {fileID: 1484612717}
   m_Layer: 5
   m_Name: WaveProgressBar
   m_TagString: Untagged
@@ -8538,6 +8555,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1484612713}
+--- !u!114 &1484612717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1484612713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5efa0fe5727dcc44f8bc9911cec2b455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progressBar: {fileID: 1484612715}
+  _percent: 0
 --- !u!1 &1485434308
 GameObject:
   m_ObjectHideFlags: 0
@@ -9405,8 +9435,9 @@ GameObject:
   - component: {fileID: 1704194145}
   - component: {fileID: 1704194147}
   - component: {fileID: 1704194146}
+  - component: {fileID: 1704194148}
   m_Layer: 5
-  m_Name: CropBar
+  m_Name: CropProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9463,6 +9494,19 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1704194144}
+--- !u!114 &1704194148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1704194144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5efa0fe5727dcc44f8bc9911cec2b455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  progressBar: {fileID: 1704194146}
+  _percent: 0
 --- !u!1 &1737992320
 GameObject:
   m_ObjectHideFlags: 0

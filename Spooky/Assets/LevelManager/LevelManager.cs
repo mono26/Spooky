@@ -48,7 +48,7 @@ public class LevelManager : Singleton<LevelManager>, EventHandler<GameEvent>, Ev
         base.Awake();
 
         if (cropLeft == null)
-            cropLeft = transform.Find("CropBarFrame").Find("CropBar").GetComponent<ProgressBar>();
+            cropLeft = transform.Find("CropBarFrame").Find("CropProgressBar").GetComponent<ProgressBar>();
         if (gameMoneyText == null)
             gameMoneyText = transform.Find("CropBarFrame").Find("MoneyText").GetComponent<Text>();
         if (spooky == null)
@@ -77,12 +77,14 @@ public class LevelManager : Singleton<LevelManager>, EventHandler<GameEvent>, Ev
     protected void OnEnable()
     {
         EventManager.AddListener<GameEvent>(this);
+        EventManager.AddListener<PickEvent>(this);
         return;
     }
 
     protected void OnDisable()
     {
         EventManager.RemoveListener<GameEvent>(this);
+        EventManager.RemoveListener<PickEvent>(this);
         return;
     }
 

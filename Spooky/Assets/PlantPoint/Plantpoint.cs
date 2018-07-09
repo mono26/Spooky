@@ -38,17 +38,20 @@ public class Plantpoint : MonoBehaviour
 
     public void BuildPlant(PlantBlueprint blueprint)
     {
-        LevelManager.Instance.TakeMoney(blueprint.price);
-        LevelManager.Instance.UpdateMoneyDisplay();
+        if(blueprint.plant != null)
+        {
+            LevelManager.Instance.TakeMoney(blueprint.price);
+            LevelManager.Instance.UpdateMoneyDisplay();
 
-        if (buySound != null)
-            SoundManager.Instance.PlaySfx(soundSource, buySound);
+            if (buySound != null)
+                SoundManager.Instance.PlaySfx(soundSource, buySound);
 
-        currentPlant = Instantiate(blueprint.plant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
-        currentBlueprint = blueprint;
-        //PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
+            currentPlant = Instantiate(blueprint.plant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
+            currentBlueprint = blueprint;
+            //PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
 
-        VisualEffects.CreateVisualEffect(buyVfx, transform);
+            VisualEffects.CreateVisualEffect(buyVfx, transform);
+        }
 
         return;
     }
@@ -78,17 +81,20 @@ public class Plantpoint : MonoBehaviour
 
     public void UpgradePlant()
     {
-        LevelManager.Instance.TakeMoney(currentBlueprint.upgradePrice);
-        Destroy(currentPlant.gameObject);
+        if(currentBlueprint.upgradePlant != null)
+        {
+            LevelManager.Instance.TakeMoney(currentBlueprint.upgradePrice);
+            Destroy(currentPlant.gameObject);
 
-        if (upgradeSound != null)
-            SoundManager.Instance.PlaySfx(soundSource, upgradeSound);
+            if (upgradeSound != null)
+                SoundManager.Instance.PlaySfx(soundSource, upgradeSound);
 
-        currentPlant = Instantiate(currentBlueprint.upgradePlant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
-        isUpgraded = true;
-        PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
+            currentPlant = Instantiate(currentBlueprint.upgradePlant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
+            isUpgraded = true;
+            PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
 
-        VisualEffects.CreateVisualEffect(upgradeVfx, transform);
+            VisualEffects.CreateVisualEffect(upgradeVfx, transform);
+        }
 
         return;
     }

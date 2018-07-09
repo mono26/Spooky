@@ -16,6 +16,8 @@ public class ProgressBar : MonoBehaviour
             progressBar = transform.Find("ProgressFill").GetComponent<Image>();
         }
 
+        progressBar.type = Image.Type.Filled;
+
         return;
     }
 
