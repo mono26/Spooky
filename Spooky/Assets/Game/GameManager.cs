@@ -37,16 +37,16 @@ public class GameManager : Singleton<GameManager>, EventHandler<GameEvent>
         return;
     }
 
-    protected void TriggerPause()
+    public void TriggerPause(bool _pause)
     {
-        IsPaused = !IsPaused;
-        if (IsPaused)
+        IsPaused = _pause;
+        if (IsPaused == true)
         {
             LevelUIManager.Instance.ActivatePauseUI(true);
             Time.timeScale = 0;
             return;
         }
-        else if (!IsPaused)
+        else if (IsPaused == false)
         {
             LevelUIManager.Instance.ActivatePauseUI(false);
             Time.timeScale = 1;
@@ -58,11 +58,11 @@ public class GameManager : Singleton<GameManager>, EventHandler<GameEvent>
     {
         if (_gameEvent.type == GameEventTypes.Pause)
         {
-            TriggerPause();
+            TriggerPause(true);
         }
         if (_gameEvent.type == GameEventTypes.UnPause)
         {
-            TriggerPause();
+            TriggerPause(false);
         }
 
         return;
