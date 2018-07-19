@@ -11,7 +11,7 @@ public class LoadManager : MonoBehaviour
     [SerializeField]
     private const float loadDelay = 1.0f;
     [SerializeField]
-    private static string loadingScreenSceneName = "LoadingScreen";
+    private static string loadingScreenSceneName = "LoadScreen";
 
     [Header("Components")]
     [SerializeField]
