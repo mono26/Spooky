@@ -17,20 +17,22 @@ public class MovementEvent : SpookyCrowEvent
 
 public class HorizontalAndVerticalMovement : CharacterComponent, EventHandler<MovementEvent>
 {
-    protected Vector3 movementDirection;
-
+    [Header("Horizontal and Vertical settings")]
     [SerializeField]
     protected float currentSpeed;
     [SerializeField]
     protected float maxSpeed;
     [SerializeField]
-    protected float slowMotionSpeed;
-
-    [SerializeField]
     protected float MaxXValue;
     [SerializeField]
     protected float MaxYValue;
+    [SerializeField]
+    protected float slowMotionSpeed;
 
+    [Header("Editor debugging")]
+    [SerializeField]
+    protected Vector3 movementDirection;
+    [SerializeField]
     private bool onSloweffect;
 
     protected virtual void Start()
@@ -90,7 +92,8 @@ public class HorizontalAndVerticalMovement : CharacterComponent, EventHandler<Mo
     {
         if (character.Type == Character.CharacterType.Player)
             movementDirection = character.CharacterInput.Movement;
-        else return;
+
+        return;
     }
 
     protected void Move(Vector3 _direction)

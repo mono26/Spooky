@@ -2,6 +2,7 @@
 
 public abstract class CharacterComponent : MonoBehaviour, EventHandler<CharacterEvent>
 {
+    [SerializeField]
     protected Character character;
 
     protected virtual void Awake()
@@ -29,6 +30,8 @@ public abstract class CharacterComponent : MonoBehaviour, EventHandler<Character
         HandleInput();
 
         UpdateState();
+
+        return;
     }
 
     public virtual void FixedFrame()

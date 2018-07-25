@@ -127,6 +127,8 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
         {
             component.FixedFrame();
         }
+
+        return;
     }
 
     protected virtual void LateUpdate()

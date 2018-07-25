@@ -84,11 +84,15 @@ public class SpookyAttack : CharacterComponent
     {
         float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
         float delta = angle - hand.localRotation.eulerAngles.z;
-        hand.localRotation = Quaternion.RotateTowards(
-            hand.localRotation,
-            Quaternion.Euler(new Vector3(0, 0, angle)),
-            Mathf.Abs(delta)
-            );
+        if(delta.Equals(0) == false)
+        {
+            hand.localRotation = Quaternion.RotateTowards(
+                hand.localRotation,
+                Quaternion.Euler(new Vector3(0, 0, angle)),
+                Mathf.Abs(delta)
+                );
+        }
+
         return;
     }
 
