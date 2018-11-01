@@ -185,6 +185,8 @@ public class Character : MonoBehaviour, EventHandler<CharacterEvent>
                 "Action", AnimatorControllerParameterType.Bool, (characterStateMachine.CurrentState == CharacterState.ExecutingAction)
                 );
         }
+
+        return;
     }
 
     public void Flip()

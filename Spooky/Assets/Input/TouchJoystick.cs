@@ -26,8 +26,6 @@ public class TouchJoystick : MonoBehaviour, IDragHandler, IEndDragHandler
 
     [SerializeField]
     protected RectTransform joystick;
-    [SerializeField]
-    protected RectTransform handle;
 
     protected Vector2 joystickValue;
     protected Vector3 newTargetPosition;
@@ -41,8 +39,7 @@ public class TouchJoystick : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public virtual void Initialize()
     {
-        if (TargetCamera == null)
-        {
+        if (TargetCamera == null) {
             throw new Exception("TouchJoystick : you have to set a target camera");
         }
         ParentCanvasRenderMode = GetComponentInParent<Canvas>().renderMode;
@@ -57,8 +54,7 @@ public class TouchJoystick : MonoBehaviour, IDragHandler, IEndDragHandler
 
     protected virtual void Update()
     {
-        if (JoystickValue != null)
-        {
+        if (JoystickValue != null) {
             JoystickValue.Invoke(joystickValue);
         }
         return;
@@ -66,26 +62,19 @@ public class TouchJoystick : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public virtual void OnDrag(PointerEventData eventData)
     {
-        if (ParentCanvasRenderMode == RenderMode.ScreenSpaceCamera)
-        {
+        if (ParentCanvasRenderMode == RenderMode.ScreenSpaceCamera) {
             newTargetPosition = TargetCamera.ScreenToWorldPoint(eventData.position);
         }
-        else
-        {
+        else {
             newTargetPosition = eventData.position;
         }
-
         newTargetPosition.y = initialYPosition;
         newTargetPosition = Vector3.ClampMagnitude(newTargetPosition - joystick.position, MaxRange);
-
         joystickValue.x = EvaluateInputValue(newTargetPosition.x);
         joystickValue.y = EvaluateInputValue(newTargetPosition.z);
-
         newJoystickPosition = joystick.position + newTargetPosition;
         newJoystickPosition.y = initialYPosition;
-
         transform.position = newJoystickPosition;
-
         return;
     }
 

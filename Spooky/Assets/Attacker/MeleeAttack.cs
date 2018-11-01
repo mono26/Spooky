@@ -25,6 +25,7 @@ public class MeleeAttack : CharacterAction
 
     public override void EveryFrame()
     {
+        // TODO double code block refacto to only face when the attack is executed.
         if (target != null)
         {
             if (target.position.x > character.transform.position.x)

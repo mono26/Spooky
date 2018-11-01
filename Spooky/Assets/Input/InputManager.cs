@@ -60,10 +60,19 @@ public class InputManager : Singleton<InputManager>
 
     public void SetMovePosition()
     {
-        if (IsOnMobile == false)
+        if (!IsOnMobile)
         {
             movement.x = Input.GetAxis("Horizontal");
             movement.y = Input.GetAxis("Vertical");
+        }
+    }
+
+    public void SetMovePosition(Vector2 _position)
+    {
+        if (IsOnMobile == true)
+        {
+            movement.x = _position.x;
+            movement.y = _position.y;
         }
     }
 
@@ -80,15 +89,6 @@ public class InputManager : Singleton<InputManager>
         if (Input.GetButtonUp(FireButton.ButtonID))
         {
             FireButton.InvokeUp();
-        }
-    }
-
-    public void SetMovePosition(Vector2 _position)
-    {
-        if (IsOnMobile == true)
-        {
-            movement.x = _position.x;
-            movement.y = _position.y;
         }
     }
 

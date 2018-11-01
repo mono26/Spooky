@@ -8,8 +8,6 @@ public class LevelUIManager : Singleton<LevelUIManager>
     private GameObject fireButton;
     [SerializeField]
     private GameObject joystick;
-    [SerializeField]
-    private GameObject pauseButton;
 
     [Header("Game state UI's")]
     [SerializeField]
@@ -29,8 +27,6 @@ public class LevelUIManager : Singleton<LevelUIManager>
             gameOverUI = transform.Find("GameOverUI").gameObject;
         if (joystick == null)
             joystick = transform.Find("Joystick").gameObject;
-        if (pauseButton == null)
-            pauseButton = transform.Find("PauseButton").gameObject;
         if (pauseUI == null)
             pauseUI = transform.Find("PauseUI").gameObject;
         if (winUI == null)

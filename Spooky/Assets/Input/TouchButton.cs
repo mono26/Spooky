@@ -59,7 +59,7 @@ public class TouchButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 
     public virtual void OnPointerUp(PointerEventData data)
     {
-        if (CurrentState != ButtonStates.ButtonPressed && CurrentState != ButtonStates.ButtonDown)
+        if (CurrentState != ButtonStates.ButtonPressed || CurrentState != ButtonStates.ButtonDown)
         {
             return;
         }

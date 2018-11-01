@@ -46,7 +46,7 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
             }
             else if (currentAction == null || currentAction.IsInCooldown() == true)
             {
-                ChangeNonExecutableCurrentAction();
+                ChangeToActionWithNoCooldown();
             }
 
             base.Update();
@@ -61,7 +61,7 @@ public class AICharacter : Character, EventHandler<FightCloudEvent>
         return;
     }
 
-    protected void ChangeNonExecutableCurrentAction()
+    protected void ChangeToActionWithNoCooldown()
     {
         if(characterActions != null)
         {
