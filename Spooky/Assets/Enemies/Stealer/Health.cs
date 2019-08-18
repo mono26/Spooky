@@ -99,7 +99,7 @@ public class Health : MonoBehaviour, Damagable
 
     public IEnumerator Kill()
     {
-        VisualEffects.CreateVisualEffect(deathVfx, transform);
+        
         PoolableObject poolableCharacter = GetComponent<PoolableObject>();
         if (poolableCharacter != null)
         {
@@ -114,6 +114,8 @@ public class Health : MonoBehaviour, Damagable
 
             Destroy(gameObject);
         }
+
+        VisualEffects.CreateVisualEffect(deathVfx, transform);
         yield break;
     }
 

@@ -75,8 +75,9 @@ public class Bullet : PoolableObject
         {
             if (_collision.gameObject.CompareTag(tag))
             {
-                VisualEffects.CreateVisualEffect(hitVfx, transform);
                 poolable.Release();
+                VisualEffects.CreateVisualEffect(hitVfx, transform);
+                
                 return;
             }
         }
