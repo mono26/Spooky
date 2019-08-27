@@ -66,6 +66,7 @@ public class PlantStore : MonoBehaviour
 
     private void SetCurrentActivePlantPoint(Plantpoint plantPoint)
     {
+        
         //Si el plantPoint tiene una planta se activa el plantpointUI con la informacion de la planta.
         currentActivePlantPoint = plantPoint;
         plantCanvasUI.transform.position = currentActivePlantPoint.transform.position + new Vector3(0, 0, zOffsetForCanvasLocation);

@@ -5,11 +5,11 @@ using UnityEngine;
 public class SpookyPlantPointDetection : CharacterComponent
 {
     //SphereCollider for detecting the collision with the plantPoints
-    [SerializeField]
+   /* [SerializeField]
     protected SphereCollider detectionTrigger;
     [SerializeField]
     [Range(1.5f, 2.5f)]
-    protected float detectRange = 2.5f;
+    protected float detectRange = 2.5f;*/
 
     //Value of the current plantPoint. It changes through time by collision detection
     //Also the value can be null if the current plantPoint is out of the collider boundaries
@@ -23,8 +23,8 @@ public class SpookyPlantPointDetection : CharacterComponent
     {
         base.Awake();
         
-        if(detectionTrigger == null)
-            detectionTrigger = transform.Find("PlantPointDetector").GetComponent<SphereCollider>();
+       // if(detectionTrigger == null)
+            //detectionTrigger = transform.Find("PlantPointDetector").GetComponent<SphereCollider>();
 
         nearPlantPoints = new List<Plantpoint>();
     }
@@ -32,7 +32,7 @@ public class SpookyPlantPointDetection : CharacterComponent
     protected void Start()
     {
         //When the game starts we give the collider its radius value
-        detectionTrigger.radius = detectRange;
+        //detectionTrigger.radius = detectRange;
     }
 
     public override void EveryFrame()
@@ -40,7 +40,7 @@ public class SpookyPlantPointDetection : CharacterComponent
         Detect();
     }
 
-    public void Detect()
+   /* public void Detect()
     {
         if (!currentPlantPoint && PlantStore.Instance.CurrentPlantPoint)
         {
@@ -50,7 +50,24 @@ public class SpookyPlantPointDetection : CharacterComponent
         }
 
         return;
+    }*/
+
+    public void Detect()
+    {
+        if(Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if(Physics.Raycast(ray, out hit, 100,1 << 17))
+            {
+                if(hit.transform.tag == "Plantpoint")
+                {
+                    SelectNewPlantpoint(hit.transform.GetComponent<Plantpoint>());
+                }
+            }
+        }
     }
+
 
     private IEnumerator DisplayNearestPlantPoint()
     {
@@ -165,7 +182,7 @@ public class SpookyPlantPointDetection : CharacterComponent
         else return;
     }
 
-    //Is called each time a colliders exits the bounds of the sphereCollider
+   /* //Is called each time a colliders exits the bounds of the sphereCollider
     //Each time a plantPoint exits the bouds it checks if its equal to the current one
     public void OnTriggerExit(Collider _collider)
     {
@@ -188,5 +205,5 @@ public class SpookyPlantPointDetection : CharacterComponent
             return;
         }
         else return;
-    }
+    }*/
 }

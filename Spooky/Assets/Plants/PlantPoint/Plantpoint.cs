@@ -28,7 +28,7 @@ public class Plantpoint : MonoBehaviour
     protected AudioSource soundSource;
 
     private bool isUpgraded;
-
+    
     protected void Awake()
     {
         soundSource = GetComponent<AudioSource>();
@@ -105,4 +105,56 @@ public class Plantpoint : MonoBehaviour
         currentPlant = null;
         return;
     }
+
+   /* public void Detect()
+    {
+        if (!currentPlantPoint && PlantStore.Instance.CurrentPlantPoint)
+        {
+            PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
+            PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
+            return;
+        }
+
+        return;
+    }*/
+
+   /* private void ClearCurrentPlantPoint()
+    {
+        if (currentPlantPoint == true)
+        {
+            if (currentPlant == true)
+                PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
+            else if (currentPlant == false)
+                PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
+
+            currentPlantPoint = null;
+        }
+
+        else return;
+    }*/
+
+    public void SelectNewPlantpoint()
+    {
+
+        Debug.Log("hi");
+       // ClearCurrentPlantPoint();
+        ChangeCurrentPlantPointAndDisplay(this);
+
+    }
+
+    private void ChangeCurrentPlantPointAndDisplay(Plantpoint _plantPoint)
+    {
+        Plantpoint currentPlantPoint = this;
+        if (currentPlant == true)
+        {
+            PlantStore.Instance.ActivatePlantUI(currentPlantPoint);
+            return;
+        }
+        else if (currentPlant == false)
+        {
+            PlantStore.Instance.ActivateBuildUI(currentPlantPoint);
+            return;
+        }
+    }
+
 }
