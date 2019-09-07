@@ -3,6 +3,9 @@
 [RequireComponent(typeof(AudioSource))]
 public class Plantpoint : MonoBehaviour
 {
+    public delegate void PlantoPointEvent(Plantpoint plantPoint);
+    public static event PlantoPointEvent PlantPointClickedEvent;
+
     [Header("Visual Effects")]
     [SerializeField]
     protected GameObject buyVfx;
@@ -27,13 +30,12 @@ public class Plantpoint : MonoBehaviour
 
     protected AudioSource soundSource;
 
-    private bool isUpgraded;
+    private bool isUpgraded = false;
+    private bool canBeSelected = false;
     
     protected void Awake()
     {
         soundSource = GetComponent<AudioSource>();
-
-        return;
     }
 
     public void BuildPlant(PlantBlueprint blueprint)
@@ -63,14 +65,14 @@ public class Plantpoint : MonoBehaviour
             LevelManager.Instance.GiveMoney(currentBlueprint.price);
             Destroy(currentPlant.gameObject);
             ClearPlantPoint();
-            PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
+            // PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
         }
         else if (isUpgraded)
         {
             LevelManager.Instance.GiveMoney(currentBlueprint.upgradePrice);
             Destroy(currentPlant.gameObject);
             ClearPlantPoint();
-            PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
+            // PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
         }
 
         if (sellSound != null)
@@ -91,7 +93,7 @@ public class Plantpoint : MonoBehaviour
 
             currentPlant = Instantiate(currentBlueprint.upgradePlant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
             isUpgraded = true;
-            PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
+            // PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
 
             VisualEffects.CreateVisualEffect(upgradeVfx, transform);
         }
@@ -106,40 +108,38 @@ public class Plantpoint : MonoBehaviour
         return;
     }
 
-   /* public void Detect()
-    {
-        if (!currentPlantPoint && PlantStore.Instance.CurrentPlantPoint)
-        {
-            PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
-            PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
-            return;
-        }
+    // public void Detect()
+    // {
+    //     if (!currentPlantPoint && PlantStore.Instance.CurrentPlantPoint)
+    //     {
+    //         PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
+    //         PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
+    //         return;
+    //     }
 
-        return;
-    }*/
+    //     return;
+    // }
 
-   /* private void ClearCurrentPlantPoint()
-    {
-        if (currentPlantPoint == true)
-        {
-            if (currentPlant == true)
-                PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
-            else if (currentPlant == false)
-                PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
+    // private void ClearCurrentPlantPoint()
+    // {
+    //     if (currentPlantPoint == true)
+    //     {
+    //         if (currentPlant == true)
+    //             PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
+    //         else if (currentPlant == false)
+    //             PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
 
-            currentPlantPoint = null;
-        }
+    //         currentPlantPoint = null;
+    //     }
 
-        else return;
-    }*/
+    //     else return;
+    // }
 
     public void SelectNewPlantpoint()
     {
-
         Debug.Log("hi");
        // ClearCurrentPlantPoint();
         ChangeCurrentPlantPointAndDisplay(this);
-
     }
 
     private void ChangeCurrentPlantPointAndDisplay(Plantpoint _plantPoint)
@@ -147,14 +147,37 @@ public class Plantpoint : MonoBehaviour
         Plantpoint currentPlantPoint = this;
         if (currentPlant == true)
         {
-            PlantStore.Instance.ActivatePlantUI(currentPlantPoint);
+            // PlantStore.Instance.ActivatePlantUI(currentPlantPoint);
             return;
         }
         else if (currentPlant == false)
         {
-            PlantStore.Instance.ActivateBuildUI(currentPlantPoint);
+            // PlantStore.Instance.ActivateBuildUI(currentPlantPoint);
             return;
         }
     }
 
+    public void CanSelectPlantPoint(bool select)
+    {
+        canBeSelected = select;
+    }
+
+    public void OnClicked()
+    {
+        if (canBeSelected)
+        {
+            Debug.Log("Plantpoint clicked");
+            PlantPointClickedEvent?.Invoke(this);
+        }
+    }
+
+    public bool IsEmpty()
+    {
+        bool isEmpty = false;
+        if (currentBlueprint && currentPlant)
+        {
+            isEmpty = true;
+        }
+        return isEmpty;
+    }
 }

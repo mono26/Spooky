@@ -59,9 +59,9 @@ public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>,
         if(waveSoundSource == null)
             waveSoundSource = GetComponent<AudioSource>();
         if (waveCounter == null)
-            waveCounter = transform.Find("WaveBarFrame").Find("WaveCounter").GetComponent<Text>();
+            waveCounter = GameObject.Find("WaveBarFrame").transform.Find("WaveCounter").GetComponent<Text>();
         if (waveProgress == null)
-            waveProgress = transform.Find("WaveBarFrame").Find("WaveProgressBar").GetComponent<ProgressBar>();
+            waveProgress = GameObject.Find("WaveBarFrame").transform.Find("WaveProgressBar").GetComponent<ProgressBar>();
 
         return;
     }

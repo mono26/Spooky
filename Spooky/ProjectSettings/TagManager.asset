@@ -27,6 +27,12 @@ TagManager:
   - PauseUI
   - PlantMeleeCollider
   - Plant Range
+  - WaveBar
+  - CropBar
+  - Enemies Counter
+  - Money Text
+  - Black Background
+  - PlantPoint
   layers:
   - Default
   - TransparentFX

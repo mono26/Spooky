@@ -8,8 +8,6 @@ public static class ExtensionMethods
         {
             _animator.SetBool(_parameter, _value);
         }
-
-        return;
     }
 
     public static bool HasParameterOfType(this Animator _animator, string name, AnimatorControllerParameterType type)

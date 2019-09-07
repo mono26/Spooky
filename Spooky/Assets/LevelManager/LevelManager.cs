@@ -48,9 +48,9 @@ public class LevelManager : Singleton<LevelManager>, EventHandler<GameEvent>, Ev
         base.Awake();
 
         if (cropLeft == null)
-            cropLeft = transform.Find("CropBarFrame").Find("CropProgressBar").GetComponent<ProgressBar>();
+            cropLeft = GameObject.Find("CropBarFrame").transform.Find("CropProgressBar").GetComponent<ProgressBar>();
         if (gameMoneyText == null)
-            gameMoneyText = transform.Find("CropBarFrame").Find("MoneyText").GetComponent<Text>();
+            gameMoneyText = GameObject.Find("CropBarFrame").transform.Find("MoneyText").GetComponent<Text>();
         if (spooky == null)
             spooky = GameObject.FindWithTag("Spooky").transform;
 

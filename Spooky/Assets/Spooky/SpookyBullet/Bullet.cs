@@ -10,64 +10,67 @@ public class Bullet : PoolableObject
     [SerializeField]
     protected GameObject hitVfx;
 
-    protected BoxCollider bulletCollider;
-    public BoxCollider BulletCollider { get { return bulletCollider; } }
-    protected Rigidbody bulletBody;
-    public Rigidbody BulletBody { get { return bulletBody; } }
-    protected SpriteRenderer bulletSprite;
-    public SpriteRenderer BulletSprite { get { return bulletSprite; } }
-    protected DamageOnTouch damageComponent;
-    public DamageOnTouch DamageComponent { get { return damageComponent; } }
-
-    protected PoolableObject poolable;
+    protected BoxCollider bulletCollider = null;
+    public BoxCollider GetBulletCollider { get { return bulletCollider; } }
+    protected Rigidbody bulletBody = null;
+    public Rigidbody GetBulletBody { get { return bulletBody; } }
+    protected SpriteRenderer bulletSprite = null;
+    public SpriteRenderer GetBulletSprite { get { return bulletSprite; } }
+    protected DamageOnTouch damageComponent = null;
+    public DamageOnTouch GetDamageComponent { get { return damageComponent; } }
+    protected ParticleSystem bulletVFX = null;
 
     private float bulletLaunchTime;
 
-    protected virtual void Awake()
+#region Unity Functions
+    protected override void Awake()
     {
+        base.Awake();
+
         bulletBody = GetComponent<Rigidbody>();
         bulletCollider = GetComponent<BoxCollider>();
         bulletSprite = GetComponent<SpriteRenderer>();
         damageComponent = GetComponent<DamageOnTouch>();
-        poolable = GetComponent<PoolableObject>();
+        bulletVFX = GetComponent<ParticleSystem>();
 
-        return;
+        EnterPoolEvent += OnEnterPool;
     }
 
     protected virtual void Start()
     {
         damageComponent.SetDamageOnTouch(bulletDamage);
-        return;
     }
 
-    protected override void OnEnable()
+    void OnDestroy()
     {
-        base.OnEnable();
-
-        OnRelease += Restart;
+        EnterPoolEvent -= OnEnterPool;
     }
+#endregion
 
-    protected override void OnDisable()
+#region Custom Functions
+    // Launchs the bullet with force.
+    public void Launch(float force)
     {
-        base.OnDisable();
-
-        OnRelease -= Restart;
-    }
-
-    public void Launch(float _speed)
-    {
-        bulletBody.AddForce(transform.right * _speed, ForceMode.Impulse);
+        bulletBody.AddForce(transform.right * force, ForceMode.Impulse);
         bulletLaunchTime = Time.timeSinceLevelLoad;
-        damageComponent.SetDamageOnTouch(bulletDamage);
-        return;
     }
 
-    protected virtual void Restart()
+    // Called when the bullet enter the pool. Here the bullet should enter a "sleep" state to prevent actions in the scene.
+    protected virtual void OnEnterPool()
     {
         bulletBody.velocity = Vector3.zero;
-        transform.localScale = Vector3.one;
-        return;
+        bulletCollider.enabled = false;
+        bulletSprite.enabled = false;
+        bulletVFX.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
+
+    // Called when the bullet leaves the pool. Here the bullet should enter a "awoke" state and starts performing actions in the scene.
+    protected virtual void OnExitPool()
+    {
+        bulletCollider.enabled = true;
+        bulletSprite.enabled = true;
+        bulletVFX.Play(true);
+    } 
 
     protected virtual void OnCollisionEnter(Collision _collision)
     {
@@ -75,11 +78,10 @@ public class Bullet : PoolableObject
         {
             if (_collision.gameObject.CompareTag(tag))
             {
-                poolable.Release();
                 VisualEffects.CreateVisualEffect(hitVfx, transform);
-                
-                return;
+                PoolsManager.ReturnObjectToPools(this);
             }
         }
     }
+#endregion
 }

@@ -4,109 +4,128 @@ using UnityEngine;
 
 public class CorrosiveBullet : Bullet
 {
-    [SerializeField]
-    protected float startTime;
-    [SerializeField]
-    protected float corrosiveDamage = 0.1f;
-    [SerializeField]    // Per second
-    protected float tickPerSecond = 10f;
-    [SerializeField]    // In seconds
-    protected float corrosiveDuration = 3.0f;
-    [SerializeField]
-    protected GameObject corrosiveField;
+    [SerializeField] float startTime;
+    [SerializeField] float corrosiveDamage = 0.1f;
+    [SerializeField] float tickPerSecond = 10f;    // Per second
+    [SerializeField] float corrosiveDuration = 3.0f;   // In seconds
+    [SerializeField] SpriteRenderer corrosiveFieldSprite = null;
+    [SerializeField] Collider corrosiveFieldCollider = null;
 
-    [SerializeField]
-    protected List<Character> enemiesOnField;
+    [Header("Debugging")]
+    [SerializeField] List<Character> enemiesOnField;
 
+    WaitForSeconds timeToDamage = null;
+    Coroutine corrosiveEffect = null;
+
+#region Unity Functions
     protected new void Awake()
     {
         base.Awake();
-        return;
-    }
 
-    protected override void OnEnable()
+        timeToDamage = new WaitForSeconds(1 / tickPerSecond);
+
+        EnterPoolEvent += StopEffect;
+    }
+#endregion
+
+#region Custom Functions
+    protected override void OnExitPool()
     {
+        base.OnExitPool();
+
         bulletBody.constraints = RigidbodyConstraints.None;   //Because the rigidBody when it hits the enemy stays in rotation
         bulletBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
-        bulletSprite.enabled = true;
-        bulletCollider.enabled = true;
-        corrosiveField.SetActive(false);
-
-        poolable.OnRelease += StopEffect;
-
-        base.OnEnable();
-
-        return;
+        corrosiveFieldSprite.enabled = false;
+        corrosiveFieldCollider.enabled = false;
     }
 
-    protected override void OnDisable()
+    protected override void OnEnterPool()
     {
-        poolable.OnRelease -= StopEffect;
+        base.OnEnterPool();
+
+        corrosiveFieldSprite.enabled = false;
+        corrosiveFieldCollider.enabled = false;
         enemiesOnField.Clear();
-
-        base.OnDisable();
-
-        return;
     }
 
     protected void Update()
     {
         for (int i = 0; i < enemiesOnField.Count; i++)
         {
-            if (!enemiesOnField[i].gameObject.activeInHierarchy)
+            if (enemiesOnField[i].Equals(null) || !enemiesOnField[i].gameObject.activeInHierarchy)
+            {
                 enemiesOnField.Remove(enemiesOnField[i]);
+            }
         }
-        return;
     }
 
     protected IEnumerator CorrosiveEffect()
     {
-        corrosiveField.SetActive(true);
         startTime = Time.timeSinceLevelLoad;
         while(Time.timeSinceLevelLoad < startTime + corrosiveDuration)
         {
             foreach(Character enemy in enemiesOnField)
             {
-                if(enemy.GetComponent<Health>())
-                    enemy.GetComponent<Health>().TakeDamage(corrosiveDamage);
+                var healthComponent = enemy.GetComponent<Health>();
+                if(healthComponent)
+                {
+                    healthComponent.TakeDamage(corrosiveDamage);
+                }
+
             }
-            yield return new WaitForSeconds(1 / tickPerSecond);
+            yield return timeToDamage;
         }
-        poolable.Release();
-        yield break;
+        PoolsManager.ReturnObjectToPools(this);
     }
 
-    private void AddEnemy(Character _enemy)
+    private void AddEnemy(Character enemy)
     {
-        enemiesOnField.Add(_enemy);
-        return;
+        if (!enemy)
+        {
+            return;
+        }
+
+        if (!enemiesOnField.Contains(enemy))
+        {
+            enemiesOnField.Add(enemy);
+        }
     }
 
-    private void RemoveEnemy(Character _enemy)
+    private void RemoveEnemy(Character enemy)
     {
-        enemiesOnField.Remove(_enemy);
-        return;
+        if (!enemy)
+        {
+            return;
+        }
+
+        if (enemiesOnField.Contains(enemy))
+        {
+            enemiesOnField.Remove(enemy);
+        }
     }
 
     private void StopEffect()
     {
-        StopCoroutine(CorrosiveEffect());
-        return;
+        StopCoroutine(corrosiveEffect);
     }
 
     protected override void OnCollisionEnter(Collision _collision)
     {
         if (_collision.gameObject.CompareTag("Enemy"))
         {
-            GetComponent<SpriteRenderer>().enabled = false;
-            GetComponent<Collider>().enabled = false;   // So the only collidr activated is the trigger for the area damage.
+            bulletSprite.enabled = false;
+            corrosiveFieldSprite.enabled = true;
+            // So the only collider activated is the trigger for the area damage.
+            bulletCollider.enabled = false;
+            corrosiveFieldCollider.enabled = true;
             bulletBody.velocity = Vector3.zero;
-            transform.localRotation = Quaternion.Euler(new Vector3(90,0,0));    // Standar rotation for every object in the game!
-            bulletBody.constraints = RigidbodyConstraints.FreezeRotationZ;   // TODO fin better way to do this.
-            StartCoroutine(CorrosiveEffect());
-            return;
+            // TODO fin better way to do this.
+            bulletBody.constraints = RigidbodyConstraints.FreezeRotationZ;
+            // Standar rotation for every object in the game!
+            transform.localRotation = Quaternion.Euler(new Vector3(90,0,0));
+
+            corrosiveEffect = StartCoroutine(CorrosiveEffect());
         }
-        return;
     }
 
     protected void OnTriggerEnter(Collider _collider)
@@ -115,11 +134,9 @@ public class CorrosiveBullet : Bullet
         {
             if (_collider.gameObject.CompareTag(tag))
             {
-                if (!enemiesOnField.Contains(_collider.GetComponent<Character>()))
-                    AddEnemy(_collider.GetComponent<Character>());
+                AddEnemy(_collider.GetComponent<Character>());
             }
         }
-        return;
     }
 
     protected void OnTriggerStay(Collider _collider)
@@ -128,11 +145,9 @@ public class CorrosiveBullet : Bullet
         {
             if (_collider.gameObject.CompareTag(tag))
             {
-                if(!enemiesOnField.Contains(_collider.GetComponent<Character>()))
-                    AddEnemy(_collider.GetComponent<Character>());
+                AddEnemy(_collider.GetComponent<Character>());
             }
         }
-        return;
     }
 
     protected void OnTriggerExit(Collider _collider)
@@ -142,9 +157,8 @@ public class CorrosiveBullet : Bullet
             if (_collider.gameObject.CompareTag(tag))
             {
                 RemoveEnemy(_collider.GetComponent<Character>());
-
             }
         }
-        return;
     }
+#endregion
 }

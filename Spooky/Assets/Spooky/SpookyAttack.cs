@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(SingleObjectPool), typeof(SpookyEnemyDetect))]
 public class SpookyAttack : CharacterComponent
 {
     // Variable for a bullet.
@@ -126,7 +125,6 @@ public class SpookyAttack : CharacterComponent
         {
             RotateActualBulleTowardsDirection(aimDirection);
             actualBullet.Launch(launchForce);
-            actualBullet.GetComponent<PoolableObject>().OnSpawnCompleted();
             actualBullet = null;
             lastShoot = Time.timeSinceLevelLoad;
             return;

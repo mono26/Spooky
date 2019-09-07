@@ -28,11 +28,17 @@ public class Health : MonoBehaviour, Damagable
     [SerializeField]
     private float currentHealth;
     private Character character;
-
+    private PoolableObject poolable;
     protected void Awake()
     {
-        character = GetComponent<Character>();
-        return;
+        if (!character)
+        {
+            character = GetComponent<Character>();
+        }
+        if (!poolable)
+        {
+            poolable = GetComponent<PoolableObject>();
+        }
     }
 
     protected void Start()
@@ -105,7 +111,7 @@ public class Health : MonoBehaviour, Damagable
         {
             yield return CharacterDeath();
 
-            poolableCharacter.Release();
+            PoolsManager.ReturnObjectToPools(poolableCharacter);
 
         }
         else if (poolableCharacter == null)

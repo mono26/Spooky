@@ -1,52 +1,63 @@
 ﻿using UnityEngine;
 
+public enum PoolableStates
+{
+    InsidePool, OutOfPool
+}
+
 public class PoolableObject : MonoBehaviour
 {
-    // Value for proyectile mostly, enemies can have a value of 0
-    private Transform parentContainer;
-    public float lifeTime = 10;
-
     public delegate void OnSpawnCompleteDelegate();
-    public event OnSpawnCompleteDelegate OnSpawnComplete;
+    public event OnSpawnCompleteDelegate ExitPoolEvent;
     public delegate void OnReleaseDelegate();
-    public event OnReleaseDelegate OnRelease;
+    public event OnReleaseDelegate EnterPoolEvent;
 
-    protected virtual void OnEnable()
+    Transform objectTransform = null;
+
+    public string GetName { get { return gameObject.name; } }
+    public Vector3 SetObjectPosition { set { transform.position = value; } }
+
+    protected virtual void Awake() 
     {
-        OnSpawnComplete += InvokeRelease;
-        return;
+        if (!objectTransform)
+        {
+            objectTransform = transform;
+        }
     }
 
-    protected virtual void OnDisable()
+    public void SetPoolableState(PoolableStates newState)
     {
-        CancelInvoke("Release");
-        return;
+        if (newState.Equals(PoolableStates.InsidePool))
+        {
+            InitializeInsideOfPoolState();
+        }
+        else
+        {
+            InitializeOutOfPoolState();
+        }
     }
 
-    public void Release()
+    /// <summary>
+    /// Should be used for setting the object specific state to sleep.
+    /// Stoping code or routines execution.
+    /// </summary>
+    void InitializeInsideOfPoolState()
     {
-        if (OnRelease != null)
-            OnRelease();
-
-        transform.SetParent(parentContainer);
-        gameObject.SetActive(false);
+        if (EnterPoolEvent != null)
+        {
+            EnterPoolEvent();
+        }
     }
 
-    public void OnSpawnCompleted()
+    /// <summary>
+    /// Should be used for setting the object specific state to active.
+    /// Resuming code or routines execution.
+    /// </summary>
+    void InitializeOutOfPoolState()
     {
-        if (OnSpawnComplete != null)
-            OnSpawnComplete();
-    }
-
-    public void SetParentContainer(Transform _parent)
-    {
-        parentContainer = _parent;
-        return;
-    }
-
-    protected void InvokeRelease()
-    {
-        if (lifeTime > 0)
-            Invoke("Release", lifeTime);
+        if (ExitPoolEvent != null)
+        {
+            ExitPoolEvent();
+        }
     }
 }

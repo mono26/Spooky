@@ -19,6 +19,7 @@ public class PlantStore : MonoBehaviour
     [SerializeField]
     private float zOffsetForCanvasLocation = 0.7f;
 
+#region Unity Functions
     private void Awake()
     {
         if (instance == null)
@@ -35,30 +36,73 @@ public class PlantStore : MonoBehaviour
         HidePlantUI();
     }
 
-    //Metodos para el manejo de los plantpoints y la UI
-    public void ActivatePlantUI(Plantpoint plantPoint)
+    
+    private void Start() 
     {
-        DeselectCurrentActiveEmptyPlantpoint();
+        Plantpoint.PlantPointClickedEvent += ActivatePlantPointUI;
+    }
+
+    private void OnDestroy()
+    {
+        Plantpoint.PlantPointClickedEvent -= ActivatePlantPointUI;
+    }
+#endregion
+
+    private void OnPlantPointCLicked(Plantpoint target)
+    {
+        if (currentActivePlantPoint)
+        {
+            DeselectCurrentActivePlantPoint();
+        }
+        ActivatePlantPointUI(target);
+    }
+
+    private void ActivatePlantPointUI(Plantpoint target)
+    {
+        if (target.IsEmpty())
+        {
+            ActivateBuildUI(target);
+        }
+        else
+        {
+            ActivatePlantUI(target);
+        }
+    }
+
+    //Metodos para el manejo de los plantpoints y la UI
+    private void ActivatePlantUI(Plantpoint plantPoint)
+    {
         currentActivePlantPoint = plantPoint;
         SetCurrentActivePlantPoint(currentActivePlantPoint);
         return;
     }
 
-    public void ActivateBuildUI(Plantpoint plantPoint)
+    private void ActivateBuildUI(Plantpoint plantPoint)
     {
-        DeselectCurrentActivePlantpointWithPlant();
         currentActivePlantPoint = plantPoint;
         SetCurrentActiveBuildpoint(currentActivePlantPoint);
         return;
     }
 
-    public void DeselectCurrentActivePlantpointWithPlant()        //Function for deselection the plantpoint
+    private void DeselectCurrentActivePlantPoint()
+    {
+        if (currentActivePlantPoint.IsEmpty())
+        {
+            DeselectCurrentActiveEmptyPlantpoint();
+        }
+        else
+        {
+            DeselectCurrentActivePlantpointWithPlant();
+        }
+    }
+
+    private void DeselectCurrentActivePlantpointWithPlant()        //Function for deselection the plantpoint
     {
         currentActivePlantPoint = null;
         HidePlantUI();
     }
 
-    public void DeselectCurrentActiveEmptyPlantpoint()        //Function for deselection the plantpoint
+    private void DeselectCurrentActiveEmptyPlantpoint()        //Function for deselection the plantpoint
     {
         currentActivePlantPoint = null;
         HideBuildUI();
@@ -66,8 +110,6 @@ public class PlantStore : MonoBehaviour
 
     private void SetCurrentActivePlantPoint(Plantpoint plantPoint)
     {
-        
-        //Si el plantPoint tiene una planta se activa el plantpointUI con la informacion de la planta.
         currentActivePlantPoint = plantPoint;
         plantCanvasUI.transform.position = currentActivePlantPoint.transform.position + new Vector3(0, 0, zOffsetForCanvasLocation);
         plantCanvasUI.SetActive(true);
@@ -75,7 +117,6 @@ public class PlantStore : MonoBehaviour
 
     private void SetCurrentActiveBuildpoint(Plantpoint plantPoint)
     {
-        //Cuadno el plant poin esta vacio para sacar el buildUI
         currentActivePlantPoint = plantPoint;
         buildCanvasUI.transform.position = currentActivePlantPoint.transform.position + new Vector3(0, 0, zOffsetForCanvasLocation);
         buildCanvasUI.SetActive(true);
@@ -101,7 +142,6 @@ public class PlantStore : MonoBehaviour
             HideBuildUI();
             SetCurrentActivePlantPoint(currentActivePlantPoint);
         }
-        return;
     }
     public void UpgradeCurrentActivePlantInPlantpoint()
     {
@@ -109,11 +149,9 @@ public class PlantStore : MonoBehaviour
         {
             currentActivePlantPoint.UpgradePlant();
         }
-        return;
     }
     public void SellPlantInCurrentActivePlantpoint()
     {
         currentActivePlantPoint.SellPlant();
-        return;
     }
 }

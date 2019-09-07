@@ -42,7 +42,6 @@ public class SingleObjectPool : ObjectPool
             return null;
         }
         GameObject newGameObject = (GameObject)Instantiate(gameObjectToPool);
-        newGameObject.GetComponent<PoolableObject>().SetParentContainer(poolContainer.transform);
         newGameObject.gameObject.SetActive(false);
         newGameObject.transform.SetParent(poolContainer.transform);
         newGameObject.name = gameObjectToPool.name + "-" + pool.Count;
