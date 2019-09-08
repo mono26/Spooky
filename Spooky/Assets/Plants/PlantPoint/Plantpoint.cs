@@ -5,10 +5,10 @@ public class Plantpoint : MonoBehaviour
 {
     public delegate void PlantPointEvent(Plantpoint plantPoint);
     public static event PlantPointEvent PlantPointClickedEvent;
-    public delegate void PlantPointPlantEvent(Plantpoint plantPoint, PlantBlueprint blueprint);
-    public static event PlantPointPlantEvent BuildPlantEvent;
-    public static event PlantPointPlantEvent UpgradePlantEvent;
-    public static event PlantPointPlantEvent SellPlantEvent;
+    // public delegate void PlantPointPlantEvent(Plantpoint plantPoint, PlantBlueprint blueprint);
+    // public static event PlantPointPlantEvent BuildPlantEvent;
+    // public static event PlantPointPlantEvent UpgradePlantEvent;
+    // public static event PlantPointPlantEvent SellPlantEvent;
 
     [Header("Visual Effects")]
     [SerializeField]
@@ -54,7 +54,7 @@ public class Plantpoint : MonoBehaviour
             {
                 SoundManager.Instance.PlaySfx(soundSource, buySound);
             }
-            currentPlant = Instantiate(blueprint.plant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
+            currentPlant = Instantiate(blueprint.plant, transform.position, transform.rotation);
             currentBlueprint = blueprint;
             //PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
             VisualEffects.CreateVisualEffect(buyVfx, transform);
@@ -85,7 +85,7 @@ public class Plantpoint : MonoBehaviour
             {
                 SoundManager.Instance.PlaySfx(soundSource, upgradeSound);
             }     
-            currentPlant = Instantiate(currentBlueprint.upgradePlant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
+            currentPlant = Instantiate(currentBlueprint.upgradePlant, transform.position, transform.rotation);
             isUpgraded = true;
             VisualEffects.CreateVisualEffect(upgradeVfx, transform);
         }
@@ -118,25 +118,10 @@ public class Plantpoint : MonoBehaviour
     public bool IsEmpty()
     {
         bool isEmpty = false;
-        if (currentBlueprint && currentPlant)
+        if (!currentBlueprint && !currentPlant)
         {
             isEmpty = true;
         }
         return isEmpty;
-    }
-
-    public void RequestPlantBuild(PlantBlueprint blueprintToBuild)
-    {
-        BuildPlantEvent?.Invoke(this, blueprintToBuild);
-    }
-
-    public void RequestPlantSell()
-    {
-        BuildPlantEvent?.Invoke(this, currentBlueprint);
-    }
-
-    public void RequestPlantUpgrade()
-    {
-        BuildPlantEvent?.Invoke(this, currentBlueprint);
     }
 }

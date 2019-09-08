@@ -11,24 +11,29 @@ public class PlantStore : MonoBehaviour
     {
         if (instance == null)
         {
-            instance = this;    //Parte del singleton en donde se asigna la unica instancia de la clase
+            instance = this;
         }
         else
+        {
             Destroy(gameObject);
+        }
     }
 
     
     private void Start() 
     {
         Plantpoint.PlantPointClickedEvent += ActivatePlantPointUI;
-        Plantpoint.BuildPlantEvent += BuyPlantForPlantPoint;
-        Plantpoint.SellPlantEvent += SellPlantInPlantPoint;
-        Plantpoint.UpgradePlantEvent += UpgradePlantInPlantPoint;
+        BuildUI.BuildPlantEvent += BuyPlantForPlantPoint;
+        PlantUI.SellPlantEvent += SellPlantInPlantPoint;
+        PlantUI.UpgradePlantEvent += UpgradePlantInPlantPoint;
     }
 
     private void OnDestroy()
     {
         Plantpoint.PlantPointClickedEvent -= ActivatePlantPointUI;
+        BuildUI.BuildPlantEvent -= BuyPlantForPlantPoint;
+        PlantUI.SellPlantEvent -= SellPlantInPlantPoint;
+        PlantUI.UpgradePlantEvent -= UpgradePlantInPlantPoint;
     }
 #endregion
 

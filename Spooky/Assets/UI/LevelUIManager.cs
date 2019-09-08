@@ -9,9 +9,9 @@ public class LevelUIManager : Singleton<LevelUIManager>
     [SerializeField]
     private GameObject joystick;
     [SerializeField]
-    private GameObject buildCanvasUI;
+    private BuildUI buildCanvasUI;
     [SerializeField]
-    private GameObject plantCanvasUI;
+    private PlantUI plantCanvasUI;
 
     [Header("Game state UI's")]
     [SerializeField]
@@ -50,11 +50,11 @@ public class LevelUIManager : Singleton<LevelUIManager>
         }
         if (!buildCanvasUI)
         {
-            buildCanvasUI = GameObject.FindGameObjectWithTag("BuildCanvas");
+            buildCanvasUI = FindObjectOfType<BuildUI>();
         }
         if (!plantCanvasUI)
         {
-            plantCanvasUI = GameObject.FindGameObjectWithTag("PlantCanvas");
+            plantCanvasUI = FindObjectOfType<PlantUI>();
         }
     }
 
@@ -100,18 +100,12 @@ public class LevelUIManager : Singleton<LevelUIManager>
 
     public void ActivateBuildUI(bool _active) 
     {
-        if (buildCanvasUI && buildCanvasUI.activeSelf != _active)
-        {
-            buildCanvasUI.SetActive(_active);
-        }
+        buildCanvasUI?.ActivateUI(_active);
     }
 
     public void ActivatePlantUI(bool _active) 
     {
-        if (plantCanvasUI && plantCanvasUI.activeSelf != _active)
-        {
-            plantCanvasUI.SetActive(_active);
-        }
+        plantCanvasUI?.ActivateUI(_active);
     }
 
     /// <summary>

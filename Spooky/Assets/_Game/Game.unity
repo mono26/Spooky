@@ -4844,7 +4844,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1012030105400978, guid: 4b26f2e974411c44197b74e2ac5f29a4, type: 3}
       propertyPath: m_Name
-      value: BuildInterface
+      value: PFB_BuildInterface
       objectReference: {fileID: 0}
     - target: {fileID: 224504933839584312, guid: 4b26f2e974411c44197b74e2ac5f29a4,
         type: 3}
@@ -4885,6 +4885,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224504933839584312, guid: 4b26f2e974411c44197b74e2ac5f29a4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 224504933839584312, guid: 4b26f2e974411c44197b74e2ac5f29a4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224504933839584312, guid: 4b26f2e974411c44197b74e2ac5f29a4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224504933839584312, guid: 4b26f2e974411c44197b74e2ac5f29a4,
         type: 3}
@@ -4936,37 +4951,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 114696382385143452, guid: 4b26f2e974411c44197b74e2ac5f29a4,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1556889982}
-    - target: {fileID: 114121733971800882, guid: 4b26f2e974411c44197b74e2ac5f29a4,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1556889982}
-    - target: {fileID: 114121733971800882, guid: 4b26f2e974411c44197b74e2ac5f29a4,
-        type: 3}
-      propertyPath: m_Interactable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114121733971800882, guid: 4b26f2e974411c44197b74e2ac5f29a4,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
-      value: 
-      objectReference: {fileID: 11400000, guid: 502e85509f0df5e40a7d4f423800ed5a,
-        type: 2}
-    - target: {fileID: 114121733971800882, guid: 4b26f2e974411c44197b74e2ac5f29a4,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PurchasePlantForCurrentActivePlantpoint
-      objectReference: {fileID: 0}
-    - target: {fileID: 114185413481257162, guid: 4b26f2e974411c44197b74e2ac5f29a4,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1556889982}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b26f2e974411c44197b74e2ac5f29a4, type: 3}
 --- !u!1 &766443445
@@ -8180,9 +8164,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireButton: {fileID: 1879099816}
   joystick: {fileID: 203166699}
+  buildCanvasUI: {fileID: 0}
+  plantCanvasUI: {fileID: 0}
   gameOverUI: {fileID: 1356123007}
   pauseUI: {fileID: 1627857396}
   winUI: {fileID: 1057374033}
+  zOffsetForCanvasLocation: 0.7
 --- !u!114 &1311179711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9405,18 +9392,6 @@ Transform:
   m_Father: {fileID: 1032600391}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1556889982 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114055343446617678, guid: 4e94e55878801ef41818bb34863e29c7,
-    type: 3}
-  m_PrefabInstance: {fileID: 1151435159}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f73935e850316948a9898793aab32a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1565943665
 GameObject:
   m_ObjectHideFlags: 0
@@ -9512,7 +9487,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1891889578638588, guid: c909750788b8e2f4ab5cbc2c9aa7dc9a, type: 3}
       propertyPath: m_Name
-      value: PlantInterface
+      value: PFB_PlantInterface
       objectReference: {fileID: 0}
     - target: {fileID: 224480130096120766, guid: c909750788b8e2f4ab5cbc2c9aa7dc9a,
         type: 3}
@@ -9553,6 +9528,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 224480130096120766, guid: c909750788b8e2f4ab5cbc2c9aa7dc9a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 224480130096120766, guid: c909750788b8e2f4ab5cbc2c9aa7dc9a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224480130096120766, guid: c909750788b8e2f4ab5cbc2c9aa7dc9a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224480130096120766, guid: c909750788b8e2f4ab5cbc2c9aa7dc9a,
         type: 3}
@@ -9603,26 +9593,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114582232644321350, guid: c909750788b8e2f4ab5cbc2c9aa7dc9a,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1556889982}
-    - target: {fileID: 114569016038724258, guid: c909750788b8e2f4ab5cbc2c9aa7dc9a,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1556889982}
-    - target: {fileID: 114569016038724258, guid: c909750788b8e2f4ab5cbc2c9aa7dc9a,
-        type: 3}
-      propertyPath: m_Interactable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114560016495404324, guid: c909750788b8e2f4ab5cbc2c9aa7dc9a,
-        type: 3}
-      propertyPath: m_RaycastTarget
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c909750788b8e2f4ab5cbc2c9aa7dc9a, type: 3}
