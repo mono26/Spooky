@@ -3,158 +3,98 @@
 [RequireComponent(typeof(AudioSource))]
 public class Plantpoint : MonoBehaviour
 {
-    public delegate void PlantoPointEvent(Plantpoint plantPoint);
-    public static event PlantoPointEvent PlantPointClickedEvent;
+    public delegate void PlantPointEvent(Plantpoint plantPoint);
+    public static event PlantPointEvent PlantPointClickedEvent;
+    public delegate void PlantPointPlantEvent(Plantpoint plantPoint, PlantBlueprint blueprint);
+    public static event PlantPointPlantEvent BuildPlantEvent;
+    public static event PlantPointPlantEvent UpgradePlantEvent;
+    public static event PlantPointPlantEvent SellPlantEvent;
 
     [Header("Visual Effects")]
     [SerializeField]
-    protected GameObject buyVfx;
+    private GameObject buyVfx;
     [SerializeField]
-    protected GameObject upgradeVfx;
+    private GameObject upgradeVfx;
 
     [Header("Sounds")]
     [SerializeField]
-    protected AudioClip buySound;
+    private AudioClip buySound;
     [SerializeField]
-    protected AudioClip sellSound;
+    private AudioClip sellSound;
     [SerializeField]
-    protected AudioClip upgradeSound;
+    private AudioClip upgradeSound;
 
     [Header("Editor debugging")]
     [SerializeField]
-    protected PlantBlueprint currentBlueprint;
-    public PlantBlueprint CurrentBlueprint { get { return currentBlueprint; } }
+    private PlantBlueprint currentBlueprint;
     [SerializeField]
-    protected Character currentPlant;
-    public Character CurrentPlant { get { return currentPlant; } }
-
-    protected AudioSource soundSource;
-
+    private Character currentPlant;
+    [SerializeField]
     private bool isUpgraded = false;
+
+    private AudioSource soundSource;
     private bool canBeSelected = false;
+
+    public PlantBlueprint CurrentBlueprint { get { return currentBlueprint; } set { currentBlueprint = value; } }
+    public Character CurrentPlant { get { return currentPlant; } set { currentPlant = value; } }
+    public bool IsUpgraded { get { return isUpgraded; } }
     
     protected void Awake()
     {
         soundSource = GetComponent<AudioSource>();
     }
 
-    public void BuildPlant(PlantBlueprint blueprint)
+    public void PlantPlant(PlantBlueprint blueprint)
     {
         if(blueprint.plant != null)
         {
-            LevelManager.Instance.TakeMoney(blueprint.price);
-            LevelManager.Instance.UpdateMoneyDisplay();
-
+            // LevelManager.Instance.TakeMoney(blueprint.price);
+            // LevelManager.Instance.UpdateMoneyDisplay();
             if (buySound != null)
+            {
                 SoundManager.Instance.PlaySfx(soundSource, buySound);
-
+            }
             currentPlant = Instantiate(blueprint.plant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
             currentBlueprint = blueprint;
             //PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
-
             VisualEffects.CreateVisualEffect(buyVfx, transform);
         }
 
         return;
     }
 
-    public void SellPlant()
+    public void RemovePlant()
     {
-        if (!isUpgraded)
-        {
-            LevelManager.Instance.GiveMoney(currentBlueprint.price);
-            Destroy(currentPlant.gameObject);
-            ClearPlantPoint();
-            // PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
-        }
-        else if (isUpgraded)
-        {
-            LevelManager.Instance.GiveMoney(currentBlueprint.upgradePrice);
-            Destroy(currentPlant.gameObject);
-            ClearPlantPoint();
-            // PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
-        }
-
+        // Pool plant
+        Destroy(currentPlant.gameObject);
+        ClearPlantPoint();
         if (sellSound != null)
+        {
             SoundManager.Instance.PlaySfx(soundSource, sellSound);
-
-        return;
+        }
     }
 
     public void UpgradePlant()
     {
         if(currentBlueprint.upgradePlant != null)
         {
-            LevelManager.Instance.TakeMoney(currentBlueprint.upgradePrice);
+            // Pool plant
             Destroy(currentPlant.gameObject);
-
+            // Manejarlo con eventos
             if (upgradeSound != null)
+            {
                 SoundManager.Instance.PlaySfx(soundSource, upgradeSound);
-
+            }     
             currentPlant = Instantiate(currentBlueprint.upgradePlant.gameObject, transform.position, transform.rotation).GetComponent<Character>();
             isUpgraded = true;
-            // PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
-
             VisualEffects.CreateVisualEffect(upgradeVfx, transform);
         }
-
-        return;
     }
 
     public void ClearPlantPoint()
     {
         currentBlueprint = null;
         currentPlant = null;
-        return;
-    }
-
-    // public void Detect()
-    // {
-    //     if (!currentPlantPoint && PlantStore.Instance.CurrentPlantPoint)
-    //     {
-    //         PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
-    //         PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
-    //         return;
-    //     }
-
-    //     return;
-    // }
-
-    // private void ClearCurrentPlantPoint()
-    // {
-    //     if (currentPlantPoint == true)
-    //     {
-    //         if (currentPlant == true)
-    //             PlantStore.Instance.DeselectCurrentActivePlantpointWithPlant();
-    //         else if (currentPlant == false)
-    //             PlantStore.Instance.DeselectCurrentActiveEmptyPlantpoint();
-
-    //         currentPlantPoint = null;
-    //     }
-
-    //     else return;
-    // }
-
-    public void SelectNewPlantpoint()
-    {
-        Debug.Log("hi");
-       // ClearCurrentPlantPoint();
-        ChangeCurrentPlantPointAndDisplay(this);
-    }
-
-    private void ChangeCurrentPlantPointAndDisplay(Plantpoint _plantPoint)
-    {
-        Plantpoint currentPlantPoint = this;
-        if (currentPlant == true)
-        {
-            // PlantStore.Instance.ActivatePlantUI(currentPlantPoint);
-            return;
-        }
-        else if (currentPlant == false)
-        {
-            // PlantStore.Instance.ActivateBuildUI(currentPlantPoint);
-            return;
-        }
     }
 
     public void CanSelectPlantPoint(bool select)
@@ -162,6 +102,10 @@ public class Plantpoint : MonoBehaviour
         canBeSelected = select;
     }
 
+    // Should be interface.
+    /// <summary>
+    /// Called when the user clicks.
+    /// </summary>
     public void OnClicked()
     {
         if (canBeSelected)
@@ -179,5 +123,20 @@ public class Plantpoint : MonoBehaviour
             isEmpty = true;
         }
         return isEmpty;
+    }
+
+    public void RequestPlantBuild(PlantBlueprint blueprintToBuild)
+    {
+        BuildPlantEvent?.Invoke(this, blueprintToBuild);
+    }
+
+    public void RequestPlantSell()
+    {
+        BuildPlantEvent?.Invoke(this, currentBlueprint);
+    }
+
+    public void RequestPlantUpgrade()
+    {
+        BuildPlantEvent?.Invoke(this, currentBlueprint);
     }
 }

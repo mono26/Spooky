@@ -6,19 +6,6 @@ public class PlantStore : MonoBehaviour
     private static PlantStore instance;
     public static PlantStore Instance { get { return instance; } }
 
-    [SerializeField]
-    private GameObject buildCanvasUI;
-    [SerializeField]
-    private GameObject plantCanvasUI;
-
-    private Plantpoint currentActivePlantPoint;
-    public Plantpoint CurrentPlantPoint { get { return currentActivePlantPoint; } }
-
-    private AudioClip[] uiSounds;
-
-    [SerializeField]
-    private float zOffsetForCanvasLocation = 0.7f;
-
 #region Unity Functions
     private void Awake()
     {
@@ -28,18 +15,15 @@ public class PlantStore : MonoBehaviour
         }
         else
             Destroy(gameObject);
-
-        buildCanvasUI = GameObject.FindGameObjectWithTag("BuildCanvas");
-        plantCanvasUI = GameObject.FindGameObjectWithTag("PlantCanvas");
-
-        HideBuildUI();
-        HidePlantUI();
     }
 
     
     private void Start() 
     {
         Plantpoint.PlantPointClickedEvent += ActivatePlantPointUI;
+        Plantpoint.BuildPlantEvent += BuyPlantForPlantPoint;
+        Plantpoint.SellPlantEvent += SellPlantInPlantPoint;
+        Plantpoint.UpgradePlantEvent += UpgradePlantInPlantPoint;
     }
 
     private void OnDestroy()
@@ -50,14 +34,11 @@ public class PlantStore : MonoBehaviour
 
     private void OnPlantPointCLicked(Plantpoint target)
     {
-        if (currentActivePlantPoint)
-        {
-            DeselectCurrentActivePlantPoint();
-        }
+        DeselectCurrentPlantPoint();
         ActivatePlantPointUI(target);
     }
 
-    private void ActivatePlantPointUI(Plantpoint target)
+    public void ActivatePlantPointUI(Plantpoint target)
     {
         if (target.IsEmpty())
         {
@@ -72,86 +53,65 @@ public class PlantStore : MonoBehaviour
     //Metodos para el manejo de los plantpoints y la UI
     private void ActivatePlantUI(Plantpoint plantPoint)
     {
-        currentActivePlantPoint = plantPoint;
-        SetCurrentActivePlantPoint(currentActivePlantPoint);
-        return;
+        LevelUIManager.Instance.ActivatePlantUI(plantPoint);
     }
 
     private void ActivateBuildUI(Plantpoint plantPoint)
     {
-        currentActivePlantPoint = plantPoint;
-        SetCurrentActiveBuildpoint(currentActivePlantPoint);
-        return;
+        LevelUIManager.Instance.ActivateBuildUI(plantPoint);
     }
 
-    private void DeselectCurrentActivePlantPoint()
+    private void DeselectCurrentPlantPoint()
     {
-        if (currentActivePlantPoint.IsEmpty())
+        DeselectEmptyPlantpoint();
+        DeselectPlantpointWithPlant();
+    }
+
+    private void DeselectPlantpointWithPlant()        //Function for deselection the plantpoint
+    {
+        LevelUIManager.Instance.ActivatePlantUI(false);
+    }
+
+    private void DeselectEmptyPlantpoint()        //Function for deselection the plantpoint
+    {
+        LevelUIManager.Instance.ActivateBuildUI(false);
+    }
+
+    public void BuyPlantForPlantPoint(Plantpoint point, PlantBlueprint blueprint)
+    {
+        if(blueprint.plant != null)
         {
-            DeselectCurrentActiveEmptyPlantpoint();
+            LevelManager.Instance.TakeMoney(blueprint.price);
+            LevelManager.Instance.UpdateMoneyDisplay();
+            point.PlantPlant(blueprint);
+            DeselectCurrentPlantPoint();
+            LevelUIManager.Instance.ActivatePlantUI(point);
+        }
+    }
+
+    public void SellPlantInPlantPoint(Plantpoint point, PlantBlueprint blueprint)
+    {
+        if (!point.IsUpgraded)
+        {
+            LevelManager.Instance.GiveMoney(blueprint.price);
         }
         else
         {
-            DeselectCurrentActivePlantpointWithPlant();
+            LevelManager.Instance.GiveMoney(blueprint.upgradePrice);
         }
+        LevelManager.Instance.UpdateMoneyDisplay();
+        point.RemovePlant();
+        DeselectCurrentPlantPoint();
     }
 
-    private void DeselectCurrentActivePlantpointWithPlant()        //Function for deselection the plantpoint
+    public void UpgradePlantInPlantPoint(Plantpoint point, PlantBlueprint blueprint)
     {
-        currentActivePlantPoint = null;
-        HidePlantUI();
-    }
-
-    private void DeselectCurrentActiveEmptyPlantpoint()        //Function for deselection the plantpoint
-    {
-        currentActivePlantPoint = null;
-        HideBuildUI();
-    }
-
-    private void SetCurrentActivePlantPoint(Plantpoint plantPoint)
-    {
-        currentActivePlantPoint = plantPoint;
-        plantCanvasUI.transform.position = currentActivePlantPoint.transform.position + new Vector3(0, 0, zOffsetForCanvasLocation);
-        plantCanvasUI.SetActive(true);
-    }
-
-    private void SetCurrentActiveBuildpoint(Plantpoint plantPoint)
-    {
-        currentActivePlantPoint = plantPoint;
-        buildCanvasUI.transform.position = currentActivePlantPoint.transform.position + new Vector3(0, 0, zOffsetForCanvasLocation);
-        buildCanvasUI.SetActive(true);
-    }
-
-    private void HideBuildUI()
-    {
-        buildCanvasUI.SetActive(false);
-    }
-
-    private void HidePlantUI()
-    {
-        plantCanvasUI.SetActive(false);
-    }
-
-    //Esta parte del script esta dedicada a las funiones de la UI de las plantas. Tanto para la UI de la
-    //planta como el UI de construccion.
-    public void PurchasePlantForCurrentActivePlantpoint(PlantBlueprint bluePrint)
-    {
-        if (LevelManager.Instance.CurrentMoney >= bluePrint.price)
+        if(blueprint.upgradePlant != null)
         {
-            currentActivePlantPoint.BuildPlant(bluePrint);
-            HideBuildUI();
-            SetCurrentActivePlantPoint(currentActivePlantPoint);
+            LevelManager.Instance.TakeMoney(blueprint.upgradePrice);
+            LevelManager.Instance.UpdateMoneyDisplay();
+            point.UpgradePlant();
+            DeselectCurrentPlantPoint();
         }
-    }
-    public void UpgradeCurrentActivePlantInPlantpoint()
-    {
-        if (LevelManager.Instance.CurrentMoney > currentActivePlantPoint.CurrentBlueprint.upgradePrice)
-        {
-            currentActivePlantPoint.UpgradePlant();
-        }
-    }
-    public void SellPlantInCurrentActivePlantpoint()
-    {
-        currentActivePlantPoint.SellPlant();
     }
 }
