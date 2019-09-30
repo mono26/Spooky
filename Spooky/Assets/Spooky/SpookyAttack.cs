@@ -9,6 +9,8 @@ public class SpookyAttack : CharacterComponent
     private Transform hand;
     [SerializeField]
     private Transform shootPoint;
+    [SerializeField]
+    private PoolableObject bulletPrefab;
 
     [SerializeField]
     private float attacksPerSecond = 1f;
@@ -18,8 +20,6 @@ public class SpookyAttack : CharacterComponent
     private float chargeRate = 2f;
 
     private Vector3 aimDirection;
-    [SerializeField]
-    private SingleObjectPool bulletPool;
     [SerializeField]
     private SpookyBullet actualBullet;
 
@@ -36,9 +36,6 @@ public class SpookyAttack : CharacterComponent
             hand = transform.Find("Hand").GetComponent<Transform>();
         if (shootPoint == null)
             shootPoint = hand.Find("ShootPoint").GetComponent<Transform>();
-
-        if (bulletPool == null)
-            bulletPool = GetComponent<SingleObjectPool>();
     }
 
     protected virtual void Start()
@@ -99,11 +96,9 @@ public class SpookyAttack : CharacterComponent
     {
         if (Time.timeSinceLevelLoad > lastShoot + cooldown && actualBullet == null)
         {
-            actualBullet = bulletPool.GetObjectFromPool().GetComponent<SpookyBullet>();
+            actualBullet = PoolsManager.GetObjectFromPools(bulletPrefab).GetComponent<SpookyBullet>();
             actualBullet.transform.position = shootPoint.position;
-            actualBullet.gameObject.SetActive(true);
         }
-        return;
     }
 
     private void RotateActualBulleTowardsDirection(Vector3 _direction)

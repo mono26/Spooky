@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-
-[RequireComponent(typeof(EnemyDetect),typeof(SingleObjectPool))]
 public class PlantLaunchProjectile : CharacterAction
 {
     [SerializeField]
     private float launchForce = 10f;
+    [SerializeField]
+    private PoolableObject bulletPrefab;
 
     private Bullet actualBullet;
     [SerializeField]
     private Transform shootPoint;
-    [SerializeField]
-    private SingleObjectPool bulletPool;
 
     protected override void Awake()
     {
@@ -20,9 +18,6 @@ public class PlantLaunchProjectile : CharacterAction
 
         if(shootPoint == null)
             shootPoint = transform.Find("ShootPoint").GetComponent<Transform>();
-
-        if (bulletPool == null)
-            Debug.Log(this.gameObject + "You need to asign a pool to the ability");
     }
 
     public override void EveryFrame()
@@ -51,7 +46,7 @@ public class PlantLaunchProjectile : CharacterAction
                     character.CharacterAnimator.GetCurrentAnimatorStateInfo(0).length + delayAfterAnimationIsFinished
                     );
 
-        actualBullet = bulletPool.GetObjectFromPool().GetComponent<Bullet>();
+        actualBullet = PoolsManager.GetObjectFromPools(bulletPrefab).GetComponent<Bullet>();
         actualBullet.gameObject.SetActive(true);
 
         if (target != null)

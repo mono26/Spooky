@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.UI;   
 
-[RequireComponent(typeof(SingleObjectPool), typeof(SingleObjectPool), typeof(AudioSource))]
 public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>, EventHandler<GameEvent>
 {
     public enum SpawnState
@@ -17,7 +16,7 @@ public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>,
     [SerializeField]
     private Character[] enemies;
     [SerializeField]
-    private SingleObjectPool[] enemiesPools;
+    private PoolableObject[] enemiesPrefabs;
     [SerializeField]
     private int[] minSpawnPerEnemy;
     [SerializeField]
@@ -54,8 +53,6 @@ public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>,
     {
         base.Awake();
 
-        if(enemiesPools == null)
-            enemiesPools = GetComponents<SingleObjectPool>();
         if(waveSoundSource == null)
             waveSoundSource = GetComponent<AudioSource>();
         if (waveCounter == null)
@@ -164,11 +161,11 @@ public class WaveSpawner : Singleton<WaveSpawner>, EventHandler<CharacterEvent>,
         switch (_enemyID)
         {
             case "Stealer":
-                tempEnemy = enemiesPools[0].GetObjectFromPool().GetComponent<Character>();
+                tempEnemy = PoolsManager.GetObjectFromPools(enemiesPrefabs[0]).GetComponent<Character>();
                 break;
 
             case "Attacker":
-                tempEnemy = enemiesPools[1].GetObjectFromPool().GetComponent<Character>();
+                tempEnemy = PoolsManager.GetObjectFromPools(enemiesPrefabs[1]).GetComponent<Character>();
                 break;
 
             default:
