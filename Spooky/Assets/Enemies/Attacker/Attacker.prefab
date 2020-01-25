@@ -280,13 +280,9 @@ GameObject:
   - component: {fileID: 95014622441795316}
   - component: {fileID: 82896014623796488}
   - component: {fileID: 195831668745865074}
-  - component: {fileID: 114479542025913182}
-  - component: {fileID: 114122564974805956}
   - component: {fileID: 114223092959506972}
   - component: {fileID: 114885465088569812}
   - component: {fileID: 114773735051167938}
-  - component: {fileID: 114078526699899162}
-  - component: {fileID: 114102189241596230}
   m_Layer: 11
   m_Name: Attacker
   m_TagString: Enemy
@@ -526,45 +522,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 0
---- !u!114 &114479542025913182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963016645295434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0bc7810f706d20a4bad638c26096a905, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterID: Attacker
-  isExecutingAction: 0
-  initialDirection: 0
-  type: 1
-  characterAnimator: {fileID: 95014622441795316}
-  characterAudioSource: {fileID: 82896014623796488}
-  characterCollider: {fileID: 65213049345834584}
-  characterSprite: {fileID: 212606893738521652}
-  characterBody: {fileID: 54612795838928992}
-  startingAction: {fileID: 114885465088569812}
-  reward: 7
-  currentAction: {fileID: 114885465088569812}
---- !u!114 &114122564974805956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963016645295434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3537fb6d1f4db17429f46007cd008d2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attacksPerSecond: 0.5
-  maxHealth: 3
-  movementSpeed: 1
 --- !u!114 &114223092959506972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,7 +542,7 @@ MonoBehaviour:
   slowMotionSpeed: 0.5
   movementDirection: {x: 0, y: 0, z: 0}
   onSloweffect: 0
-  aICharacter: {fileID: 114479542025913182}
+  aICharacter: {fileID: 0}
   movementAgent: {fileID: 195831668745865074}
   pathUpdateRatePerSeconds: 1
 --- !u!114 &114885465088569812
@@ -610,7 +567,7 @@ MonoBehaviour:
   needsTargetToExecute: 1
   nextAction: {fileID: 114885465088569812}
   range: 0.5
-  aICharacter: {fileID: 114479542025913182}
+  aICharacter: {fileID: 0}
   lastTargetPosition: {x: 0, y: 0, z: 0}
   target: {fileID: 0}
   meleeCollider: {fileID: 65770155528111222}
@@ -634,31 +591,3 @@ MonoBehaviour:
   deathVfx: {fileID: 1173178007429090, guid: ecef2f77ba96e2a4588c2d1b074785bd, type: 3}
   drop: {fileID: 114954360308138034, guid: 4851064e081f6b14bbb5a6c7d0be20d9, type: 3}
   currentHealth: 3
---- !u!114 &114078526699899162
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963016645295434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd33b8afd1ebaa248b20831dcf929246, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lifeTime: 10
---- !u!114 &114102189241596230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963016645295434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee0c56e2de9003041856c2e1e4d83ca2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprite: {fileID: 212606893738521652}
-  pivot: {fileID: 4451446097027938}
-  updatesPerSecond: 2
